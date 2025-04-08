@@ -16,21 +16,21 @@ Centralized repository for version-controlling, managing, and collaborating on P
 repositorios/
 └─ PowerBI-Dashboard/
    ├─ reports/
-   │  └─ <your-dashboard>/
-   │     ├─ your-dashboard.pbip
+   │  └─ [dashboard_name]/
+   │     ├─ dashboard_name.pbip
    │     ├─ DataModel/
    │     ├─ Visuals/
-   │     ├─ Resources/       # Optional, but useful
-   │     └─ README.md        # Specific to that dashboard
-   └─ README.md              # Main repo overview
+   │     ├─ Resources/         # Optional, but useful
+   │     └─ README.md          # Specific to that dashboard
+   └─ README.md                # Main repo overview
 ```
 
 
-- `reports/`: Main directory for all Power BI dashboards
-- `<dashboard_name>`: Folder for each individual dashboard project
-- `DataModel/`: DAX measures, tables, relationships (if extracted)
-- `Visuals/`: Screenshots or documentation of key visuals
-- `Resources/`: Reference data, mockups, notes, etc.
+- 🗂️ `reports/`: Main directory for all Power BI dashboards  
+- 📁 `[dashboard_name]`: Folder for each individual dashboard project  
+- 🧠 `DataModel/`: DAX measures, tables, relationships (if extracted)  
+- 📊 `Visuals/`: Screenshots or documentation of key visuals  
+- 📎 `Resources/`: Reference data, mockups, notes, etc. (optional)
 
 
 ## 🚀 Getting Started
