@@ -52,6 +52,10 @@ repositorios/
    git push origin main
    ```
 
+## 📚 Documentation
+
+- [Git Workflow Guide](docs/GIT_WORKFLOW.md)
+
 ### ✅ Best Practices
 
 Prefer `.pbip` (Power BI Project format) for easier diff and collaboration
