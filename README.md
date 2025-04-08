@@ -12,8 +12,18 @@ Centralized repository for version-controlling, managing, and collaborating on P
 
 
 ## 🏗️ Structure
-
-`/reports/ /<dashboard_name>/ - .pbip / .pbix - README.md - /DataModel/ - /Visuals/ - /Resources/ .gitignore README.md`
+```shell
+C:\Users\YourName\
+└── repositorios\
+    └── PowerBI-Dashboard\
+        ├── reports\
+        │   └── SalesDashboard\
+        │       ├── SalesDashboard.pbip
+        │       ├── DataModel\
+        │       ├── Visuals\
+        │       └── README.md
+        └── README.md
+```
 
 
 - `reports/`: Main directory for all Power BI dashboards
