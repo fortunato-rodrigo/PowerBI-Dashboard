@@ -12,7 +12,7 @@ Centralized repository for version-controlling, managing, and collaborating on P
 
 ## 🏗️ Structure
 
-/reports/ /<dashboard_name>/ - .pbip / .pbix - README.md - /DataModel/ - /Visuals/ - /Resources/ .gitignore README.md
+`/reports/ /<dashboard_name>/ - .pbip / .pbix - README.md - /DataModel/ - /Visuals/ - /Resources/ .gitignore README.md`
 
 
 - `reports/`: Main directory for all Power BI dashboards
@@ -48,10 +48,10 @@ Use meaningful commit messages
 
 Avoid uploading sensitive data or credentials
 
-🧪 ### WIP / Test Projects
+#### 🧪 WIP / Test Projects
 Use branches or the /sandbox/ folder to experiment with new ideas or test features before promoting to production.
 
-📎 ### Related Resources
+####📎 Related Resources
 * [Power BI Git Integration](https://docs.snowplow.io/docs)
 * [PBIP Format Overview](https://docs.snowplow.io/docs)
 
