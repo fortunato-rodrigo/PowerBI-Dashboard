@@ -68,8 +68,8 @@ Use branches or the /sandbox/ folder to experiment with new ideas or test featur
 
 #### 📎 Related Resources
 
-* [Power BI Git Integration](https://docs.snowplow.io/docs)
-* [PBIP Format Overview](https://docs.snowplow.io/docs)
+* [Power BI Git Integration](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-git)
+* [PBIP Format Overview](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-overview)
 
 
 ---
