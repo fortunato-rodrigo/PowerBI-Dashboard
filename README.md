@@ -13,16 +13,16 @@ Centralized repository for version-controlling, managing, and collaborating on P
 
 ## 🏗️ Structure
 ```shell
-C:\Users\YourName\
-└── repositorios\
-    └── PowerBI-Dashboard\
-        ├── reports\
-        │   └── SalesDashboard\
-        │       ├── SalesDashboard.pbip
-        │       ├── DataModel\
-        │       ├── Visuals\
-        │       └── README.md
-        └── README.md
+repositorios/
+└─ PowerBI-Dashboard/
+   ├─ reports/
+   │  └─ <your-dashboard>/
+   │     ├─ your-dashboard.pbip
+   │     ├─ DataModel/
+   │     ├─ Visuals/
+   │     ├─ Resources/       # Optional, but useful
+   │     └─ README.md        # Specific to that dashboard
+   └─ README.md              # Main repo overview
 ```
 
 
