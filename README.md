@@ -14,18 +14,25 @@ Centralized repository for version-controlling, managing, and collaborating on P
 ## 🏗️ Structure
 ```shell
 repositorios/
-└─ PowerBI-Dashboard/
-   ├─ reports/
-   │  └─ [dashboard_name]/
-   │     ├─ dashboard_name.pbip
-   │     ├─ DataModel/
-   │     ├─ Visuals/
-   │     ├─ Resources/         # Optional, but useful
-   │     └─ README.md          # Specific to that dashboard
-   └─ README.md                # Main repo overview
+└── PowerBI-Dashboard/
+    ├── docs/
+    │   ├── GIT_WORKFLOW.md
+    │   └── README.md
+    ├── reports/
+    │   ├── daily-sales/
+    │   │   ├── daily-sales.pbip
+    │   │   ├── DataModel/
+    │   │   ├── Visuals/
+    │   │   ├── Resources/
+    │   │   └── README.md
+    │   └── SalesDashboard/
+    ├── .gitignore
+    ├── new-dashboard.ps1
+    └── README.md
 ```
 
 
+- 📁 `docs/`: Documentation and Git workflows
 - 🗂️ `reports/`: Main directory for all Power BI dashboards  
 - 📁 `[dashboard_name]`: Folder for each individual dashboard project  
 - 🧠 `DataModel/`: DAX measures, tables, relationships (if extracted)  
