@@ -28,7 +28,7 @@ Centralized repository for version-controlling, managing, and collaborating on P
 1. Clone the repo:
 
    ```shell
-   git clone https://your-repo-url.com/PowerBI-Dashboard.git
+   git clone https://github.com/fortunato-rodrigo/PowerBI-Dashboard.git
    ```
    
 2. Navigate to your report folder or create a new one under `/reports/`
