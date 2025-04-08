@@ -10,6 +10,7 @@ Centralized repository for version-controlling, managing, and collaborating on P
 - Standardize report structures and naming conventions
 - Facilitate deployment processes and auditability
 
+
 ## 🏗️ Structure
 
 `/reports/ /<dashboard_name>/ - .pbip / .pbix - README.md - /DataModel/ - /Visuals/ - /Resources/ .gitignore README.md`
@@ -20,6 +21,7 @@ Centralized repository for version-controlling, managing, and collaborating on P
 - `DataModel/`: DAX measures, tables, relationships (if extracted)
 - `Visuals/`: Screenshots or documentation of key visuals
 - `Resources/`: Reference data, mockups, notes, etc.
+
 
 ## 🚀 Getting Started
 
@@ -39,7 +41,9 @@ Centralized repository for version-controlling, managing, and collaborating on P
    git commit -m "Add initial Sales Dashboard"
    git push origin main
    ```
-✅ Best Practices
+
+### ✅ Best Practices
+
 Prefer `.pbip` (Power BI Project format) for easier diff and collaboration
 
 Add a README file inside each report folder
@@ -49,9 +53,11 @@ Use meaningful commit messages
 Avoid uploading sensitive data or credentials
 
 #### 🧪 WIP / Test Projects
+
 Use branches or the /sandbox/ folder to experiment with new ideas or test features before promoting to production.
 
-####📎 Related Resources
+#### 📎 Related Resources
+
 * [Power BI Git Integration](https://docs.snowplow.io/docs)
 * [PBIP Format Overview](https://docs.snowplow.io/docs)
 
