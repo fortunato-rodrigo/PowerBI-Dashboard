@@ -12,7 +12,7 @@ Centralized repository for version-controlling, managing, and collaborating on P
 
 
 ## 🏗️ Structure
-```shell
+```text
 repositorios/
 └── PowerBI-Dashboard/
     ├── docs/
