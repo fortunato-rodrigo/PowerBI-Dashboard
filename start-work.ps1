@@ -1,59 +1,65 @@
-# start-work.ps1
 Clear-Host
-Write-Host "`n🚀 Iniciando ambiente Power BI DevOps..." -ForegroundColor Cyan
+Write-Host ""
+Write-Host ">>> Starting Power BI DevOps environment..." -ForegroundColor Cyan
 
-# Etapa 1: Verifica se há alterações não salvas
+# Step 1: Check for uncommitted changes
 $pendingChanges = git status --porcelain
 if ($pendingChanges) {
-    Write-Host "`n⚠️ Atenção: Você tem alterações não salvas. Faça commit ou stash antes de continuar." -ForegroundColor Yellow
-    $proceed = Read-Host "Deseja continuar mesmo assim? [s/n]"
-    if ($proceed -ne "s") {
-        Write-Host "❌ Operação cancelada. Salve suas alterações antes de continuar." -ForegroundColor Red
+    Write-Host ""
+    Write-Host "WARNING: You have uncommitted changes. Please commit or stash them before continuing." -ForegroundColor Yellow
+    $proceed = Read-Host "Do you want to continue anyway? [y/n]"
+    if ($proceed -ne "y") {
+        Write-Host "Aborted. Please commit or stash your changes first." -ForegroundColor Red
         exit 1
     }
 }
 
-# Etapa 2: Garante que está na branch dev e atualiza
+# Step 2: Switch to 'dev' and pull latest changes
 git checkout dev
 git pull origin dev
-Write-Host "`n✅ Branch 'dev' atualizada com sucesso." -ForegroundColor Green
+Write-Host ""
+Write-Host "Branch 'dev' is now up to date." -ForegroundColor Green
 
-# Etapa 3: Escolha entre criar novo dashboard ou trabalhar em um existente
-Write-Host "`nO que deseja fazer agora?"
-Write-Host "1. Criar um novo dashboard"
-Write-Host "2. Continuar trabalhando em um dashboard existente"
-$option = Read-Host "Digite a opção [1/2]"
+# Step 3: Choose what to do
+Write-Host ""
+Write-Host "What do you want to do?"
+Write-Host "1. Create a new dashboard"
+Write-Host "2. Work on an existing branch"
+$option = Read-Host "Enter your choice [1/2]"
 
 switch ($option) {
     "1" {
-        $dashboardName = Read-Host "`n🆕 Nome do novo dashboard (ex: people-analytics)"
-        $pbipPath = Read-Host "📂 Caminho completo do arquivo .pbip (ex: C:\TempPBIP\people-analytics\PeopleAnalytics.pbip)"
+        $dashboardName = Read-Host "Enter the name of the new dashboard (e.g., people-analytics)"
+        $pbipPath = Read-Host "Enter the full path to the .pbip file (e.g., C:\TempPBIP\people-analytics\PeopleAnalytics.pbip)"
 
         if (-not (Test-Path $pbipPath)) {
-            Write-Host "`n❌ Caminho inválido. O arquivo .pbip não foi encontrado." -ForegroundColor Red
+            Write-Host ""
+            Write-Host "ERROR: The .pbip file was not found at the provided path." -ForegroundColor Red
             exit 1
         }
 
-        # Executar script de criação
         .\new-dashboard.ps1 -DashboardName $dashboardName -PowerBIFilePath $pbipPath
     }
 
     "2" {
-        $branchName = Read-Host "`n🛠 Nome da branch existente (ex: feature/people-analytics)"
+        $branchName = Read-Host "Enter the name of the existing branch (e.g., feature/people-analytics)"
         git fetch
         git checkout $branchName
 
         if ($LASTEXITCODE -ne 0) {
-            Write-Host "`n❌ Não foi possível trocar para a branch '$branchName'." -ForegroundColor Red
+            Write-Host ""
+            Write-Host "ERROR: Could not switch to branch '$branchName'." -ForegroundColor Red
             exit 1
         }
 
         git pull origin $branchName
-        Write-Host "`n✅ Branch '$branchName' pronta para uso!" -ForegroundColor Green
+        Write-Host ""
+        Write-Host ("Branch '{0}' is ready for use." -f $branchName) -ForegroundColor Green
     }
 
     default {
-        Write-Host "`n❌ Opção inválida. Execute novamente e escolha 1 ou 2." -ForegroundColor Red
+        Write-Host ""
+        Write-Host "Invalid option. Please run the script again and choose 1 or 2." -ForegroundColor Red
         exit 1
     }
 }
