@@ -60,8 +60,29 @@ switch ($option) {
 
     "3" {
         $dashboardName = Read-Host "Enter the name of the dashboard to update (e.g., people-analytics)"
+        $branchName = "fix/$dashboardName"
+
+        # Check if the branch already exists remotely or locally
+        $existsLocal = git branch --list $branchName
+        $existsRemote = git ls-remote --heads origin $branchName
+
+        if ($existsLocal -or $existsRemote) {
+            Write-Host "`n[✔] Branch '$branchName' already exists. Switching..." -ForegroundColor Yellow
+            git checkout $branchName
+            git pull origin $branchName
+        } else {
+            Write-Host "`n[ℹ️] Branch '$branchName' not found. Creating new branch based on 'dev'..." -ForegroundColor Cyan
+            git checkout -b $branchName
+            git push -u origin $branchName
+        }
+
         $pbipPath = Read-Host "Enter full path to the updated .pbip file"
         .\edit-dashboard.ps1 -DashboardName $dashboardName -UpdatedPBIPPath $pbipPath
+
+        # Optional: auto-stage and commit (or comment out to do it manually)
+        git add .
+        git commit -m "fix($dashboardName): update PBIP structure and visuals"
+        git push
     }
 
     default {
