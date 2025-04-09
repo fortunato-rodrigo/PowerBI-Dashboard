@@ -1,0 +1,63 @@
+table Heptathlon_Shops
+	lineageTag: e209f82f-0d8d-4822-b853-8fb346b9f678
+
+	column CodeShop
+		dataType: string
+		lineageTag: 3e8f823c-15fb-4e82-b5ba-453749c5a659
+		summarizeBy: none
+		sourceColumn: CodeShop
+
+		annotation SummarizationSetBy = Automatic
+
+	column NameShop
+		dataType: string
+		lineageTag: 1fd80925-5bc4-41b8-a5dc-bc15698e9df8
+		summarizeBy: none
+		sourceColumn: NameShop
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityShop
+		dataType: string
+		lineageTag: 386f4574-2885-4b13-89c5-f404c5c364f0
+		summarizeBy: none
+		sourceColumn: CityShop
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryShop
+		dataType: string
+		lineageTag: e54b827f-9567-4926-b5b1-e052dd76d145
+		summarizeBy: none
+		sourceColumn: CountryShop
+
+		annotation SummarizationSetBy = Automatic
+
+	column IdShop = ```
+			
+			RIGHT(
+			    'Heptathlon_Shops'[CodeShop], 
+			    LEN(Heptathlon_Shops[CodeShop]) - SEARCH("-", Heptathlon_Shops[CodeShop])
+			)
+			
+			```
+		lineageTag: 3642d0a3-c841-4ed2-8151-b2f5d51e509b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Heptathlon_Shops = m
+		mode: import
+		source =
+				let
+				    Fonte = Csv.Document(File.Contents("C:\Users\Rodrigo Fortunato\Downloads\People Analytics\Heptathlon_Shops.txt"),[Delimiter=";", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}}),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"Tipo Alterado", [PromoteAllScalars=true]),
+				    #"Tipo Alterado1" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"CodeShop", type text}, {"NameShop", type text}, {"CityShop", type text}, {"CountryShop", type text}})
+				in
+				    #"Tipo Alterado1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+
