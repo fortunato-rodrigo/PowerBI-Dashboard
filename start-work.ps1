@@ -25,7 +25,8 @@ Write-Host ""
 Write-Host "What do you want to do?"
 Write-Host "1. Create a new dashboard"
 Write-Host "2. Work on an existing branch"
-$option = Read-Host "Enter your choice [1/2]"
+Write-Host "3. Edit an existing dashboard"
+$option = Read-Host "Enter your choice [1/2/3]"
 
 switch ($option) {
     "1" {
@@ -55,6 +56,12 @@ switch ($option) {
         git pull origin $branchName
         Write-Host ""
         Write-Host ("Branch '{0}' is ready for use." -f $branchName) -ForegroundColor Green
+    }
+
+    "3" {
+        $dashboardName = Read-Host "Enter the name of the dashboard to update (e.g., people-analytics)"
+        $pbipPath = Read-Host "Enter full path to the updated .pbip file"
+        .\edit-dashboard.ps1 -DashboardName $dashboardName -UpdatedPBIPPath $pbipPath
     }
 
     default {
