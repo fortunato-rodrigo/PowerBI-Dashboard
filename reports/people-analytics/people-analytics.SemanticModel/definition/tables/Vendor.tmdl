@@ -1,0 +1,58 @@
+table Vendor
+	lineageTag: 7d1e8382-bb29-4c7f-9557-6089ce8992db
+
+	column VendorCode
+		dataType: string
+		lineageTag: 810c32ed-8b5e-457f-b345-f8ecb9da0398
+		summarizeBy: none
+		sourceColumn: VendorCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: e3cae3bf-4f99-4d11-928e-a40924ecae46
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Surname
+		dataType: string
+		lineageTag: 2e850c31-c39e-46ed-83f5-935c1fa1b8ab
+		summarizeBy: none
+		sourceColumn: Surname
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShoppingMall
+		dataType: string
+		lineageTag: c91db203-301c-4216-911a-ba7d77550386
+		summarizeBy: none
+		sourceColumn: ShoppingMall
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shift
+		dataType: string
+		lineageTag: 14d35577-fb1a-49ed-842c-1b2de852f155
+		summarizeBy: none
+		sourceColumn: Shift
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Vendor = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\Rodrigo Fortunato\Downloads\People Analytics\Heptathlon_Employees.xlsx"), null, true),
+				    Vendor_Sheet = Fonte{[Item="Vendor",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Vendor_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"VendorCode", type text}, {"Name", type text}, {"Surname", type text}, {"ShoppingMall", type text}, {"Shift", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

@@ -1,0 +1,137 @@
+table Sales
+	lineageTag: 2836758e-98de-459c-8544-dd47b93cf100
+
+	measure '.Qtd Sales' = sum(Sales[Quantity])
+		formatString: #,0
+		lineageTag: 8eb243ce-9929-4f38-8137-644a6827e25b
+
+	measure '.Total Gross Sales' = [.Qtd Sales]*Products[.Product Sales Price]
+		formatString: #,0
+		lineageTag: faac5e96-d49a-4841-9c65-85767e9fca35
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '.Total Gross Profit' = [.Qtd Sales]*Products[.Product Gross Profit]
+		formatString: #,0
+		lineageTag: b6c29fa1-7213-4b0b-82a5-6932c3204e3c
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '.Total Cost' = [.Qtd Sales]*Products[.Product Cost Price]
+		formatString: #,0.0
+		lineageTag: b34f07eb-02a7-49fe-b0b7-85a4b0b1b29f
+
+	measure '.Gross Profit Margin (%)' = ```
+			
+			DIVIDE(
+			    [.Total Gross Profit], 
+			    [.Total Gross Sales],
+			    BLANK()
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: ab859bab-c9eb-48b5-bed1-1ae60dbddf01
+
+	column Sale_Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a55c932d-523b-4d36-a9b8-4438bf763d1d
+		summarizeBy: none
+		sourceColumn: Sale_Date
+
+		variation Variation
+			isDefault
+			relationship: 8f3bb07b-e78a-48b0-908a-ba304ee5502c
+			defaultHierarchy: LocalDateTable_fa37bcc2-12fd-4709-b021-cafd014343e8.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Id_Shop
+		dataType: string
+		lineageTag: 1bd183a2-a65c-43d8-9ef3-0e0e7e5dfa73
+		summarizeBy: none
+		sourceColumn: Id_Shop
+
+		annotation SummarizationSetBy = Automatic
+
+	column Id_Product
+		dataType: string
+		lineageTag: 40fa2925-105e-484a-854e-ff4978abf0ef
+		summarizeBy: none
+		sourceColumn: Id_Product
+
+		annotation SummarizationSetBy = Automatic
+
+	column Id_Vendor
+		dataType: string
+		lineageTag: be692db4-775c-4ea0-8a3e-86ea01bdb12e
+		summarizeBy: none
+		sourceColumn: Id_Vendor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: b3c598ce-ce17-4853-8de5-d87a534a171a
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: fca974a3-7dab-4e29-a107-bd17387376fe
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age
+		dataType: string
+		lineageTag: 7b5df9bb-077f-4695-9d33-528462e81933
+		summarizeBy: none
+		sourceColumn: Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column8
+		dataType: string
+		lineageTag: 781ef35a-7519-40a7-9699-e489fc6d9353
+		summarizeBy: none
+		sourceColumn: Column8
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column9
+		dataType: string
+		lineageTag: 42e924da-fd5a-4c0b-8ec1-6e75771539ca
+		summarizeBy: none
+		sourceColumn: Column9
+
+		annotation SummarizationSetBy = Automatic
+
+	column Product_id = CONCATENATE("PROD_",Sales[Id_Product])
+		lineageTag: 1eb850ff-8ead-4477-967c-7b21a8b79568
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\Rodrigo Fortunato\Downloads\People Analytics\Heptathlon_Sales.xlsx"), null, true),
+				    Sales_Sheet = Fonte{[Item="Sales",Kind="Sheet"]}[Data],
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"Sale_Date", type date}, {"Id_Shop", type text}, {"Id_Product", type text}, {"Id_Vendor", type text}, {"Quantity", Int64.Type}, {"Gender", type text}, {"Age", type text}, {"Column8", type any}, {"Column9", type any}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

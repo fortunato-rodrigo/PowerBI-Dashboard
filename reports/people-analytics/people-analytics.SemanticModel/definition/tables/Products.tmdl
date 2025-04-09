@@ -1,0 +1,71 @@
+table Products
+	lineageTag: b3d4514e-fbbb-40b6-8f3a-01d26e2dbdb5
+
+	measure '.Product Sales Price' = SUM(Products[Sale Price])
+		formatString: #,0.00
+		lineageTag: f3ffdd36-3589-4376-abdd-bc3643844e17
+
+	measure '.Product Gross Profit' = [.Product Sales Price] - [.Product Cost Price]
+		formatString: #,0.00
+		lineageTag: 41025a17-9c88-4de2-8f6c-3108535e41b0
+
+	measure '.Product Cost Price' = SUM(Products[Cost Price])
+		formatString: #,0.00
+		lineageTag: 4bdafd8c-234d-45a3-a21c-5407e085e94d
+
+	column Columna2
+		dataType: string
+		lineageTag: c8fa0cc9-9ce3-42c1-b285-1ba4bde54e7b
+		summarizeBy: none
+		sourceColumn: Columna2
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 67184209-d5f4-4848-93de-c8d360af22de
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: db26a2d9-a3b7-4f84-8ab9-5b7221785304
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sale Price'
+		dataType: double
+		lineageTag: 1375bdc5-57c5-46b0-9564-a6b92579dd42
+		summarizeBy: none
+		sourceColumn: Sale Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Cost Price'
+		dataType: double
+		lineageTag: f370b9f6-3b97-4f82-ba60-7b3ff4a46696
+		summarizeBy: none
+		sourceColumn: Cost Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Products = m
+		mode: import
+		source =
+				let
+				    Fonte = Excel.Workbook(File.Contents("C:\Users\Rodrigo Fortunato\Downloads\People Analytics\Products.xlsx"), null, true),
+				    Products_Table = Fonte{[Item="Products",Kind="Table"]}[Data],
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Products_Table,{{"Columna2", type text}, {"ProductName", type text}, {"Category", type text}, {"Sale Price", type number}, {"Cost Price", type number}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
