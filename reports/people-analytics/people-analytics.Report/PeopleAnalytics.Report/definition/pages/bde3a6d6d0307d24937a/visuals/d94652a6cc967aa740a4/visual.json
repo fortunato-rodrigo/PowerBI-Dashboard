@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.6.0/schema.json",
+  "name": "d94652a6cc967aa740a4",
+  "position": {
+    "x": 38.97534926106016,
+    "y": 651.44512336343416,
+    "z": 3000,
+    "height": 402.74527569762165,
+    "width": 545.65488965484224,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Heptathlon_Shops"
+                    }
+                  },
+                  "Property": "NameShop"
+                }
+              },
+              "queryRef": "Heptathlon_Shops.NameShop",
+              "nativeQueryRef": "NameShop",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Products"
+                    }
+                  },
+                  "Property": "Category"
+                }
+              },
+              "queryRef": "Products.Category",
+              "nativeQueryRef": "Category",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimension_Sales"
+                    }
+                  },
+                  "Property": ".SelectedMeasure"
+                }
+              },
+              "queryRef": "Dimension_Sales.Selected Measure",
+              "nativeQueryRef": ".SelectedMeasure"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Heptathlon_Shops.NameShop"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Products.Category"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "drillFilterOtherVisuals": true
+  }
+}
