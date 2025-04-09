@@ -1,0 +1,22 @@
+relationship 8f3bb07b-e78a-48b0-908a-ba304ee5502c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sales.Sale_Date
+	toColumn: LocalDateTable_fa37bcc2-12fd-4709-b021-cafd014343e8.Date
+
+relationship AutoDetected_ee3b35f8-c1fe-4cff-9b70-865b606193b5
+	fromColumn: Sales.Id_Vendor
+	toColumn: Vendor.VendorCode
+
+relationship 191ef5ae-a553-554e-f05e-c341ba901943
+	fromColumn: Sales.Product_id
+	toColumn: Products.Columna2
+
+relationship 52d97cc4-2cec-414e-9b8d-2af07c858d5a
+	isActive: false
+	fromColumn: Vendor.ShoppingMall
+	toColumn: Heptathlon_Shops.IdShop
+
+relationship a87ff5de-e1e5-f318-627d-f8dd1606f325
+	fromColumn: Sales.Id_Shop
+	toColumn: Heptathlon_Shops.IdShop
+

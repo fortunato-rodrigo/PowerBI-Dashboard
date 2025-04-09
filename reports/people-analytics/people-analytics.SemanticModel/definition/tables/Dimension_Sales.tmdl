@@ -1,0 +1,59 @@
+table Dimension_Sales
+	lineageTag: 3ef2d272-c3bf-4a37-a54c-e7ad08c8f41c
+
+	measure '.SelectedMeasure' = ```
+			
+			SWITCH(
+			    SELECTEDVALUE('Dimension_Sales'[Value1]),
+			    "Gross Profit Margin (%)", [.Gross Profit Margin (%)],
+			    "Qtd Sales", Sales[.Qtd Sales],
+			    "Total Cost", [.Total Cost],
+			    "Total Gross Profit", [.Total Gross Profit],
+			    "Total Gross Sales", [.Total Gross Sales],
+			    BLANK()
+			)
+			
+			```
+		formatString: #,0
+		lineageTag: 9b1a3feb-e1a2-4952-951f-cc68d3c5b36c
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column Value1
+		lineageTag: 7c8aa39e-86d8-4b4c-8e81-27effd33354d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value1]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value2
+		lineageTag: 46099624-78a3-4aba-b1a8-dd573db267a0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value2]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value3
+		formatString: 0
+		lineageTag: 978caae3-2df0-48b9-ab4c-a2165de49e97
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dimension_Sales = calculated
+		mode: import
+		source =
+				{
+				    ("Gross Profit Margin (%)", NAMEOF('Sales'[.Gross Profit Margin (%)]), 0),
+				    ("Qtd Sales", NAMEOF('Sales'[.Qtd Sales]), 1),
+				    ("Total Cost", NAMEOF('Sales'[.Total Cost]), 2),
+				    ("Total Gross Profit", NAMEOF('Sales'[.Total Gross Profit]), 3),
+				    ("Total Gross Sales", NAMEOF('Sales'[.Total Gross Sales]), 4)
+				}
+
+	annotation PBI_Id = f1f665fcc7ca40d7ba6c3818f5afdcbc
+
