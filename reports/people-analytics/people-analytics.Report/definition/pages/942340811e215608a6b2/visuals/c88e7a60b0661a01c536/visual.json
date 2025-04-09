@@ -1,0 +1,151 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.6.0/schema.json",
+  "name": "c88e7a60b0661a01c536",
+  "position": {
+    "x": 38.97534926106016,
+    "y": 566.07054879158807,
+    "z": 3000,
+    "height": 315.51473211334417,
+    "width": 931.69644424058106,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Heptathlon_Shops"
+                    }
+                  },
+                  "Property": "NameShop"
+                }
+              },
+              "queryRef": "Heptathlon_Shops.NameShop",
+              "nativeQueryRef": "NameShop",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Products"
+                    }
+                  },
+                  "Property": "Category"
+                }
+              },
+              "queryRef": "Products.Category",
+              "nativeQueryRef": "Category",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": ".Qtd Sales"
+                }
+              },
+              "queryRef": "Sales..Qtd Sales",
+              "nativeQueryRef": ".Qtd Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": ".Total Gross Sales"
+                }
+              },
+              "queryRef": "Sales..Total Gross Sales",
+              "nativeQueryRef": ".Total Gross Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": ".Total Gross Profit"
+                }
+              },
+              "queryRef": "Sales..Total Gross Profit",
+              "nativeQueryRef": ".Total Gross Profit"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": ".Total Cost"
+                }
+              },
+              "queryRef": "Sales..Total Cost",
+              "nativeQueryRef": ".Total Cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": ".Gross Profit Margin (%)"
+                }
+              },
+              "queryRef": "Sales..Gross Profit Margin (%)",
+              "nativeQueryRef": ".Gross Profit Margin (%)"
+            }
+          ]
+        }
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Heptathlon_Shops.NameShop"
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Products.Category"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {}
+      }
+    ],
+    "drillFilterOtherVisuals": true
+  }
+}

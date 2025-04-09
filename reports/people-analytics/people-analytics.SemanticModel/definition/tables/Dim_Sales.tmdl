@@ -1,0 +1,56 @@
+table Dim_Sales
+	lineageTag: 5ab090ef-1fb2-4707-81a3-9b99024562a8
+
+	measure '.SelectedValue' = SELECTEDVALUE(Dimension_Sales[Value3], "No Selection")
+		lineageTag: aa517c6f-9feb-4460-a4bc-377d0d842ada
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Parâmetro
+		lineageTag: 559eb0f5-18d7-4298-bf14-fad1c5fe5681
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parâmetro Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Parâmetro Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parâmetro Campos'
+		isHidden
+		lineageTag: e5a9866a-da41-4ddc-8b68-5b777a8c5984
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parâmetro Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parâmetro Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: ec8c2ec9-89c1-4171-ba0d-f52102d5c378
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Sales = calculated
+		mode: import
+		source =
+				{
+				    (".Gross Profit Margin (%)", NAMEOF('Sales'[.Gross Profit Margin (%)]), 0),
+				    (".Qtd Sales", NAMEOF('Sales'[.Qtd Sales]), 1),
+				    (".Total Cost", NAMEOF('Sales'[.Total Cost]), 2),
+				    (".Total Gross Profit", NAMEOF('Sales'[.Total Gross Profit]), 3),
+				    (".Total Gross Sales", NAMEOF('Sales'[.Total Gross Sales]), 4)
+				}
+
+	annotation PBI_Id = baa71cd84df44e05bcda54b923b985f1
+

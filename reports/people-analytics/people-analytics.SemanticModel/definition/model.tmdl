@@ -1,0 +1,27 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Vendor","Sales","Products","Heptathlon_Shops"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.141.1451.0 (25.03)+5007b75f0f7edbed506e31fcb76584cd6d711788
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Vendor
+ref table Sales
+ref table DateTableTemplate_fe9d055f-e126-4f9b-ad44-517e5f1c4548
+ref table LocalDateTable_fa37bcc2-12fd-4709-b021-cafd014343e8
+ref table Products
+ref table Heptathlon_Shops
+ref table Dim_Sales
+ref table Dimension_Sales
+
+ref cultureInfo pt-BR
+
