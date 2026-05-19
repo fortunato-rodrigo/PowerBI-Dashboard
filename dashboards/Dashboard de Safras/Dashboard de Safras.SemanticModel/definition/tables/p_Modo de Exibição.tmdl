@@ -1,0 +1,26 @@
+table 'p_Modo de Exibição'
+	lineageTag: 2f8c5165-2725-4ef8-a275-6925141c7bb9
+
+	column Exibição
+		lineageTag: 4e6553a4-f384-41bc-82b1-3ada91e08306
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Exibição]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Modo de Exibição' = calculated
+		mode: import
+		source = ```
+				
+				    DATATABLE(
+				        "Exibição", STRING,
+				        {
+				            {"#"},
+				            {"%"}
+				        }
+				    )
+				```
+
+	annotation PBI_Id = 08f4a083ef8f4e02b15f3948cfcf6d5c
+

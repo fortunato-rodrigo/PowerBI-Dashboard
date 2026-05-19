@@ -1,0 +1,49 @@
+table 'p_Dimension Voucher'
+	lineageTag: 80d984d4-aaff-43ab-86b4-eafba9d9d7f4
+
+	column Parâmetro
+		lineageTag: b3705aaf-bb59-42f1-b8e1-f3063d449b26
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parâmetro Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Parâmetro Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parâmetro Campos'
+		isHidden
+		lineageTag: 0922ec01-bb94-4a76-85c4-c9dbb264d018
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parâmetro Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parâmetro Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 69d100ae-9023-400b-a668-bf5d3898bc63
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Dimension Voucher' = calculated
+		mode: import
+		source =
+				{
+				    ("Voucher Type", NAMEOF('f_mkt_performance'[voucher_type]), 0),
+				    ("Flag", NAMEOF('f_mkt_performance'[fl_voucher]), 1),
+				    ("Operation Platform Beecambio", NAMEOF('f_mkt_performance'[operation_platform_beecambio]), 2)
+				}
+
+	annotation PBI_Id = ec4ea544329a493c8d11d3b80efe0775
+

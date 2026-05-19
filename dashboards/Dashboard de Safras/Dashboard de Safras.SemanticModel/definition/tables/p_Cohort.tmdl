@@ -1,0 +1,41 @@
+table p_Cohort
+	lineageTag: db7f0433-fb5a-4d8f-87a8-daf46d1f0d3b
+
+	measure 'Valor Diferença de Dias entre Presignup e Aquisição' = SELECTEDVALUE('p_Cohort'[p_Cohort], 30)
+		formatString: 0
+		lineageTag: 853fd81e-57f7-4483-a0a4-72da636dafa6
+
+	measure 'Cohort Value' = SELECTEDVALUE('p_Cohort'[p_Cohort])
+		formatString: 0
+		lineageTag: de8003a1-cf73-4990-837b-9440b88c2231
+
+	column p_Cohort
+		formatString: 0" dias"
+		lineageTag: aa2c1acb-859f-484d-84f5-8eee846cd66d
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column SelectedValue = 'p_Cohort'[p_Cohort]
+		formatString: 0" dias"
+		lineageTag: bc17535a-052d-407b-9440-6cf0a9050a3b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	partition p_Cohort = calculated
+		mode: import
+		source = GENERATESERIES(0, 365, 1)
+
+	annotation PBI_Id = 92bc2745f2d846a6adf01b3163bd3874
+

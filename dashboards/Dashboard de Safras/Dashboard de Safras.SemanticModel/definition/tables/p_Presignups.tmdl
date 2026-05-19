@@ -1,0 +1,48 @@
+table p_Presignups
+	lineageTag: e2e2216c-87b0-4a73-8e07-3cc261cd0560
+
+	column Presignups
+		lineageTag: 7c62baa8-8723-4633-8736-59b6a507832c
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Presignups Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Presignups Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Presignups Campos'
+		isHidden
+		lineageTag: 627d2a89-3f14-4f2a-8e2d-58983b707e3f
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Presignups Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Presignups Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 421f8f07-64af-4391-a228-bf0c17df3302
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Presignups = calculated
+		mode: import
+		source =
+				{
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 0),
+				    ("% do Total", NAMEOF('# Medidas'[% do Total de Presignups]), 1)
+				}
+
+	annotation PBI_Id = 5c6c95bbde3a47d28327869e6fe12b7f
+

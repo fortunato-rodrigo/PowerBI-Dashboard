@@ -1,0 +1,26 @@
+table 'Cenários Delta Operações'
+	lineageTag: c76199a9-8fe7-45d6-99af-594b75ba5b2c
+
+	measure 'Valor Operações' = SELECTEDVALUE('Cenários Delta Operações'[Operações], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b96ac72d-a519-4de8-aa69-54ee4a3c90e3
+
+	column Operações
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 746740d4-006b-4c4a-afe8-0df2f3f397e5
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'Cenários Delta Operações' = calculated
+		mode: import
+		source = GENERATESERIES(-1, 1, 0.01)
+
+	annotation PBI_Id = 94d85fbdb6fd4fd685547a0d34fcd024
+

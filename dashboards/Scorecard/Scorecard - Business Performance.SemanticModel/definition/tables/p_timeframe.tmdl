@@ -1,0 +1,67 @@
+table p_timeframe
+	lineageTag: 77bdd212-f714-4532-8a28-0f15944cc32f
+
+	column Timeframe
+		lineageTag: 7d47c27a-b98f-469e-931c-c1772a19f448
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Timeframe Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Timeframe Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Timeframe Campos'
+		lineageTag: fa0d4c64-308e-4020-af1e-d1c29279deee
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Timeframe Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Timeframe Pedido'
+		formatString: 0
+		lineageTag: dcc41abe-99e3-45a5-b06d-eb9313295f3f
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SelectedValue =
+			
+			SWITCH(
+			    TRUE(),
+			    p_timeframe[Timeframe] = "Hora", "por Hora",
+			    p_timeframe[Timeframe] = "Dia", "por Dia",
+			    p_timeframe[Timeframe] = "Semana", "por Semana",
+			    p_timeframe[Timeframe] = "Mês", "por Mês",
+			    p_timeframe[Timeframe] = "Quarter", "por Quarter",
+			    p_timeframe[Timeframe] = "Ano", "por Ano"
+			)
+		lineageTag: 6d6524bc-5410-4147-90d8-553538b274f5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_timeframe-bd74b086-2cae-42c4-b20e-1528ec940188 = calculated
+		mode: import
+		source = ```
+				{ 
+				    ("Hora", NAMEOF(f_operations[processing_hour_minute (compartimentos)]), 0),
+				    ("Dia", NAMEOF('d_calendar'[Date Key]), 1),
+				    ("S. Segunda", NAMEOF('d_calendar'[week]), 2),
+				    ("S. Sexta", NAMEOF('d_calendar'[weekFriday]), 3),
+				    ("Mês", NAMEOF('d_calendar'[date_month]), 4),
+				    ("Ano", NAMEOF('d_calendar'[year]), 5)
+				}
+				```
+
+	annotation PBI_Id = e5baaeca96ef436a91c34d5fb05d3fbd
+

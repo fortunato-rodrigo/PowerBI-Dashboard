@@ -1,0 +1,58 @@
+table 'p_Medidas Investimento 2'
+	lineageTag: 9bed8ad3-116b-4e3a-bddb-ade62e08dee7
+
+	column 'Medidas Investimento 2'
+		lineageTag: 6bce5aa7-b2de-4a7a-b648-7572879bc260
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Medidas Investimento 2 Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Medidas Investimento 2 Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas Investimento 2 Campos'
+		isHidden
+		lineageTag: d834f3b3-114b-4444-bda9-c349dc78a996
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Medidas Investimento 2 Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas Investimento 2 Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 306daf2c-0171-48cb-a8c0-606528714076
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Medidas Investimento 2' = calculated
+		mode: import
+		source =
+				{
+				    ("Investimento", NAMEOF('# Medidas'[Investimento]), 0),
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 1),
+				    ("Signups", NAMEOF('# Medidas'[Signups]), 2),
+				    ("Signups Cohortados", NAMEOF('# Medidas'[Signups (Cohortadas)]), 3),
+				    ("PSU ➜ SU", NAMEOF('# Medidas'[PSU ➜ SU]), 4),
+				    ("Aquisições", NAMEOF('# Medidas'[Aquisições]), 5),
+				    ("Aquisições Cohortadas", NAMEOF('# Medidas'[Aquisições Cohortadas]), 6),
+				    ("PSU ➜ ACQ", NAMEOF('# Medidas'[PSU ➜ ACQ]), 7),
+				    ("Receita (Aquisição)", NAMEOF('# Medidas'[Receita (Aquisição)]), 8),
+				    ("GMV (Aquisição)", NAMEOF('# Medidas'[GMV (Aquisição)]), 9),
+				    ("Spread (Aquisições)", NAMEOF('# Medidas'[Spread (Aquisição)]), 10),
+				    ("Ticket Médio (Aquisições)", NAMEOF('# Medidas'[Ticket Médio (GMV - Aquisição)]), 11)
+				}
+
+	annotation PBI_Id = c1409c09a4164f4abd3ea608afe86b3d
+

@@ -1,0 +1,16 @@
+question_variants:
+  - "Qual o total de operações, GMV e receita bruta por cliente ao longo da vida?"
+  - "Lifetime value por cliente — ops, GMV e receita acumulados"
+  - "Performance lifetime por cliente (LTV)"
+  - "Quantas operações e quanto GMV cada cliente já fez no total?"
+sql: |
+  SELECT
+    id_customer,
+    qtd_ops_total_lifetime,
+    gmv_total_lifetime,
+    gross_revenue_total_lifetime
+  FROM gold.fact_customers
+tables_used: [gold.fact_customers]
+notes: "Usar gold.fact_customers para métricas lifetime — evita JOIN e agregação na fact_operations. Ideal para LTV, segmentação e rankeamento de clientes."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

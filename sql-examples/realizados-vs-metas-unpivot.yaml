@@ -1,0 +1,43 @@
+question_variants:
+  - "Tabela de realizado vs meta com colunas: date, bu, business_type, kpi, valor_realizado, valor_meta"
+  - "Realizado vs meta em formato longo (unpivot) por BU e business type"
+  - "KPIs de gmv, receita e ops em formato normalizado para um período"
+  - "Me retorne uma tabela com kpi como coluna, separando gmv, gross_revenue e ops"
+sql: |
+  SELECT
+    date_key,
+    bu,
+    business_type,
+    customer_type,
+    kpi,
+    COALESCE(valor_realizado, 0) AS valor_realizado,
+    COALESCE(valor_meta, 0) AS valor_meta
+  FROM (
+    SELECT date_key, bu, business_type, customer_type,
+      'gross_revenue' AS kpi,
+      SUM(gross_revenue) AS valor_realizado,
+      SUM(meta_gross_revenue) AS valor_meta
+    FROM gold.daily_sales
+    WHERE date_key >= '2025-05-01' AND date_key <= '2025-06-30'
+    GROUP BY ALL
+    UNION ALL
+    SELECT date_key, bu, business_type, customer_type,
+      'gmv' AS kpi,
+      SUM(gmv) AS valor_realizado,
+      SUM(meta_gmv) AS valor_meta
+    FROM gold.daily_sales
+    WHERE date_key >= '2025-05-01' AND date_key <= '2025-06-30'
+    GROUP BY ALL
+    UNION ALL
+    SELECT date_key, bu, business_type, customer_type,
+      'ops' AS kpi,
+      SUM(operations) AS valor_realizado,
+      SUM(meta_operations) AS valor_meta
+    FROM gold.daily_sales
+    WHERE date_key >= '2025-05-01' AND date_key <= '2025-06-30'
+    GROUP BY ALL
+  ) AS combined
+tables_used: [gold.daily_sales]
+notes: "Formato unpivot (long format) para facilitar visualização e filtros por KPI. Ajuste date_key range conforme período solicitado. KPIs disponíveis: gross_revenue, gmv, ops."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

@@ -1,0 +1,28 @@
+table d_bu
+	lineageTag: 8821b300-3b69-46d2-b018-ba7e2da2fe6c
+
+	column BU
+		dataType: string
+		lineageTag: 3c7f8f03-c12d-4049-a33a-0e959e517433
+		summarizeBy: none
+		sourceColumn: BU
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_bu-a9a72200-246e-47ac-9257-5080b54971a9 = m
+		mode: import
+		queryGroup: dim
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"d3c2d827-b84c-466b-9485-ee1b0ee58b79" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="d3c2d827-b84c-466b-9485-ee1b0ee58b79"]}[Data],
+				    bu_ = #"d3c2d827-b84c-466b-9485-ee1b0ee58b79"{[entity="bu",version=""]}[Data]
+				in
+				    bu_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

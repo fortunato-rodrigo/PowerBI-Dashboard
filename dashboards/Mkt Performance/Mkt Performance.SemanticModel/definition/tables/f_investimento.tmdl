@@ -1,0 +1,108 @@
+table f_investimento
+	lineageTag: 4f9cb142-1d70-4658-ad3b-54660c671ce9
+
+	column date_nao_usar
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ed538e4a-eea6-4de1-8825-5b03ad06feb2
+		summarizeBy: none
+		sourceColumn: date_nao_usar
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column mkt_campaign_pmkt
+		dataType: string
+		lineageTag: 139f522d-e882-419a-8196-e929293bd449
+		summarizeBy: none
+		sourceColumn: mkt_campaign_pmkt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel_pmkt
+		dataType: string
+		lineageTag: ab74f430-3959-482d-a9e5-bc9b04c79fea
+		summarizeBy: none
+		sourceColumn: channel_pmkt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column medium_pmkt
+		dataType: string
+		lineageTag: ea41da59-0de7-442f-96ef-f514b1b8e1ac
+		summarizeBy: none
+		sourceColumn: medium_pmkt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_pmkt
+		dataType: string
+		lineageTag: 571cde1b-3805-459a-8cfc-953bbf7f4cc8
+		summarizeBy: none
+		sourceColumn: source_pmkt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ad_group
+		dataType: string
+		lineageTag: aeaa81a0-41a0-46c1-9b4e-4349f9f07d33
+		summarizeBy: none
+		sourceColumn: ad_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_type
+		dataType: string
+		lineageTag: a23a4a3f-a852-423d-9215-2eddaafa572d
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column investimento
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 9af9cf53-2641-4c27-af9a-269564d9aa0d
+		summarizeBy: sum
+		sourceColumn: investimento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column media_funnel
+		dataType: string
+		lineageTag: 667d5835-6b90-4154-bd95-2987eee3f20a
+		summarizeBy: none
+		sourceColumn: media_funnel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_investimento = m
+		mode: import
+		queryGroup: Fato
+		source =
+				let
+				    Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="prod",Kind="Database"]}[Data], "select distinct#(lf)    pmkt.date as date_nao_usar,#(lf)    lower(ad_group) as ad_group,#(lf)    pmkt.mkt_campaign as mkt_campaign_pmkt,#(lf)    case#(lf)        when lower(pmkt.mkt_campaign) like '%pmax%' then 'display'#(lf)        else coalesce(pmkt.channel, 'unknown')#(lf)    end as channel_pmkt,#(lf)    lower(coalesce(pmkt.medium, 'unknown')) as medium_pmkt,#(lf)    lower(coalesce(pmkt.source, 'unknown')) source_pmkt,#(lf)    case #(lf)      when lower(mkt_campaign) like ""%consideracao%""#(lf)        then 'Consideracao'#(lf)      when lower(mkt_campaign) like ""%awareness%""#(lf)        then 'Awareness'#(lf)      else 'Performance'#(lf)    end as media_funnel,#(lf)    'PF' as customer_type,#(lf)    sum(cost) * 0.5822 as investimento#(lf)from bronze.paid_media_investments as pmkt#(lf)where year(date) >= 2023#(lf)and date < current_date#(lf)group by all#(lf)#(lf)union all#(lf)#(lf)select distinct#(lf)    pmkt.date as date_nao_usar,#(lf)    lower(ad_group) as ad_group,#(lf)    pmkt.mkt_campaign as mkt_campaign_pmkt,#(lf)    case#(lf)        when lower(pmkt.mkt_campaign) like '%pmax%' then 'display'#(lf)        else coalesce(pmkt.channel, 'unknown')#(lf)    end as channel_pmkt,#(lf)    lower(coalesce(pmkt.medium, 'unknown')) as medium_pmkt,#(lf)    lower(coalesce(pmkt.source, 'unknown')) source_pmkt,#(lf)    case #(lf)      when lower(mkt_campaign) like ""%consideracao%""#(lf)        then 'Consideracao'#(lf)      when lower(mkt_campaign) like ""%awareness%""#(lf)        then 'Awareness'#(lf)      else 'Performance'#(lf)    end as media_funnel,#(lf)    'PJ' as customer_type,#(lf)    sum(cost) * 0.4178 as investimento#(lf)from bronze.paid_media_investments as pmkt#(lf)where year(date) >= 2023#(lf)and date < current_date#(lf)group by all", null, [EnableFolding=true]),
+				    #"Valor Substituído" = Table.ReplaceValue(Origem," ","",Replacer.ReplaceText,{"mkt_campaign_pmkt"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Valor Substituído",{{"investimento", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

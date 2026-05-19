@@ -1,0 +1,114 @@
+table f_etapa_drop
+	lineageTag: d8fff2bf-726f-471e-b02d-3737e46a52d7
+
+	measure 'Total Users' = ```
+			DISTINCTCOUNT(f_etapa_drop[id_customer]) 
+			```
+		formatString: #,0
+		lineageTag: ee5d07ef-02ab-41b1-b3dd-4139a9cef263
+
+	column id_customer
+		dataType: string
+		lineageTag: 4a1e7ddc-c142-46f8-975f-2cc8134d443b
+		summarizeBy: none
+		sourceColumn: id_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column psu_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b873c610-8f33-49a1-bea2-1e1e0b2f83f0
+		summarizeBy: none
+		sourceColumn: psu_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column signup_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 99694406-26a0-44d1-8d9f-ea3a5c26efbd
+		summarizeBy: none
+		sourceColumn: signup_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 9b4ce797-bc25-4ae0-8322-83443d16f4bf
+		summarizeBy: none
+		sourceColumn: event_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_event
+		dataType: string
+		lineageTag: 82e14f25-5e9e-4e79-9c8f-305f40192836
+		summarizeBy: none
+		sourceColumn: last_event
+
+		annotation SummarizationSetBy = Automatic
+
+	column funnel_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 72ab376a-34e4-43ab-ae6d-efc49e5cc211
+		summarizeBy: sum
+		sourceColumn: funnel_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_type
+		dataType: string
+		lineageTag: f501857e-bc99-4708-998c-9061ea954e9f
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column onboarding_type
+		dataType: string
+		lineageTag: 76353775-4f58-4512-affd-379195370cdd
+		summarizeBy: none
+		sourceColumn: onboarding_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal
+		dataType: string
+		lineageTag: 57f9d1c8-55e0-44e2-9718-409a2c8bc37a
+		summarizeBy: none
+		sourceColumn: canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_session
+		dataType: string
+		lineageTag: c0461e9b-0d1d-4d45-a976-bf2cbd1b1a9e
+		summarizeBy: none
+		sourceColumn: cnae_session
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_division
+		dataType: string
+		lineageTag: 0b3793f2-4b6c-4c66-b83b-5fc316ea39a9
+		summarizeBy: none
+		sourceColumn: cnae_division
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_etapa_drop-8e44cdc3-908d-4a81-964b-ceb4fb54ac3b = m
+		mode: import
+		source =
+				let
+				  Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "with psu as (#(lf)  select * #(lf)  from gold.funnel_event#(lf)  where #(lf)    event_type = 'PRESIGNUP'#(lf)    and event_tstamp >= date '2022-01-01'#(lf)), signup as (#(lf)  select * #(lf)  from gold.funnel_event#(lf)  where event_type = 'SIGNUP'#(lf)), operou as (#(lf)  select * #(lf)  from gold.funnel_event#(lf)  where event_type in ('ACQUISITION', 'OPERATION')#(lf)), event as (#(lf)  (select #(lf)      id_customer,#(lf)      event_type as last_event,#(lf)      event_tstamp as event_date#(lf)  from gold.funnel_event)#(lf)  union#(lf)  (select#(lf)      id_customer,#(lf)      'COMPARTILHAMENTO DE DADOS' as last_event,#(lf)      created_at as event_date#(lf)  from beecambio.beecambio_tbl_customer_bank_account )#(lf)  union#(lf)  (select #(lf)      id_customer,#(lf)      status as last_event,#(lf)      created_date as event_date#(lf)  from silver.orders)#(lf)), funnel as (#(lf)  select #(lf)    fe.id_customer,#(lf)    p.event_tstamp as psu_date,#(lf)    s.event_tstamp as signup_date,#(lf)    fe.event_date,#(lf)    fe.last_event,#(lf)    ROW_NUMBER()#(lf)      OVER(PARTITION BY fe.id_customer ORDER BY fe.event_date desc) AS funnel_order#(lf)  from event as fe#(lf)  inner join psu as p#(lf)    on fe.id_customer = p.id_customer#(lf)  left join signup as s#(lf)    on fe.id_customer = s.id_customer#(lf)  left join operou as op#(lf)    on fe.id_customer = op.id_customer#(lf)  where #(lf)    op.id_customer is null#(lf))#(lf)select #(lf)  f.* , #(lf)  dc.customer_type,#(lf)  dc.onboarding_type,#(lf)  lc.canal,#(lf)  ce.session_description as cnae_session,#(lf)  ce.division_description as cnae_division#(lf)from funnel as f#(lf)left join silver.customers as dc#(lf)  on f.id_customer = dc.id#(lf)left join google_analytics.last_click_sessions as lc#(lf)  on f.id_customer = lc.id_customer#(lf)left join seeds.cnae_estruturado as ce #(lf)  on ce.id_cnae = dc.company_cnae_id", null, [EnableFolding=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Origem,{{"id_customer", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

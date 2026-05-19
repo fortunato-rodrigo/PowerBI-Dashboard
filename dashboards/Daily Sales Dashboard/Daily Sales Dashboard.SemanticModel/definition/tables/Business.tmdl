@@ -1,0 +1,50 @@
+table Business
+	lineageTag: bd27b6bb-a40b-4188-a850-79f558bf464c
+
+	column Business
+		lineageTag: 76489782-d28a-4c74-9613-c5aa94f578ca
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Business Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Business Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Campos'
+		isHidden
+		lineageTag: e6233452-5dc7-4333-9115-ef41ece18832
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Business Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 36b031f8-1bfe-4bc0-b0f8-a9a04a19cae3
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Business = calculated
+		mode: import
+		source =
+				{
+				    ("BU", NAMEOF('d_bu'[BU]), 1),
+				    ("Evento", NAMEOF('d_event_type'[Evento]), 2),
+				    ("Business Type", NAMEOF('d_business_type'[Business Type]), 3),
+				    ("Canal", NAMEOF(d_canal[canal]), 4)
+				}
+
+	annotation PBI_Id = a5f72db372a944eb8bc8db012dd6bb3f
+

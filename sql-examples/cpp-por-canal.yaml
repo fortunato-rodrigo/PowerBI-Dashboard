@@ -1,0 +1,38 @@
+question_variants:
+  - "Qual o CPP (custo por presignup) por canal de marketing no mês?"
+  - "Custo por presignup por canal de mídia"
+  - "Qual canal tem o CPP mais barato?"
+  - "CPP mensal — quanto custa cada presignup por canal?"
+sql: |
+  WITH investimento AS (
+    SELECT
+      DATE_TRUNC('month', date) AS month,
+      SUM(cost) AS total_investment
+    FROM bronze.paid_media_investments
+    GROUP BY 1
+  ),
+  psu AS (
+    SELECT
+      DATE_TRUNC('month', fe.event_tstamp) AS month,
+      COALESCE(fe.canal_lc, 'unknown') AS canal,
+      COUNT(DISTINCT fe.id_customer) AS presignups
+    FROM gold.funnel_event AS fe
+    JOIN bronze.beecambio_customer AS bc ON fe.id_customer = bc.id_customer
+    WHERE fe.event_type = 'PRESIGNUP'
+      AND fe.event_sequence = 1
+      AND bc.email NOT LIKE '%fxaas%'
+    GROUP BY 1, 2
+  )
+  SELECT
+    p.month,
+    p.canal,
+    p.presignups,
+    ROUND(i.total_investment, 0) AS total_investment,
+    ROUND(i.total_investment / NULLIF(p.presignups, 0), 2) AS cpp
+  FROM psu p
+  LEFT JOIN investimento i ON p.month = i.month
+  ORDER BY p.month DESC, cpp ASC
+tables_used: [gold.funnel_event, bronze.beecambio_customer, bronze.paid_media_investments]
+notes: "⚠️ bronze.paid_media_investments: dado bruto de investimento em mídia paga. Investimento não tem breakdown por canal no Databricks (alocação 58.22% PF / 41.78% PJ é feita no DAX). PSU sempre sem FxaaS. CPP = investimento total / presignups."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

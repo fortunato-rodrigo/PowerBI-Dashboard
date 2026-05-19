@@ -1,0 +1,52 @@
+table 'p_Aquisições (PSU - Cohort)'
+	lineageTag: 4af4fe49-196d-4dc4-a7c6-58b058cbb03e
+
+	column 'Aquisições (PSU - Cohort)'
+		lineageTag: 921a477b-7ad5-40c3-83df-b45bdc119851
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Aquisições (Cohort) Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Aquisições (Cohort) Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Aquisições (Cohort) Campos'
+		isHidden
+		lineageTag: e2b6cbc4-3a52-49ec-ba1a-d08b0473d27b
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Aquisições (Cohort) Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Aquisições (Cohort) Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 35af39a4-a6ea-412a-81b5-371c501e5406
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Aquisições (PSU - Cohort)-9a63e900-9f29-4f95-ab29-8b56e92a53ea' = calculated
+		mode: import
+		source =
+				{
+				    ("Aquisições Cohortadas", NAMEOF('# Medidas'[Aquisições Cohortadas do Presignup]), 0),
+				    ("% do Total de Aquisições Cohortadas", NAMEOF('# Medidas'[% do Total de Aquisições (PSU - Cohorted)]), 1),
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 2),
+				    ("% do Total de Presignups", NAMEOF('# Medidas'[% do Total de Presignups]), 3),
+				    ("Média Móvel de Aquisições", NAMEOF('# Medidas'[Aquisições Cohortadas do Presignup - Média Móvel Últimos 6 meses]), 4),
+				    ("Média Móvel de Aquisições / Total", NAMEOF('# Medidas'[% do Total de Aquisições Cohorted (AVG)]), 5)
+				}
+
+	annotation PBI_Id = d090975fa2bf4762921fbfbb548633fa
+

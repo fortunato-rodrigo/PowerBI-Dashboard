@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "1f9ff300b6e4c3d46ede",
+  "position": {
+    "x": 236.66666666666666,
+    "y": 558.88888888888891,
+    "z": 15000,
+    "height": 161.11111111111111,
+    "width": 556.66666666666663,
+    "tabOrder": 15000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "customer"
+                    }
+                  },
+                  "Property": "currency type"
+                }
+              },
+              "queryRef": "customer.currency type",
+              "nativeQueryRef": "qtde_moedas_operadas",
+              "displayName": "qtde_moedas_operadas"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "customer"
+                        }
+                      },
+                      "Property": "id_customer"
+                    }
+                  },
+                  "Function": 2
+                }
+              },
+              "queryRef": "customer.id_customer",
+              "nativeQueryRef": "qtde_clientes",
+              "displayName": "qtde_clientes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "# operações"
+                }
+              },
+              "queryRef": "Medidas.# operações",
+              "nativeQueryRef": "# operações"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "customer"
+                        }
+                      },
+                      "Property": "gross_revenue"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "customer.gross_revenue",
+              "nativeQueryRef": "gross_revenue",
+              "displayName": "gross_revenue"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "customer"
+                        }
+                      },
+                      "Property": "receita_liquida"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "customer.receita_liquida",
+              "nativeQueryRef": "receita_liquida",
+              "displayName": "receita_liquida"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,25 @@
+table f_last_update
+	lineageTag: 23d37049-d950-4fb2-a63a-b8d48e34feab
+
+	column last_update
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 32b4db63-1330-4d82-ad3b-64ef646974e3
+		summarizeBy: none
+		sourceColumn: last_update
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_last_update = m
+		mode: import
+		queryGroup: Principais
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "select#(lf)max(processed_tstamp) as last_update#(lf)from gold.fact_operations#(lf)where is_ops_processed#(lf)and is_intercompany = false", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

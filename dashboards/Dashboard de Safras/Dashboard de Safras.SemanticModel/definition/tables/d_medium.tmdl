@@ -1,0 +1,23 @@
+table d_medium
+	lineageTag: 6012549c-7683-4981-ad4b-b4aa7993afcc
+
+	column medium
+		dataType: string
+		lineageTag: a50f8af8-3a82-4314-9796-fae079c67843
+		summarizeBy: none
+		sourceColumn: medium
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_medium = m
+		mode: import
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"85ec54e9-eae3-4eaa-85e9-ef8150b1f8e8" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="85ec54e9-eae3-4eaa-85e9-ef8150b1f8e8"]}[Data],
+				    mkt_medium_ = #"85ec54e9-eae3-4eaa-85e9-ef8150b1f8e8"{[entity="mkt_medium",version=""]}[Data]
+				in
+				    mkt_medium_
+

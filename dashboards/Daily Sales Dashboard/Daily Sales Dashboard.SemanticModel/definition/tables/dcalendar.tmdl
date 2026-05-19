@@ -1,0 +1,140 @@
+table dcalendar
+	lineageTag: 10f666cd-8684-44af-8e50-5b9763c74851
+
+	column date_month
+		dataType: dateTime
+		formatString: mmm"/"yy
+		lineageTag: db0319ac-3a3a-4241-aaa0-03c15656cdb6
+		summarizeBy: none
+		sourceColumn: date_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column d0
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fd4a6a29-28e9-4ca9-94de-2a721868408b
+		summarizeBy: none
+		sourceColumn: d0
+
+		annotation SummarizationSetBy = Automatic
+
+	column mtd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 78b35e49-9256-4b2c-8137-0643ca0396eb
+		summarizeBy: none
+		sourceColumn: mtd
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 01030947-3d3b-476b-8496-f22ccf13189e
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: ad4e8ea6-957a-4cac-bc64-36d01f7f0f30
+		summarizeBy: none
+		sourceColumn: month
+		sortByColumn: month_number
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		lineageTag: d5e4c922-831b-43d4-9c72-f925cebff17b
+		summarizeBy: sum
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_year
+		dataType: string
+		lineageTag: f2e4c25d-d9c7-4681-b81c-c79c9b4d942a
+		summarizeBy: none
+		sourceColumn: month_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_day
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a6552762-ac33-4d47-bc29-f38aadd36990
+		summarizeBy: none
+		sourceColumn: last_day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Key'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 7276ad37-ddee-41a0-b1b8-b0b08ce17aa1
+		summarizeBy: none
+		sourceColumn: Date Key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Filter Today'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 51afe5b8-ccf1-4621-8064-26809fa0b3f7
+		summarizeBy: none
+		sourceColumn: Filter Today
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Month'
+		dataType: string
+		lineageTag: 7a8cb0e1-a239-4171-b822-4530e74d1492
+		summarizeBy: none
+		sourceColumn: Current Month
+		sortByColumn: date_month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_current_date
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: de54beb4-b4e5-41ab-9a6e-0c78eb1aacf8
+		summarizeBy: none
+		sourceColumn: is_current_date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dcalendar = m
+		mode: import
+		queryGroup: dim
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"3cbe0c71-8501-42b4-bcea-9dfb4ff7adef" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="3cbe0c71-8501-42b4-bcea-9dfb4ff7adef"]}[Data],
+				    dcalendar_ = #"3cbe0c71-8501-42b4-bcea-9dfb4ff7adef"{[entity="dcalendar",version=""]}[Data],
+				    #"Fim do Mês Inserido" = Table.AddColumn(dcalendar_, "Fim do Mês", each Date.EndOfMonth([Date Key]), type date),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Fim do Mês Inserido", "last_day", each if [Date Key] = [Fim do Mês] then true else false),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"last_day", type logical}}),
+				    #"Outras Colunas Removidas" = Table.SelectColumns(#"Tipo Alterado",{"Date Key", "date_month", "d0", "year", "Filter Today", "Current Month", "month", "month_number", "month_year", "mtd", "is_current_date", "last_day"})
+				in
+				    #"Outras Colunas Removidas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

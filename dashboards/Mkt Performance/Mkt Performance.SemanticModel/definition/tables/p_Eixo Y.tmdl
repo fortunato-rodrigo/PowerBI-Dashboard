@@ -1,0 +1,51 @@
+table 'p_Eixo Y'
+	lineageTag: e1a9e2b3-d25b-4192-9957-53d2100f20a0
+
+	column 'Eixo Y'
+		lineageTag: 133aa503-a929-4984-add2-b7d9fbcd1c20
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Eixo Y Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Eixo Y Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Eixo Y Campos'
+		isHidden
+		lineageTag: 778799b4-3d32-4dbe-83fa-10ce8d03eba3
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Eixo Y Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Eixo Y Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: c400db1f-d5ff-48b1-b84e-55f4d2a2026e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Eixo Y-d55fe5c0-740e-4597-8f80-fdc9955335e3' = calculated
+		mode: import
+		source =
+				{
+				    ("Aquisições", NAMEOF('# Medidas'[Aquisições]), 0),
+				    ("GMV", NAMEOF('# Medidas'[GMV]), 1),
+				    ("Receita", NAMEOF('# Medidas'[Receita]), 2),
+				    ("Spread", NAMEOF('# Medidas'[Spread]), 3),
+				    ("Ticket Médio", NAMEOF('# Medidas'[Ticket Médio (GMV)]), 4)
+				}
+
+	annotation PBI_Id = a96eed73e79247dc8117324e4adfd1f0
+

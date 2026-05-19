@@ -1,0 +1,30 @@
+table d_customer_type
+	lineageTag: 79777947-3e5d-4fa5-b9d1-099d99504e21
+
+	column 'Customer Type'
+		dataType: string
+		lineageTag: 9c05ab24-1296-405e-8a45-57bd57162ced
+		summarizeBy: none
+		sourceColumn: Customer Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_customer_type-18d0c071-7a7b-4c20-af7f-8cc0fb37a5d1 = m
+		mode: import
+		queryGroup: dim
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"ee7b4dce-a733-4365-9194-bfea34031f1a" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="ee7b4dce-a733-4365-9194-bfea34031f1a"]}[Data],
+				    customer_type_ = #"ee7b4dce-a733-4365-9194-bfea34031f1a"{[entity="customer_type",version=""]}[Data]
+				in
+				    customer_type_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

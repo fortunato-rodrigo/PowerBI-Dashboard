@@ -1,0 +1,18 @@
+question_variants:
+  - "Qual é o GMV médio por tipo de operação (Envio/Recebimento)?"
+  - "Ticket médio de GMV separado por Sending e Receiving"
+  - "Qual o valor médio de operação para envio versus recebimento?"
+  - "GMV médio segmentado por in_or_out"
+sql: |
+  SELECT
+    in_or_out,
+    AVG(gmv) AS average_operation_value
+  FROM gold.fact_operations
+  WHERE gmv IS NOT NULL
+    AND is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+  GROUP BY in_or_out
+tables_used: [gold.fact_operations]
+notes: "Envio = Sending, Recebimento = Receiving (coluna in_or_out). Filtrar gmv IS NOT NULL. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

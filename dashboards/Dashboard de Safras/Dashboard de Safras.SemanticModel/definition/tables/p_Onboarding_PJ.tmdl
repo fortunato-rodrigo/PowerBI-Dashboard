@@ -1,0 +1,49 @@
+table p_Onboarding_PJ
+	lineageTag: 795aa558-73c9-4bf4-ac4b-99373188738b
+
+	column p_Onboarding_PJ
+		lineageTag: 646950fc-504a-4038-b53f-9ec443cead8f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'p_Onboarding_PJ Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'p_Onboarding_PJ Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_Onboarding_PJ Campos'
+		isHidden
+		lineageTag: c21b0ceb-9c7b-400c-aeca-a11ca6fe5cd9
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'p_Onboarding_PJ Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_Onboarding_PJ Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: ca8e984f-7776-4fb3-bd8c-c83640715aac
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Onboarding_PJ = calculated
+		mode: import
+		source =
+				{
+				    ("Onboarding Flow", NAMEOF('f_funnel_events'[Onboarding Flow]), 0),
+				    ("Onboarding Type", NAMEOF('f_funnel_events'[Onboarding Type]), 1),
+				    ("Company Member", NAMEOF('f_funnel_events'[company_member_association_type]), 2)
+				}
+
+	annotation PBI_Id = a00afb0d075847659c58ac04357afb83
+

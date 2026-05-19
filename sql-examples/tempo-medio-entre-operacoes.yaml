@@ -1,0 +1,39 @@
+question_variants:
+  - "Qual é o tempo médio, em dias, entre a primeira e a segunda operação?"
+  - "Quantos dias um cliente leva em média para fazer a segunda operação?"
+  - "Intervalo médio em dias entre 1ª e 2ª operação por cliente"
+  - "Tempo médio de recompra — quantos dias entre a 1ª e 2ª op?"
+sql: |
+  WITH first_operation AS (
+    SELECT
+      id_customer,
+      MIN(processed_date) AS first_operation_date
+    FROM gold.fact_operations
+    WHERE is_ops_processed = TRUE
+      AND is_intercompany = FALSE
+    GROUP BY id_customer
+  ),
+  second_operation AS (
+    SELECT
+      a.id_customer,
+      MIN(b.processed_date) AS second_operation_date
+    FROM first_operation AS a
+    JOIN gold.fact_operations AS b ON a.id_customer = b.id_customer
+    WHERE b.processed_date > a.first_operation_date
+      AND b.is_ops_processed = TRUE
+      AND b.is_intercompany = FALSE
+    GROUP BY a.id_customer
+  ),
+  days_between_operations AS (
+    SELECT
+      id_customer,
+      DATEDIFF(second_operation_date, first_operation_date) AS days_between_operations
+    FROM first_operation JOIN second_operation USING (id_customer)
+  )
+  SELECT
+    AVG(days_between_operations) AS average_days_between_operations
+  FROM days_between_operations
+tables_used: [gold.fact_operations]
+notes: "is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. Identifica MIN(processed_date) como 1ª op por cliente, localiza a próxima op depois dessa data, calcula DATEDIFF e aplica AVG."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

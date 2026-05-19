@@ -1,0 +1,44 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup dim
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Principais
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation PBI_QueryOrder = ["d_bu","d_business_type","dcalendar","d_canal","d_customer_type","d_event_type","# Medidas","f_daily_sales","f_daily_sales_psu","f_gold_ops","f_investimentos","f_pnl_tesouraria","f_wallet","d_segment","f_last_update"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+
+ref table d_bu
+ref table d_business_type
+ref table d_customer_type
+ref table '# Medidas'
+ref table d_event_type
+ref table Tabela
+ref table f_daily_sales
+ref table dcalendar
+ref table f_daily_sales_psu
+ref table f_investimentos
+ref table f_wallet
+ref table f_pnl_tesouraria
+ref table f_gold_ops
+ref table d_segment
+ref table d_canal
+ref table Business
+ref table 'Intraday Flag'
+ref table f_last_update
+
+ref cultureInfo pt-BR
+

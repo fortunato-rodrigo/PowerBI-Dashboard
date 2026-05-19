@@ -1,0 +1,23 @@
+question_variants:
+  - "Qual o spread médio ponderado por BU no último mês?"
+  - "Spread ponderado por GMV — PF vs PJ"
+  - "Qual BU tem o maior spread médio?"
+  - "Rentabilidade por BU medida pelo spread ponderado"
+sql: |
+  SELECT
+    bu,
+    ROUND(SUM(gmv), 0) AS total_gmv,
+    ROUND(SUM(gross_revenue), 0) AS total_gross_revenue,
+    ROUND(100.0 * SUM(gross_revenue) / NULLIF(SUM(gmv), 0), 4) AS spread_ponderado_pct,
+    ROUND(AVG(spread) * 100, 4) AS spread_simples_pct
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= DATE_TRUNC('month', ADD_MONTHS(current_date(), -1))
+    AND processed_date < DATE_TRUNC('month', current_date())
+  GROUP BY bu
+  ORDER BY spread_ponderado_pct DESC
+tables_used: [gold.fact_operations]
+notes: "Spread ponderado = SUM(gross_revenue)/SUM(gmv) — mais preciso que AVG(spread) pois pondera pelo volume. Spread simples (AVG) também incluído para comparação. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

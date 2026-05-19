@@ -1,0 +1,362 @@
+table '# Medidas'
+	lineageTag: e94b1663-3c49-4efd-b02b-3ba76b197994
+
+	measure Ordens = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_orders[id])
+			    )
+			```
+		formatString: #,0
+		lineageTag: 488be7c3-69e7-4ded-a27d-89cb7850a7d6
+
+	measure 'Resgatadas (mesmo mês)' = ```
+			
+			    CALCULATE(
+			        [Ordens],
+			        f_orders[resgate_mesmo_mes] = TRUE()
+			    )
+			```
+		formatString: #,0
+		lineageTag: 22c2b371-a1bb-4531-be51-6db8d995f95c
+
+	measure '% Resgate no mesmo mês' = ```
+			
+			    DIVIDE(
+			        [Resgatadas (mesmo mês)],
+			        [Ordens],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 5517b31c-e8d5-4fa9-b257-622ae184760f
+
+	measure Resgatadas = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_orders[id]),
+			        f_orders[status_ordem_resumo] = "Resgatado"
+			    )
+			```
+		formatString: #,0
+		lineageTag: 8f65e6f7-dce1-40c7-8fca-abc6e7121fd2
+
+	measure '% Resgate' = ```
+			
+			    DIVIDE(
+			        [Resgatadas],
+			        [Ordens],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: f3ff092f-d522-4ae7-9d8a-9174389214c7
+
+	measure Pendentes = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNTNOBLANK(f_orders[id]),
+			        f_orders[status_ordem_resumo] = "Pendente"
+			    )
+			```
+		formatString: #,0
+		lineageTag: 0c202b33-56f5-4060-9236-9472c26876fa
+
+	measure 'GMV (Resgatado)' = ```
+			
+			    CALCULATE(
+			        SUM(f_orders[gmv]),
+			        f_orders[status_ordem_resumo] = "Resgatado"
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: a734d557-9374-4065-87ad-716c9d4bf3a2
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'GMV Pendente (Forecast)' = ```
+			
+			    CALCULATE(
+			        SUM(f_orders[gmv_forecast]),
+			        f_orders[status_ordem_resumo] = "Pendente"
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 04fe91f4-cd7a-4802-b8be-9c695fd5639a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Receita (Resgatado)' = ```
+			
+			    CALCULATE(
+			        SUM(f_orders[gross_revenue]),
+			        f_orders[status_ordem_resumo] = "Resgatado"
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: f983e51b-b07d-4a7c-895a-9c479ecdd48b
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Receita Pendente (Forecast)' = ```
+			
+			    CALCULATE(
+			        [GMV Pendente (Forecast)] * 'p_Spread (What if?)'[Valor Spread (What if?)],
+			        f_orders[status_ordem_resumo] = "Pendente"
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 357bc426-e58a-463b-a0e1-706d75694047
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Clientes únicos' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_orders[id_customer])
+			    )
+			```
+		formatString: #,0
+		lineageTag: 577fb803-aa1d-45e0-aae6-dd7843cb52dc
+
+	measure 'Ordens por cliente' = ```
+			
+			    DIVIDE(
+			        [Ordens],
+			        [Clientes únicos],
+			        BLANK()
+			    )
+			```
+		formatString: #,0.00
+		lineageTag: 975098c7-e0db-44e9-9c00-cab58ec2077f
+
+	measure 'Ticket Médio (Resgatado)' = ```
+			
+			    DIVIDE(
+			        [GMV (Resgatado)],
+			        [Resgatadas],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 24e54a72-d767-43ae-a3d2-07f1d20df366
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'AVG Ticket (Pendente)' = ```
+			
+			    DIVIDE(
+			        [GMV Pendente (Forecast)],
+			        [Pendentes],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 0e0a1cbf-271f-41db-9e6d-b67a86cf4368
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Max = ```
+			
+			    CALCULATE(
+			        MAX(d_trading_quotation[trading_quotation])
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: ca1da9c9-03fd-405e-bc9f-6c9273a43a6f
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Min = ```
+			
+			    CALCULATE(
+			        MIN(d_trading_quotation[trading_quotation])
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 3bad2bcf-b52c-44c4-a5c4-1b30807e7876
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Median = ```
+			
+			    CALCULATE(
+			        MEDIAN(d_trading_quotation[trading_quotation])
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 303da347-98e6-4eee-bd65-32b2212c2529
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Última Data' =
+			
+			CALCULATE(
+			    MAX(d_calendar[Date Key]),
+			    d_calendar[mtd] = TRUE()
+			)
+		formatString: Short Date
+		displayFolder: Aux
+		lineageTag: 83891b46-75f5-426d-8afb-7f5149b2b81d
+
+	measure 'Último dia útil' =
+			
+			CALCULATE(
+			    MAX(d_calendar[workday]),
+			    d_calendar[mtd] = TRUE()
+			)
+		displayFolder: Aux
+		lineageTag: 26731088-8214-44ac-8fe3-4bc7b78d9632
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ME (Resgatado)' = ```
+			
+			    CALCULATE(
+			        SUM(f_orders[quantity]),
+			        f_orders[status_ordem_resumo] = "Resgatado"
+			    )
+			```
+		formatString: #,0
+		lineageTag: 6422566c-ef16-45c2-b042-8c5dee1af817
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'ME (Pendente)' = ```
+			
+			    CALCULATE(
+			        SUM(f_orders[quantity]),
+			        f_orders[status_ordem_resumo] = "Pendente"
+			    )
+			```
+		formatString: #,0
+		lineageTag: 3651d1e8-9b52-424c-aae5-0ac869485a4a
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure ME = sum(f_orders[quantity])
+		formatString: #,0
+		lineageTag: 43e31cea-d673-43a4-a30d-8f81a5e1e884
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'GMV (Resgatado + Pendente)' = ```
+			
+			    CALCULATE(
+			        SUM(f_orders[gmv_forecast]), ISBLANK(f_orders[gmv])
+			    )
+			    + 
+			    CALCULATE(
+			        SUM(f_orders[gmv])
+			    )
+			```
+		lineageTag: 64a15eef-cd6a-4d32-ae7b-bb823545af6d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ticket Médio (Resgatado + Pendente)' = ```
+			
+			    DIVIDE(
+			        [GMV (Resgatado + Pendente)],
+			        [Ordens],
+			        BLANK()
+			    )
+			```
+		lineageTag: 6ec12a03-d0aa-40f7-b6e5-27b3136ac5f1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PercentualCrescimento =
+			
+			
+			VAR OrdensAtual = [Ordens]
+			VAR OrdensAnterior = [Ordens Anterior]
+			RETURN
+			IF(
+			    NOT ISBLANK(OrdensAnterior) && NOT ISBLANK(OrdensAtual),
+			    (OrdensAtual - OrdensAnterior) / OrdensAnterior,
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Aux
+		lineageTag: 12e821e5-16ba-444c-a778-410fafe45ae5
+
+	measure 'Ordens Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_Timeframe[SelectedValue])
+			VAR IsMTDSelected  = SELECTEDVALUE(f_orders[mtd])
+			VAR IsMTDCalendarSelected = SELECTEDVALUE(f_orders[mtd_calendar_days])
+			
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Ordens], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Ordens], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Ordens], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Ordens], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousMonthMTDCalendar =
+			    IF(
+			        IsMTDCalendarSelected = TRUE(),
+			        CALCULATE([Ordens], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd_calendar_days] = TRUE()),
+			        CALCULATE([Ordens], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd_calendar_days]))
+			    )
+			
+			VAR vPreviousDayMTDCalendar = 
+			    IF(
+			        IsMTDCalendarSelected = TRUE(),
+			        CALCULATE([Ordens], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd_calendar_days] = TRUE()),
+			        CALCULATE([Ordens], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd_calendar_days]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE() && NOT ISBLANK([Ordens]),
+			    vTimeframe = "Date" && IsMTDSelected = TRUE(), vPreviousDay,
+			    vTimeframe = "Month" && IsMTDSelected = TRUE(), vPreviousMonth,
+			    vTimeframe = "Date" && IsMTDCalendarSelected = TRUE(), vPreviousDayMTDCalendar,
+			    vTimeframe = "Month" && IsMTDCalendarSelected = TRUE(), vPreviousMonthMTDCalendar,
+			    vTimeframe = "Date" , vPreviousDay,
+			    vTimeframe = "Month", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		formatString: 0
+		displayFolder: Aux
+		lineageTag: 43a54689-ebdc-4ede-aac5-aaabd1deaea6
+
+	measure 'Refresh Date' = max(d_last_update[last_update])
+		formatString: dd/mm/yy hh:nn
+		lineageTag: 47ddc921-f57e-41a5-b859-c74eb5fb76b9
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column '# Medidas'
+		dataType: string
+		isHidden
+		lineageTag: d601f88d-7192-48b2-a8e4-a34e86020937
+		summarizeBy: none
+		sourceColumn: # Medidas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '# Medidas-7188f48d-37c5-4307-a78d-f706eb3751b1' = m
+		mode: import
+		source =
+				let
+				    Fonte = ""
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navegação
+

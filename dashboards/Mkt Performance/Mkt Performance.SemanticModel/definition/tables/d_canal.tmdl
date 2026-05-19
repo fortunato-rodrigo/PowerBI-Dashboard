@@ -1,0 +1,28 @@
+table d_canal
+	lineageTag: 325192e8-0658-4dcf-8e31-6f3e2afedce0
+
+	column canal
+		dataType: string
+		lineageTag: e93e1c99-593d-4278-8460-dbcad2110fd6
+		summarizeBy: none
+		sourceColumn: canal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_canal = m
+		mode: import
+		queryGroup: Dimensões
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"e4f720d3-c121-4344-a842-0c3f84f0380c" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="e4f720d3-c121-4344-a842-0c3f84f0380c"]}[Data],
+				    mkt_canal_ = #"e4f720d3-c121-4344-a842-0c3f84f0380c"{[entity="mkt_canal",version=""]}[Data]
+				in
+				    mkt_canal_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

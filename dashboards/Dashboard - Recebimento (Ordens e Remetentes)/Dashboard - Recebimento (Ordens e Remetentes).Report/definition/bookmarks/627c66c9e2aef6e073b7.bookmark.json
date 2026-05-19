@@ -1,0 +1,3496 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "Remetente Filtro",
+  "name": "627c66c9e2aef6e073b7",
+  "options": {
+    "targetVisualNames": [],
+    "suppressData": true
+  },
+  "explorationState": {
+    "version": "1.11",
+    "activeSection": "f942a801cd78aa2bc841",
+    "sections": {
+      "f942a801cd78aa2bc841": {
+        "visualContainers": {
+          "b51eb416966d9d72153e": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "aae01ba04828d196a03d": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "1657492af8625a8fb821": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c536cfb98074af1f6aa3",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "# Medidas"
+                        }
+                      },
+                      "Property": "Refresh Date"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "# Medidas"
+                        }
+                      },
+                      "Property": "Refresh Date"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "4cda73e11a9395990f89": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "ee7e1b112ef958c5fda1": {
+            "filters": {
+              "byName": {
+                "Filter8757cde36664ab2b1a45": {
+                  "name": "Filter8757cde36664ab2b1a45",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "d_calendar",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "d"
+                                    }
+                                  },
+                                  "Property": "mtd"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "true"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "mtd"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              }
+            },
+            "singleVisual": {
+              "visualType": "advancedSlicerVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "d_calendar"
+                            }
+                          },
+                          "Property": "mtd"
+                        }
+                      },
+                      "Function": 5
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "a5c55fc325eec11fd262": {
+            "filters": {
+              "byName": {
+                "Filter8474e9f4079b0389168d": {
+                  "name": "Filter8474e9f4079b0389168d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "d_calendar",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "d"
+                                    }
+                                  },
+                                  "Property": "mtd_calendar_days"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "true"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "mtd_calendar_days"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              }
+            },
+            "singleVisual": {
+              "visualType": "advancedSlicerVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "d_calendar"
+                            }
+                          },
+                          "Property": "mtd"
+                        }
+                      },
+                      "Function": 5
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "37dffcdd6828a3aeb7c1": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "2f660c914045307a4bda",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "p_Dimension 1"
+                        }
+                      },
+                      "Property": "Dimension"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "p_Dimension 1",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "d"
+                                            }
+                                          },
+                                          "Property": "Dimension Campos"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'''orders''[Contraparte Ajustada]'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "p_Dimension 1"
+                        }
+                      },
+                      "Property": "Dimension"
+                    }
+                  }
+                ]
+              },
+              "cachedFilterDisplayItems": [
+                {
+                  "id": {
+                    "scopeId": {
+                      "Comparison": {
+                        "ComparisonKind": 0,
+                        "Left": {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "Dimension"
+                              }
+                            },
+                            "Property": "Dimension Campos"
+                          }
+                        },
+                        "Right": {
+                          "Literal": {
+                            "Value": "'''orders''[Contraparte Ajustada]'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "displayName": "Contraparte Ajustada"
+                }
+              ]
+            }
+          },
+          "76283b6cc812a470ef9f": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "462d34007ba4315ad3e9",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Values": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Dimension"
+                          }
+                        },
+                        "Property": "Dimension"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ]
+              }
+            }
+          },
+          "2dc53412cffd10c7e4d6": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "b7c99a7056fe9c3fa0b3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "48dcf18ad6695fc1fa0a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Remetente"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "7aa19e90f775167064bf",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "32d3f0f7cea7cf237c90",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "# Medidas"
+                        }
+                      },
+                      "Property": "Ordens"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                ]
+              },
+              "projections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  },
+                  {
+                    "Literal": {
+                      "Value": "null"
+                    }
+                  }
+                ],
+                "Values": [
+                  {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "# Medidas"
+                        }
+                      },
+                      "Property": "Ordens"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Literal": {
+                      "Value": "null"
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "Rows": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Dimension"
+                          }
+                        },
+                        "Property": "Dimension"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ],
+                "Values": [
+                  {
+                    "expr": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "Medida"
+                          }
+                        },
+                        "Property": "Medida"
+                      }
+                    },
+                    "index": 0,
+                    "length": 1
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "orders.Contraparte Ajustada"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "orders.Remetente"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "65fc40c4f2ddcef1d4ea": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "de85770aa88ab7d201ac",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "p_Medida"
+                        }
+                      },
+                      "Property": "Medida"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "m",
+                                "Entity": "p_Medida",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "In": {
+                                    "Expressions": [
+                                      {
+                                        "Column": {
+                                          "Expression": {
+                                            "SourceRef": {
+                                              "Source": "m"
+                                            }
+                                          },
+                                          "Property": "Medida Campos"
+                                        }
+                                      }
+                                    ],
+                                    "Values": [
+                                      [
+                                        {
+                                          "Literal": {
+                                            "Value": "'''# Medidas''[Ordens]'"
+                                          }
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "p_Medida"
+                        }
+                      },
+                      "Property": "Medida"
+                    }
+                  }
+                ]
+              },
+              "cachedFilterDisplayItems": [
+                {
+                  "id": {
+                    "scopeId": {
+                      "Comparison": {
+                        "ComparisonKind": 0,
+                        "Left": {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "Medida"
+                              }
+                            },
+                            "Property": "Medida Campos"
+                          }
+                        },
+                        "Right": {
+                          "Literal": {
+                            "Value": "'''# Medidas''[Ordens]'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "displayName": "Ordens"
+                }
+              ]
+            }
+          },
+          "06040136eed37af7a878": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "60bea4be71bc6839ebce": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "6e96a551bbfad0210f1f": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "30e547443858c3ec90a9",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Customer Type"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Weeks'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "3D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "Date Key"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Customer Type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "89d5b29176c2bf2fe491": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "59b8e37fd6bd8fb6fd44",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "month_days"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Between'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "Date Key"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "month_days"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "02aee675c1a197cba5b1": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "ad09a3a556b90811f363": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f7278b2e00aebb75fe60",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "remittance_nature"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "remittance_nature"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "1491ca78b2028f0c2e70": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "391f95e089102443d2a8": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "7a3f62e69dd2a7594635",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "funil"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "funil"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "92002f96fa1418404a39": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "297cd25a66df7ed8d6a9",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "id"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "id"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "040c48c38bc6a701b0fe": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "ba8123f3773551c17442",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "id_customer"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "id_customer"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "6caa80c08148b9a571ba": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1ccb269d8bbc6b5a43c2",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "id_remittance"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "id_remittance"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "6efafb3bf372baea1c87": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3ef6873d0e688f873edf",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Instituição Financeira"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Instituição Financeira"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "9daa09ec8923b28c5d85": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "2baf9d79b97df9fc51f4",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Prazo de Resgate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Prazo de Resgate"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "2113dcbe3353099baa8d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c539d953bb3ca3079755",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "elegivel_coleta_local"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "elegivel_coleta_local"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ce241a9c3ca0051ae70e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d5bdf60b2e9a3f0b5f0e",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "onboarding_type"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "onboarding_type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "9815d0dbce05b20fa23d": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "eb53217d35f2f3dff5cf",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "p_Spread (What if?)"
+                        }
+                      },
+                      "Property": "Spread (What if?)"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "s",
+                                "Entity": "p_Spread (What if?)",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "Comparison": {
+                                    "ComparisonKind": 0,
+                                    "Left": {
+                                      "Column": {
+                                        "Expression": {
+                                          "SourceRef": {
+                                            "Source": "s"
+                                          }
+                                        },
+                                        "Property": "Spread (What if?)"
+                                      }
+                                    },
+                                    "Right": {
+                                      "Literal": {
+                                        "Value": "0.009799999999999996D"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "numericStart": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "0.009799999999999996D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Single'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "p_Spread (What if?)"
+                        }
+                      },
+                      "Property": "Spread (What if?)"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b276ec04aa47569fb657": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "5dbf742157802fb9c251",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "share_banking_label"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d00ea602f19db67c1624",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "share_banking_platform"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "share_banking_platform"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Values"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "orders.share_banking_platform"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "orders"
+                              }
+                            },
+                            "Property": "share_banking_platform"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "orders.share_banking_label"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "82f69b1915db1c0601ff": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "45c25b0745ac55437bee",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "premium_status"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "premium_status"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "5b8b7022f482daebf470": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "4f1c3c37849d4aeb06fb",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Remetente"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "SmartFilterBySQLBI1458262140625",
+              "objects": {}
+            }
+          },
+          "95cee6742745290de121": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "24452b11998bed163bce",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "company_onboarding_flow"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "company_onboarding_flow"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "dda69078efcfc7435e64": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "678e44deb36c02ba4262",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "moeda"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        },
+                        "isInvertedSelectionMode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "moeda"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "91df2f826b9fbb89cd5f": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "60452969d6c03ea5ce08",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "last_bu"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "last_bu"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "77de47edcb3d80d63393": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "8e31886dc945242b0fec",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "type"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "type"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "a3b623fbed278c5bc340": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "d12fa39c55bb21a354aa",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Contraparte Ajustada"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "902ed16300a36ac3a576": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a95e805dc2b9ca3e9dc0",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Google"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "Google"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "b39566a0929582f6fd0e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "27abad01de564b3ae607",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "status_ordem"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ee3f62e7e296dee4eb55",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "status_ordem_resumo"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "relativeRange": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Last'"
+                            }
+                          }
+                        },
+                        "relativePeriod": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Months'"
+                            }
+                          }
+                        },
+                        "relativeDuration": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "6D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Dropdown'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "status_ordem_resumo"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_orders"
+                        }
+                      },
+                      "Property": "status_ordem"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Values"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "orders.status_ordem_resumo"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "orders"
+                              }
+                            },
+                            "Property": "status_ordem_resumo"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "orders.status_ordem"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null,
+                    "children": [
+                      {
+                        "identityValues": [
+                          {
+                            "Literal": {
+                              "Value": "'Pendente'"
+                            }
+                          }
+                        ],
+                        "isToggled": true
+                      },
+                      {
+                        "identityValues": [
+                          {
+                            "Literal": {
+                              "Value": "'Resgatado'"
+                            }
+                          }
+                        ],
+                        "isToggled": true
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "8bda19ce3bf6227a19a6": {
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "d_calendar",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "Comparison": {
+                                    "ComparisonKind": 2,
+                                    "Left": {
+                                      "Column": {
+                                        "Expression": {
+                                          "SourceRef": {
+                                            "Source": "d"
+                                          }
+                                        },
+                                        "Property": "year"
+                                      }
+                                    },
+                                    "Right": {
+                                      "Literal": {
+                                        "Value": "2023D"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "numericStart": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "2023D"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Between'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "false"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "year"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "cb4d04dd45ea331c5617": {
+            "filters": {
+              "byName": {
+                "Filterd37f523a11ec7557217f": {
+                  "name": "Filterd37f523a11ec7557217f",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "d_calendar",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "d"
+                                    }
+                                  },
+                                  "Property": "Filter Today"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "true"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "Filter Today"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              },
+              "byExpr": [
+                {
+                  "name": "Filter82c99640bf28e7964369",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "Date Key"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Between'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "dateRange": [
+                    {
+                      "properties": {
+                        "includeToday": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "Date Key"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "Date Key"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "98dd798630a1ad12584a": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3a105a4fcbfc4ba967ca",
+                  "type": "Advanced",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "workday_processado"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "data": [
+                    {
+                      "properties": {
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'Between'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "date_month"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "d_calendar"
+                        }
+                      },
+                      "Property": "workday_processado"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "e0c71964e3be6bbb4c7f": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "7a13786e169d24e870a3": {
+            "isHidden": false
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "visible": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

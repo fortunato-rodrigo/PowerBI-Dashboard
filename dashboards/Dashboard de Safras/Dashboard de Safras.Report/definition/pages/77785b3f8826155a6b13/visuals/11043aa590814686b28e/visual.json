@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "11043aa590814686b28e",
+  "position": {
+    "x": 613.94522575869723,
+    "y": 439.61509992598076,
+    "z": 1000,
+    "height": 280.44411547002221,
+    "width": 666.05477424130277
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "d_calendar"
+                    }
+                  },
+                  "Property": "Date Key"
+                }
+              },
+              "queryRef": "d_calendar.Date Key",
+              "nativeQueryRef": "Date Key"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "d_calendar"
+                    }
+                  },
+                  "Property": "week"
+                }
+              },
+              "queryRef": "d_calendar.week",
+              "nativeQueryRef": "week"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "d_calendar"
+                    }
+                  },
+                  "Property": "WeekStartDate"
+                }
+              },
+              "queryRef": "d_calendar.Semana_Inicio_Measure",
+              "nativeQueryRef": "WeekStartDate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "d_calendar"
+                    }
+                  },
+                  "Property": "DiaSemanaAjustado_Num_Measure"
+                }
+              },
+              "queryRef": "d_calendar.DiaSemanaAjustado_Num_Measure",
+              "nativeQueryRef": "DiaSemanaAjustado_Num_Measure"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "NomeSemana"
+                    }
+                  },
+                  "Property": "mNomeSemana"
+                }
+              },
+              "queryRef": "NomeSemana.mNomeSemana",
+              "nativeQueryRef": "mNomeSemana"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "d_calendar"
+                    }
+                  },
+                  "Property": "StartName"
+                }
+              },
+              "queryRef": "d_calendar.StartName",
+              "nativeQueryRef": "StartName"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "d_calendar"
+                  }
+                },
+                "Property": "Date Key"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

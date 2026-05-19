@@ -1,0 +1,49 @@
+table t_tabela
+	lineageTag: 35db928c-0504-46e6-b187-12d63b610c92
+
+	column Id
+		formatString: 0
+		lineageTag: ba9a69ca-29d1-4b10-a2dc-b5ee7da15527
+		summarizeBy: count
+		isNameInferred
+		sourceColumn: [Id]
+
+		annotation SummarizationSetBy = Automatic
+
+	column KPI
+		lineageTag: 9b8515ad-5428-4d02-bcc4-e8c0d0e318d9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KPI]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Format
+		lineageTag: 388f11c7-c5d3-4323-bbd4-789d402ff6c2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Format]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition t_tabela = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				"Id", INTEGER,
+				"KPI", STRING,
+				"Format", STRING,
+				{
+				    {1, "GMV", "R$ #,##0;R$ -#,##0"},
+				    {2, "Receita","R$ #,##0;R$ -#,##0"},
+				    {3, "Operações", "#,##0;-#,##0"},
+				    {4, "Spread", "0.0000%"},
+				    {5, "Ticket Médio", "R$ #,##0;R$ -#,##0"},
+				    {6, "DAUs", "#,##0;-#,##0"}--,
+				    --{7, "Presignups", "#,##0;-#,##0"}
+				 }
+				)
+
+	annotation PBI_Id = 0892bb5d565641dc8a3ec93390eea524
+

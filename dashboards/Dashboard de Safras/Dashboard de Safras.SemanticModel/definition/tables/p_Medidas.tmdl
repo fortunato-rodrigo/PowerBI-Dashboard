@@ -1,0 +1,73 @@
+table p_Medidas
+	lineageTag: 4b871ff8-66f0-4c63-8720-fa6462dc2c69
+
+	column Medidas
+		lineageTag: 6cd0ca44-9de0-4a39-849d-5ffb7d0f597e
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Medidas Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Medidas Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas Campos'
+		isHidden
+		lineageTag: 844cb167-ebd8-47ef-9b44-5072f03da166
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Medidas Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 09365c9d-e693-4203-a7a2-4c927db85dd7
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Medidas = calculated
+		mode: import
+		source = ```
+				{
+				    
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 0),
+				    ("Signups", NAMEOF('# Medidas'[Signups]), 1),
+				    ("Aquisições", NAMEOF('# Medidas'[Aquisições]), 2),
+				    
+				    ("Conversão Uncohorted (SU/PSU)", NAMEOF('# Medidas'[Conversão Uncohorted (SU/PSU)]), 3),
+				    ("Conversão Uncohorted (ACQ/SU)", NAMEOF('# Medidas'[Conversão Uncohorted (ACQ/SU)]), 4),
+				    ("Conversão Uncohorted (ACQ/PSU)", NAMEOF('# Medidas'[Conversão Uncohorted (ACQ/PSU)]), 5),
+				
+				    ("Signups Cohortados do Presignup", NAMEOF('# Medidas'[Signups Cohortados do Presignup]), 6),
+				    ("Conversão Cohortada (SU/PSU)", NAMEOF('# Medidas'[Conversão Cohortada (SU/PSU)]), 7),
+				
+				    ("Aquisições Cohortadas do Signup", NAMEOF('# Medidas'[Aquisições Cohortadas do Signup]), 8),
+				    ("Conversão Cohortada (ACQ/SU)", NAMEOF('# Medidas'[Conversão Cohortada (ACQ/SU)]), 9),
+				
+				    ("Aquisições Cohortadas do Presignup", NAMEOF('# Medidas'[Aquisições Cohortadas do Presignup]), 10),
+				    ("Conversão Cohortada (ACQ/SU)", NAMEOF('# Medidas'[Conversão Cohortada (ACQ/PSU)]), 11),
+				
+				    ("Signups Cohortados do Presignup | Cohort Dinâmico", NAMEOF('# Medidas'[Signups Cohortados do Presignup | Cohort Dinâmico]), 12),
+				    ("Aquisições Cohortadas do Signup | Cohort Dinâmico", NAMEOF('# Medidas'[Aquisições Cohortadas do Signup | Cohort Dinâmico]), 13),
+				    ("Aquisições Cohortadas do Presignup | Cohort Dinâmico", NAMEOF('# Medidas'[Aquisições Cohortadas do Presignup | Cohort Dinâmico]), 14),
+				
+				    ("Conversão Cohortada (SU/PSU) | Cohort Dinâmico", NAMEOF('# Medidas'[Conversão Cohortada (SU/PSU) | Cohort Dinâmico]), 15),
+				    ("Conversão Cohortada (ACQ/SU) | Cohort Dinâmico", NAMEOF('# Medidas'[Conversão Cohortada (ACQ/SU) | Cohort Dinâmico]), 16),
+				    ("Conversão Cohortada (ACQ/PSU) | Cohort Dinâmico", NAMEOF('# Medidas'[Conversão Cohortada (ACQ/PSU) | Cohort Dinâmico]), 17)
+				
+				}
+				```
+
+	annotation PBI_Id = 836871a3db62489b8a9f9bce7aab4070
+

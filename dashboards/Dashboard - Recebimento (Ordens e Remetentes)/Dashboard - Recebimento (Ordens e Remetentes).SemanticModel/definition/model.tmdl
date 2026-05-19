@@ -1,0 +1,31 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["# Medidas","d_calendar","d_last_update","d_trading_quotation","f_credito_identificado","f_etapa_drop","f_fonte_entrada","f_orders"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table f_orders
+ref table '# Medidas'
+ref table p_Timeframe
+ref table d_trading_quotation
+ref table 'p_Spread (What if?)'
+ref table f_etapa_drop
+ref table 'p_Dimension 1'
+ref table p_Medida
+ref table d_calendar
+ref table f_fonte_entrada
+ref table f_credito_identificado
+ref table 'p_Dimension 2'
+ref table 'p_Dimension 3'
+ref table d_last_update
+
+ref cultureInfo pt-BR
+

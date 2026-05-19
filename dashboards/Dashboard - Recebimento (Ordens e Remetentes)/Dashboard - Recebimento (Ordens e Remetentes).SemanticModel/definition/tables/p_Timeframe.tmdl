@@ -1,0 +1,57 @@
+table p_Timeframe
+	lineageTag: f8f3f318-efad-4d41-a77f-2531b92ce4ed
+
+	column Timeframe
+		lineageTag: 33b1b2f0-772c-442b-951a-5286028df82f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Timeframe Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Timeframe Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Timeframe Campos'
+		isHidden
+		lineageTag: 996ca57c-268b-427b-91dc-ea79495f12ae
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Timeframe Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Timeframe Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 977fdbc2-abf9-496d-9b1a-0fce4b44ab97
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SelectedValue = p_Timeframe[Timeframe]
+		lineageTag: 108cfae0-09a5-423a-8174-268842f2389d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Timeframe-b2b295f4-a393-4705-8257-a1c0c7262576 = calculated
+		mode: import
+		source =
+				{
+				    ("Year", NAMEOF('d_calendar'[year]), 0),
+				    ("Quarter", NAMEOF('d_calendar'[Quarter]), 1),
+				    ("Month", NAMEOF('d_calendar'[date_month]), 2),
+				    ("Week", NAMEOF('d_calendar'[week]), 3),
+				    ("Date", NAMEOF('d_calendar'[Date Key]), 4)
+				}
+
+	annotation PBI_Id = 803b4ca530114356a88db4e504194c23
+

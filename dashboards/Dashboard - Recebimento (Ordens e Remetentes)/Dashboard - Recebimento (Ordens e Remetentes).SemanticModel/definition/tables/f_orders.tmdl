@@ -1,0 +1,963 @@
+table f_orders
+	lineageTag: aa9c096b-6747-498b-9d3c-8919a935eaf0
+
+	column funil
+		dataType: string
+		lineageTag: 7195f39f-8cc9-4651-8e7d-c734efb4d2e6
+		summarizeBy: none
+		sourceColumn: funil
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Type'
+		dataType: string
+		lineageTag: 609b7a16-c23c-406d-b56b-9fa042f7a0fc
+		summarizeBy: none
+		sourceColumn: Customer Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column cupom_desconto
+		dataType: string
+		lineageTag: 12eda346-8e8e-4fd4-9532-699ae98733b2
+		summarizeBy: none
+		sourceColumn: cupom_desconto
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_onboarding_flow
+		dataType: string
+		lineageTag: 5c16aa16-c17b-4eb1-8e8d-87b9ed57aa53
+		summarizeBy: none
+		sourceColumn: company_onboarding_flow
+
+		annotation SummarizationSetBy = Automatic
+
+	column bu
+		dataType: string
+		lineageTag: 17bcc552-6f9f-4498-b89c-0acd833d0c3f
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column Contraparte
+		dataType: string
+		isHidden
+		lineageTag: ae05bcfb-adde-4641-a6c7-faebc88317a6
+		summarizeBy: none
+		sourceColumn: Contraparte
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column desconto
+		dataType: string
+		lineageTag: c39ac43b-fb4c-45dc-af7f-68fe429e0680
+		summarizeBy: none
+		sourceColumn: desconto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Resgate no mesmo mês' = ```
+			
+			    SWITCH(
+			        TRUE(),
+			        f_orders[resgate_mesmo_mes] = TRUE(),
+			        "Resgate no mesmo mês",
+			        "Não resgatada no mesmo mês"
+			    )
+			```
+		lineageTag: f013668d-005e-4e01-8a7b-f365122c7c72
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Google = ```
+			
+			    SWITCH(
+			        TRUE(),
+			        f_orders[Remetente] = "Google Llc",
+			        "Somente Google",
+			        "Sem Google"
+			    )
+			```
+		lineageTag: 3892ec84-8366-4ebd-a80f-1858b77e95de
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_key = CONCATENATE(f_orders[currency], f_orders[created_date])
+		isHidden
+		lineageTag: b35fb5d2-900d-4292-b96b-95331d6bee6e
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column trading = ```
+			
+			    LOOKUPVALUE(
+			        d_trading_quotation[trading_quotation],
+			        d_trading_quotation[currency_key],
+			        f_orders[currency_key]
+			    )
+			```
+		lineageTag: 097814e5-8055-4d87-b54d-29433b2f8d85
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gmv_forecast = f_orders[quantity] * f_orders[trading]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 99e950bd-706f-4cc9-afe5-59f83a0fad4c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column gross_revenue_forecast = f_orders[quantity] * 0.0083
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: d4022dac-48dc-43e7-bcf7-39586e2e2666
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column 'Prazo de Resgate' = ```
+			
+			    SWITCH(
+			        TRUE(),
+			        DATEDIFF(
+			            f_orders[created_date],
+			            NOW(),
+			            DAY
+			        ) <= 180,
+			        "Menor 180d",
+			        "Maior 180d"
+			    )
+			```
+		lineageTag: adb7cedb-7ebf-4d2c-9c09-7e053ee9b01d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_customer
+		dataType: string
+		lineageTag: 52120208-e136-4e1b-808a-0db89d9c10b3
+		summarizeBy: none
+		sourceColumn: id_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_remittance
+		dataType: string
+		lineageTag: d95a24b1-99ad-44b3-b46f-e6afa97112c1
+		summarizeBy: none
+		sourceColumn: id_remittance
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: 88ca318d-b55f-4dba-b23a-d031625acf83
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_sender
+		dataType: int64
+		formatString: 0
+		lineageTag: c9c5e3e6-1474-46eb-a646-c9e9a914ef13
+		summarizeBy: sum
+		sourceColumn: id_sender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fenix = ```
+			
+			    SWITCH(
+			        TRUE(),
+			        f_orders[Remetente] = "Fenix Internet L",
+			        "Fenix",
+			        "Outros"
+			    )
+			```
+		lineageTag: 0384765e-c6d9-42e6-a7c5-cf5cc7a28615
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column presignup_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 4eb84156-d4b8-48a0-9138-9a18658aace4
+		summarizeBy: none
+		sourceColumn: presignup_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column canal
+		dataType: string
+		lineageTag: 17378536-6839-4a72-93c7-248b19b7056c
+		summarizeBy: none
+		sourceColumn: canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column medium
+		dataType: string
+		lineageTag: 4cc5529c-4e40-47cb-b5dc-60209135ccbc
+		summarizeBy: none
+		sourceColumn: medium
+
+		annotation SummarizationSetBy = Automatic
+
+	column source
+		dataType: string
+		lineageTag: bc403e76-2528-4ca2-be87-1a601c527f76
+		summarizeBy: none
+		sourceColumn: source
+
+		annotation SummarizationSetBy = Automatic
+
+	column mkt_campaign
+		dataType: string
+		lineageTag: 9933f965-c4e1-4e0d-a95e-32ee28146b2e
+		summarizeBy: none
+		sourceColumn: mkt_campaign
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 61cd02ca-31bd-43cf-b799-7af5e0a5f66e
+		summarizeBy: none
+		sourceColumn: acquisition_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_operation
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 3e157c48-7e71-4c04-9a5c-55b8cc6e91cf
+		summarizeBy: none
+		sourceColumn: last_operation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_segment
+		dataType: string
+		lineageTag: eec252f8-da24-4f77-be88-e16c3191d191
+		summarizeBy: none
+		sourceColumn: last_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_subsegment
+		dataType: string
+		lineageTag: 797f560d-0110-4968-b9fc-050fa6dc2715
+		summarizeBy: none
+		sourceColumn: last_subsegment
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_nature
+		dataType: string
+		lineageTag: 0ecb118b-4c80-4fe0-ba02-452e2bce3ceb
+		summarizeBy: none
+		sourceColumn: last_nature
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_bu
+		dataType: string
+		lineageTag: 6b80e502-e295-4622-9291-419fa860890a
+		summarizeBy: none
+		sourceColumn: last_bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_business_type
+		dataType: string
+		lineageTag: 36efface-2e34-463c-8325-7556a45b55d2
+		summarizeBy: none
+		sourceColumn: last_business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_me
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5a831a3e-0bbb-4d77-8ac5-b655ee681a11
+		summarizeBy: sum
+		sourceColumn: valor_me
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: aec63fc3-1cff-4918-94bd-58318f156519
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency
+		dataType: string
+		lineageTag: ff10b0ef-85e2-43b9-ba29-af33d2fd7d59
+		summarizeBy: none
+		sourceColumn: currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column external_financial_institution_id
+		dataType: string
+		lineageTag: 6d743dc8-a2ea-4dc9-81ee-93fd20f6bd69
+		summarizeBy: none
+		sourceColumn: external_financial_institution_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column premium_status
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4f672b48-3f11-4041-8f3d-d8892b0d3630
+		summarizeBy: none
+		sourceColumn: premium_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column elegivel_coleta_local
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1335b500-71ef-4f5b-b709-f2e3adf6ee41
+		summarizeBy: none
+		sourceColumn: elegivel_coleta_local
+
+		annotation SummarizationSetBy = Automatic
+
+	column share_banking_platform
+		dataType: string
+		lineageTag: 0fbfdd35-448f-4d54-8637-04e3bab38673
+		summarizeBy: none
+		sourceColumn: share_banking_platform
+
+		annotation SummarizationSetBy = Automatic
+
+	column share_banking_label
+		dataType: string
+		lineageTag: 591dc0e1-e9d3-4612-8bd7-35aeeec3ba64
+		summarizeBy: none
+		sourceColumn: share_banking_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column share_banking_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 17c7e19f-66f4-4bd5-8208-f3a28b9907e5
+		summarizeBy: none
+		sourceColumn: share_banking_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column data_hora_criacao_ordem
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 98f12c12-20a6-4370-8fbb-3a81f3dc3f81
+		summarizeBy: none
+		sourceColumn: data_hora_criacao_ordem
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"f_orders","TableItemName":"data_hora_criacao_ordem (compartimentos)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'data_hora_criacao_ordem (compartimentos)' =
+			IF(
+				ISBLANK('f_orders'[data_hora_criacao_ordem]),
+				BLANK(),
+				INT('f_orders'[data_hora_criacao_ordem] * 24) / 24
+			)
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a75fd7f9-7b22-4d46-9b82-d8decf684eba
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "f_orders"
+				          }
+				        },
+				        "Property": "data_hora_criacao_ordem"
+				      }
+				    }
+				  ],
+				  "binningMetadata": {
+				    "binSize": {
+				      "value": 1.0,
+				      "unit": 9
+				    }
+				  }
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"o","Entity":"f_orders"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"o"}},"Property":"data_hora_criacao_ordem"}}],"BinItem":{"Expression":{"Floor":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"o"}},"Property":"data_hora_criacao_ordem"}},"Size":1.0,"TimeUnit":7}}}}
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_operation_segment
+		dataType: string
+		lineageTag: 4bcaf93d-50bf-44f5-8155-ff4f30e0887f
+		summarizeBy: none
+		sourceColumn: last_operation_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column id
+		dataType: string
+		lineageTag: f2a5e358-d1a8-49af-93df-5f7c225cca81
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_history
+		dataType: int64
+		formatString: 0
+		lineageTag: 6e5aacf6-f5e5-4c0e-a7ba-b9ec3c4a9229
+		summarizeBy: sum
+		sourceColumn: id_history
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_financial_institution
+		dataType: int64
+		formatString: 0
+		lineageTag: 698a29d2-3ef9-41dc-a51c-abde681c5ea7
+		summarizeBy: sum
+		sourceColumn: id_financial_institution
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_status
+		dataType: int64
+		formatString: 0
+		lineageTag: d86974a6-b659-46c3-bb6d-4c38e0526e3d
+		summarizeBy: sum
+		sourceColumn: id_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column financial_institution_number
+		dataType: string
+		lineageTag: 5299a859-fa20-4c51-8de2-0488dac8359a
+		summarizeBy: none
+		sourceColumn: financial_institution_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: df25ca14-c486-4a41-a859-4591457fb491
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: double
+		lineageTag: 66299fb8-61f7-45af-a292-b969fa4740e8
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column voucher_code
+		dataType: string
+		lineageTag: 2c1b50d1-fd6a-4923-8020-e56eccb91341
+		summarizeBy: none
+		sourceColumn: voucher_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_via_opr
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6519796a-c1e2-49f9-8eac-cf2893a87cc9
+		summarizeBy: none
+		sourceColumn: created_via_opr
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_order_type
+		dataType: string
+		lineageTag: 4d0bfe37-5314-4658-9d73-28e4cc5cd9d7
+		summarizeBy: none
+		sourceColumn: payment_order_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8635868e-ccb8-4456-8158-6ea541e43198
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_customer_activation_automatic_flow
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4e2122b1-78ef-47b6-999a-ab7d71d0fa76
+		summarizeBy: none
+		sourceColumn: id_customer_activation_automatic_flow
+
+		annotation SummarizationSetBy = Automatic
+
+	column obs
+		dataType: string
+		lineageTag: 1351f3bd-a145-4702-aa8c-fe748d3bc405
+		summarizeBy: none
+		sourceColumn: obs
+
+		annotation SummarizationSetBy = Automatic
+
+	column Remetente
+		dataType: string
+		lineageTag: cf0fc983-46ac-41c6-aad3-62f5abaeac62
+		summarizeBy: none
+		sourceColumn: Remetente
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Contraparte Ajustada'
+		dataType: string
+		lineageTag: 10735299-0174-4e84-94c1-ea73d0a9781e
+		summarizeBy: none
+		sourceColumn: Contraparte Ajustada
+
+		annotation SummarizationSetBy = Automatic
+
+	column conciliation_error
+		dataType: string
+		lineageTag: 99b5daed-5c02-42fd-81ca-93e75d141977
+		summarizeBy: none
+		sourceColumn: conciliation_error
+
+		annotation SummarizationSetBy = Automatic
+
+	column iban
+		dataType: string
+		lineageTag: e8dd23cd-1a05-4f6e-a518-9db1037ca071
+		summarizeBy: none
+		sourceColumn: iban
+
+		annotation SummarizationSetBy = Automatic
+
+	column api_code
+		dataType: string
+		lineageTag: d9230673-107c-455d-b654-68b9367e0970
+		summarizeBy: none
+		sourceColumn: api_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_identified_at_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a720c44a-acd8-49fb-81f1-15c9ff5ab810
+		summarizeBy: none
+		sourceColumn: payment_identified_at_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 66d91491-bfcf-4402-8b28-869daca5affe
+		summarizeBy: none
+		sourceColumn: created_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 267f0965-1c2d-47ec-8eb6-008fe186dbfc
+		summarizeBy: none
+		sourceColumn: created_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column created_day
+		dataType: int64
+		formatString: 0
+		lineageTag: 71eadd9c-f4f1-47c0-8ac9-cad8df6290a1
+		summarizeBy: sum
+		sourceColumn: created_day
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_month
+		dataType: int64
+		formatString: 0
+		lineageTag: f2681f17-1b90-4adb-a736-b3117c4a705e
+		summarizeBy: sum
+		sourceColumn: created_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 32040649-9783-408a-b8cb-2e119298ce3f
+		summarizeBy: sum
+		sourceColumn: created_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_hour
+		dataType: int64
+		formatString: 0
+		lineageTag: ab820918-12a0-49f0-a83d-c89855114a96
+		summarizeBy: sum
+		sourceColumn: created_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_minute
+		dataType: int64
+		formatString: 0
+		lineageTag: 931de3a3-ce5b-4c8a-bbc7-3a9d352150cd
+		summarizeBy: sum
+		sourceColumn: created_minute
+
+		annotation SummarizationSetBy = Automatic
+
+	column redemption_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6ff47c94-d895-4977-aa6a-ae2b607578db
+		summarizeBy: none
+		sourceColumn: redemption_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column system_modified_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dab1e145-7ab2-4772-a812-1605237d6851
+		summarizeBy: none
+		sourceColumn: system_modified_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column redemption_time
+		dataType: int64
+		formatString: 0
+		lineageTag: 18219e34-e994-4a4c-a41b-8cb0896a9562
+		summarizeBy: sum
+		sourceColumn: redemption_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_redeemed_on_time
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 269ed1b9-d51f-4043-9506-1b59d5acce4c
+		summarizeBy: none
+		sourceColumn: is_redeemed_on_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column service_description
+		dataType: string
+		lineageTag: c10c552b-7c38-43f1-8a67-cd47142bd604
+		summarizeBy: none
+		sourceColumn: service_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_dim_remittance_nature
+		dataType: int64
+		formatString: 0
+		lineageTag: 6594127f-144e-43d7-bf0e-7e453ce4df24
+		summarizeBy: sum
+		sourceColumn: id_dim_remittance_nature
+
+		annotation SummarizationSetBy = Automatic
+
+	column nature_operation_name
+		dataType: string
+		lineageTag: 1f80b565-b4ba-4ff5-93e9-778c270e2a87
+		summarizeBy: none
+		sourceColumn: nature_operation_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_purpose_of_remittance
+		dataType: string
+		lineageTag: a5945275-e8e9-43ce-a56d-0bb95f1c5adc
+		summarizeBy: none
+		sourceColumn: id_purpose_of_remittance
+
+		annotation SummarizationSetBy = Automatic
+
+	column adsense
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8edad21f-8041-4a72-a97d-ea9d70315b68
+		summarizeBy: none
+		sourceColumn: adsense
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_country
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d44ede4-bccf-472a-adbb-809793072004
+		summarizeBy: sum
+		sourceColumn: id_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 9366b414-8c49-4954-bcf7-fc381276d494
+		summarizeBy: none
+		sourceColumn: updated_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Instituição Financeira'
+		dataType: string
+		lineageTag: d21259e8-8f4a-4b69-b4a2-8f4074d826f8
+		summarizeBy: none
+		sourceColumn: Instituição Financeira
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_ordem_resumo
+		dataType: string
+		lineageTag: 2788a842-4563-4004-962c-1a9288b17cc1
+		summarizeBy: none
+		sourceColumn: status_ordem_resumo
+
+		annotation SummarizationSetBy = Automatic
+
+	column onboarding_type
+		dataType: string
+		lineageTag: 441cf4f3-8d8a-416f-b916-47d3f5252f1b
+		summarizeBy: none
+		sourceColumn: onboarding_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column resgate_mesmo_mes
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4ed1d08b-23ea-4d8d-943d-3ba16c8a1bdd
+		summarizeBy: none
+		sourceColumn: resgate_mesmo_mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column gmv
+		dataType: double
+		lineageTag: eae1e1f3-2b13-4020-a688-b68ea97f2b7d
+		summarizeBy: sum
+		sourceColumn: gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gross_revenue
+		dataType: double
+		lineageTag: 9a0782a0-4814-4597-8e73-a36683852571
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column data_atualizacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3ed763f7-64fb-4d22-9b24-13e4ac4ff393
+		summarizeBy: none
+		sourceColumn: data_atualizacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_intercompany
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 89088353-a29d-4864-b0b4-ab94debb4c58
+		summarizeBy: none
+		sourceColumn: is_intercompany
+
+		annotation SummarizationSetBy = Automatic
+
+	column mtd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b91eb984-3689-4498-8175-aa915cbcd577
+		summarizeBy: none
+		sourceColumn: mtd
+
+		annotation SummarizationSetBy = Automatic
+
+	column mtd_calendar_days
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d5383e3c-de01-47de-874d-6e9dcbf6d8bc
+		summarizeBy: none
+		sourceColumn: mtd_calendar_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column aggregate_order_status
+		dataType: string
+		lineageTag: cd5473e4-8ea6-4e72-a952-7e45b90d42a7
+		summarizeBy: none
+		sourceColumn: aggregate_order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_redeemed_in_the_same_month
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5432f5a9-7e3f-4ce5-b776-0e1b293b4900
+		summarizeBy: none
+		sourceColumn: order_redeemed_in_the_same_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column redemption_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ce644c35-4128-4c26-bb4d-04031ee41be0
+		summarizeBy: none
+		sourceColumn: redemption_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column processed_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 30beac55-e399-46cf-90c8-eac1430aff64
+		summarizeBy: none
+		sourceColumn: processed_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column under_analysis_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 484b0f13-49aa-4b4a-aa0c-0ba560a028b6
+		summarizeBy: none
+		sourceColumn: under_analysis_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column cancelled_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4b4c387a-fc9b-4718-8796-13de3c2fe0d8
+		summarizeBy: none
+		sourceColumn: cancelled_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column credit_identified_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ac7b34b8-f4c4-4e9b-a6b6-64582d70bc5d
+		summarizeBy: none
+		sourceColumn: credit_identified_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column redeemed_credit_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7e913f99-9b84-4fc2-8313-7c706356bdb8
+		summarizeBy: none
+		sourceColumn: redeemed_credit_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column office_name_affiliate
+		dataType: string
+		lineageTag: 53276439-a7ce-4df1-a9df-4f7239a09459
+		summarizeBy: none
+		sourceColumn: office_name_affiliate
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_name_from_fxaas
+		dataType: string
+		lineageTag: f02dfa75-8c93-4469-a31c-aa8437afbf4e
+		summarizeBy: none
+		sourceColumn: partner_name_from_fxaas
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_name_from_maxima_code
+		dataType: string
+		lineageTag: 40d13945-3ad6-420d-9f96-65e788a45cdc
+		summarizeBy: none
+		sourceColumn: partner_name_from_maxima_code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_orders-f55a1bfd-b279-41cb-bf08-711c8d8663d2 = m
+		mode: import
+		source =
+				let
+				  Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "with share_banking as (#(lf)    select#(lf)      *#(lf)      except(sequence, event_timestamp)#(lf)    from (#(lf)      select#(lf)        *,#(lf)        row_number() over (partition by user_id order by event_timestamp asc) as sequence#(lf)      from (#(lf)        select#(lf)          user_id,#(lf)          platform as share_banking_platform,#(lf)          label as share_banking_label,#(lf)          event_timestamp,#(lf)          date(event_timestamp) as share_banking_date#(lf)        from google_analytics.ga4_web_event_attribution#(lf)        where#(lf)          event_name = 'share_bank_details'#(lf)          and user_id is not null#(lf)#(lf)        union#(lf)#(lf)        select#(lf)          user_id,#(lf)          platform as share_banking_platform,#(lf)          label as share_banking_label,#(lf)          event_timestamp,#(lf)          date(event_timestamp) as share_banking_date#(lf)        from google_analytics.ga4_app_event_attribution#(lf)        where#(lf)          event_name = 'share_bank_details'#(lf)          and user_id is not null#(lf)      )#(lf)    )#(lf)    where sequence = 1#(lf)),#(lf)#(lf)segmentation as (#(lf)    select#(lf)      month,#(lf)      id_customer,#(lf)      subsegment as last_subsegment,#(lf)      row_number() over (partition by id_customer order by month desc) as row_number#(lf)    from stage.dim_monthly_subsegmentation#(lf)),#(lf)#(lf)last_informations as (#(lf)    select#(lf)      p.id_customer,#(lf)      p.bu as last_bu,#(lf)      p.business_type as last_business_type,#(lf)      p.operation_segment as last_operation_segment,#(lf)      p.segment as last_segment,#(lf)      p.nature_operation_name as last_nature,#(lf)      p.processed_date as last_operation,#(lf)      row_number() over (partition by p.id_customer order by p.processed_tstamp desc) as row_number#(lf)    from gold.fact_operations as p#(lf)    where p.is_ops_processed#(lf)),#(lf)#(lf)aquisicao as (#(lf)    select distinct#(lf)      fo.id_customer#(lf)    from gold.fact_operations as fo#(lf)    where is_ops_processed is true#(lf))#(lf)#(lf)select distinct#(lf)    do.*,#(lf)    do.aggregate_order_status as status_ordem_resumo,#(lf)    do.order_redeemed_in_the_same_month as resgate_mesmo_mes,#(lf)    date_trunc('hour', do.created_tstamp) as data_hora_criacao_ordem,#(lf)    case#(lf)      when do.customer_type = 'PF' then 'PF'#(lf)      else coalesce(b.company_onboarding_flow, 'offline')#(lf)    end as company_onboarding_flow,#(lf)    coalesce(ma.is_premium, false) as premium_status,#(lf)    do.financial_institution_number as external_financial_institution_id,#(lf)    coalesce(po.eligible_coleta_local, false) as elegivel_coleta_local,#(lf)    po.processed_date,#(lf)    po.quantity as valor_me,#(lf)    po.gmv as gmv,#(lf)    po.gross_revenue,#(lf)    coalesce(sb.share_banking_platform, 'No information') as share_banking_platform,#(lf)    coalesce(sb.share_banking_label, 'No information') as share_banking_label,#(lf)    date(do.redemption_tstamp) as redemption_date,#(lf)    sb.share_banking_date,#(lf)    date(ac.event_tstamp) as acquisition_date,#(lf)    date(ps.event_tstamp) as presignup_date,#(lf)    po.bu,#(lf)    po.voucher_code as cupom_desconto,#(lf)    case#(lf)      when po.voucher_code is null then 'Sem Cupom'#(lf)      else 'Cupom desconto'#(lf)    end as desconto,#(lf)    case#(lf)      when po.acquisition#(lf)        or a.id_customer is null then 'Aquisição'#(lf)      else 'Recorrência'#(lf)    end as funil,#(lf)    if(do.id_financial_institution = 3, 'Topázio','Master') as instituicao_financeira,#(lf)    li.last_bu,#(lf)    li.last_business_type,#(lf)    li.last_segment,#(lf)    li.last_operation_segment,#(lf)    sg.last_subsegment,#(lf)    li.last_nature,#(lf)    li.last_operation,#(lf)    case#(lf)      when b.onboarding_type in ('instant', 'fast') then 'instant'#(lf)      else b.onboarding_type#(lf)    end as onboarding_type,#(lf)    case#(lf)      when do.counterpart is not null then do.counterpart#(lf)      else 'Outros'#(lf)    end as contraparte_ajustada_para_ranking_final,#(lf)    coalesce(lc.canal, nlc.canal) as canal,#(lf)    coalesce(lc.source, nlc.source) as source,#(lf)    coalesce(lc.medium, nlc.medium) as medium,#(lf)    coalesce(lc.mkt_campaign, nlc.mkt_campaign) as mkt_campaign,#(lf)    dc.mtd,#(lf)    dc.mtd_calendar_days,#(lf)    now() - interval '3' hour as data_atualizacao#(lf)from silver.orders as do#(lf)left join beecambio.beecambio_tbl_payment_order as od#(lf)  on do.id = od.id#(lf)left join prod.beecambio.beecambio_tbl_customer b#(lf)  on do.id_customer = b.id#(lf)left join stage.dim_monthly_premium as ma#(lf)  on do.id_customer = ma.id_customer#(lf)     and date_trunc('MONTH', ma.month) = date_trunc('MONTH', do.created_date)#(lf)left join gold.fact_operations as po#(lf)  on do.id_remittance = po.id_remittance#(lf)     and po.is_ops_processed#(lf)left join aquisicao as a#(lf)  on do.id_customer = a.id_customer#(lf)left join gold.funnel_event as ac#(lf)  on do.id_customer = ac.id_customer#(lf)     and ac.event_type = 'ACQUISITION'#(lf)left join gold.funnel_event as ps#(lf)  on do.id_customer = ps.id_customer#(lf)     and ps.event_type = 'PRESIGNUP'#(lf)left join share_banking as sb#(lf)  on do.id_customer = sb.user_id#(lf)left join last_informations as li#(lf)  on do.id_customer = li.id_customer#(lf)     and li.row_number = 1#(lf)left join segmentation as sg#(lf)  on do.id_customer = sg.id_customer#(lf)     and sg.row_number = 1#(lf)left join legacy.last_click_old as lc#(lf)  on do.id_customer = lc.id_customer#(lf)     and lc.presignup_date < '2023-08-01'#(lf)left join google_analytics.last_click_sessions as nlc#(lf)  on do.id_customer = nlc.id_customer#(lf)     and nlc.event_date >= '2023-08-01'#(lf)left join bronze.dcalendar as dc#(lf)  on date(do.created_date) = dc.date_key#(lf)where do.created_date >= '2024-01-01'#(lf)  and boolean(od.deleted) = false#(lf)  and lower(do.counterpart) not like '%remessa online%'", null, [EnableFolding=true]),
+				    #"Tipo de coluna alterado" = Table.TransformColumnTypes(Origem, {{"id_customer", type text}, {"id_remittance", type text}, {"id", type text}}),
+				  #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo de coluna alterado",{{"customer_type", "Customer Type"}, {"original_counterpart", "Remetente"}, {"instituicao_financeira", "Instituição Financeira"}, {"counterpart", "Contraparte Ajustada"}, {"contraparte_ajustada_para_ranking_final", "Contraparte"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

@@ -1,0 +1,71 @@
+table f_daily_sales_psu
+	lineageTag: fc08d86b-82a5-467c-9b8c-08a0f4e40915
+
+	column date_key
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 13d0f438-0f27-45b7-a7ff-26d44472a61d
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_type
+		dataType: string
+		lineageTag: 9538b081-e3be-493c-9e18-754392514d01
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_type
+		dataType: string
+		lineageTag: d557cc67-a3ca-449d-a168-9cbad4fa6562
+		summarizeBy: none
+		sourceColumn: event_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column goal_psu
+		dataType: double
+		formatString: #,0
+		lineageTag: ed542d43-517e-4529-899d-581ee43c7a21
+		summarizeBy: sum
+		sourceColumn: goal_psu
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column realizado_psu
+		dataType: int64
+		formatString: 0
+		lineageTag: 157ec396-9985-44af-a6cb-dfe6a2d148d5
+		summarizeBy: sum
+		sourceColumn: realizado_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal
+		dataType: string
+		lineageTag: ad4d2590-f0c7-4a41-8cb2-eadb310bf1b6
+		summarizeBy: none
+		sourceColumn: canal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_daily_sales_psu = m
+		mode: import
+		queryGroup: Principais
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "WITH lc AS (#(lf)  SELECT #(lf)    DATE(dc.psu_date) AS date_key,#(lf)    lc.canal,#(lf)    dc.customer_type,#(lf)    COUNT(lc.id_customer) AS realizado_psu#(lf)  FROM google_analytics.last_click_sessions AS lc#(lf)  LEFT JOIN bronze.beecambio_customer AS dc #(lf)    ON lc.id_customer = dc.id#(lf)  WHERE DATE(lc.event_date) >= '2024-01-01'#(lf)  AND dc.email not like '%fxaas%'#(lf)  GROUP BY ALL#(lf)), final as (#(lf)SELECT #(lf)  COALESCE(ds.date_key, lc.date_key) AS date_key,#(lf)  COALESCE(ds.event_type, 'PRESIGNUP') AS event_type,#(lf)  COALESCE(ds.channel, lc.canal) AS canal,#(lf)  COALESCE(ds.customer_type, lc.customer_type) AS customer_type,#(lf)  SUM(ds.goal_psu) as goal_psu,#(lf)  COALESCE(COALESCE(SUM(lc.realizado_psu), 0), COALESCE(SUM(ds.realizado_psu), 0)) AS realizado_psu#(lf)FROM gold.daily_sales_psu AS ds#(lf)FULL OUTER JOIN lc #(lf)  ON lc.date_key = ds.date_key #(lf)  AND lc.canal = ds.channel#(lf)  AND lc.customer_type = ds.customer_type#(lf)GROUP BY ALL#(lf))#(lf)#(lf)select * from final", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

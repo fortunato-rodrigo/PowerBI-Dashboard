@@ -1,0 +1,144 @@
+table f_gold_ops
+	lineageTag: a9940f30-3715-4dc6-87f0-95fa75389f9c
+
+	column customer_type
+		dataType: string
+		lineageTag: 6a457053-2d90-4e8a-a947-05b5f2d14b3b
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column operation_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: daffe199-3be8-4f26-9e52-891b25b3de1d
+		summarizeBy: none
+		sourceColumn: operation_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column event_type
+		dataType: string
+		lineageTag: af672b8d-d310-4348-8a05-c883a2ecb3ef
+		summarizeBy: none
+		sourceColumn: event_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column bu
+		dataType: string
+		lineageTag: 39eb04b5-f5f5-4ffe-94cf-f3f81d090331
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_type
+		dataType: string
+		lineageTag: f4241d1f-8f96-4847-a9cd-efbc5a36fb6a
+		summarizeBy: none
+		sourceColumn: business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column operation_segment
+		dataType: string
+		lineageTag: f8b423a7-1af0-4228-a045-3079d1000958
+		summarizeBy: none
+		sourceColumn: operation_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column operations
+		dataType: int64
+		formatString: 0
+		lineageTag: b23e4e3e-62e3-4aab-bce0-2ea7259c2e19
+		summarizeBy: sum
+		sourceColumn: operations
+
+		annotation SummarizationSetBy = Automatic
+
+	column gmv
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: c0c26ec8-c5de-4036-ac7a-4b56ea9e724c
+		summarizeBy: sum
+		sourceColumn: gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column gross_revenue
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 71820ff0-54d4-448d-a513-ef468b4266f7
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column gross_revenue_treasury
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 7f8ee734-f31d-4f19-8f8c-378eec90187c
+		summarizeBy: sum
+		sourceColumn: gross_revenue_treasury
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column cost_bank_take
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 54a6a752-31db-4a84-8c54-d470fcc89a0d
+		summarizeBy: sum
+		sourceColumn: cost_bank_take
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column real_message_cost
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 11770217-ca17-4721-8644-1e8e7726084b
+		summarizeBy: sum
+		sourceColumn: real_message_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column processing_hour
+		dataType: int64
+		formatString: 0"h"
+		lineageTag: 3e83dba1-6245-40f7-b4dc-cf4bd90ea0dc
+		summarizeBy: sum
+		sourceColumn: processing_hour
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	partition f_gold_ops = m
+		mode: import
+		queryGroup: Principais
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "select #(lf)  customer_type,#(lf)  processed_date as operation_date,#(lf)hour(processed_tstamp) as processing_hour,#(lf)  --minute(processed_tstamp) as processing_minute,#(lf)  --date_format(processed_tstamp, 'HH:mm:00') as processing_hour_minute,#(lf)  case#(lf)    when operation_event_type = 'Recorrência' then 'REPURCHASE' #(lf)    when operation_event_type in ('Aquisição', 'Ativação') then 'ACQUISITION'#(lf)  end as event_type,#(lf)  bu,#(lf)  business_type,#(lf)  segment as operation_segment,#(lf)  count(id_remittance) as operations,#(lf)  sum(gmv) as gmv,#(lf)  sum(gross_revenue) as gross_revenue,#(lf)  sum(gross_revenue_treasury) as gross_revenue_treasury,#(lf)  sum(cost_bank_take) as cost_bank_take,#(lf)  sum(real_message_cost) as real_message_cost#(lf)from gold.fact_operations#(lf)where is_ops_processed is true#(lf)  and is_intercompany = false#(lf)  and processed_date >= '2024-01-01'#(lf)group by all", null, [EnableFolding=true]),
+				    #"Linhas Classificadas" = Table.Sort(Fonte,{{"operation_date", Order.Descending}}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Linhas Classificadas",{{"gross_revenue", Currency.Type}, {"gmv", Currency.Type}, {"gross_revenue_treasury", Currency.Type}, {"cost_bank_take", Currency.Type}, {"real_message_cost", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,932 @@
+table Medidas
+	lineageTag: f94d7b00-c15b-4da5-811d-1208b86f2d79
+
+	measure 'Gross Revenue' = SUM ( f_operations[gross_revenue] )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Gross
+		lineageTag: 70cd153b-1abe-42db-a0ee-1ce1a40b6594
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure GMV = SUM(f_operations[gmv])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\GMV
+		lineageTag: 209d2be2-6559-4720-b22f-986f0903e509
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Operations =
+			
+			COUNT ( f_operations[id_remittance] )
+		formatString: #,0
+		displayFolder: Realizado\Operations
+		lineageTag: 1bb91722-bfd8-4b8e-b9ed-bde9fe5bd2e4
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Spread =
+			
+			DIVIDE ( [Gross Revenue], [GMV], BLANK () )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Realizado\Spread
+		lineageTag: 32a422a9-af7f-4c28-b3cb-d1a1e9495c91
+
+		changedProperty = IsHidden
+
+	measure 'AVG Ticket GMV' =
+			
+			DIVIDE ( [GMV], [Operations], BLANK () )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\TKM
+		lineageTag: b8bbb716-b61e-4d26-acb2-b38cf2c50575
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Customers = DISTINCTCOUNT(f_operations[id_customer])
+		formatString: #,0
+		displayFolder: Realizado\Customers
+		lineageTag: d6fc27a4-0cad-430a-a3cc-bc7a192c0ce6
+
+		changedProperty = IsHidden
+
+	measure 'Operations by Customer' =
+			
+			DIVIDE ( [Operations], [Customers], BLANK () )
+		formatString: 0.00
+		displayFolder: Realizado\Operations
+		lineageTag: 36de63ab-e2e5-4510-8e99-db4dfe4293cb
+
+		changedProperty = IsHidden
+
+	measure 'Última Data' =
+			
+			CALCULATE ( MAX ( d_calendar[Date Key] ), d_calendar[mtd] = TRUE () )
+		formatString: Short Date
+		displayFolder: Aux
+		lineageTag: dbb81d51-fb0e-4168-8353-79f20403964d
+
+		changedProperty = IsHidden
+
+	measure 'Último dia útil' = max(f_operations[workday_processado])
+		formatString: #,0
+		displayFolder: Aux
+		lineageTag: cfe3a28b-c8bb-47f0-bc4b-7c81c98ecb27
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'AVG Ticket Gross Revenue' = DIVIDE ( [Gross Revenue], [Operations], BLANK () )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Realizado\TKM
+		lineageTag: f166598d-fcf8-41c3-b2d3-3fc57ff66fff
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Spread AVGX' =
+			
+			AVERAGEX ( f_operations, f_operations[spread] )
+			--MEDIANX(scorecard_operations, scorecard_operations[spread])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Realizado\Spread
+		lineageTag: ca88951b-60b1-4bc1-857c-10ed2f8df625
+
+		changedProperty = IsHidden
+
+	measure 'Quantity (ME)' =
+			
+			SUM ( f_operations[quantity] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Realizado\GMV
+		lineageTag: 21bdd4d0-9edf-4e71-8b96-e114abf2f118
+
+		changedProperty = IsHidden
+
+	measure 'Gross Profit' =
+			
+			SUM ( f_operations[gross_profit] )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Gross
+		lineageTag: 49265753-c0a1-4ada-af75-adf0538fb1d3
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Cost' =
+			
+			SUM ( f_operations[cost_bank_take] )
+			    + SUM ( f_operations[cost_mensage] )
+			    + SUM ( f_operations[cost_payout_affiliate] )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Cost
+		lineageTag: 716a0b9a-dd8a-42d3-b2b8-2e835dbe72c4
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Total Cost' =
+			
+			DIVIDE(
+			    [Total Cost],
+			    [Gross Revenue],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Cost
+		lineageTag: 0db00249-dcea-4fcc-9baa-023c48a59bb5
+
+		changedProperty = IsHidden
+
+	measure 'Ticket Médio (Gross Profit)' =
+			
+			DIVIDE ( [Gross Profit], [Operations], BLANK () )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\TKM
+		lineageTag: 50cfdb9c-9537-4b87-82e2-266d0514fddc
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'ARPU (Gross Revenue / Customers)' =
+			
+			DIVIDE ( [Gross Revenue], [Customers], BLANK () )
+		formatString: "R$"#,0;-"R$"#,0;"R$"#,0
+		displayFolder: Realizado\Gross
+		lineageTag: 8fba0749-e8e2-4df8-beba-3e1828726927
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	measure 'Spread Original (AVGX)' =
+			
+			AVERAGEX ( f_operations, f_operations[spread_original] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Realizado\Spread
+		lineageTag: 2e41db8d-43a7-4e48-a81f-2bee2a29221d
+
+		changedProperty = IsHidden
+
+	measure 'Spread Dif' =
+			
+			AVERAGEX ( f_operations, f_operations[spread_dif] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Realizado\Spread
+		lineageTag: 7218d900-cc4f-46e4-908f-d22bd43445c7
+
+		changedProperty = IsHidden
+
+	measure MTD = SWITCH ( TRUE (), SELECTEDVALUE ( 'd_calendar'[mtd] ) = TRUE (), "MTD", "Total" )
+		displayFolder: Aux
+		lineageTag: 4534109d-117f-4ccd-97a2-90edff2e243f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título M0' = "Até " & CALCULATE ( MAX ( 'd_calendar'[Date Key] ), 'd_calendar'[Filter Today] = TRUE () )
+		displayFolder: Aux
+		lineageTag: e48d9d55-a7db-4e3d-96d4-6886d7fabda0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MTD: =
+			
+			"Até o "
+			    & CALCULATE (
+			        MAX ( 'd_calendar'[workday_processado] ),
+			        'd_calendar'[Filter Today] = TRUE ()
+			    ) & "º dia útil"
+		displayFolder: Aux
+		lineageTag: 870f1c23-4323-48bb-8842-dd34a9611c38
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC' =
+			
+			VAR vMTD = SWITCH(TRUE(), SELECTEDVALUE(f_operations[mtd]) = TRUE(), "MTD", "Mês Cheio")
+			VAR vMTD2 = "Até o " & CALCULATE(MAX(f_operations[workday_processado]), f_operations[mtd] = TRUE()) & "º dia útil"
+			RETURN
+			vMTD & "  |  " & vMTD2 & "  |  " & [Título M0]
+		displayFolder: Aux
+		lineageTag: 54e01c94-7071-456d-9ac1-8de27035248d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Última Operação' = MAX(f_operations[processing_date])
+		displayFolder: Aux
+		lineageTag: 30708409-d8fc-422b-baba-03790a66e702
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - GMV' = "GMV " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: 040f192a-0d3d-422f-9c60-42152c9839ff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Gross Revenue' = "Gross Revenue " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: d47863b3-ec73-49c8-9312-e735ff47f878
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Gross Profit' = "Gross Profit " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: 74bdfb72-61f5-4110-8a30-0cb2eb1501d6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Operations' = "Operations " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: b1c805ff-8520-435a-bde4-69150145ca77
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Spread' = "Spread " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: db21d2b4-af2b-4f4a-bc88-dbec2760a539
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Total Cost %' =
+			"% Total Cost (Message + Take + Payout Affiliate) / Gross Revenue " &
+			SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: feb953b9-ed6e-4626-a6e1-46957a93d103
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Customers' = "Unique Customers " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: da2373bb-a41f-44fa-b873-48bd802adf26
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - AVG Ticket GMV' = "AVG Ticket GMV " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: 539d2846-66dd-46e8-8354-6cf2e8c1000a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Ops by Customer' = "Operations by Customer " & SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: 99072500-e6f8-4bb6-b850-d993a7c1d637
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Título SC Topo - Total Cost #' =
+			"# Total Cost (Message + Take + Payout Affiliate) / Gross Revenue " &
+			SELECTEDVALUE(p_timeframe[SelectedValue])
+		displayFolder: Aux
+		lineageTag: d3e2080c-7882-4ff6-917c-b2ce38f6c541
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GMV Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([GMV], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([GMV], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([GMV], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([GMV], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\GMV
+		lineageTag: 375758f7-1ee6-4ee9-8fa0-56016070f424
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'GMV Growth' =
+			
+			DIVIDE(
+			    [GMV] - [GMV Anterior],
+			    [GMV Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\GMV
+		lineageTag: 977177be-2800-4b09-b478-7494ede5991f
+
+	measure Refresh = FORMAT(MAX(f_operations[last_update]), "dd/MM/yy hh:mm")
+		displayFolder: Aux
+		lineageTag: 9e214565-63f8-44a5-b2b6-d5224c8424a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Revenue Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Gross Revenue], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Gross Revenue], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Gross Revenue], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Gross Revenue], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Gross
+		lineageTag: 54aa9948-fe48-4e6f-bc87-beddb27e9679
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Gross Revenue Growth' =
+			
+			DIVIDE(
+			    [Gross Revenue] - [Gross Revenue Anterior],
+			    [Gross Revenue Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Gross
+		lineageTag: 18db7154-01f9-4250-a80d-dd7915c0a0c5
+
+	measure 'Gross Profit Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Gross Profit], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Gross Profit], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Gross Profit], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Gross Profit], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Gross
+		lineageTag: cc537405-c3cc-4cb4-9693-4148a5166e0a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Gross Profit Growth' =
+			
+			DIVIDE(
+			    [Gross Profit] - [Gross Profit Anterior],
+			    [Gross Profit Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Gross
+		lineageTag: 17ec73fc-d9da-4f33-ba8d-2f2f695f8676
+
+	measure 'Operations Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Operations], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Operations], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Operations], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Operations], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		displayFolder: Realizado\Operations
+		lineageTag: 97d8858f-9391-41fe-b720-efc44a8912d6
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Operations Growth' =
+			
+			DIVIDE(
+			    [Operations] - [Operations Anterior],
+			    [Operations Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Operations
+		lineageTag: cfefb6a9-0051-4b7b-9934-a1e6ee304cdb
+
+	measure 'Spread Growth' = [Spread] - [Spread Anterior]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Realizado\Spread
+		lineageTag: 11e436c4-96a6-4e60-8003-dfbdbc89747c
+
+	measure 'Spread Anterior' =
+			
+			DIVIDE(
+			    [Gross Revenue Anterior],
+			    [GMV Anterior],
+			    BLANK()
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Realizado\Spread
+		lineageTag: a0b74a02-23e8-4d0f-9ed5-74a0d6e991dd
+
+	measure 'Customers Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Customers], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Customers], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Customers], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Customers], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		displayFolder: Realizado\Customers
+		lineageTag: c219e001-f000-4d00-84cf-1e68fd2238a6
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Customers Growth' =
+			
+			DIVIDE(
+			    [Customers] - [Customers Anterior],
+			    [Customers Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Customers
+		lineageTag: 87a64d39-add8-47c4-b4f4-9e160b3daf93
+
+	measure 'AVG Ticket GMV Anterior' =
+			
+			DIVIDE(
+			    [GMV Anterior],
+			    [Operations Anterior],
+			    BLANK()
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\TKM
+		lineageTag: e16fc915-87a1-4151-8594-24491c058205
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'AVG Ticket GMV Growth' =
+			
+			DIVIDE(
+			    ([AVG Ticket GMV] - [AVG Ticket GMV Anterior]),
+			    [AVG Ticket GMV Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\TKM
+		lineageTag: 94fcdd8a-1b44-4587-950f-c6c2555f1f52
+
+	measure 'Operations by Customer Anterior' =
+			
+			DIVIDE(
+			    [Operations Anterior],
+			    [Customers Anterior],
+			    BLANK()
+			)
+		formatString: #,0.00
+		displayFolder: Realizado\Operations
+		lineageTag: 1688d980-6008-4328-85eb-6e9bbc50fa92
+
+	measure 'Operations by Customer Growth' = [Operations by Customer] - [Operations by Customer Anterior]
+		formatString: #,0.00
+		displayFolder: Realizado\Operations
+		lineageTag: e1b0241b-ddad-4940-be37-a85715e0244a
+
+	measure 'Total Cost Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Total Cost], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Total Cost], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Total Cost], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Total Cost], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Cost
+		lineageTag: 4996ae9d-57d0-4a5e-a252-ed7f4b6e1668
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Cost Growth' =
+			
+			DIVIDE(
+			    [Total Cost] - [Total Cost Anterior],
+			    [Total Cost Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Cost
+		lineageTag: 75889d4d-66ab-4f52-9d16-cea8906e4531
+
+	measure '% Total Cost Anterior' =
+			
+			DIVIDE(
+			    [Total Cost Anterior],
+			    [Gross Revenue Anterior],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Cost
+		lineageTag: d828e9e6-f8e4-4834-b183-6e0a68f58fff
+
+	measure '% Total Cost Growth' = [% Total Cost] - [% Total Cost Anterior]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Realizado\Cost
+		lineageTag: 642bc847-b108-4966-b508-df3872cb24d3
+
+	measure 'Título Results' =
+			"Dados de " &
+			min(f_operations[processing_date]) &
+			" até " &
+			max(f_operations[processing_date])
+		displayFolder: Aux
+		lineageTag: fee2270a-6c17-453f-8db8-69aabcf02dcb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GMV Growth Format %' =
+			
+			FORMAT(
+			    [GMV Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\GMV
+		lineageTag: 75e45233-3657-4b1e-adf8-d4faefaefe62
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customers Growth Format %' =
+			
+			FORMAT(
+			    [Customers Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\Customers
+		lineageTag: 96076926-d05c-47fa-bb86-1da2e40e3b4a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Revenue Growth Format %' =
+			
+			FORMAT(
+			    [Gross Revenue Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\Gross
+		lineageTag: b2b52e05-4d11-4f36-b226-de725cbb84fb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Profit Growth Format %' =
+			
+			FORMAT(
+			    [Gross Profit Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\Gross
+		lineageTag: 5305e31f-595b-46fa-99f6-281e4b83e491
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Operations by Customer Growth Format %' =
+			
+			FORMAT(
+			    [Operations by Customer Growth],
+			    "+0.00;-0.00"
+			)
+		displayFolder: Realizado\Operations
+		lineageTag: b73127af-6138-46ac-9ca5-c5677932f7ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Spread Growth Format %' =
+			
+			FORMAT(
+			    [Spread Growth],
+			    "+0.00% pp;-0.00% pp"
+			)
+		displayFolder: Realizado\Spread
+		lineageTag: b503cd7f-2ff5-4a60-b3ab-2a075ca556c7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Operations Growth Format %' =
+			
+			FORMAT(
+			    [Operations Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\Operations
+		lineageTag: 5adb93ff-5036-4e6c-b803-4e1c0dd613fa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Cost Growth Format %' =
+			
+			FORMAT(
+			    [Total Cost Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\Cost
+		lineageTag: ba946002-1952-4fc4-9b44-e9bc539a29ad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AVG Ticket GMV Growth Format %' =
+			
+			FORMAT(
+			    [AVG Ticket GMV Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\TKM
+		lineageTag: 0dc5e8fd-56dd-43fc-8976-6804fbfcef4d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Total Cost Growth Format %' =
+			
+			FORMAT(
+			    [% Total Cost Growth],
+			    "+0.0% pp;-0.0% pp"
+			)
+		displayFolder: Realizado\Cost
+		lineageTag: 390ac507-eda3-4840-a690-ed11ee0cca93
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Tariff = sum(f_operations[tariff])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Tariff
+		lineageTag: 96bc2783-69b4-47e5-a0dc-4d541b47fe0c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Tariff AVGX' = AVERAGEX(f_operations, f_operations[tariff])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Realizado\Tariff
+		lineageTag: 4c411afa-6e7c-4cfa-9589-d6e7b7e4f0ed
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Gross Revenue Original' = SUM ( f_operations[gross_revenue_original] )
+		displayFolder: Realizado\Gross
+		lineageTag: 35b233c5-af63-4714-a874-b7218cfb7e35
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Revenue Original Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Gross Revenue Original], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Gross Revenue Original], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Gross Revenue Original], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Gross Revenue Original], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		displayFolder: Realizado\Gross
+		lineageTag: 96c24fd7-7ad7-49d4-a725-7b6af65881a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Revenue Original Growth' =
+			
+			DIVIDE(
+			    [Gross Revenue Original] - [Gross Revenue Original Anterior],
+			    [Gross Revenue Original Anterior],
+			    BLANK()
+			)
+		displayFolder: Realizado\Gross
+		lineageTag: 71529dd5-8b94-4100-a830-afda1d337ef9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Revenue Original Growth Format %' =
+			
+			FORMAT(
+			    [Gross Revenue Original Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\Gross
+		lineageTag: 2cd8fa50-682b-4a40-a80c-7b0027f52db6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Diff Gross Revenue' = SUM ( f_operations[diff_gross_revenue] )
+		displayFolder: Realizado\Gross
+		lineageTag: b396c4b3-1b7a-493c-8b3a-510ad50257fa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Diff Gross Revenue Anterior' = ```
+			
+			VAR vTimeframe = SELECTEDVALUE(p_timeframe[SelectedValue])
+			VAR IsMTDSelected = SELECTEDVALUE(d_calendar[mtd])
+			
+			-- Calcular GMV do período anterior com controle explícito de MTD
+			VAR vPreviousMonth = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Diff Gross Revenue], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Diff Gross Revenue], PARALLELPERIOD('d_calendar'[Date Key], -1, MONTH), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			VAR vPreviousDay = 
+			    IF(
+			        IsMTDSelected = TRUE(),
+			        CALCULATE([Diff Gross Revenue], DATEADD('d_calendar'[Date Key], -1, DAY), d_calendar[mtd] = TRUE()),
+			        CALCULATE([Diff Gross Revenue], DATEADD('d_calendar'[Date Key], -1, DAY), REMOVEFILTERS(d_calendar[mtd]))
+			    )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vTimeframe = "por Dia", vPreviousDay,
+			    vTimeframe = "por Mês", vPreviousMonth,
+			    BLANK()
+			)
+			```
+		displayFolder: Realizado\Gross
+		lineageTag: 528797a0-c74a-4acc-b257-f33df01518ff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Diff Gross Revenue Growth' =
+			
+			DIVIDE(
+			    [Diff Gross Revenue] - [Diff Gross Revenue Anterior],
+			    [Diff Gross Revenue Anterior],
+			    BLANK()
+			)
+		displayFolder: Realizado\Gross
+		lineageTag: 3aab3273-e587-4368-b946-aeeb3b35ef9a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Diff Gross Revenue Growth Format %' =
+			
+			FORMAT(
+			    [Diff Gross Revenue Growth],
+			    "+0.0%;-0.0%"
+			)
+		displayFolder: Realizado\Gross
+		lineageTag: 70474fb7-46f8-43b7-86d1-1a295067e6c1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GMV USD' = SUM(f_operations[gmv_usd])
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Realizado\GMV
+		lineageTag: 9930480f-2868-4a9d-bd94-f2fa3ee31bc3
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Medidas
+		dataType: string
+		isHidden
+		displayFolder: Medidas
+		lineageTag: 290f9174-d3d2-4edd-9e14-96ed85cd48be
+		summarizeBy: none
+		sourceColumn: Medidas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas-85c2966b-137d-4bf0-a516-f5bbd23177b5 = m
+		mode: import
+		queryGroup: Aux
+		source =
+				let
+				    Fonte = "Medidas"
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Text
+

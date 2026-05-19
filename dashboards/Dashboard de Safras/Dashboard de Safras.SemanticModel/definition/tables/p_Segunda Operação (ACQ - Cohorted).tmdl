@@ -1,0 +1,48 @@
+table 'p_Segunda Operação (ACQ - Cohorted)'
+	lineageTag: 540129c0-10c0-4e28-8b92-5fb5cf070c2e
+
+	column 'Segunda Operação (ACQ - Cohorted)'
+		lineageTag: c6aeb6f9-41ea-47eb-99d8-5ed51ecc575c
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Segunda Operação (ACQ - Cohorted) Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Segunda Operação (ACQ - Cohorted) Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Segunda Operação (ACQ - Cohorted) Campos'
+		isHidden
+		lineageTag: da70bbe2-1bf0-468e-8fb5-dbb0571fbaf9
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Segunda Operação (ACQ - Cohorted) Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Segunda Operação (ACQ - Cohorted) Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 018837a9-9634-4b54-8b3a-fd268497903c
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Segunda Operação (ACQ - Cohorted)' = calculated
+		mode: import
+		source =
+				{
+				    ("Segunda Operação (Cohorted)", NAMEOF('# Medidas'[Segunda Operação (Cohorted)]), 0),
+				    ("% Segunda Operação (Cohorted)", NAMEOF('# Medidas'[% do Total de Segunda Operação (ACQ - Cohorted)]), 1)
+				}
+
+	annotation PBI_Id = daf4add7e4d342cb9b0e3def416f8a58
+

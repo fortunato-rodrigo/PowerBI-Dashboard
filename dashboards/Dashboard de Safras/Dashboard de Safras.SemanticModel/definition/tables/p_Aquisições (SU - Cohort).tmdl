@@ -1,0 +1,48 @@
+table 'p_Aquisições (SU - Cohort)'
+	lineageTag: 9fd64c5a-5ea0-4ed8-bad1-b46e1d730f2c
+
+	column 'Aquisições (SU - Cohort)'
+		lineageTag: d99cfa0b-f8d4-4d5d-a6fd-85e6f1fb0ff8
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Aquisições (SU - Cohort) Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Aquisições (SU - Cohort) Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Aquisições (SU - Cohort) Campos'
+		isHidden
+		lineageTag: e284d3e9-1f13-4ef6-ac5a-1267e7c9a109
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Aquisições (SU - Cohort) Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Aquisições (SU - Cohort) Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 2b7f9476-d76e-4545-b65d-72aa1dbb6389
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Aquisições (SU - Cohort)' = calculated
+		mode: import
+		source =
+				{
+				    ("% do Total de Aquisições", NAMEOF('# Medidas'[% do Total de Aquisições (SU - Cohorted)]), 0),
+				    ("Aquisições Cohortadas do Signup", NAMEOF('# Medidas'[Aquisições Cohortadas do Signup]), 1)
+				}
+
+	annotation PBI_Id = a42880d260224b76b024588b29d10a4a
+

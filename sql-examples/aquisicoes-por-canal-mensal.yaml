@@ -1,0 +1,19 @@
+question_variants:
+  - "Quantas aquisições por canal de marketing no mês?"
+  - "Qual canal de mídia trouxe mais clientes novos?"
+  - "Aquisições por fonte de tráfego mensal"
+  - "Performance de aquisição por canal"
+sql: |
+  SELECT
+    DATE_TRUNC('month', fe.event_tstamp) AS month,
+    COALESCE(fe.canal_lc, 'unknown') AS canal,
+    COUNT(DISTINCT fe.id_customer) AS acquisitions
+  FROM gold.funnel_event AS fe
+  WHERE fe.event_type = 'ACQUISITION'
+    AND fe.event_sequence = 1
+  GROUP BY 1, 2
+  ORDER BY 1 DESC, 3 DESC
+tables_used: [gold.funnel_event]
+notes: "Aquisição em funnel_event usa event_type='ACQUISITION' (inglês, sem acento). Canal: canal_lc em funnel_event. Para source/medium/campanha: source_lc, medium_lc, mkt_campaign_lc. event_sequence=1 obrigatório."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

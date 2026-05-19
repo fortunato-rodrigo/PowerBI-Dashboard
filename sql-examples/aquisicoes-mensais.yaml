@@ -1,0 +1,19 @@
+question_variants:
+  - "Quantas aquisições tivemos por mês nos últimos 6 meses?"
+  - "Volume mensal de clientes novos adquiridos"
+  - "Série histórica de aquisições mensais"
+  - "Quantos clientes novos foram adquiridos mês a mês?"
+sql: |
+  SELECT
+    DATE_TRUNC('month', fe.event_tstamp) AS month,
+    COUNT(DISTINCT fe.id_customer) AS acquisitions
+  FROM gold.funnel_event AS fe
+  WHERE fe.event_type = 'ACQUISITION'
+    AND fe.event_sequence = 1
+    AND fe.event_tstamp >= ADD_MONTHS(current_date(), -6)
+  GROUP BY 1
+  ORDER BY 1 DESC
+tables_used: [gold.funnel_event]
+notes: "event_type='ACQUISITION' (em inglês maiúsculo), event_sequence=1 para contar cada cliente uma única vez. Ajuste ADD_MONTHS conforme período. Para breakdown por BU ou canal: adicionar COALESCE(fe.canal_lc, 'unknown') e bu no SELECT e GROUP BY."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

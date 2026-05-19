@@ -1,0 +1,92 @@
+table 'p_Dimension 3 - PSU'
+	lineageTag: 07611a7f-38bb-4ed6-a30a-554dea3c6fab
+
+	column 'Dimension 3 - PSU'
+		lineageTag: 83ace1bb-cfc3-4e2e-9e3d-b2e7e8ea8708
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension 3 - PSU Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension 3 - PSU Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 3 - PSU Campos'
+		isHidden
+		lineageTag: 0efdbde6-5314-40cd-9d62-8d5db9ca0226
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension 3 - PSU Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 3 - PSU Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: a1831058-d1b1-4b1d-ac14-6fa5d301e12e
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dimension = 'p_Dimension 3 - PSU'[Dimension 3 - PSU]
+		lineageTag: b0c35cf6-0b93-4089-9e70-74d367657419
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Dimension 3 - PSU' = calculated
+		mode: import
+		source = ```
+				{
+				    ("-", NAMEOF('d_blank'[Blank]), 0),
+				    ("Canal", NAMEOF(d_canal[canal]), 1),
+				    ("Source", NAMEOF(d_source[Source]), 2),
+				    ("Medium", NAMEOF(d_medium[medium]), 3),
+				    ("Adgroup", NAMEOF(d_adgroup[ad_group]), 4),
+				    ("Campaign", NAMEOF(d_mkt_campaign[Campaign]), 5),
+				    ("Cluster Campaign", NAMEOF(d_mkt_campaign[cluster_campaign]), 6),
+				    ("Acq Date = Psu Date", NAMEOF('f_mkt_performance'[acq_date_equal_psu_date]), 7),
+				    ("Bu", NAMEOF('f_mkt_performance'[bu]), 8),
+				    ("Business Type", NAMEOF('f_mkt_performance'[business_type]), 9),
+				    ("Cohort PSU > ACQ", NAMEOF('f_mkt_performance'[cohort_psu_acq]), 10),
+				    ("CRM Status", NAMEOF('f_mkt_performance'[crm_status]), 11),
+				    ("Customer Type", NAMEOF('f_mkt_performance'[Customer Type]), 12),
+				    ("CNAE Session", NAMEOF('f_mkt_performance'[cnae_session]), 13),
+				    ("CNAE Division", NAMEOF('f_mkt_performance'[cnae_division]), 14),
+				    ("CNAE Group", NAMEOF('f_mkt_performance'[cnae_group]), 15),
+				    ("CNAE Class", NAMEOF('f_mkt_performance'[cnae_class]), 16),
+				    ("CNAE Subclass", NAMEOF('f_mkt_performance'[cnae_subclass]), 17),
+				    ("Company Type", NAMEOF('f_mkt_performance'[company_type]), 18),
+				    ("Email FxasS", NAMEOF(f_mkt_performance[email_fxaas]), 19),
+				    ("Onboarding Flow", NAMEOF('f_mkt_performance'[company_onboarding_flow]), 20),
+				    ("Onboarding Type", NAMEOF('f_mkt_performance'[onboarding_type]), 21),
+				    ("Operation Segment", NAMEOF('f_mkt_performance'[operation_segment]), 22),
+				    ("Origin Presignup", NAMEOF('f_mkt_performance'[Origin Presignup Platform]), 23),
+				    ("URL - Page", NAMEOF('f_mkt_performance'[first_page_url]), 24),
+				    ("URL - Cluster", NAMEOF('f_mkt_performance'[cluster_url]), 25),
+				    ("Qualificação 1 - PF", NAMEOF('f_mkt_performance'[primeira_pergunta]), 26),  
+				    ("Qualificação 2 - PF", NAMEOF('f_mkt_performance'[segunda_pergunta]), 27),
+				    ("Campaign FC", NAMEOF(d_mkt_campaign_fc[Campaign]), 28),
+				    ("Canal FC", NAMEOF(d_canal_fc[canal]), 29),
+				    ("Afiliado Aquisição", NAMEOF(f_mkt_performance[has_affiliate_ops_acq]), 30),
+				    ("Afiliado Recorrência", NAMEOF(f_mkt_performance[has_affiliate_ops_rec]), 31),
+				    ("Qualificação Type - PJ", NAMEOF('f_mkt_performance'[onb_ops_type_pj]), 32),  
+				    ("Qualificação Reason - PJ", NAMEOF('f_mkt_performance'[onb_reason_pj]), 33),  
+				    ("Qualificação Digital Plataform - PJ", NAMEOF('f_mkt_performance'[onb_digital_platform_pj]), 34),  
+				    ("Qualificação Amount - PJ", NAMEOF('f_mkt_performance'[onb_amount_pj]), 35),  
+				    ("Qualificação Forcast - PJ", NAMEOF('f_mkt_performance'[onb_forecast_pj]), 36),
+				    ("Funil de Mídia", NAMEOF('d_mkt_campaign'[media_funnel]), 37)
+				    
+				}
+				```
+
+	annotation PBI_Id = 1fa3d5ed313e4a669c8224c5d22aa8ec
+

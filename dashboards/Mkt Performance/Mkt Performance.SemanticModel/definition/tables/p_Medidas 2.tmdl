@@ -1,0 +1,70 @@
+table 'p_Medidas 2'
+	lineageTag: d689f58f-4c4b-400e-9b80-189dd46031e1
+
+	column 'Trading Quotation'
+		lineageTag: 1713b566-4bb8-4eaf-a7d4-054eac73bd46
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Parâmetro Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Parâmetro Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parâmetro Campos'
+		isHidden
+		lineageTag: 71818c79-f5f8-48c9-9dbb-f86d3e656320
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Parâmetro Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Parâmetro Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: cfa8a8ec-a14b-4181-bff4-d03af9f75038
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Medidas 2' = calculated
+		mode: import
+		source =
+				{
+				    ("EUR", NAMEOF('# Medidas'[EUR]), 1),
+				    ("USD", NAMEOF('# Medidas'[USD]), 2),
+				    ("GBP", NAMEOF('# Medidas'[GBP]), 3),
+				    ("CAD", NAMEOF('# Medidas'[CAD]), 4),
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 5),
+				    ("Signups", NAMEOF('# Medidas'[Signups]), 6),
+				    ("Histórias Criadas", NAMEOF('# Medidas'[Histórias Criadas]), 7),
+				    ("Histórias Aprovadas", NAMEOF('# Medidas'[Histórias Aprovadas]), 8),
+				    ("Operações", NAMEOF('# Medidas'[Operações]), 9),
+				    ("Aquisições", NAMEOF('# Medidas'[Aquisições]), 10),
+				    ("Aquisições Cohortadas", NAMEOF('# Medidas'[Aquisições Cohortadas]), 11),
+				    ("Recorrências", NAMEOF('# Medidas'[Recorrências]), 12),
+				    ("Receita", NAMEOF('# Medidas'[Receita]), 13),
+				    ("Receita (Aquisição)", NAMEOF('# Medidas'[Receita (Aquisição)]), 14),
+				    ("Receita (Recorrência)", NAMEOF('# Medidas'[Receita (Recorrência)]), 15),
+				    ("GMV ", NAMEOF('# Medidas'[GMV]), 16),
+				    ("GMV (Aquisição)", NAMEOF('# Medidas'[GMV (Aquisição)]), 17),
+				    ("GMV (Recorrência)", NAMEOF('# Medidas'[GMV (Recorrência)]), 18),
+				    ("Spread", NAMEOF('# Medidas'[Spread]), 19),
+				    ("Spread (Aquisições)", NAMEOF('# Medidas'[Spread (Aquisição)]), 20),
+				    ("Spread (Recorrência)", NAMEOF('# Medidas'[Spread (Recorrência)]), 21),
+				    ("Ticket Médio", NAMEOF('# Medidas'[Ticket Médio (GMV)]), 22),
+				    ("Ticket Médio (Aquisições)", NAMEOF('# Medidas'[Ticket Médio (GMV - Aquisição)]), 23),
+				    ("Ticket Médio (Recorrência)", NAMEOF('# Medidas'[Ticket Médio (GMV - Recorrência)]), 24)
+				}
+
+	annotation PBI_Id = 170064ccc741472cb3ceda91fbaf1e84
+

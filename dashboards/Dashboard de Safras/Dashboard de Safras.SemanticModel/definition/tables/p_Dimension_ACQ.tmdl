@@ -1,0 +1,61 @@
+table p_Dimension_ACQ
+	lineageTag: 0518e3b0-0f65-4e68-91e8-c1a56f2853c6
+
+	column 'Dimension (ACQ)'
+		lineageTag: 321e7762-615f-4bf6-a4bd-5e1bb3489a8e
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension (ACQ) Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension (ACQ) Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension (ACQ) Campos'
+		isHidden
+		lineageTag: 9314f15e-a143-4364-8e07-93dd97615a2d
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension (ACQ) Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension (ACQ) Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 0c4c85fb-8030-4487-a6c7-7cc57194b44b
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Dimension_ACQ-e6213d19-266c-4e8f-b13a-97484ed5f6a6 = calculated
+		mode: import
+		source =
+				{
+				    ("BU", NAMEOF('f_funnel_events'[bu]), 1),
+				    ("Business Type", NAMEOF('f_funnel_events'[business_type]), 2),
+				    ("Customer Type", NAMEOF('f_funnel_events'[Customer Type]), 4),
+				    ("Envio/Recebimento", NAMEOF('f_funnel_events'[in_or_out]), 5),
+				    ("Is Affiliate?", NAMEOF('f_funnel_events'[is_affiliate]), 6),
+				    ("Moeda", NAMEOF('f_funnel_events'[currency]), 7),
+				    ("Natureza", NAMEOF('f_funnel_events'[natureza]), 8),
+				    ("Onboarding Type", NAMEOF('f_funnel_events'[Onboarding Type]), 9),
+				    ("Onboarding Flow", NAMEOF('f_funnel_events'[Onboarding Flow]), 9),
+				    ("Operation Platform", NAMEOF('f_funnel_events'[origin_platform_acq]), 10),
+				    ("Operation Segment", NAMEOF('f_funnel_events'[segment]), 11),
+				    ("Origin Presignup Platform", NAMEOF('f_funnel_events'[origin_platform_psu]), 12),
+				    ("País", NAMEOF('f_funnel_events'[country]), 13),
+				    ("Remessadora", NAMEOF('f_funnel_events'[remessadora]), 15),
+				    ("Tipo de Empresa", NAMEOF('f_funnel_events'[Company Type]), 16)
+				}
+
+	annotation PBI_Id = 3439e8b032a5490ab960c9bd2c1271e2
+

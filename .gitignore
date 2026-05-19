@@ -1,18 +1,35 @@
-# Power BI files
+# Credenciais — nunca commitar
+.env
+.env.local
+
+# Claude Code — configurações locais de cada dev
+.claude/settings.local.json
+
+# Power BI local settings
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/
+
+# Power BI binários (prevenir commit acidental de .pbix)
 *.pbix
-*.pbix.dat
 
-# VS Code
-.vscode/
+# Output temporario de scripts
+tools/dataflow-metadata.md
+tools/query-metadata.md
 
-# Virtual environments
+# Logs
+*.log
+tools/*.log
+
+# Python
 .venv/
+__pycache__/
+*.pyc
 
-# System files
-.DS_Store
+# Windows / macOS
 Thumbs.db
+desktop.ini
+.DS_Store
 
-# Temp/backup files
+# Temporários
 *.tmp
-*.bak
-~$*

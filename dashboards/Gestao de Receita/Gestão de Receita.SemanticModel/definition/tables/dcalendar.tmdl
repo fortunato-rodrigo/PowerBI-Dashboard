@@ -1,0 +1,330 @@
+table dcalendar
+	lineageTag: 90204cce-d8d7-4f44-907b-f24beca9d38e
+
+	column 'Date Key'
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: a84de4cf-637b-4ce1-a274-6be901d59676
+		summarizeBy: none
+		sourceColumn: Date Key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column date_month
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 0f84745f-8d08-4848-8e12-cb8eb08e0a82
+		summarizeBy: none
+		sourceColumn: date_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_holiday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c73a5c9e-f63f-4ba8-afb5-bfd6cedfcff4
+		summarizeBy: none
+		sourceColumn: is_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayofweek
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b8fce9e-e0c7-48ef-913e-b58b7d914385
+		summarizeBy: none
+		sourceColumn: dayofweek
+
+		annotation SummarizationSetBy = Automatic
+
+	column workday
+		dataType: int64
+		lineageTag: 0e010915-0db4-4326-899f-bb8c26686d6b
+		summarizeBy: none
+		sourceColumn: workday
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column workday_processado
+		dataType: int64
+		lineageTag: 2b30826a-7603-4111-9380-0a77b92d4602
+		summarizeBy: none
+		sourceColumn: workday_processado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_days
+		dataType: int64
+		formatString: 0
+		lineageTag: ed19a4c2-ac86-476f-98db-cf2483594c2f
+		summarizeBy: none
+		sourceColumn: month_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column workdays_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 84962be0-435f-4914-9568-1e29ff13160b
+		summarizeBy: none
+		sourceColumn: workdays_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_workday
+		dataType: int64
+		lineageTag: adbe47d5-a381-4451-86ca-a21f9c20b335
+		summarizeBy: none
+		sourceColumn: last_workday
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d0
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 118cf9d6-de82-422f-a30e-a7655bf216cd
+		summarizeBy: none
+		sourceColumn: d0
+
+		annotation SummarizationSetBy = Automatic
+
+	column m0
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9c0b82e1-8831-462d-b66d-989cacc66662
+		summarizeBy: none
+		sourceColumn: m0
+
+		annotation SummarizationSetBy = Automatic
+
+	column m1
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 567cb2fc-4bf2-48d5-b319-1380c75a94c0
+		summarizeBy: none
+		sourceColumn: m1
+
+		annotation SummarizationSetBy = Automatic
+
+	column mtd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 03b8b4e8-dc69-418e-ac17-f5afd308db6f
+		summarizeBy: none
+		sourceColumn: mtd
+
+		annotation SummarizationSetBy = Automatic
+
+	column workdays_quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: e21e8555-ec72-4e58-8497-001d67e7c3cc
+		summarizeBy: none
+		sourceColumn: workdays_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column label
+		dataType: double
+		lineageTag: 6a469bcd-2df6-4d86-b036-6edb83168431
+		summarizeBy: none
+		sourceColumn: label
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: dcf71daa-fda1-4104-9f9f-e06232416155
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column week
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 25b517d3-c428-40b5-b2cd-d6bd27c57600
+		summarizeBy: none
+		sourceColumn: week
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Quarter
+		dataType: string
+		lineageTag: 8d49af6f-a422-44f7-9d48-cacd80ccf53e
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Filter Today'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 88025b8d-ba57-43fc-8238-d274c861b7d0
+		summarizeBy: none
+		sourceColumn: Filter Today
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Month'
+		dataType: string
+		lineageTag: 3d1fa2fc-7ef7-4181-a845-2ce734d56d6f
+		summarizeBy: none
+		sourceColumn: Current Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_to_date
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0397e374-36ae-45f7-8e37-990e23203301
+		summarizeBy: none
+		sourceColumn: month_to_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_update_calendar
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1e797ef6-92fd-4a98-8ad2-bb6a060fcec7
+		summarizeBy: none
+		sourceColumn: last_update_calendar
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: f362b028-5d94-4b5f-a2a9-095d945bf7b8
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: string
+		lineageTag: 8f396188-f2cb-435a-82fd-c5489c7cf41e
+		summarizeBy: none
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		lineageTag: 3b8feda2-e36d-4f6b-97ad-6a8bc954573e
+		summarizeBy: none
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_year
+		dataType: string
+		lineageTag: 03d95084-5fb5-4681-9ec0-5babc2facc8e
+		summarizeBy: none
+		sourceColumn: month_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column mtd_calendar_days
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e1a54469-c8e2-45f7-a158-5d015d384e97
+		summarizeBy: none
+		sourceColumn: mtd_calendar_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_ytd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bd199122-a826-4a24-8262-4104d69fdffb
+		summarizeBy: none
+		sourceColumn: is_ytd
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_current_date
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 37aa3ae7-fdd5-441c-b33f-57fbebb5759c
+		summarizeBy: none
+		sourceColumn: is_current_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_yesterday
+		dataType: int64
+		formatString: 0
+		lineageTag: 9ab47c0b-77f5-4fd5-8f0b-b0c24ef0ced0
+		summarizeBy: none
+		sourceColumn: day_of_yesterday
+
+		annotation SummarizationSetBy = Automatic
+
+	column special_condition
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ee58aae3-df02-48e0-9124-0c86d7066361
+		summarizeBy: none
+		sourceColumn: special_condition
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_month_days
+		dataType: int64
+		formatString: 0
+		lineageTag: db614f10-a56e-41cc-b76a-1b1f0bdf1fae
+		summarizeBy: none
+		sourceColumn: total_month_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Google Day'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2d7afbbc-4e62-459f-a104-a1b6519c5236
+		summarizeBy: none
+		sourceColumn: Google Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column label_with_all_days_month
+		dataType: double
+		lineageTag: d0b0ab6b-dfa9-419c-9412-fc3e3cfcb163
+		summarizeBy: none
+		sourceColumn: label_with_all_days_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dcalendar = m
+		mode: import
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"3cbe0c71-8501-42b4-bcea-9dfb4ff7adef" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="3cbe0c71-8501-42b4-bcea-9dfb4ff7adef"]}[Data],
+				    dcalendar_ = #"3cbe0c71-8501-42b4-bcea-9dfb4ff7adef"{[entity="dcalendar",version=""]}[Data]
+				in
+				    dcalendar_
+
+	annotation PBI_ResultType = Table
+

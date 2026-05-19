@@ -1,0 +1,55 @@
+table 'p_Medidas PF 2'
+	lineageTag: f5d3a608-b11c-429f-9ec0-cf27f0f6bb27
+
+	column 'Medidas PF 2'
+		lineageTag: fdf46cb0-d5b2-4f33-a357-0fadccbcb563
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Medidas PF 2 Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Medidas PF 2 Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas PF 2 Campos'
+		isHidden
+		lineageTag: 673ce598-2245-4511-8c45-237c419b2b3d
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Medidas PF 2 Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas PF 2 Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: f57ae110-8edf-4384-bae5-1e03770a7053
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Medidas PF 2' = calculated
+		mode: import
+		source =
+				{
+				    ("Investimento", NAMEOF('# Medidas'[Investimento]), 0),
+				    ("PF Investimento", NAMEOF('# Medidas'[PF Investimento]), 0),
+				    ("PF Aquisições", NAMEOF('# Medidas'[PF Aquisições]), 1),
+				    ("PF Aquisições Assistidas (ACQ Att)", NAMEOF('# Medidas'[Acquisitions PF Conversão Assistida]), 2),
+				    ("PF Presignups", NAMEOF('# Medidas'[PF Presignups]), 3),
+				    ("PF Presignups Assistidos (PSU Att)", NAMEOF('# Medidas'[Presignups PF Conversão Assistida]), 4),
+				    ("PF Signups", NAMEOF('# Medidas'[PF Signups]), 5),
+				    ("CAC PF", NAMEOF('# Medidas'[CPA PF]), 6),
+				    ("CPP PF", NAMEOF('# Medidas'[CPP PF]), 7)
+				}
+
+	annotation PBI_Id = fb3b12fdb5e74afdb94c52e727d331fc
+

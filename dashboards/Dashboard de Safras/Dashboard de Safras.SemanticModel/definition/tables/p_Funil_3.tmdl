@@ -1,0 +1,51 @@
+table p_Funil_3
+	lineageTag: 95c410b1-aa56-48f3-a256-dbf2f824b4be
+
+	column 'Funil 3'
+		lineageTag: 78b25062-750f-456c-9884-44086acb0332
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Funil 3 Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Funil 3 Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funil 3 Campos'
+		isHidden
+		lineageTag: 731e65e8-c9ed-4c72-8cfe-935078865e31
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Funil 3 Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Funil 3 Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 25e888af-fa22-40fa-868c-15a7b1d2ee23
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Funil_3 = calculated
+		mode: import
+		source =
+				{
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 0),
+				    ("Signups Cohortados do Presignup", NAMEOF('# Medidas'[Signups Cohortados do Presignup]), 0),
+				    ("Aquisições Cohortadas do Presignup", NAMEOF('# Medidas'[Aquisições Cohortadas do Presignup]), 2),
+				    ("Histórias Aprovadas", NAMEOF('# Medidas'[Histórias Aprovadas]), 3),
+				    ("Aquisições Cohortadas da História Aprovada", NAMEOF('# Medidas'[Aquisições Cohortadas da História Aprovada]), 3)
+				}
+
+	annotation PBI_Id = 90f94e01c17d41719f4ed8c75382243d
+

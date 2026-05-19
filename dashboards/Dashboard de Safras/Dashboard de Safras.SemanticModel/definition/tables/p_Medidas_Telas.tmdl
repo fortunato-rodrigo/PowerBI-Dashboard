@@ -1,0 +1,48 @@
+table p_Medidas_Telas
+	lineageTag: baebf55f-0eed-4222-97d9-af542d80a049
+
+	column p_Medidas_Telas
+		lineageTag: 3c3e2f2b-c3bd-4ef5-afd6-0f1c1f0ca270
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'p_Medidas_Telas Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'p_Medidas_Telas Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_Medidas_Telas Campos'
+		isHidden
+		lineageTag: 47ce82d3-3428-4e4c-8400-1b8607123639
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'p_Medidas_Telas Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_Medidas_Telas Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 9c14ae59-e459-4a07-b202-c3e17d746725
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Medidas_Telas = calculated
+		mode: import
+		source =
+				{
+				    ("% Linha", NAMEOF('# Medidas'[% CT]), 0),
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 1)
+				}
+
+	annotation PBI_Id = 92736b71c6d44d3ebbc05b168421bdfa
+

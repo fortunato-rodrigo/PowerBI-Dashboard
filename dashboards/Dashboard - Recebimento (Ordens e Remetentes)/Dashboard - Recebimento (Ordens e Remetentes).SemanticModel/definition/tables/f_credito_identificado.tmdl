@@ -1,0 +1,163 @@
+table f_credito_identificado
+	lineageTag: 0d3172d9-e315-43c0-9e46-8ff4634dfa38
+
+	column id_ordem
+		dataType: string
+		lineageTag: ca581c3d-f1eb-43ae-b85c-ea0a72b23e36
+		summarizeBy: none
+		sourceColumn: id_ordem
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_type
+		dataType: string
+		lineageTag: 571ca18e-ca03-46b7-97bb-85b81ce8f9a8
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column remetente
+		dataType: string
+		lineageTag: 756ce48c-dc7c-4f36-b942-1dd86ec0d290
+		summarizeBy: none
+		sourceColumn: remetente
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 20e04aef-e224-42b9-9475-7168dfdb1ffa
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column link
+		dataType: string
+		lineageTag: 7401ce34-9173-497d-87ca-9d574d9dee81
+		dataCategory: WebUrl
+		summarizeBy: none
+		sourceColumn: link
+
+		annotation SummarizationSetBy = Automatic
+
+	column moeda
+		dataType: string
+		lineageTag: 4c1e39d1-abc8-4a62-a01e-4d1720da719d
+		summarizeBy: none
+		sourceColumn: moeda
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_ordem
+		dataType: string
+		lineageTag: 9998056e-dc57-4552-b73b-5577691bda9c
+		summarizeBy: none
+		sourceColumn: status_ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: decimal
+		formatString: \$#,0;(\$#,0);\$#,0
+		lineageTag: bd6e293f-7291-4bcf-88b8-5a91784e7821
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-US"}
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4206c93a-bb59-4dce-9077-0d78ce3e47a4
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_customer
+		dataType: string
+		lineageTag: 685d0712-c4fc-447a-ae52-2455b2d4fd2d
+		summarizeBy: none
+		sourceColumn: id_customer
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column remittance_operation_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ee2eec9d-3d2d-44c6-97e4-ba9936a42ca2
+		summarizeBy: sum
+		sourceColumn: remittance_operation_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_history
+		dataType: int64
+		formatString: 0
+		lineageTag: a5a27ef3-3bf7-45b1-a284-3dbd09764416
+		summarizeBy: sum
+		sourceColumn: id_history
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_remittance_operation
+		dataType: string
+		lineageTag: 531710d5-2852-445a-8eb8-bbf03605018f
+		summarizeBy: none
+		sourceColumn: status_remittance_operation
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_value_remittance_operation
+		dataType: decimal
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 7d8d24a8-a7c6-4558-8e3a-c70c13e4cd94
+		summarizeBy: sum
+		sourceColumn: total_value_remittance_operation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column quantity_remittance_operation
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 4282e567-2fc9-4e97-be2e-c0b0f81ea71a
+		summarizeBy: sum
+		sourceColumn: quantity_remittance_operation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column has_remittance_operation
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3877862c-cdef-4bf7-9e99-1753eb003773
+		summarizeBy: none
+		sourceColumn: has_remittance_operation
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_credito_identificado = m
+		mode: import
+		source =
+				let
+				  Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "select#(lf)    O.id_customer,#(lf)    'P' || D.c_type as customer_type,#(lf)    O.id as id_ordem,#(lf)    S.name as status_ordem,#(lf)    PR.remittance_operation_id,#(lf)    case when PR.remittance_operation_id is not null then true else false end as has_remittance_operation,#(lf)    R.id_history,#(lf)    os.status as status_remittance_operation,#(lf)    N.name as remetente,#(lf)    O.created_at - interval '3' hour as created_at,#(lf)    concat('https://backoffice.remessaonline.com.br/index/detalhes-ordem-pagamento/', int(O.id)) as link,#(lf)    O.currency as moeda,#(lf)    O.amount_received as quantity,#(lf)    R.total_value as total_value_remittance_operation,#(lf)    R.quantity as quantity_remittance_operation,#(lf)    current_timestamp() - interval '3' hour as updated_at#(lf)from beecambio.beecambio_tbl_payment_order as O#(lf)    inner join beecambio.beecambio_tbl_sender as N on N.id = O.id_sender#(lf)    inner join beecambio.beecambio_tbl_payment_order_status as S  on O.id_status = S.id#(lf)    inner join beecambio.beecambio_tbl_customer as D on D.id = O.id_customer#(lf)    left join beecambio.beecambio_tbl_payment_order_remittance as PR on O.id = PR.payment_order_id#(lf)    left join beecambio.beecambio_tbl_remittance_operation as R on PR.remittance_operation_id = R.id#(lf)    left join beecambio.beecambio_tbl_remittance_operation_status as os on os.id = R.id_status#(lf)where 1=1#(lf)    and O.id_status = 3 -- 'Crédito identificado'#(lf)    and O.id_financial_institution = 3 -- Topázio#(lf)    and date(O.created_at) >= '2024-01-01'#(lf)    and PR.remittance_operation_id is not null#(lf)    and os.status = 'Finalizada'", null, [EnableFolding=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Origem,{{"quantity", Currency.Type}, {"total_value_remittance_operation", Currency.Type}, {"quantity_remittance_operation", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Exception
+

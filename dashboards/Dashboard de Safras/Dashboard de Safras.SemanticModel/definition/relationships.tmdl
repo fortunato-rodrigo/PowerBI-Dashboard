@@ -1,0 +1,24 @@
+relationship 35df1347-4176-4c15-bee4-39efed11231c
+	fromColumn: f_funnel_events.event_date
+	toColumn: d_calendar.'Date Key'
+
+relationship b96a5d43-749d-4f34-83e8-9d0925a7246c
+	fromColumn: f_funnel_events.canal_lc
+	toColumn: d_canal.canal
+
+relationship 2793b976-b776-4d15-b335-6052f10e4d07
+	fromColumn: f_funnel_events.medium_lc
+	toColumn: d_medium.medium
+
+relationship ff1561ba-86e9-477e-94d0-1b2882570a7b
+	fromColumn: f_funnel_events.source_lc
+	toColumn: d_source.source
+
+relationship abe01175-ad7a-42b2-b8c2-18cd98948094
+	fromColumn: f_funnel_events.mkt_campaign_lc
+	toColumn: d_mkt_campaign.Campaign
+
+relationship 0c2bd088-7fde-ec33-b94c-49c3196c467f
+	fromColumn: f_funnel_events.ad_group_lc
+	toColumn: d_adgroup.ad_group
+

@@ -1,0 +1,134 @@
+relationship 1b5794ae-f789-4dfc-b52f-04758ce2f96f
+	fromColumn: f_mkt_performance.canal_lc
+	toColumn: d_canal.canal
+
+relationship 0fd2a6de-d319-4ffc-b5ec-e008e45b57aa
+	fromColumn: f_mkt_performance.medium_lc
+	toColumn: d_medium.medium
+
+relationship 613873a9-edb6-4d6a-9c1a-a8c73e344d77
+	fromColumn: f_investimento.medium_pmkt
+	toColumn: d_medium.medium
+
+relationship c8dfa505-efa0-47a6-a430-e05e28fac0e6
+	fromColumn: f_investimento.channel_pmkt
+	toColumn: d_canal.canal
+
+relationship 2ac9b136-f43f-4749-97cc-fa1576e0b2ca
+	fromColumn: f_mkt_performance.source_lc
+	toColumn: d_source.source
+
+relationship ffb7fcf2-df6e-42f4-b199-fa04279192a5
+	fromColumn: f_investimento.source_pmkt
+	toColumn: d_source.source
+
+relationship 67e005ac-0e7e-4a69-934c-6f6ca032f0ae
+	fromColumn: f_attribution_window.source
+	toColumn: d_source.source
+
+relationship 60b01ffa-d549-45a8-9dd9-8c8d9128987a
+	fromColumn: f_attribution_window.canal
+	toColumn: d_canal.canal
+
+relationship abbe11c1-f7b3-4b1c-9bbd-548a0b8ed68c
+	fromColumn: f_attribution_window.medium
+	toColumn: d_medium.medium
+
+relationship eec848ec-bd3f-440a-8906-95cb0413afa4
+	fromColumn: f_mkt_performance.event_date
+	toColumn: d_calendar.'Date Key'
+
+relationship d361a0f6-094e-412c-9f1b-28696b373d04
+	fromColumn: f_investimento.date_nao_usar
+	toColumn: d_calendar.'Date Key'
+
+relationship 7597d7d8-6a34-44e2-9f18-a942940d03d1
+	fromColumn: f_trading_quotation.date
+	toColumn: d_calendar.'Date Key'
+
+relationship a74dd3a5-6e21-4598-9616-27a0834ba4cc
+	fromColumn: f_mkt_performance.mkt_campaign_lc
+	toColumn: d_mkt_campaign.Campaign
+
+relationship 2cef9522-23e4-4c9b-a8f2-8ad01f54602c
+	fromColumn: f_investimento.mkt_campaign_pmkt
+	toColumn: d_mkt_campaign.Campaign
+
+relationship 8c8095c2-f899-40f2-9460-c149e5980e1b
+	fromColumn: f_attribution_window.mkt_campaign
+	toColumn: d_mkt_campaign.Campaign
+
+relationship 26efd5f5-7854-b0c4-d3e8-3da46dbdacf2
+	fromColumn: f_attribution_window.event_date
+	toColumn: d_calendar.'Date Key'
+
+relationship AutoDetected_d028ba64-392c-4908-8862-c207c81a95a1
+	fromColumn: f_investimento.ad_group
+	toColumn: d_adgroup.ad_group
+
+relationship d0ec51ea-ffbf-f125-5bce-24bc871c51d1
+	fromColumn: f_mkt_performance.ad_group_lc
+	toColumn: d_adgroup.ad_group
+
+relationship AutoDetected_67eb51f1-8ec9-48a9-8319-ddef43492f5f
+	fromColumn: f_mkt_performance.'Customer Type'
+	toColumn: d_customer_type.'Customer Type'
+
+relationship AutoDetected_3f09707a-23a1-4dbc-b4b4-14c203e0d240
+	fromColumn: f_investimento.customer_type
+	toColumn: d_customer_type.'Customer Type'
+
+relationship AutoDetected_4a7148b3-cb71-4c0f-b4bd-bf1216936bf7
+	fromColumn: f_attribution_window.customer_type
+	toColumn: d_customer_type.'Customer Type'
+
+relationship 33aac07c-78b5-4f00-a049-2630943beae0
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 't_Período 1'.Date
+	toColumn: d_calendar.'Date Key'
+
+relationship 0fa7b950-7624-4550-beb1-78b51da3745e
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 't_Período 2'.Date
+	toColumn: d_calendar.'Date Key'
+
+relationship a7002a7f-1b86-48c0-9cc3-f5f84fca0323
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 't_Período 3'.Date
+	toColumn: d_calendar.'Date Key'
+
+relationship 0e2f5840-4da0-9e90-d51b-51a2e1080747
+	isActive: false
+	fromColumn: f_mkt_performance.psu_date
+	toColumn: d_calendar.'Date Key'
+
+relationship AutoDetected_d653aeae-c49a-4355-b6fa-3c35daee0131
+	fromColumn: f_mkt_performance.segunda_pergunta
+	toColumn: d_qualificacao_2.segunda_pergunta
+
+relationship AutoDetected_4a8b7db2-9f19-4cf0-b055-26140088ad6d
+	fromColumn: f_mkt_performance.primeira_pergunta
+	toColumn: d_qualificacao_1.primeira_pergunta
+
+relationship d78cfa5e-8efb-b3ea-a829-da6744faad60
+	fromColumn: f_attribution_window.ad_group_lc
+	toColumn: d_adgroup.ad_group
+
+relationship AutoDetected_89aad718-12b3-47d0-8d12-b33b6794bf97
+	fromColumn: f_attribution_window.canal
+	toColumn: d_canal_fc.canal
+
+relationship 643a63cc-0560-dd9e-0d34-3ce37fe1b283
+	fromColumn: f_mkt_performance.mkt_campaign_fc
+	toColumn: d_mkt_campaign_fc.Campaign
+
+relationship ae9d2eda-0a24-a4c2-1001-87570c1d9139
+	fromColumn: f_mkt_performance.canal_fc
+	toColumn: d_canal_fc.canal
+

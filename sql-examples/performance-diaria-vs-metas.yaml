@@ -1,0 +1,27 @@
+question_variants:
+  - "Como está a performance diária vs metas por BU, customer type e business type?"
+  - "Realizado vs meta diário de receita, operações e GMV segmentado"
+  - "Scorecard diário com desvio de meta por segmento"
+  - "Quanto realizamos vs meta esta semana por BU?"
+sql: |
+  SELECT
+    ds.date_key,
+    c.mtd,
+    ds.bu,
+    ds.customer_type,
+    ds.event_type,
+    ds.business_type,
+    ds.operation_segment,
+    SUM(ds.gross_revenue) AS gross_revenue,
+    SUM(ds.meta_gross_revenue) AS meta_gross_revenue,
+    SUM(ds.operations) AS operations,
+    SUM(ds.meta_operations) AS meta_operations,
+    SUM(ds.gmv) AS gmv,
+    SUM(ds.meta_gmv) AS meta_gmv
+  FROM gold.daily_sales AS ds
+  LEFT JOIN bronze.dcalendar AS c ON ds.date_key = c.date_key
+  GROUP BY ALL
+tables_used: [gold.daily_sales, bronze.dcalendar]
+notes: "Usar gold.daily_sales para realizado e metas diárias. JOIN com bronze.dcalendar para campos de período (mtd, ytd). GROUP BY ALL é Databricks SQL válido. Ideal para scorecards e acompanhamento semanal."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

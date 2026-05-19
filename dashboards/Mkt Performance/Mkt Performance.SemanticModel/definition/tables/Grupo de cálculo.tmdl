@@ -1,0 +1,24 @@
+table 'Grupo de cálculo'
+	lineageTag: accdbf94-8ed0-498f-a688-d1730530332a
+
+	calculationGroup
+
+		calculationItem 'item de cálculo' = SELECTEDMEASURE()
+
+	column 'Coluna do grupo de cálculo'
+		dataType: string
+		lineageTag: 7f352d44-e173-4753-b4d2-ccbae691ddd8
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: 5110549d-cbca-427d-b321-17c0f448417b
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

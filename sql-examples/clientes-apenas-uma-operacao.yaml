@@ -1,0 +1,20 @@
+question_variants:
+  - "Quantos clientes fizeram apenas uma operação até hoje?"
+  - "Volume de one-timers na base por BU e tipo de cliente"
+  - "Taxa de clientes que nunca repetiram uma operação"
+  - "Clientes com uma única operação — oportunidade de reativação"
+sql: |
+  SELECT
+    fc.bu,
+    fc.customer_type,
+    COUNT(DISTINCT fc.id_customer) AS one_timers,
+    ROUND(AVG(fc.gmv_total_lifetime), 0) AS gmv_medio,
+    ROUND(AVG(fc.gross_revenue_total_lifetime), 0) AS receita_media
+  FROM gold.fact_customers AS fc
+  WHERE fc.qtd_ops_total_lifetime = 1
+  GROUP BY fc.bu, fc.customer_type
+  ORDER BY one_timers DESC
+tables_used: [gold.fact_customers]
+notes: "qtd_ops_total_lifetime = 1 identifica clientes que nunca repetiram. gold.fact_customers é a tabela de clientes com métricas lifetime. Para ver quando esses clientes fizeram a única operação: JOIN com gold.fact_operations WHERE is_ops_processed=TRUE AND is_intercompany=FALSE."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

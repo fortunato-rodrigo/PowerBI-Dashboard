@@ -1,0 +1,42 @@
+question_variants:
+  - "Quantos clientes fizeram segunda operação em até 30 dias após a primeira?"
+  - "Taxa de segunda operação em 30 dias por cohort de aquisição"
+  - "Clientes que repetiram compra no primeiro mês — análise de cohort"
+  - "Retenção rápida: 2ª op em 30 dias por mês de aquisição"
+sql: |
+  WITH primeira_op AS (
+    SELECT
+      id_customer,
+      bu,
+      MIN(processed_date) AS first_op_date
+    FROM gold.fact_operations
+    WHERE is_ops_processed = TRUE
+      AND is_intercompany = FALSE
+    GROUP BY id_customer, bu
+  ),
+  segunda_op AS (
+    SELECT
+      fo.id_customer,
+      MIN(fo.processed_date) AS second_op_date
+    FROM gold.fact_operations AS fo
+    JOIN primeira_op AS p ON fo.id_customer = p.id_customer
+    WHERE fo.is_ops_processed = TRUE
+      AND fo.is_intercompany = FALSE
+      AND fo.processed_date > p.first_op_date
+    GROUP BY fo.id_customer
+  )
+  SELECT
+    DATE_TRUNC('month', p.first_op_date) AS cohort_mes,
+    p.bu,
+    COUNT(DISTINCT p.id_customer) AS total_clientes,
+    COUNT(DISTINCT CASE WHEN DATEDIFF(s.second_op_date, p.first_op_date) <= 30 THEN p.id_customer END) AS segunda_op_30d,
+    ROUND(100.0 * COUNT(DISTINCT CASE WHEN DATEDIFF(s.second_op_date, p.first_op_date) <= 30 THEN p.id_customer END) / NULLIF(COUNT(DISTINCT p.id_customer), 0), 2) AS taxa_2a_op_30d_pct
+  FROM primeira_op AS p
+  LEFT JOIN segunda_op AS s ON p.id_customer = s.id_customer
+  WHERE p.first_op_date >= ADD_MONTHS(DATE_TRUNC('month', current_date()), -6)
+  GROUP BY 1, 2
+  ORDER BY 1 DESC, taxa_2a_op_30d_pct DESC
+tables_used: [gold.fact_operations]
+notes: "DATEDIFF(second_op_date, first_op_date) <= 30 identifica segunda op em 30 dias. LEFT JOIN garante clientes sem 2ª op apareçam com taxa 0. Apenas cohorts dos últimos 6 meses — cohorts recentes têm menos tempo para converter."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

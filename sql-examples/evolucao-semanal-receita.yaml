@@ -1,0 +1,23 @@
+question_variants:
+  - "Qual a evolução semanal da receita nas últimas 8 semanas?"
+  - "Receita por semana — histórico e tendência"
+  - "GMV e gross revenue semana a semana nos últimos 2 meses"
+  - "Série semanal de receita por BU"
+sql: |
+  SELECT
+    DATE_TRUNC('week', processed_date) AS week_start,
+    bu,
+    COUNT(id_remittance) AS total_ops,
+    ROUND(SUM(gmv), 0) AS gmv_semana,
+    ROUND(SUM(gross_revenue), 0) AS receita_semana,
+    ROUND(SUM(net_revenue), 0) AS net_revenue_semana
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= date_sub(current_date(), 56)
+  GROUP BY 1, 2
+  ORDER BY 1 DESC, gmv_semana DESC
+tables_used: [gold.fact_operations]
+notes: "DATE_TRUNC('week', ...) agrupa por semana (segunda-feira). date_sub 56 dias = 8 semanas. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. Para total sem breakdown por BU: remover bu do SELECT e GROUP BY."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

@@ -1,0 +1,727 @@
+table f_mkt_performance
+	lineageTag: 7efdfb72-833f-4a49-8019-1024c4fd6d7b
+
+	column event_id
+		dataType: int64
+		lineageTag: 76b1f380-710a-4a20-a5b3-8496a850a921
+		summarizeBy: sum
+		sourceColumn: event_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_customer
+		dataType: int64
+		formatString: 0
+		lineageTag: 41ba2df4-b72a-4c10-95aa-4414d3c839e9
+		summarizeBy: sum
+		sourceColumn: id_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_type
+		dataType: string
+		lineageTag: 5875aafb-9a6c-4d44-a537-29f526bcbb57
+		summarizeBy: none
+		sourceColumn: event_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_month
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 64c09ee1-73dc-4ca5-8fe8-4e5068824f40
+		summarizeBy: none
+		sourceColumn: event_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column source_lc
+		dataType: string
+		lineageTag: 6e6ba519-b8ad-4c05-ba68-854cbc80d9ab
+		summarizeBy: none
+		sourceColumn: source_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column medium_lc
+		dataType: string
+		lineageTag: 7e3eada8-9667-451a-8d0c-6368098c1f8f
+		summarizeBy: none
+		sourceColumn: medium_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal_lc
+		dataType: string
+		lineageTag: cd22acfb-3a2e-4fc7-a8ef-8f85d858ab9d
+		summarizeBy: none
+		sourceColumn: canal_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Origin Presignup Platform'
+		dataType: string
+		lineageTag: 077fec37-ef5d-4f71-a409-0ed18c4b2aef
+		summarizeBy: none
+		sourceColumn: Origin Presignup Platform
+
+		annotation SummarizationSetBy = Automatic
+
+	column mkt_campaign_lc
+		dataType: string
+		lineageTag: f2bf0b87-419c-49e4-a267-397eafce4a39
+		summarizeBy: none
+		sourceColumn: mkt_campaign_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column cluster_campaign_lc
+		dataType: string
+		lineageTag: 81d4e26c-4c20-4abd-8c48-3e0633757783
+		summarizeBy: none
+		sourceColumn: cluster_campaign_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_page_url
+		dataType: string
+		lineageTag: 77c3c8b4-d735-478a-a9ec-f39f35612e92
+		summarizeBy: none
+		sourceColumn: first_page_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_page_path_tratado
+		dataType: string
+		lineageTag: 4c406a69-d23c-4c22-b1bc-f2a56e4dc304
+		summarizeBy: none
+		sourceColumn: first_page_path_tratado
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Type'
+		dataType: string
+		lineageTag: a809d2ec-e9b6-40c9-9035-4f57d5a79a20
+		summarizeBy: none
+		sourceColumn: Customer Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_type
+		dataType: string
+		lineageTag: 0303411c-ea87-49b8-ba60-afc2991dd745
+		summarizeBy: none
+		sourceColumn: company_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column onboarding_type
+		dataType: string
+		lineageTag: 79099215-b14d-4151-85b7-5c99fac5e4c0
+		summarizeBy: none
+		sourceColumn: onboarding_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_session
+		dataType: string
+		lineageTag: 348651cd-8379-4c1c-8570-0a8ce15e041a
+		summarizeBy: none
+		sourceColumn: cnae_session
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_division
+		dataType: string
+		lineageTag: ecffe1ee-8105-4964-bdef-afabb2757de9
+		summarizeBy: none
+		sourceColumn: cnae_division
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_group
+		dataType: string
+		lineageTag: 29c13f97-b436-44ca-8aff-929cb0db6106
+		summarizeBy: none
+		sourceColumn: cnae_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_class
+		dataType: string
+		lineageTag: ca65f070-7c1c-4192-acbc-746251d51065
+		summarizeBy: none
+		sourceColumn: cnae_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_subclass
+		dataType: string
+		lineageTag: 414956b7-6ece-4def-af96-1f49754321f3
+		summarizeBy: none
+		sourceColumn: cnae_subclass
+
+		annotation SummarizationSetBy = Automatic
+
+	column signup_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 271b4d0f-324f-4530-b57f-520691e61a40
+		summarizeBy: none
+		sourceColumn: signup_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column acquisition_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 25882006-30e1-4092-80ec-f092889d4dda
+		summarizeBy: none
+		sourceColumn: acquisition_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column operation_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: d6995527-8d51-4df3-b4d1-9dc87f113b24
+		summarizeBy: none
+		sourceColumn: operation_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column signup_month
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 639c4841-fccf-411f-b347-99d78dbc5010
+		summarizeBy: none
+		sourceColumn: signup_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column acquisition_month
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: fb70e3ba-77c2-452b-914b-8c5fa2c8a608
+		summarizeBy: none
+		sourceColumn: acquisition_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column operation_month
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 82e5f8f2-27da-4056-b0aa-9eefcc63c6e5
+		summarizeBy: none
+		sourceColumn: operation_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_affiliate
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6fdee2c8-d377-49bb-adad-34a968254ff1
+		summarizeBy: none
+		sourceColumn: is_affiliate
+
+		annotation SummarizationSetBy = Automatic
+
+	column in_or_out
+		dataType: string
+		lineageTag: 221a6c65-ec9e-4c3e-a0da-3dddbf7153c4
+		summarizeBy: none
+		sourceColumn: in_or_out
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a8d1866d-ed6e-4343-9f38-fe8d5ebe29bb
+		summarizeBy: none
+		sourceColumn: acquisition
+
+		annotation SummarizationSetBy = Automatic
+
+	column voucher_code
+		dataType: string
+		lineageTag: fa180052-4143-46f7-b764-b54d50811856
+		summarizeBy: none
+		sourceColumn: voucher_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 979acbd9-d128-4f89-9ad7-f29aa6f506c6
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column gmv
+		dataType: double
+		lineageTag: 7bf1dfd9-4539-4937-a176-f625700cbccf
+		summarizeBy: sum
+		sourceColumn: gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column operation_segment
+		dataType: string
+		lineageTag: 4672d5ca-791e-4f1f-a794-c97064741de9
+		summarizeBy: none
+		sourceColumn: operation_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column bu
+		dataType: string
+		lineageTag: 028b9dd2-5695-4e7d-a4ac-f89b7d70933e
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_type
+		dataType: string
+		lineageTag: 5dc615d0-8cf1-4971-aac8-ce8728832035
+		summarizeBy: none
+		sourceColumn: business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 33fdb6fc-16ac-49d7-b91c-26310540f7c6
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column last_update
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7fabc71a-3da8-4cf9-b581-71e8ffbd92d8
+		summarizeBy: none
+		sourceColumn: last_update
+
+		annotation SummarizationSetBy = Automatic
+
+	column fl_voucher
+		dataType: string
+		lineageTag: 813b993c-99c4-4367-bc86-b9d6f6921fa6
+		summarizeBy: none
+		sourceColumn: fl_voucher
+
+		annotation SummarizationSetBy = Automatic
+
+	column voucher_type
+		dataType: string
+		lineageTag: 42b685d2-6bfd-4bdb-b7e7-6668d9ec8f1f
+		summarizeBy: none
+		sourceColumn: voucher_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column cluster_url
+		dataType: string
+		lineageTag: d547504e-8f3a-4074-8350-88b69d1544cb
+		summarizeBy: none
+		sourceColumn: cluster_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 88eda862-ca43-4d9f-9678-c2560dc2b394
+		summarizeBy: none
+		sourceColumn: event_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_subtype
+		dataType: string
+		lineageTag: 1e193edd-ce46-4c9f-8e48-ee706a061ac2
+		summarizeBy: none
+		sourceColumn: customer_subtype
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month PSU = Month ACQ'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f032f89c-cf50-4696-8d3e-d9f365acb6b7
+		summarizeBy: none
+		sourceColumn: Month PSU = Month ACQ
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month PSU = Month SU'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: eab56926-f9c8-4b2c-8ed8-2656f8a1b86d
+		summarizeBy: none
+		sourceColumn: Month PSU = Month SU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month SU = Month ACQ'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bfb99ef1-41f6-4c29-ba11-141e8393203d
+		summarizeBy: none
+		sourceColumn: Month SU = Month ACQ
+
+		annotation SummarizationSetBy = Automatic
+
+	column search_term
+		dataType: string
+		lineageTag: f6363264-2285-480f-af92-d9c61b01ac4a
+		summarizeBy: none
+		sourceColumn: search_term
+
+		annotation SummarizationSetBy = Automatic
+
+	column crm_status
+		dataType: string
+		lineageTag: 09db268c-81c8-4a84-93a8-d77abd410cd4
+		summarizeBy: none
+		sourceColumn: crm_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column acq_date_equal_psu_date
+		dataType: string
+		lineageTag: 2f0c789d-7dd0-4414-9697-c6473198d368
+		summarizeBy: none
+		sourceColumn: acq_date_equal_psu_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort_psu_acq
+		dataType: string
+		lineageTag: a431c71f-742e-4b1a-8d53-bbf7b67efd75
+		summarizeBy: none
+		sourceColumn: cohort_psu_acq
+
+		annotation SummarizationSetBy = Automatic
+
+	column history_name
+		dataType: string
+		lineageTag: bb10297e-e573-4a86-8cf8-0f5ede79a8c5
+		summarizeBy: none
+		sourceColumn: history_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column email_fxaas
+		dataType: string
+		lineageTag: 46662e77-2374-42f1-a6b5-f72589df3637
+		summarizeBy: none
+		sourceColumn: email_fxaas
+
+		annotation SummarizationSetBy = Automatic
+
+	column ops_simbolica_api
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c58bef3d-5b69-43f2-8792-3fa598ab8465
+		summarizeBy: none
+		sourceColumn: ops_simbolica_api
+
+		annotation SummarizationSetBy = Automatic
+
+	column nationality
+		dataType: string
+		lineageTag: bbcaff17-d3cd-41d0-9b52-535d507e55aa
+		summarizeBy: none
+		sourceColumn: nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	column high_mid_low
+		dataType: string
+		lineageTag: 149441f4-19cf-4f64-9a26-129d8dc6dd2e
+		summarizeBy: none
+		sourceColumn: high_mid_low
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_onboarding_flow
+		dataType: string
+		lineageTag: 9f579eae-79f3-4cd1-bb2a-d6737dbce92a
+		summarizeBy: none
+		sourceColumn: company_onboarding_flow
+
+		annotation SummarizationSetBy = Automatic
+
+	column ad_group_lc
+		dataType: string
+		lineageTag: 54cd42b9-61a9-4abd-b582-5cc980c791f4
+		summarizeBy: none
+		sourceColumn: ad_group_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_brand_psu
+		dataType: string
+		lineageTag: 7525e5d3-f0d9-4dfa-9cda-d00c27d4da91
+		summarizeBy: none
+		sourceColumn: device_brand_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_browser_psu
+		dataType: string
+		lineageTag: 88223912-ee27-4966-9484-1075e8a654cb
+		summarizeBy: none
+		sourceColumn: device_browser_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_category_psu
+		dataType: string
+		lineageTag: 71faf92c-2a91-40e1-a404-1b5a00f86735
+		summarizeBy: none
+		sourceColumn: device_category_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_name_psu
+		dataType: string
+		lineageTag: ea3120d4-25b1-42d0-9ab0-b590251dbcdb
+		summarizeBy: none
+		sourceColumn: device_name_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column psu_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5e4291d4-a9ac-4950-b662-c448edcd3932
+		summarizeBy: none
+		sourceColumn: psu_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column currency_abbreviation
+		dataType: string
+		lineageTag: fd0f49a3-2bab-4d43-b141-14096cd7c147
+		summarizeBy: none
+		sourceColumn: currency_abbreviation
+
+		annotation SummarizationSetBy = Automatic
+
+	column nature_operation_name
+		dataType: string
+		lineageTag: bdb06278-089d-4b24-84ad-63e1e1cb7012
+		summarizeBy: none
+		sourceColumn: nature_operation_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column operation_platform_beecambio
+		dataType: string
+		lineageTag: 7b08ad4d-222f-46a5-973f-e89462fe9d9e
+		summarizeBy: none
+		sourceColumn: operation_platform_beecambio
+
+		annotation SummarizationSetBy = Automatic
+
+	column operation_platform_ga4
+		dataType: string
+		lineageTag: b7214db8-9a31-460d-b766-cfd243088d77
+		summarizeBy: none
+		sourceColumn: operation_platform_ga4
+
+		annotation SummarizationSetBy = Automatic
+
+	column applied_discount_1
+		dataType: string
+		lineageTag: ac82f1c2-8708-490f-98fc-47fc660f9170
+		summarizeBy: none
+		sourceColumn: applied_discount_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column applied_discount_2
+		dataType: string
+		lineageTag: d844bb5b-f48b-4a85-916a-d8cd7055fe64
+		summarizeBy: none
+		sourceColumn: applied_discount_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column applied_discount_3
+		dataType: string
+		lineageTag: 8422e6e7-d205-4b1e-b096-3bdb63226d38
+		summarizeBy: none
+		sourceColumn: applied_discount_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column os_name_psu
+		dataType: string
+		lineageTag: c0ff0ce8-ff70-481e-9dab-588d7b0a8584
+		summarizeBy: none
+		sourceColumn: os_name_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column os_psu
+		dataType: string
+		lineageTag: d7986bbb-b87c-4628-a4ca-0b8f4842b08c
+		summarizeBy: none
+		sourceColumn: os_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column primeira_pergunta
+		dataType: string
+		lineageTag: 62722f37-f436-4001-8f68-b04df3c9f355
+		summarizeBy: none
+		sourceColumn: primeira_pergunta
+
+		annotation SummarizationSetBy = Automatic
+
+	column segunda_pergunta
+		dataType: string
+		lineageTag: 35b8ead2-9907-4a96-b4ea-1025fef6f771
+		summarizeBy: none
+		sourceColumn: segunda_pergunta
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal_fc
+		dataType: string
+		lineageTag: 98ab55b0-b3b9-4acd-884b-d4970acfcf2d
+		summarizeBy: none
+		sourceColumn: canal_fc
+
+		annotation SummarizationSetBy = Automatic
+
+	column mkt_campaign_fc
+		dataType: string
+		lineageTag: 52d91253-7a3f-4f82-8e15-cbee4c137795
+		summarizeBy: none
+		sourceColumn: mkt_campaign_fc
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_affiliate_ops_rec
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fab04f76-0d91-4e7f-b606-02d91a3dd304
+		summarizeBy: none
+		sourceColumn: has_affiliate_ops_rec
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_affiliate_ops_acq
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a1d8f046-c3c8-47df-b86e-1e9410b76b13
+		summarizeBy: none
+		sourceColumn: has_affiliate_ops_acq
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_ops_type_pj
+		dataType: string
+		lineageTag: 3180c459-92e3-478d-836d-a8131e09f4d7
+		summarizeBy: none
+		sourceColumn: onb_ops_type_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_reason_pj
+		dataType: string
+		lineageTag: 4074dda0-3ceb-4544-b1dd-f5805a3c7f89
+		summarizeBy: none
+		sourceColumn: onb_reason_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_digital_platform_pj
+		dataType: string
+		lineageTag: fba87014-57a4-478e-9dd1-34bbfeb58169
+		summarizeBy: none
+		sourceColumn: onb_digital_platform_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_amount_pj
+		dataType: string
+		lineageTag: 637cdbf9-f040-4a67-8b72-0ea8b9d033f9
+		summarizeBy: none
+		sourceColumn: onb_amount_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_forecast_pj
+		dataType: string
+		lineageTag: 2d1a6ba2-5be6-4f2f-9b76-e77258876a79
+		summarizeBy: none
+		sourceColumn: onb_forecast_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column media_funnel_lc
+		dataType: string
+		lineageTag: 4a575d83-8430-4381-9cda-af2a43525d0c
+		summarizeBy: none
+		sourceColumn: media_funnel_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column score
+		dataType: double
+		lineageTag: 73d59a81-558e-4740-8c17-ed6e7992da88
+		summarizeBy: sum
+		sourceColumn: score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition f_mkt_performance = m
+		mode: import
+		queryGroup: Fato
+		source =
+				let
+				    Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="prod",Kind="Database"]}[Data], "--------------------------------------------------#(lf)with crm as (#(lf)  select #(lf)    op.id_remittance as event_id,#(lf)    case#(lf)        when crm.event_id is not null then 'Com CRM'#(lf)        else 'Sem CRM'#(lf)    end as crm_status#(lf)  from gold.fact_crm_result as crm#(lf)  inner join gold.fact_operations as op on op.id_remittance = crm.event_id and op.is_ops_processed and op.is_intercompany = false#(lf)  where crm.event_type in ('OPERATION','ACQUISITION')#(lf))#(lf)---------------------------------------#(lf), qualification as (#(lf)  SELECT distinct#(lf)    c.id as id_customer,#(lf)    a.id_question,#(lf)    o.goal as primeira_pergunta,#(lf)    CONCAT_WS("" | "", coalesce(o.goal, 'unknown'), o.title) as segunda_pergunta#(lf)  FROM silver.customers c #(lf)  left join prod.beecambio.beecambio_onboarding_qualification_answers a on c.id = a.id_customer #(lf)  left join prod.beecambio.beecambio_onboarding_qualification_form_questions q on q.id = a.id_question#(lf)  left join prod.beecambio.beecambio_onboarding_qualification_form_options o on o.id = a.id_option#(lf))#(lf)----------------------------------------#(lf), leadscore as (#(lf)  select #(lf)    id_customer,#(lf)    `Conversion Value` as score#(lf)  from sandbox_datascience.leadscore_notas_pf#(lf)  union #(lf)  select #(lf)    id_customer,#(lf)    `Conversion Value` as score#(lf)  from sandbox_datascience.leadscore_notas_pj#(lf))#(lf)----------------------------------------#(lf)select#(lf)    fe.event_id,#(lf)    fe.id_customer,#(lf)    fe.event_type,#(lf)    date(fe.event_tstamp) as event_date,#(lf)    case#(lf)        when date(fe.event_tstamp) = po.psu_date#(lf)        then 'Acquisition Date = Presignup Date'#(lf)        else 'Acquisition Date <> Presignup Date'#(lf)    end as acq_date_equal_psu_date,#(lf)    case#(lf)        when po.psu_date is null then 'Não convertido'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 5 then '00 a 05 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 10 then '06 a 10 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 20 then '11 a 20 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 30 then '21 a 30 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 40 then '31 a 40 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 50 then '41 a 50 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 60 then '51 a 60 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 90 then '61 a 90 dias'#(lf)        when date_diff(date(fe.event_tstamp), po.psu_date) <= 120 then '91 a 120 dias'#(lf)        else '120+ dias'#(lf)    end as cohort_psu_acq,#(lf)    date(date_trunc('month', fe.event_tstamp)) as event_month,#(lf)    case#(lf)        when lc.mkt_campaign_psu like '%pmax%'#(lf)        then 'display'#(lf)        else coalesce(lc.channel_psu, 'unknown')#(lf)    end as canal_lc,#(lf)    lower(coalesce(lc.source_psu, 'unknown')) as source_lc,#(lf)    lower(coalesce(lc.medium_psu, 'unknown')) as medium_lc,#(lf)    lc.origin_platform_psu,#(lf)    lower(coalesce(lc.utm_adgroup_psu, 'unknown')) as ad_group_lc,#(lf)    COALESCE(TRIM(lc.mkt_campaign_psu), 'organic/direct') as mkt_campaign_lc,#(lf)    lc.cluster_campaign_psu as cluster_campaign_lc,#(lf)    lc.media_funnel_psu as media_funnel_lc,#(lf)#(lf)    case#(lf)        when fc.mkt_campaign like '%pmax%'#(lf)        then 'display'#(lf)        else coalesce(fc.canal, 'unknown')#(lf)    end as canal_fc,#(lf)    COALESCE(TRIM(fc.mkt_campaign), 'organic/direct') as mkt_campaign_fc,#(lf)#(lf)    lc.device_brand_psu,#(lf)    lc.device_browser_psu,#(lf)    lc.device_category_psu,#(lf)    lc.device_name_psu,#(lf)    lc.os_name_psu,#(lf)    lc.os_psu,#(lf)    lc.first_page_url_psu as first_page_url,#(lf)    URL_DECODE(REGEXP_EXTRACT(lc.first_page_url_psu, 'utm_term=([^&]*)', 1)) as search_term,#(lf)    lc.first_page_path_tratado_psu as first_page_path_tratado,#(lf)    lc.cluster_url_psu as cluster_url,#(lf)    case#(lf)        when sv.email like '%fxaas%' then 'fxaas'#(lf)        else 'Sem fxaas'#(lf)    end as email_fxaas,#(lf)    case#(lf)        when (lc.channel_psu = 'paid link' and fe.event_type <> 'ACQUISITION' and fe.event_type <> 'OPERATION') then 'Affiliate'#(lf)        when fe.event_type in ('ACQUISITION', 'OPERATION') and po.is_affiliate = true then 'Affiliate'#(lf)        else 'Direct'#(lf)    end as customer_subtype,#(lf)    lc.customer_type,#(lf)    lc.company_type,#(lf)    lc.nationality,#(lf)    lc.onboarding_type,#(lf)    lc.company_onboarding_flow,#(lf)    lc.session_description as cnae_session,#(lf)    lc.division_description as cnae_division,#(lf)    lc.group_description as cnae_group,#(lf)    lc.class_description as cnae_class,#(lf)    lc.subclass as cnae_subclass,#(lf)    date(lc.signup_completed_tstamp) as signup_date,#(lf)    date(lc.acquisition_tstamp) as acquisition_date,#(lf)    po.processed_date as operation_date,#(lf)    date(date_trunc('month', lc.signup_completed_tstamp)) as signup_month,#(lf)    date(date_trunc('month', lc.acquisition_tstamp)) as acquisition_month,#(lf)    date(date_trunc('month', po.processed_date)) as operation_month,#(lf)    po.psu_date,#(lf)    po.is_affiliate,#(lf)    po.in_or_out,#(lf)    po.currency_abbreviation,#(lf)    po.acquisition,#(lf)    coalesce(po.ops_symbolic_api, false) as ops_simbolica_api,#(lf)    po.voucher_code,#(lf)    po.voucher_type,#(lf)    case#(lf)        when po.voucher_code is not null#(lf)        then 'Com Voucher'#(lf)        else 'Sem Voucher'#(lf)    end as fl_voucher,#(lf)    po.nature_operation_name,#(lf)    po.country,#(lf)    po.operation_platform_beecambio,#(lf)    po.operation_platform_ga4,#(lf)    po.gmv,#(lf)    po.operation_segment,#(lf)    po.bu,#(lf)    po.business_type,#(lf)    po.gross_revenue,#(lf)    po.applied_discount_1,#(lf)    po.applied_discount_2,#(lf)    po.applied_discount_3,#(lf)    case when date(date_trunc('month', fe.event_tstamp)) = date(date_trunc('month', lc.acquisition_tstamp)) then true else false end as month_psu_equal_month_acq,#(lf)    case when date(date_trunc('month', fe.event_tstamp)) = date(date_trunc('month', lc.signup_completed_tstamp)) then true else false end as month_psu_equal_month_su,#(lf)    case when date(date_trunc('month', lc.acquisition_tstamp)) = date(date_trunc('month', lc.signup_completed_tstamp)) then true else false end as month_su_equal_month_acq,#(lf)    coalesce(crm.crm_status, 'Sem CRM') as crm_status,#(lf)    case#(lf)        when fe.event_type = 'APPROVED STORY' and fh.nature_operation_name = 'Global Account' then 'História de Conta Global' #(lf)        when fe.event_type = 'APPROVED STORY' and fh.nature_operation_name <> 'Global Account' then 'Não é História de Conta Global'#(lf)        else 'Não é event_type = APPROVED STORY'#(lf)    end as history_name,#(lf)    s.subsegment as high_mid_low,#(lf)    coalesce(q.primeira_pergunta, 'unknown') as primeira_pergunta,#(lf)    coalesce(q.segunda_pergunta, 'unknown') as segunda_pergunta,#(lf)    lc.onb_ops_type as onb_ops_type_pj,#(lf)    lc.onb_reason as onb_reason_pj,#(lf)    lc.onb_digital_platform_pj,#(lf)    lc.onb_amount_pj,#(lf)    lc.onb_forecast_pj,#(lf)    lc.has_affiliate_ops_rec,#(lf)    lc.has_affiliate_ops_acq,#(lf)    ld.score,#(lf)    current_timestamp() - interval '3' hour as last_update#(lf)from gold.funnel_event as fe#(lf)    left join silver.customers as sv on fe.id_customer = sv.id#(lf)    left join gold.fact_customers as lc on fe.id_customer = lc.id_customer#(lf)    left join silver.histories as fh on fe.event_type = 'APPROVED STORY' and fe.event_id = fh.id_history#(lf)    left join gold.fact_operations as po on fe.event_id = po.id_remittance and fe.event_type in ('ACQUISITION', 'OPERATION') and po.is_ops_processed#(lf)    left join crm on fe.event_id = crm.event_id#(lf)    left join stage.dim_monthly_subsegmentation as s on fe.event_type in ('ACQUISITION', 'OPERATION') and fe.id_customer = s.id_customer and date_trunc('month', fe.event_tstamp) = s.month#(lf)    left join qualification as q on fe.id_customer = q.id_customer#(lf)    left join google_analytics.first_click_sessions as fc on fc.id_customer = fe.id_customer#(lf)    left join leadscore as ld on fe.id_customer = ld.id_customer#(lf)where date(fe.event_tstamp) >= '2024-01-01'#(lf)#(tab)and fe.event_sequence = 1#(lf)    and fe.event_type in ('ACQUISITION', 'APPROVED STORY', 'CREATED STORY', 'PRESIGNUP', 'SIGNUP')#(lf)    or fe.event_type = 'OPERATION'", null, [EnableFolding=true]),
+				    #"Colunas Renomeadas" = Table.RenameColumns(Origem,{{"origin_platform_psu", "Origin Presignup Platform"}, {"customer_type", "Customer Type"}, {"month_psu_equal_month_acq", "Month PSU = Month ACQ"}, {"month_psu_equal_month_su", "Month PSU = Month SU"}, {"month_su_equal_month_acq", "Month SU = Month ACQ"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

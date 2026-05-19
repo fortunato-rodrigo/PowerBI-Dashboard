@@ -1,0 +1,2196 @@
+table '# Medidas'
+	lineageTag: 9b9f4251-2cf2-4338-8255-5a627765ee03
+
+	measure '% Conversão' =
+			
+			DIVIDE(
+			    [Aquisições],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Performance
+		lineageTag: 08e30b70-275e-4335-9a6e-9f26e4f24556
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		changedProperty = FormatString
+
+	measure Aquisições = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_mkt_performance[event_id]), 
+			    f_mkt_performance[event_type] = "ACQUISITION"
+			) --+ 0
+			```
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: f6600f58-702b-4b81-88e9-e6fede4a4e66
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Clientes Únicos Recorrentes' = ```
+			
+			    CALCULATE([Clientes Únicos],
+			    f_mkt_performance[event_type] = "OPERATION"
+			) + 0
+			```
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 8871d3a3-4696-49c5-98c8-4b416f2a14ee
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Clientes Únicos' = COUNTA(f_mkt_performance[id_customer]) + 0
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: f439a41a-36c1-49aa-ae1a-47e0b97196b8
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Eventos = DISTINCTCOUNT(f_mkt_performance[event_id])
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 3a2f6e2a-4262-473a-8604-e5f1128feb2c
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure GMV =
+			
+			CALCULATE(
+			    SUM(f_mkt_performance[gmv]),
+			    FILTER(f_mkt_performance,
+			        f_mkt_performance[event_type] in {"ACQUISITION", "OPERATION"}
+			    )
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: 8c4f7c49-9429-4aeb-9848-513bbf7ad865
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'GMV (Aquisição)' =
+			
+			CALCULATE([GMV],
+			f_mkt_performance[event_type] = "ACQUISITION"
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: b453398a-dee3-4348-8915-099c1f676722
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'GMV (Recorrência)' =
+			
+			CALCULATE([GMV],
+			f_mkt_performance[event_type] = "OPERATION"
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: b85cbb08-364b-45fe-8102-4c074c4892f6
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Histórias Criadas' = ```
+			
+			CALCULATE(
+			    COUNTA(f_mkt_performance[event_id]), 
+			    f_mkt_performance[event_type] = "CREATED STORY"
+			) + 0
+			```
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: abb3e08a-fdcf-42c9-b279-06c39dfa5894
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Histórias Aprovadas' = ```
+			
+			CALCULATE(
+			    COUNTA(f_mkt_performance[event_id]), 
+			    f_mkt_performance[event_type] = "APPROVED STORY"
+			) + 0
+			```
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 4f643420-3a08-4a93-b00e-c41ef1f3957d
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Operações = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_mkt_performance[event_id]), 
+			    FILTER(f_mkt_performance,
+			    f_mkt_performance[event_type] in {"ACQUISITION", "OPERATION"}
+			    )
+			) + 0
+			```
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 110b54da-77f0-4a9b-ae93-89aa04cd490f
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Presignups =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_mkt_performance[id_customer]),
+			    f_mkt_performance[event_type] = "PRESIGNUP"
+			) --+ 0
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 39cc0697-5fb7-46d4-bddb-0e77b6e05047
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Receita = ```
+			
+			CALCULATE(
+			    SUM(f_mkt_performance[gross_revenue]),
+			    FILTER(f_mkt_performance, 
+			        f_mkt_performance[event_type] IN {"ACQUISITION", "OPERATION"}
+			    )
+			) --+ 0
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: 42c3efa9-2502-4110-808c-6eaa190ac96e
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Receita (Aquisição)' =
+			
+			CALCULATE([Receita],
+			f_mkt_performance[event_type] = "ACQUISITION"
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: 1e3f2c6a-8598-47a0-85e3-d5589a5ef37b
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Receita (Recorrência)' =
+			
+			CALCULATE([Receita],
+			f_mkt_performance[event_type] = "OPERATION"
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: 910bc75f-6ed3-45af-b4b8-7699755e6222
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Recorrências = ```
+			
+			CALCULATE(
+			    COUNTA(f_mkt_performance[event_id]), 
+			    f_mkt_performance[event_type] = "OPERATION"
+			) + 0
+			```
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 7bc8d89b-184e-4eb1-9147-f3f242c0f9cf
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Signups =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_mkt_performance[id_customer]),
+			    FILTER(
+			        f_mkt_performance,
+			        f_mkt_performance[event_type] = "SIGNUP"
+			    )
+			) --+ 0
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 881cfa62-37ae-414e-b00f-e0d01cf977b9
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure Spread = ```
+			
+			DIVIDE(
+			    [Receita], 
+			    [GMV],
+			    BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Performance
+		lineageTag: e5658f03-10da-41e0-b00f-bc3f93658889
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+	measure 'Spread (Aquisição)' = ```
+			
+			DIVIDE(
+			    [Receita (Aquisição)], 
+			    [GMV (Aquisição)],
+			    BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Performance
+		lineageTag: 62a61c9d-afd5-44bb-a68f-4b5a6160b356
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+	measure 'Spread (Recorrência)' = ```
+			
+			DIVIDE(
+			    [Receita (Recorrência)], 
+			    [GMV (Recorrência)],
+			    BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Performance
+		lineageTag: 4030d519-fcc4-49fd-8074-4caf1a676b74
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+	measure 'Ticket Médio (GMV)' =
+			
+			DIVIDE(
+			    [GMV],
+			    [Operações],
+			    BLANK()
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: a306978d-c012-4a08-a29a-293e958e9e5a
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket Médio (GMV - Aquisição)' =
+			
+			DIVIDE(
+			    [GMV (Aquisição)],
+			    [Aquisições],
+			    BLANK()
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: ae293699-0354-4091-b28b-f11a05114087
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket Médio (GMV - Recorrência)' =
+			
+			DIVIDE(
+			    [GMV (Recorrência)],
+			    [Recorrências],
+			    BLANK()
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: 84f90239-7b5f-4c29-a3cb-db8ff5f6e005
+
+		changedProperty = DisplayFolder
+
+		changedProperty = Name
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Last Update' = MAX(f_mkt_performance[last_update])
+		formatString: dd/mm/yy hh:nn
+		displayFolder: Outras medidas
+		lineageTag: e7bcb009-d3d1-460a-867b-b342d7359227
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure 'Valor da Moeda (Max)' = ```
+			
+			    MAX(f_trading_quotation[trading_quotation])
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Fast Analytics
+		lineageTag: b4bf94e8-f766-429e-b8d8-6b94b698e13e
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Valor da Moeda (Med)' = ```
+			
+			    MEDIAN(f_trading_quotation[trading_quotation])
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Fast Analytics
+		lineageTag: a1081c1a-e055-4042-bf92-9a06dbfda236
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Valor da Moeda (Min)' = ```
+			
+			    MIN(f_trading_quotation[trading_quotation])
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Fast Analytics
+		lineageTag: 4af7cd80-75fd-4356-a786-bfd54085405b
+
+		changedProperty = Name
+
+		changedProperty = DisplayFolder
+
+		changedProperty = FormatString
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% P1 x P2' = ```
+			
+			    DIVIDE(
+			        [P1],
+			        [P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\_Oficial
+		lineageTag: 9dbad670-d91a-4b85-8218-f02f49c56b39
+
+	measure '% P1 x P3' = ```
+			
+			    DIVIDE(
+			        [P1],
+			        [P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\_Oficial
+		lineageTag: cd9a6c3e-a15a-4b4f-b0a4-672790c66038
+
+	measure '∆ P1 x P2' = [P1] - [P2]
+		displayFolder: Comparações\_Oficial
+		lineageTag: bde8e298-3fef-45fe-af66-22e6e1f66aed
+
+		formatStringDefinition = SELECTEDVALUE(t_Tabela[Format])
+
+	measure '∆ P1 x P3' = [P1] - [P3]
+		displayFolder: Comparações\_Oficial
+		lineageTag: d678f393-e9fe-4541-93ff-f6e1fc686239
+
+		formatStringDefinition = SELECTEDVALUE(t_Tabela[Format])
+
+	measure P1 =
+			
+			IF (
+			    HASONEVALUE(t_Tabela[KPI]),
+			    SWITCH (
+			        VALUES (t_Tabela[KPI]),
+			        "GMV", [GMV P1],
+			        "Receita", [Receita P1],
+			        "Operações", [OPS P1],
+			        "Presignups", [PSU P1],
+			        "Signups", [SU P1],
+			        "Ticket Médio", [Ticket P1]
+			    ),
+			    BLANK()
+			)
+		displayFolder: Comparações\_Oficial
+		lineageTag: caacc7d7-9566-4b5c-98db-d00c0827273b
+
+		formatStringDefinition = SELECTEDVALUE(t_Tabela[Format])
+
+	measure P2 =
+			
+			IF (
+			    HASONEVALUE(t_Tabela[KPI]),
+			    SWITCH (
+			        VALUES (t_Tabela[KPI]),
+			        "GMV", [GMV P2],
+			        "Receita", [Receita P2],
+			        "Operações", [OPS P2],
+			        "Presignups", [PSU P2],
+			        "Signups", [SU P2],
+			        "Ticket Médio", [Ticket P2]
+			    ),
+			    BLANK()
+			)
+		displayFolder: Comparações\_Oficial
+		lineageTag: 7dcd3c3f-8a9c-4468-8c7f-f0f5d5a8c564
+
+		formatStringDefinition = SELECTEDVALUE(t_Tabela[Format])
+
+	measure P3 =
+			
+			IF (
+			    HASONEVALUE(t_Tabela[KPI]),
+			    SWITCH (
+			        VALUES (t_Tabela[KPI]),
+			        "GMV", [GMV P3],
+			        "Receita", [Receita P3],
+			        "Operações", [OPS P3],
+			        "Presignups", [PSU P3],
+			        "Signups", [SU P3],
+			        "Ticket Médio", [Ticket P3]
+			    ),
+			    BLANK()
+			)
+		displayFolder: Comparações\_Oficial
+		lineageTag: 8fa02c29-6ef2-4b67-82e8-a63827b3ffbe
+
+		formatStringDefinition = SELECTEDVALUE(t_Tabela[Format])
+
+	measure 'OPS - %  P1 x P3' = ```
+			
+			    DIVIDE(
+			        [OPS P1],
+			        [OPS P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Operações
+		lineageTag: 61f06503-0312-499d-a72b-44adf8dc25cc
+
+	measure 'OPS - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [OPS P1],
+			        [OPS P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Operações
+		lineageTag: 5be7cbd0-f051-4f6e-8d59-a99e202ec387
+
+	measure 'OPS - ∆ P1 x P2' = [OPS P1] - [OPS P2]
+		formatString: #,0
+		displayFolder: Comparações\Operações
+		lineageTag: 547c7021-6249-4915-80d5-3ec1f9f4762a
+
+	measure 'OPS - ∆ P1 x P3' = [OPS P1] - [OPS P3]
+		formatString: #,0
+		displayFolder: Comparações\Operações
+		lineageTag: 7f6cbbdd-f661-4ec4-a29b-158bbf55400f
+
+	measure 'OPS P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Operações] = 0, BLANK(), [Operações]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 1'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Operações
+		lineageTag: 1f237f6d-d3d8-4844-af85-34353979b700
+
+	measure 'OPS P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Operações] = 0, BLANK(), [Operações]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Operações
+		lineageTag: 45bc91a7-a138-4282-81b0-a7b2d9edfe5b
+
+	measure 'OPS P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Operações] = 0, BLANK(), [Operações]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Operações
+		lineageTag: 6f27fa5b-3191-4d36-b352-1a9e8f39de62
+
+	measure 'GMV - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [GMV P1],
+			        [GMV P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\GMV
+		lineageTag: 3d314bde-43f6-4ba4-9fa3-5af0f2d149be
+
+	measure 'GMV - % P1 x P3' = ```
+			
+			    DIVIDE(
+			        [GMV P1],
+			        [GMV P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\GMV
+		lineageTag: 4e9fbb6b-2eed-4c0f-9393-8198d29790f2
+
+	measure 'GMV - ∆ P1 x P2' = [GMV P1] - [GMV P2]
+		displayFolder: Comparações\GMV
+		lineageTag: eacae181-f3e1-4def-9530-8853bd531d2f
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(SELECTEDMEASURE(), vFormat) & """"
+				```
+
+	measure 'GMV - ∆ P1 x P3' = [GMV P1] - [GMV P3]
+		displayFolder: Comparações\GMV
+		lineageTag: 06b5e775-d2b7-431f-a502-012350853e94
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(SELECTEDMEASURE(), vFormat) & """"
+				```
+
+	measure 'GMV P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [GMV] = 0, BLANK(), [GMV]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 1'[Date])
+			    )
+			```
+		displayFolder: Comparações\GMV
+		lineageTag: 54dd99f2-cc19-4c25-ba10-bdadd6dda21a
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				    SWITCH(
+				        TRUE(),
+				        vValor >= 1000000000, "R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				        vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				        vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				        vValor >= 0, "R$ #,0;R$ #,0",
+				        vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				        vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				        vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				        vValor < 0, "R$ #,0.00;R$ #,0.00"
+				    )
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'GMV P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [GMV] = 0, BLANK(), [GMV]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		displayFolder: Comparações\GMV
+		lineageTag: 46b2591b-85b4-49ed-8bfa-bf2c41b37d58
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				    SWITCH(
+				        TRUE(),
+				        vValor >= 1000000000, "R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				        vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				        vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				        vValor >= 0, "R$ #,0;R$ #,0",
+				        vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				        vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				        vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				        vValor < 0, "R$ #,0.00;R$ #,0.00"
+				    )
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'GMV P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [GMV] = 0, BLANK(), [GMV]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		displayFolder: Comparações\GMV
+		lineageTag: 33dc7e9c-ce51-468e-82e4-9164e7f96fb9
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				    SWITCH(
+				        TRUE(),
+				        vValor >= 1000000000, "R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				        vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				        vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				        vValor >= 0, "R$ #,0;R$ #,0",
+				        vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				        vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				        vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				        vValor < 0, "R$ #,0.00;R$ #,0.00"
+				    )
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PSU - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [PSU P1],
+			        [PSU P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Presignups
+		lineageTag: 6c53348f-5fee-43a4-8d81-51ac9b72fd75
+
+	measure 'PSU - % P1 x P3' = ```
+			
+			    DIVIDE(
+			        [PSU P1],
+			        [PSU P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Presignups
+		lineageTag: d6bccb95-ea56-4e5c-bc1e-321cad7b254e
+
+	measure 'PSU - ∆ P1 x P2' = [PSU P1] - [PSU P2]
+		formatString: #,0
+		displayFolder: Comparações\Presignups
+		lineageTag: 01cf08ce-c8e1-4ba7-97db-d0af11e5ffe0
+
+	measure 'PSU - ∆ P1 x P3' = [PSU P1] - [PSU P3]
+		formatString: #,0
+		displayFolder: Comparações\Presignups
+		lineageTag: b7e2613c-29b2-43c3-a89d-4d0c25f00a4f
+
+	measure 'PSU P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Presignups] = 0, BLANK(), [Presignups]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 1'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Presignups
+		lineageTag: 6b6e713c-e8de-4513-81f4-227ebfbd38c1
+
+	measure 'PSU P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Presignups] = 0, BLANK(), [Presignups]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Presignups
+		lineageTag: 3fa18295-7467-43ec-afd7-0063e475d25a
+
+	measure 'PSU P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Presignups] = 0, BLANK(), [Presignups]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Presignups
+		lineageTag: 4e851aa6-cffc-4176-900a-1e10cf47b675
+
+	measure 'Receita - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [Receita P1],
+			        [Receita P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Receita
+		lineageTag: 203c48ce-2fad-481f-a93f-3f3d595e1af9
+
+	measure 'Receita - % P1 x P3' = ```
+			
+			    DIVIDE(
+			        [Receita P1],
+			        [Receita P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Receita
+		lineageTag: e9ab7e27-b744-4ba4-8ec2-06346c50da43
+
+	measure 'Receita - ∆ P1 x P2' = [Receita P1] - [Receita P2]
+		displayFolder: Comparações\Receita
+		lineageTag: c5c7d630-e892-401b-829e-3fb266dbe3e0
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(SELECTEDMEASURE(), vFormat) & """"
+				```
+
+	measure 'Receita - ∆ P1 x P3' = [Receita P1] - [Receita P3]
+		displayFolder: Comparações\Receita
+		lineageTag: 20acb192-78dc-471c-9072-059e922158b0
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(SELECTEDMEASURE(), vFormat) & """"
+				```
+
+	measure 'Receita P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Receita] = 0, BLANK(), [Receita]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 1'[Date])
+			    )
+			```
+		displayFolder: Comparações\Receita
+		lineageTag: 3dd2886c-f7f6-43d2-bb16-8b4e30ae3204
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(SELECTEDMEASURE(), vFormat) & """"
+				```
+
+	measure 'Receita P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Receita] = 0, BLANK(), [Receita]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		displayFolder: Comparações\Receita
+		lineageTag: d48df078-712c-4352-8d6c-d0f13a81a502
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(SELECTEDMEASURE(), vFormat) & """"
+				```
+
+	measure 'Receita P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Receita] = 0, BLANK(), [Receita]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		displayFolder: Comparações\Receita
+		lineageTag: a427f36d-f171-4f0c-9e1c-1c8ad7ec8211
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(SELECTEDMEASURE(), vFormat) & """"
+				```
+
+	measure 'SU - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [SU P1],
+			        [SU P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Signups
+		lineageTag: 6e6be214-ae46-44eb-96b0-4f0d56908f7e
+
+	measure 'SU - % P1 x P3' = ```
+			
+			    DIVIDE(
+			        [SU P1],
+			        [SU P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Signups
+		lineageTag: a43aefaf-bd07-49d9-a877-687d6ba89387
+
+	measure 'SU - ∆ P1 x P2' = [SU P1] - [SU P2]
+		formatString: #,0
+		displayFolder: Comparações\Signups
+		lineageTag: 1208785f-98d7-4b39-b207-fd55d14bae3d
+
+	measure 'SU - ∆ P1 x P3' = [SU P1] - [SU P3]
+		formatString: #,0
+		displayFolder: Comparações\Signups
+		lineageTag: a9ac8ed7-4790-4b8f-8c25-c7d87f43aa85
+
+	measure 'SU P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Signups] = 0, BLANK(), [Signups]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 1'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Signups
+		lineageTag: 5425a2c8-ff51-4fba-9afa-cf0b1ce8fbf7
+
+	measure 'SU P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Signups] = 0, BLANK(), [Signups]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 2'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Signups
+		lineageTag: b33ffb4b-0ad6-4662-9013-0e3c2551e7c6
+
+	measure 'SU P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Signups] = 0, BLANK(), [Signups]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 3'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Signups
+		lineageTag: 30c6c720-ec76-4196-b5ed-8d5a614057f1
+
+	measure 'Ticket - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [Ticket P1],
+			        [Ticket P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Ticket
+		lineageTag: bdfd32db-8f3f-4f0a-9a46-7165e511dc94
+
+	measure 'Ticket - % P1 x P3' = ```
+			
+			    DIVIDE(
+			        [Ticket P1],
+			        [Ticket P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Ticket
+		lineageTag: a745efb7-c04c-4040-932a-7830da62a0df
+
+	measure 'Ticket - ∆ P1 x P2' = [Ticket P1] - [Ticket P2]
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Comparações\Ticket
+		lineageTag: 18073fad-dc8b-4081-b0f4-52a6bcdf7f43
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket - ∆ P1 x P3' = [Ticket P1] - [Ticket P3]
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Comparações\Ticket
+		lineageTag: ba6d7f4b-0dac-4627-8384-b0daf42c79da
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Ticket Médio (GMV)] = 0, BLANK(), [Ticket Médio (GMV)]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 1'[Date])
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Comparações\Ticket
+		lineageTag: b99acba0-03dd-4864-8238-5b9159803413
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Ticket Médio (GMV)] = 0, BLANK(), [Ticket Médio (GMV)]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Comparações\Ticket
+		lineageTag: 70cb5573-0a53-48aa-bf23-ddb7d9b80875
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Ticket Médio (GMV)] = 0, BLANK(), [Ticket Médio (GMV)]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Comparações\Ticket
+		lineageTag: 171848bf-e8b7-4506-adc9-117aa92251d2
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Investimento = SUM(f_investimento[investimento])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento
+		lineageTag: c195c325-c2c7-45cb-81f8-ece65899faa4
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PF Investimento' =
+			
+			CALCULATE(
+			    [Investimento],
+			    d_customer_type[Customer Type] = "PF"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PF
+		lineageTag: 4d9b7cd1-4514-4ce2-8a72-3a3034d5ca55
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PJ Investimento' =
+			
+			CALCULATE(
+			    [Investimento],
+			    d_customer_type[Customer Type] = "PJ"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PJ
+		lineageTag: e77e94d3-71e9-4f1b-b39d-b25658c5f3ef
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PF Presignups' = ```
+			
+			    CALCULATE(
+			        [Presignups],
+			        f_mkt_performance[Customer Type] = "PF"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PF
+		lineageTag: e4e6b904-af9b-46c2-b63d-08a0b68d9c9f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PJ Presignups' = ```
+			
+			    CALCULATE(
+			        [Presignups],
+			        f_mkt_performance[Customer Type] = "PJ"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PJ
+		lineageTag: 78476c6b-471b-42e7-a970-29e23bd67738
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PF Signups' = ```
+			
+			    CALCULATE(
+			        [Signups],
+			        f_mkt_performance[Customer Type] = "PF"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PF
+		lineageTag: bbb28f0d-1d5a-4426-88f6-575429b95bfe
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PJ Signups' = ```
+			
+			    CALCULATE(
+			        [Signups],
+			        f_mkt_performance[Customer Type] = "PJ"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PJ
+		lineageTag: 2a26401e-4b6f-44d2-91d8-c682d2d41b4f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PF Aquisições' = ```
+			
+			    CALCULATE(
+			        [Aquisições],
+			        f_mkt_performance[Customer Type] = "PF"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PF
+		lineageTag: fe35d89d-9487-4a19-92b6-44f926cd38ff
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PJ Aquisições' = ```
+			
+			    CALCULATE(
+			        [Aquisições],
+			        f_mkt_performance[Customer Type] = "PJ"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PJ
+		lineageTag: 36bb0faa-cfd5-4713-a4d2-ab1d9ab2b4ea
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'CPA PF' = ```
+			
+			    DIVIDE(
+			        [PF Investimento],
+			        [PF Aquisições],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento\PF
+		lineageTag: 859a1558-4941-44b0-8ee7-a9ce2322fd88
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPA PJ' = ```
+			
+			    DIVIDE(
+			        [PJ Investimento],
+			        [PJ Aquisições],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento\PJ
+		lineageTag: ca40b3a6-12f4-427b-9810-7f3aa72a75c5
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPP PJ' = ```
+			
+			    DIVIDE(
+			        [PJ Investimento],
+			        [PJ Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento\PJ
+		lineageTag: 8e995082-c605-4700-bb8f-73b90b532f2a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPP PF' = ```
+			
+			    DIVIDE(
+			        [PF Investimento],
+			        [PF Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento\PF
+		lineageTag: cd35097b-2b99-4995-8a9d-32ed561f99f1
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Filter Date' = ```
+			
+			VAR PrimeiraData =
+			    CALCULATE(
+			        MIN(d_calendar[Date Key]),
+			        REMOVEFILTERS(d_calendar)
+			    )
+			VAR UltimaData =
+			    CALCULATE(
+			        MAX(d_calendar[Date Key]),
+			        REMOVEFILTERS(d_calendar)
+			    )
+			VAR DataSelecionada = MIN(d_calendar[Date Key])
+			VAR FiltrarGrafico = 
+			    IF(
+			        DataSelecionada >= PrimeiraData
+			        && DataSelecionada <= UltimaData,
+			        1,
+			        0
+			    )
+			RETURN FiltrarGrafico
+			```
+		formatString: 0
+		displayFolder: Outras medidas
+		lineageTag: 246983ae-a048-48b8-98c9-ea3fe9136c29
+
+	measure Título = SELECTEDVALUE(p_Medidas[Parâmetro]) && " por " && SELECTEDVALUE(p_Timeframe[Timeframe])
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		displayFolder: Outras medidas
+		lineageTag: 33461259-26e9-4bc7-ade0-dad9dd824edb
+
+	measure 'Spread P1' =
+			
+			DIVIDE(
+			    [Receita P1],
+			    [GMV P1],
+			    BLANK()
+			)
+		formatString: 0.0000%;-0.0000%;0.0000%
+		displayFolder: Comparações\Spread
+		lineageTag: 07e16364-2f3e-4725-82d8-23586d6f9026
+
+	measure 'Spread P2' =
+			
+			DIVIDE(
+			    [Receita P2],
+			    [GMV P2],
+			    BLANK()
+			)
+		formatString: 0.0000%;-0.0000%;0.0000%
+		displayFolder: Comparações\Spread
+		lineageTag: 13847b55-1b23-43a4-b2a9-8964054fce8b
+
+	measure 'Spread P3' =
+			
+			DIVIDE(
+			    [Receita P3],
+			    [GMV P3],
+			    BLANK()
+			)
+		formatString: 0.0000%;-0.0000%;0.0000%
+		displayFolder: Comparações\Spread
+		lineageTag: 3e046e91-6ad9-4ba1-94ab-e5a543c73a41
+
+	measure 'Spread - ∆ P1 x P2' = [Spread P1] - [Spread P2]
+		formatString: 0.0000%;-0.0000%;0.0000%
+		displayFolder: Comparações\Spread
+		lineageTag: 7059ff6e-2546-4b7c-bb79-92d040b9ae0b
+
+	measure 'Spread - ∆ P1 x P3' = [Spread P1] - [Spread P3]
+		formatString: 0.0000%;-0.0000%;0.0000%
+		displayFolder: Comparações\Spread
+		lineageTag: 9ea2a244-9381-4ed3-9bc1-1b811f867fdb
+
+	measure _PSU = "Presignups"
+		displayFolder: Comparações\_Titles
+		lineageTag: 9b53bf3e-3e1e-4cad-80e8-f336d57a4a2c
+
+	measure _SU = "Signups"
+		displayFolder: Comparações\_Titles
+		lineageTag: 26ce40cf-8be2-4a5f-b180-2329909bd804
+
+	measure _GMV = "GMV"
+		displayFolder: Comparações\_Titles
+		lineageTag: 3382b31b-6dcf-4704-9e56-c2beafc9317b
+
+	measure _OPS = "Operações"
+		displayFolder: Comparações\_Titles
+		lineageTag: ea7e8e54-58c3-4108-b21f-872182eef462
+
+	measure _REC = "Receita"
+		displayFolder: Comparações\_Titles
+		lineageTag: 023a0cb4-1c10-4627-842a-8f3a158c745a
+
+	measure _SPR = "Spread"
+		displayFolder: Comparações\_Titles
+		lineageTag: 1463cb54-3ba8-4ee3-bf0b-3664991c1927
+
+	measure _TCK = "Ticket"
+		displayFolder: Comparações\_Titles
+		lineageTag: b3c60dfe-2075-4ecd-b2f9-876b242faed9
+
+	measure 'HIS APROV P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Histórias Aprovadas] = 0, BLANK(), [Histórias Aprovadas]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 1'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Histórias Aprovadas
+		lineageTag: 629a083a-b24d-4874-beeb-ef00bad12eb6
+
+	measure 'HIS APROV P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Histórias Aprovadas] = 0, BLANK(), [Histórias Aprovadas]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Histórias Aprovadas
+		lineageTag: 88703b46-5f11-43d3-8526-7ec3ce8c3dd3
+
+	measure 'HIS APROV P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Histórias Aprovadas] = 0, BLANK(), [Histórias Aprovadas]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Histórias Aprovadas
+		lineageTag: 23e0387a-d3fa-4356-b137-dae48df257c4
+
+	measure 'HIS APROV - ∆ P1 x P2' = [HIS APROV P1] - [HIS APROV P2]
+		formatString: #,0
+		displayFolder: Comparações\Histórias Aprovadas
+		lineageTag: ec41ccca-6d21-4cbd-8159-0fcee32a938e
+
+	measure 'HIS APROV - ∆ P1 x P3' = [HIS APROV P1] - [HIS APROV P3]
+		formatString: #,0
+		displayFolder: Comparações\Histórias Aprovadas
+		lineageTag: 3ac83de2-f3c2-46a1-8517-acd9e3a1b37d
+
+	measure 'HIS APROV - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [HIS APROV P1],
+			        [HIS APROV P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Histórias Aprovadas
+		lineageTag: 97593de3-d3bd-4378-840e-2a509fd9883e
+
+	measure 'HIS APROV - % P1 x P3' = ```
+			
+			    DIVIDE(
+			        [HIS APROV P1],
+			        [HIS APROV P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Histórias Aprovadas
+		lineageTag: f29dcf57-379f-4f01-9f3d-52bf53ab0ef8
+
+	measure 'HIS CRIADA - % P1 x P2' = ```
+			
+			    DIVIDE(
+			        [HIS CRIADA P1],
+			        [HIS CRIADA P2],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Histórias Criadas
+		lineageTag: fa1e1ff1-6b6d-49ac-ac92-4a8db1901ecb
+
+	measure 'HIS CRIADA P1' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Histórias Criadas] = 0, BLANK(), [Histórias Criadas]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 1'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Histórias Criadas
+		lineageTag: 22d85876-ec92-46ae-af43-1aeb3973dde0
+
+	measure 'HIS CRIADA P2' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Histórias Criadas] = 0, BLANK(), [Histórias Criadas]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 2'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Histórias Criadas
+		lineageTag: 92ea6889-b3df-40df-9937-f2ede1da612c
+
+	measure 'HIS CRIADA P3' = ```
+			
+			    CALCULATE(
+			        SWITCH(TRUE(), [Histórias Criadas] = 0, BLANK(), [Histórias Criadas]),
+			        USERELATIONSHIP(d_calendar[Date Key],'t_Período 3'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Histórias Criadas
+		lineageTag: ce1e5e4f-1e3d-4a85-85f4-6f959c30b81f
+
+	measure 'HIS CRIADA - ∆ P1 x P2' = [HIS CRIADA P1] - [HIS CRIADA P2]
+		formatString: #,0
+		displayFolder: Comparações\Histórias Criadas
+		lineageTag: 7845184c-7483-4bf5-9a94-54446a302f60
+
+	measure 'HIS CRIADA - ∆ P1 x P3' = [HIS CRIADA P1] - [HIS CRIADA P3]
+		formatString: #,0
+		displayFolder: Comparações\Histórias Criadas
+		lineageTag: 8f20ff69-6af4-42b1-b496-b3031de1c1ff
+
+	measure 'HIS CRIADA - % P1 x P3' = ```
+			
+			    DIVIDE(
+			        [HIS CRIADA P1],
+			        [HIS CRIADA P3],
+			        BLANK()
+			    ) - 1
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Comparações\Histórias Criadas
+		lineageTag: 6a8ce913-0c62-468a-a012-6614dc4474ff
+
+	measure '_HIS Ap' = "Hist. Aprovadas"
+		displayFolder: Comparações\_Titles
+		lineageTag: 641be951-e416-49f4-bb66-f5758512c0e0
+
+	measure '_HIS Cr' = "Hist. Criadas"
+		displayFolder: Comparações\_Titles
+		lineageTag: 8316e2db-1ad1-42c7-b95a-2cb795d130ac
+
+	measure 'Filtrar Zero' = ```
+			
+			    SWITCH(
+			        TRUE(),
+			        [P1] = 0 &&
+			        [P2] = 0 &&
+			        [P3] = 0,
+			        1,
+			        0
+			    )
+			```
+		formatString: 0
+		displayFolder: Comparações\_Oficial
+		lineageTag: 25ab0fb1-d0bf-4a15-8f61-896381338d27
+
+	measure 'PF Ticket Médio (Aquisição)' =
+			
+			CALCULATE(
+			    [Ticket Médio (GMV - Aquisição)],
+			    f_mkt_performance[Customer Type] = "PF"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PF
+		lineageTag: 15e3b39d-bbdf-4466-b953-28d44450cf30
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PJ Ticket Médio (Aquisição)' =
+			
+			CALCULATE(
+			    [Ticket Médio (GMV - Aquisição)],
+			    f_mkt_performance[Customer Type] = "PJ"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PJ
+		lineageTag: a29da6f0-722b-4344-acb1-4df4a8d8ede6
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PJ Receita (Aquisição)' =
+			
+			CALCULATE(
+			    [Receita (Aquisição)],
+			    f_mkt_performance[Customer Type] = "PJ"
+			)
+		displayFolder: Investimento\PJ
+		lineageTag: 67901d9f-9987-4841-ac52-73e5f9eb3f16
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor >= 0, "R$ #,0;R$ #,0",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vValor < 0, "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ GMV (Aquisição)' =
+			
+			CALCULATE(
+			    [GMV (Aquisição)],
+			    f_mkt_performance[Customer Type] = "PJ"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PJ
+		lineageTag: 67772f73-5ae5-4761-9d76-5e35c9028532
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PF GMV (Aquisição)' =
+			
+			CALCULATE(
+			    [GMV (Aquisição)],
+			    f_mkt_performance[Customer Type] = "PF"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PF
+		lineageTag: ee8af429-13aa-4924-85d9-191b5410ea9c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PF Receita (Aquisição)' =
+			
+			CALCULATE(
+			    [Receita (Aquisição)],
+			    f_mkt_performance[Customer Type] = "PF"
+			)
+		displayFolder: Investimento\PF
+		lineageTag: 18e94453-0299-4a94-bc8a-7767b621966f
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor >= 0, "R$ #,0;R$ #,0",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vValor < 0, "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_mkt_performance[id_customer]),
+			    f_mkt_performance[event_type] = "ACQUISITION",
+			    USERELATIONSHIP(d_calendar[Date Key], f_mkt_performance[psu_date])
+			) --+ 0
+		displayFolder: Performance
+		lineageTag: 145c7223-85d0-4a5f-9db0-20223d507348
+
+	measure 'PJ Aquisições (Cohortadas)' =
+			
+			CALCULATE(
+			    [Aquisições Cohortadas],
+			    f_mkt_performance[Customer Type] = "PJ"
+			)
+		formatString: #,0
+		displayFolder: Investimento\PJ
+		lineageTag: c29c384e-1c6b-4397-b34a-6cffad3f03ce
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PF Aquisições (Cohortadas)' =
+			
+			CALCULATE(
+			    [Aquisições Cohortadas],
+			    f_mkt_performance[Customer Type] = "PF"
+			)
+		formatString: #,0
+		displayFolder: Investimento\PF
+		lineageTag: d364c9b2-aac8-425a-849b-f2a63bfe76d9
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PJ - PSU ➜ ACQ' =
+			
+			DIVIDE(
+			    [PJ Aquisições (Cohortadas)],
+			    [PJ Presignups],
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Investimento\PJ
+		lineageTag: 915389bc-6609-4a2d-aad8-1f64c028ff99
+
+	measure 'PF - PSU ➜ ACQ' =
+			
+			DIVIDE(
+			    [PF Aquisições (Cohortadas)],
+			    [PF Presignups],
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Investimento\PF
+		lineageTag: 5e205e50-5829-4925-a9ab-b85ba9908a86
+
+	measure 'Signups (Cohortadas)' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_mkt_performance[id_customer]),
+			    f_mkt_performance[event_type] = "PRESIGNUP",
+			    NOT ISBLANK(f_mkt_performance[signup_month])
+			) --+ 0
+		formatString: #,0
+		displayFolder: Performance
+		lineageTag: 6784b8c4-d404-46f0-8b7c-8021698b1159
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PJ Signups (Cohortadas)' = ```
+			
+			    CALCULATE(
+			        [Signups (Cohortadas)],
+			        f_mkt_performance[Customer Type] = "PJ"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PJ
+		lineageTag: 4ac3af41-9f04-409b-b1dd-bdad2b3c4c22
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PF Signups (Cohortadas)' = ```
+			
+			    CALCULATE(
+			        [Signups (Cohortadas)],
+			        f_mkt_performance[Customer Type] = "PF"
+			    )
+			```
+		formatString: #,0
+		displayFolder: Investimento\PF
+		lineageTag: 37d66293-19ad-4647-9803-3adfae1a1f52
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PJ - PSU ➜ SU' =
+			
+			DIVIDE(
+			    [PJ Signups (Cohortadas)],
+			    [PJ Presignups],
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Investimento\PJ
+		lineageTag: 89e869a1-8af1-4bf2-844a-05a491056b0d
+
+	measure 'PF - PSU ➜ SU' =
+			
+			DIVIDE(
+			    [PF Signups (Cohortadas)],
+			    [PF Presignups],
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Investimento\PF
+		lineageTag: a22aa2b3-7a32-44e9-89db-320716f4fff3
+
+	measure 'Max Date P1' = ```
+			
+			    CALCULATE(
+			        MAX(d_calendar[workday]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 1'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Dates
+		lineageTag: 499f81cd-3e9e-49cd-9048-69e7ea880196
+
+	measure 'Min Date P1' = ```
+			
+			    CALCULATE(
+			        MIN(d_calendar[workday]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 1'[Date])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Comparações\Dates
+		lineageTag: f7aa7c7f-0964-4b72-aec9-b50ae6282975
+
+	measure 'Período 1' = [Min Date P1] & "-" & [Max Date P1] & " workdays"
+		displayFolder: Comparações\Dates
+		lineageTag: 6d2e27d6-2ae1-472e-af17-69d7276dffd2
+
+	measure 'Max Date P2' = ```
+			
+			    CALCULATE(
+			        MAX(d_calendar[workday]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		displayFolder: Comparações\Dates
+		lineageTag: 2e73b270-a1d2-4722-aee4-cab60aa55f67
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Min Date P2' = ```
+			
+			    CALCULATE(
+			        MIN(d_calendar[workday]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 2'[Date])
+			    )
+			```
+		displayFolder: Comparações\Dates
+		lineageTag: 17b0027f-1e9f-4785-bee7-44070af4a5e7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Período 2' = [Min Date P2] & "-" & [Max Date P2] & " workdays"
+		displayFolder: Comparações\Dates
+		lineageTag: 4f741e7f-82e7-4ffa-912d-2bf2e50644ed
+
+	measure 'Max Date P3' = ```
+			
+			    CALCULATE(
+			        MAX(d_calendar[workday]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		displayFolder: Comparações\Dates
+		lineageTag: 292410f5-da0c-4190-84b9-d2542521346f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Min Date P3' = ```
+			
+			    CALCULATE(
+			        MIN(d_calendar[workday]),
+			        USERELATIONSHIP(d_calendar[Date Key], 't_Período 3'[Date])
+			    )
+			```
+		displayFolder: Comparações\Dates
+		lineageTag: 14dc5494-4144-4f46-9cb6-cc8121aba7e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Período 3' = [Min Date P3] & "-" & [Max Date P3] & " workdays"
+		displayFolder: Comparações\Dates
+		lineageTag: 00e7da17-0961-4e1a-9bd8-6cc89d3896de
+
+	measure Payback = ```
+			
+			DIVIDE(
+			    [CPA],
+			    [Ticket Médio (Gross - Aquisição)], 
+			    BLANK()
+			)
+			```
+		formatString: 0
+		displayFolder: Investimento
+		lineageTag: 818338e0-bf13-463e-ba7a-1ec7d62c48c1
+
+	measure 'Ticket Médio (Gross)' =
+			
+			DIVIDE(
+			    [Receita],
+			    [Operações],
+			    BLANK()
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: ef918787-0fd6-4425-b9c8-b5d95f5f9aea
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket Médio (Gross - Aquisição)' =
+			
+			DIVIDE(
+			    [Receita (Aquisição)],
+			    [Aquisições],
+			    BLANK()
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: 17a42df3-65e7-4c79-88b2-1ef214d104e9
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ticket Médio (Gross - Recorrência)' =
+			
+			DIVIDE(
+			    [Receita (Recorrência)],
+			    [Recorrências],
+			    BLANK()
+			) --+ 0
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Performance
+		lineageTag: b2ed4a7d-058b-452a-97b0-893013f0eaa4
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PF Ticket Médio (Gross - Aquisição)' =
+			
+			CALCULATE(
+			    [Ticket Médio (Gross - Aquisição)],
+			    f_mkt_performance[Customer Type] = "PF"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PF
+		lineageTag: 206217b6-2586-428f-a603-c3840e8d8286
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PF Payback' = ```
+			
+			DIVIDE(
+			    [CPA PF],
+			    [PF Ticket Médio (Gross - Aquisição)], 
+			    BLANK()
+			)
+			```
+		formatString: #,0
+		displayFolder: Investimento\PF
+		lineageTag: ea15dcdd-36ff-4a56-a4ee-0382a93fd51a
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure EUR = ```
+			
+			CALCULATE(
+			    [Valor da Moeda (Med)],
+			    --FILTER(trading_quotation,
+			        f_trading_quotation[currency_abbreviation]= "EUR"
+			    --)
+			)    
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Fast Analytics
+		lineageTag: 6c6c729e-433a-4292-b440-0806c52d91ad
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure USD = ```
+			
+			CALCULATE(
+			    [Valor da Moeda (Med)],
+			    --FILTER(trading_quotation,
+			        f_trading_quotation[currency_abbreviation] = "USD"
+			    --)
+			)    
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Fast Analytics
+		lineageTag: ac2071b9-5491-47fc-8252-7b94654a1880
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure GBP = ```
+			
+			CALCULATE(
+			    [Valor da Moeda (Med)],
+			    --FILTER(trading_quotation,
+			        f_trading_quotation[currency_abbreviation] = "GBP"
+			    --)
+			)    
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Fast Analytics
+		lineageTag: d5f8e744-e414-40b6-a4fd-5d5a9fb3a106
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure CAD = ```
+			
+			CALCULATE(
+			    [Valor da Moeda (Med)],
+			    --FILTER(trading_quotation,
+			        f_trading_quotation[currency_abbreviation] = "CAD"
+			    --)
+			)    
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Fast Analytics
+		lineageTag: 6755888f-5b02-4a24-9a4a-308297d39dc8
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PJ Ticket Médio (Gross - Aquisição)' =
+			
+			CALCULATE(
+			    [Ticket Médio (Gross - Aquisição)],
+			    f_mkt_performance[Customer Type] = "PJ"
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Investimento\PJ
+		lineageTag: 7486a6c3-bfcc-461b-9d84-43ea19231d3d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'PJ Payback' = ```
+			
+			DIVIDE(
+			    [CPA PJ],
+			    [PJ Ticket Médio (Gross - Aquisição)], 
+			    BLANK()
+			)
+			```
+		displayFolder: Investimento\PF
+		lineageTag: db5893c0-501a-4774-ae6e-d0307b6e5d57
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Presignups PF Conversão Assistida' = sum(f_attribution_window[presignups_pf])
+		formatString: #,0
+		displayFolder: Attribution Window
+		lineageTag: 8e73876d-fdec-4967-b6fa-fea0d34d6e19
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Presignups PJ Conversão Assistida' = sum(f_attribution_window[presignups_pj])
+		formatString: #,0
+		displayFolder: Attribution Window
+		lineageTag: 71526746-669d-43d0-90c9-db86a583dd76
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PSU PF Att Proporção' =
+			
+			DIVIDE(
+			    [Presignups PF Conversão Assistida],
+			    [PF Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Attribution Window
+		lineageTag: 77d2352e-b78b-489b-b125-a7fb8ecd7853
+
+	measure 'PSU PJ Att Proporção' = DIVIDE([Presignups PJ Conversão Assistida], [PJ Presignups], BLANK())
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Attribution Window
+		lineageTag: d24d175d-a3e8-46d7-ae16-efc0afffb2c6
+
+	measure 'Título Dimension PSU' = ```
+			
+			"Medida Selecionada: " & SELECTEDVALUE(p_Medidas[Título])
+			
+			& " / " &
+			
+			"Dimensão 1: " &
+			IF(
+			    ISBLANK(SELECTEDVALUE('p_Dimension 1 - PSU'[Dimension])),
+			    "Todos",
+			    SELECTEDVALUE('p_Dimension 1 - PSU'[Dimension])
+			)
+			
+			& " / " & 
+			
+			"Dimensão 2: " &
+			IF(
+			    ISBLANK(SELECTEDVALUE('p_Dimension 2 - PSU'[Dimension])),
+			    "Todos",
+			    SELECTEDVALUE('p_Dimension 2 - PSU'[Dimension])
+			)
+			
+			& " / " & 
+			
+			"Dimensão 3: " &
+			IF(
+			    ISBLANK(SELECTEDVALUE('p_Dimension 3 - PSU'[Dimension])),
+			    "Todos",
+			    SELECTEDVALUE('p_Dimension 3 - PSU'[Dimension])
+			)
+			
+			& " / " & 
+			
+			"Dimensão 4: " &
+			IF(
+			    ISBLANK(SELECTEDVALUE('p_Dimension 4 - PSU'[Dimension])),
+			    "Todos",
+			    SELECTEDVALUE('p_Dimension 4 - PSU'[Dimension])
+			)
+			```
+		displayFolder: Outras medidas
+		lineageTag: 41671121-8eb2-41d2-a8c3-f3703daaa30a
+
+	measure 'Acquisitions PF Conversão Assistida' = sum(f_attribution_window[acquisitions_pf])
+		formatString: 0
+		displayFolder: Attribution Window
+		lineageTag: b002ae32-5ac6-46ff-b921-337fe6e93375
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'ACQ PF Att Proporção' =
+			
+			DIVIDE(
+			    [Acquisitions PF Conversão Assistida],
+			    [PF Aquisições],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Attribution Window
+		lineageTag: ba52c9a5-c8ab-441e-b6bd-34d7b8387c51
+
+	measure 'Presignups Conversão Assistida' = sum(f_attribution_window[presignups])
+		formatString: #,0
+		displayFolder: Attribution Window
+		lineageTag: 6ab43e51-61e0-40cc-9434-a715291fe999
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'PSU Att Proporção' =
+			
+			DIVIDE(
+			    [Presignups Conversão Assistida],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Attribution Window
+		lineageTag: 7b0d96a6-e78c-426d-885b-69ee10731216
+
+	measure 'PSU ➜ SU' =
+			
+			DIVIDE(
+			    [Signups (Cohortadas)],
+			    [Presignups],
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Performance
+		lineageTag: e98fbc84-f237-49f7-91df-59ed290938c3
+
+	measure 'Aquisições Conversão Assistida' = sum(f_attribution_window[acquisitions])
+		formatString: #,0
+		displayFolder: Attribution Window
+		lineageTag: f2c73ffe-0240-4d81-a88e-1aadeae77993
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'ACQ Att Proporção' =
+			
+			DIVIDE(
+			    [Aquisições Conversão Assistida],
+			    [Aquisições],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Attribution Window
+		lineageTag: 2f6c4737-4f9a-4cfe-960a-3d2313227a93
+
+	measure 'PSU ➜ ACQ' =
+			
+			DIVIDE(
+			    [Aquisições Cohortadas],
+			    [Presignups],
+			    0
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Performance
+		lineageTag: f47791b6-7054-4dd3-8acf-27173c080b0d
+
+	measure 'Acquisitions PJ Conversão Assistida' = sum(f_attribution_window[acquisitions_pj])
+		formatString: 0
+		displayFolder: Attribution Window
+		lineageTag: 9bb95a08-48de-46f7-9260-55fb71d4796e
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure CPA = ```
+			
+			    DIVIDE(
+			        [Investimento],
+			        [Aquisições],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: dc0da8b6-5f57-472c-80a6-ade921d2d6d1
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure CPP = ```
+			
+			    DIVIDE(
+			        [Investimento],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 60e65765-eaa5-46b8-8252-b2c01b696e5d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column '# Medidas'
+		dataType: string
+		isHidden
+		lineageTag: 8d611272-0bc3-478e-8879-ff392ff1f36a
+		summarizeBy: none
+		sourceColumn: # Medidas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '# Medidas' = m
+		mode: import
+		source =
+				let
+				    Fonte = ""
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navegação
+

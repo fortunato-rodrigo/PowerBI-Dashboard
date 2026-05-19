@@ -1,0 +1,61 @@
+table 'p_Medidas (Ops)'
+	lineageTag: 8bec535e-f4d3-49b8-9a54-f8f9fcbd9390
+
+	column 'Medidas (Ops)'
+		lineageTag: f0069036-e6f0-41a6-a122-4bac15e784c0
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Medidas (Ops) Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Medidas (Ops) Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas (Ops) Campos'
+		isHidden
+		lineageTag: 36966dee-dedc-4803-ab8d-1bef0aa47dab
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Medidas (Ops) Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas (Ops) Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 97655bc3-cf48-4fb6-8678-10ca560f7a23
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Medidas (Ops)-61210470-86ce-4a62-98cc-730a86210e82' = calculated
+		mode: import
+		source =
+				{
+				    ("Operações", NAMEOF('# Medidas'[Operações]), 0),
+				    ("Aquisições", NAMEOF('# Medidas'[Aquisições]), 1),
+				    ("Recorrências", NAMEOF('# Medidas'[Recorrências]), 2),
+				    ("Receita", NAMEOF('# Medidas'[Receita]), 3),
+				    ("Receita (Aquisição)", NAMEOF('# Medidas'[Receita (Aquisição)]), 4),
+				    ("Receita (Recorrência)", NAMEOF('# Medidas'[Receita (Recorrência)]), 5),
+				    ("GMV ", NAMEOF('# Medidas'[GMV]), 6),
+				    ("GMV (Aquisição)", NAMEOF('# Medidas'[GMV (Aquisição)]), 7),
+				    ("GMV (Recorrência)", NAMEOF('# Medidas'[GMV (Recorrência)]), 8),
+				    ("Spread", NAMEOF('# Medidas'[Spread]), 9),
+				    ("Spread (Aquisições)", NAMEOF('# Medidas'[Spread (Aquisição)]), 10),
+				    ("Spread (Recorrência)", NAMEOF('# Medidas'[Spread (Recorrência)]), 11),
+				    ("Ticket Médio", NAMEOF('# Medidas'[Ticket Médio (GMV)]), 12),
+				    ("Ticket Médio (Aquisições)", NAMEOF('# Medidas'[Ticket Médio (GMV - Aquisição)]), 13),
+				    ("Ticket Médio (Recorrência)", NAMEOF('# Medidas'[Ticket Médio (GMV - Recorrência)]), 14)
+				}
+
+	annotation PBI_Id = 63622b8cb7934234ba5051633bd8d86c
+

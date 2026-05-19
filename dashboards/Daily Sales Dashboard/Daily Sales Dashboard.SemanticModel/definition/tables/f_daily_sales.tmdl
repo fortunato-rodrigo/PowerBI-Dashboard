@@ -1,0 +1,178 @@
+table f_daily_sales
+	lineageTag: 0bab8bb9-091b-4c34-bf24-9376c919ba53
+
+	column date_key
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: c2b0fd6a-8c0f-424a-a343-4d54de1d04d1
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column event_type
+		dataType: string
+		lineageTag: 84c83351-0fe1-4f14-9359-b1e5164ab69a
+		summarizeBy: none
+		sourceColumn: event_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 7ed61969-9da5-4b22-9e57-c94f44f46407
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column meta_gross_revenue
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 6f793b1e-5eb6-4246-bf3d-1a27f49a80a5
+		summarizeBy: sum
+		sourceColumn: meta_gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column projecao_gross_revenue
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 0e03d183-fd78-4c06-af53-b6e099613308
+		summarizeBy: sum
+		sourceColumn: projecao_gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column operations
+		dataType: int64
+		formatString: 0
+		lineageTag: fc7fb2a9-8315-4271-bbee-02eb360e3b6a
+		summarizeBy: sum
+		sourceColumn: operations
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_operations
+		dataType: double
+		formatString: #,0
+		lineageTag: 3d347633-b358-4405-8f5e-e9f4ef337113
+		summarizeBy: sum
+		sourceColumn: meta_operations
+
+		annotation SummarizationSetBy = Automatic
+
+	column projecao_operations
+		dataType: double
+		lineageTag: cbfdac31-c89a-4ec7-941e-564d02f4fbfd
+		summarizeBy: sum
+		sourceColumn: projecao_operations
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gmv
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 659caef8-7480-441b-9b88-3823b9bb139d
+		summarizeBy: sum
+		sourceColumn: gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column meta_gmv
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 9e6c776f-838f-4d3d-9326-5b688495889f
+		summarizeBy: sum
+		sourceColumn: meta_gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column projecao_gmv
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: c8728bbb-1fad-4eb7-917c-bf923d046682
+		summarizeBy: sum
+		sourceColumn: projecao_gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column bu
+		dataType: string
+		lineageTag: acde0142-638a-443d-a095-14f0d92787fe
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_type
+		dataType: string
+		lineageTag: 657874a4-fce8-4bde-9fea-7b5f1ba76769
+		summarizeBy: none
+		sourceColumn: business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue_diario
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 0b7d9d68-93a8-474f-98c4-6dc3c08bde07
+		summarizeBy: sum
+		sourceColumn: gross_revenue_diario
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column ops_diaria
+		dataType: double
+		lineageTag: 7332d120-b2ff-4f91-a946-a03b4263b8f4
+		summarizeBy: sum
+		sourceColumn: ops_diaria
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gmv_diario
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 79f0bbf2-79a6-4202-93ba-739d6febb027
+		summarizeBy: sum
+		sourceColumn: gmv_diario
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition f_daily_sales = m
+		mode: import
+		queryGroup: Principais
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]){[Name="prod",Kind="Database"]}[Data], "select#(lf)    vd.date_key,#(lf)    vd.bu,#(lf)    --vd.customer_type,#(lf)    vd.event_type,#(lf)    vd.business_type,#(lf)    --vd.operation_segment,#(lf)    -----------------------------------#(lf)    sum(vd.gross_revenue) as gross_revenue,#(lf)    sum(vd.meta_gross_revenue) as meta_gross_revenue,#(lf)    sum(vd.acumulado_gross_revenue) as projecao_gross_revenue,#(lf)    sum(vd.gross_revenue_diario) as gross_revenue_diario,#(lf)    -----------------------------------#(lf)    sum(vd.operations) as operations,#(lf)    sum(vd.meta_operations) as meta_operations,#(lf)    sum(vd.acumulado_ops) as projecao_operations,#(lf)    sum(vd.ops_diaria) as ops_diaria,#(lf)    -----------------------------------#(lf)    sum(vd.gmv) as gmv,#(lf)    sum(vd.meta_gmv) as meta_gmv,#(lf)    sum(vd.acumulado_gmv) as projecao_gmv,#(lf)    sum(vd.gmv_diario) as gmv_diario#(lf)from gold.daily_sales as vd#(lf)where vd.date_key >= '2024-01-01'#(lf)group by all", null, [EnableFolding=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"gross_revenue", Currency.Type}, {"meta_gross_revenue", Currency.Type}, {"projecao_gross_revenue", Currency.Type}, {"gmv", Currency.Type}, {"meta_gmv", Currency.Type}, {"projecao_gmv", Currency.Type}, {"gross_revenue_diario", Currency.Type}, {"gmv_diario", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navegação
+

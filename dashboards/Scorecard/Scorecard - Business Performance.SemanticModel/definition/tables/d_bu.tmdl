@@ -1,0 +1,29 @@
+table d_bu
+	lineageTag: 45cc2539-037a-4762-8ad0-2a6b99e7e9f4
+
+	column BU
+		dataType: string
+		lineageTag: a365837d-3162-49e3-ba8d-d488c28cfc88
+		summarizeBy: none
+		sourceColumn: BU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_bu-d978c068-7156-46bb-af45-e3a5a070cd2a = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"d3c2d827-b84c-466b-9485-ee1b0ee58b79" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="d3c2d827-b84c-466b-9485-ee1b0ee58b79"]}[Data],
+				    bu_ = #"d3c2d827-b84c-466b-9485-ee1b0ee58b79"{[entity="bu",version=""]}[Data],
+				    #"Linhas Filtradas" = Table.SelectRows(bu_, each ([BU] <> "Presignups"))
+				in
+				    #"Linhas Filtradas"
+
+	annotation PBI_ResultType = Table
+

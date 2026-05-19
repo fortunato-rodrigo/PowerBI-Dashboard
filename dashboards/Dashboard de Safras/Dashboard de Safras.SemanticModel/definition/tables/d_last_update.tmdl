@@ -1,0 +1,24 @@
+table d_last_update
+	lineageTag: 60c8bbcf-bc90-4f00-aea4-7991efd9def1
+
+	column last_update
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8f912d00-e698-4f4a-b0bc-0ba1158ace7e
+		summarizeBy: none
+		sourceColumn: last_update
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_last_update = m
+		mode: import
+		source =
+				let
+				    Consulta = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "SELECT#(lf)CURRENT_TIMESTAMP - INTERVAL '3' HOUR AS last_update", null, [EnableFolding=true])
+				in
+				    Consulta
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

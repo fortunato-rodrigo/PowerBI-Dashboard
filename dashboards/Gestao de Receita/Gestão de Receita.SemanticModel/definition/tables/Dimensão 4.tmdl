@@ -1,0 +1,64 @@
+table 'Dimensão 4'
+	lineageTag: 9aa823d7-1a44-4294-b583-5e74306f9f36
+
+	column 'Dimensão 4'
+		lineageTag: 7c6738a1-fea6-425d-8060-36880b06d97f
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimensão 4 Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimensão 4 Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimensão 4 Campos'
+		isHidden
+		lineageTag: 2d122a35-a64a-4d1e-adb2-f2243dc15a68
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimensão 4 Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimensão 4 Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: ccb400cc-6070-4ff7-90a2-9e3121f91d78
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Dimensão 4' = calculated
+		mode: import
+		source =
+				{
+				    ("swift_remessadora", NAMEOF('processed_operations'[swift_or_distributor]), 0),
+				    ("Tipo Lucro", NAMEOF('processed_operations'[Tipo Lucro]), 1),
+				    ("in_or_out", NAMEOF('processed_operations'[in_or_out]), 2),
+				    ("acquisition", NAMEOF('processed_operations'[aquisicao_recorrencia]), 3),
+				    ("country", NAMEOF('processed_operations'[country]), 4),
+				    ("customer_type", NAMEOF('processed_operations'[customer_type]), 5),
+				    ("natureza", NAMEOF('processed_operations'[natureza]), 6),
+				    ("Moedas", NAMEOF('processed_operations'[Moedas]), 7),
+				    ("Ticket Range", NAMEOF('processed_operations'[Ticket Range]), 8),
+				    ("Tarifa", NAMEOF('processed_operations'[Tarifa aplicada]), 9),
+				    ("Desconto aplicado", NAMEOF('processed_operations'[Desconto aplicado]), 10),
+				    ("Faixa Spread", NAMEOF('processed_operations'[Faixa Spread]), 11),
+				    ("MID", NAMEOF('processed_operations'[MID]), 12),
+				    ("Representatividade Mensagem", NAMEOF('processed_operations'[Faixa perc_mensageria]), 13),
+				    ("Parceiro", NAMEOF(processed_operations[partner_name]), 14),
+				    ("Cod. Moeda", NAMEOF(processed_operations[currency_abbreviation]), 15),
+				    ("Remessadora", NAMEOF(processed_operations[distributor_name]), 16),
+				    ("Política de Preço", NAMEOF(processed_operations[policy_label]), 17)
+				}
+
+	annotation PBI_Id = a2a29e5eae1b4a2d96a2e5da41fb8273
+

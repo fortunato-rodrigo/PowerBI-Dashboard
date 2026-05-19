@@ -1,0 +1,21 @@
+question_variants:
+  - "Quantos presignups por canal de marketing em cada mês?"
+  - "Volume de PSU por canal sem FxaaS"
+  - "PSU por canal de mídia mensal"
+  - "Qual o canal com mais presignups?"
+sql: |
+  SELECT
+    DATE_TRUNC('month', fe.event_tstamp) AS month,
+    COALESCE(fe.canal_lc, 'unknown') AS canal,
+    COUNT(DISTINCT fe.id_customer) AS presignups
+  FROM gold.funnel_event AS fe
+  JOIN bronze.beecambio_customer AS bc ON fe.id_customer = bc.id_customer
+  WHERE fe.event_type = 'PRESIGNUP'
+    AND fe.event_sequence = 1
+    AND bc.email NOT LIKE '%fxaas%'
+  GROUP BY 1, 2
+  ORDER BY 1 DESC, 3 DESC
+tables_used: [gold.funnel_event, bronze.beecambio_customer]
+notes: "event_sequence=1 obrigatório. Filtro FxaaS via JOIN bronze.beecambio_customer (email NOT LIKE '%fxaas%'). Canal: coluna canal_lc em funnel_event. Alternativa para email: silver.signup."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

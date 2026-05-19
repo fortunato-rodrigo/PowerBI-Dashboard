@@ -1,0 +1,182 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.2.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY23SU04",
+      "reportVersionAtImport": {
+        "visual": "1.8.79",
+        "report": "2.0.79",
+        "page": "1.3.79"
+      },
+      "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "Custom28375856368672236.json",
+      "reportVersionAtImport": {
+        "visual": "1.8.89",
+        "report": "2.0.89",
+        "page": "1.3.89"
+      },
+      "type": "RegisteredResources"
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "90aeaef46f35a22db2f9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dcalendar"
+              }
+            },
+            "Property": "year"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dcalendar",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "d"
+                        }
+                      },
+                      "Property": "year"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "2026L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      }
+    ]
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          },
+          "visible": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "htmlContent443BE3AD55E043BF878BED274D3A6865"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY23SU04",
+          "path": "BaseThemes/CY23SU04.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "Custom28375856368672236.json",
+          "path": "Custom28375856368672236.json",
+          "type": "Image"
+        },
+        {
+          "name": "daily_sales741224295742122.png",
+          "path": "daily_sales741224295742122.png",
+          "type": "Image"
+        },
+        {
+          "name": "filter_white34762239234542514.png",
+          "path": "filter_white34762239234542514.png",
+          "type": "Image"
+        },
+        {
+          "name": "negative_(3)7482718737591401.png",
+          "path": "negative_(3)7482718737591401.png",
+          "type": "Image"
+        },
+        {
+          "name": "negative7526104769213577.png",
+          "path": "negative7526104769213577.png",
+          "type": "Image"
+        },
+        {
+          "name": "Remessa_Online_____Branco_Vert3232729760579176.png",
+          "path": "Remessa_Online_____Branco_Vert3232729760579176.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "isPersistentUserStateDisabled": true,
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "useEnhancedTooltips": false,
+    "disableFilterPaneSearch": true,
+    "queryLimitOption": "None",
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
+  },
+  "slowDataSourceSettings": {
+    "isCrossHighlightingDisabled": true,
+    "isSlicerSelectionsButtonEnabled": false,
+    "isFilterSelectionsButtonEnabled": false,
+    "isApplyAllButtonEnabled": true
+  }
+}

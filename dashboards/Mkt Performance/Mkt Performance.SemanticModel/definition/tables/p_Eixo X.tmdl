@@ -1,0 +1,51 @@
+table 'p_Eixo X'
+	lineageTag: 9992f68d-424a-4a95-bdf9-47dd0b583f26
+
+	column 'Eixo X'
+		lineageTag: 80181795-eccc-4ffa-abf1-925b404569aa
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Eixo X Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Eixo X Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Eixo X Campos'
+		isHidden
+		lineageTag: 6064533a-bc98-47a2-acae-465cce14cc25
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Eixo X Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Eixo X Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 43dd4b15-04e8-47b1-a45b-21524f0ac8e9
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Eixo X-11efbec7-99d5-46e9-9435-dc6682125016' = calculated
+		mode: import
+		source =
+				{
+				    ("Aquisições", NAMEOF('# Medidas'[Aquisições]), 0),
+				    ("GMV", NAMEOF('# Medidas'[GMV]), 1),
+				    ("Receita", NAMEOF('# Medidas'[Receita]), 2),
+				    ("Spread", NAMEOF('# Medidas'[Spread]), 3),
+				    ("Ticket Médio", NAMEOF('# Medidas'[Ticket Médio (GMV)]), 4)
+				}
+
+	annotation PBI_Id = 9199208b57584877b77640b1cb8cb773
+

@@ -1,0 +1,25 @@
+question_variants:
+  - "Qual dia da semana concentra mais operações?"
+  - "Distribuição de GMV por dia da semana"
+  - "Padrão semanal de operações — qual dia é mais movimentado?"
+  - "Volume de ops e GMV por dia da semana nos últimos 90 dias"
+sql: |
+  SELECT
+    DAYOFWEEK(processed_date) AS dia_numero,
+    DATE_FORMAT(processed_date, 'EEEE') AS dia_semana,
+    COUNT(id_remittance) AS total_ops,
+    ROUND(SUM(gmv), 0) AS total_gmv,
+    ROUND(AVG(gmv), 0) AS gmv_medio_por_op,
+    ROUND(SUM(gross_revenue), 0) AS total_receita,
+    COUNT(DISTINCT processed_date) AS total_dias,
+    ROUND(COUNT(id_remittance) / COUNT(DISTINCT processed_date), 0) AS ops_media_por_dia
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= date_sub(current_date(), 90)
+  GROUP BY 1, 2
+  ORDER BY 1
+tables_used: [gold.fact_operations]
+notes: "DAYOFWEEK: 1=domingo, 2=segunda, ..., 7=sábado. DATE_FORMAT com 'EEEE' retorna o nome do dia. ops_media_por_dia normaliza pelo número de dias de cada dia da semana no período. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

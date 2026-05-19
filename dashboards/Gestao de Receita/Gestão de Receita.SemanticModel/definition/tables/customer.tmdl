@@ -1,0 +1,104 @@
+table customer
+	lineageTag: 21299cd3-af96-4f88-9b6c-c56604e70782
+
+	column id_customer
+		dataType: int64
+		formatString: 0
+		lineageTag: ed6affcf-c678-47a6-9132-65445808c544
+		summarizeBy: sum
+		sourceColumn: id_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column naturezas
+		dataType: int64
+		formatString: 0
+		lineageTag: 01a0205d-2f0e-4073-9c1e-9973ea4a608c
+		summarizeBy: sum
+		sourceColumn: naturezas
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_envio
+		dataType: int64
+		formatString: 0
+		lineageTag: b6c3c123-cc56-4ae5-84ea-387bd3194e3b
+		summarizeBy: sum
+		sourceColumn: tipo_envio
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency
+		dataType: int64
+		formatString: 0
+		lineageTag: b5cf0f82-5238-4ed2-a77d-d39309dbb159
+		summarizeBy: sum
+		sourceColumn: currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d4e060f-312c-4be4-9867-a9cdca0ebc0d
+		summarizeBy: sum
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column ops_negativas
+		dataType: int64
+		formatString: 0
+		lineageTag: e19687d0-c727-4fdc-b618-c640c1acd011
+		summarizeBy: sum
+		sourceColumn: ops_negativas
+
+		annotation SummarizationSetBy = Automatic
+
+	column receita_liquida
+		dataType: double
+		lineageTag: 31cbd1a3-0232-4cf2-a68b-71b1eafab023
+		summarizeBy: sum
+		sourceColumn: receita_liquida
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column gross_revenue
+		dataType: double
+		lineageTag: c17dd991-3dff-4389-8850-5e216345eaa3
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column qtde_ops
+		dataType: int64
+		formatString: 0
+		lineageTag: 532a2178-f220-45ba-9d30-eefa7c2f5a0a
+		summarizeBy: sum
+		sourceColumn: qtde_ops
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'currency type' = IF(customer[currency] = 1, "1", "Mais de 2 moedas")
+		lineageTag: 6949a688-6e5c-4c6d-9596-53da82838d3c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition customer = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]){[Name="prod",Kind="Database"]}[Data], "with comissao_afiliados as #(lf)(#(lf)  select distinct cast(replace(replace(hc.advertiser_info, 'RM_PRODUCTION_', ''), 'RM_', '') as int) as id_remittance,#(lf)    date(hc.datetime + interval '1' hour) as operation_date,#(lf)    hc.affiliate_id,#(lf)    do.nickname as office_nickname,#(lf)    do.name as office,#(lf)    true as is_affiliate,#(lf)    sum(hc.revenue) as gross_revenue,#(lf)    sum(hc.payout) as payout#(lf)  from#(lf)    automations.integrations_hasoffer_conversion as hc#(lf)    left join beecambio.beecambio_tbl_office as do on hc.affiliate_id = do.id_affiliate_on_hasoffer#(lf)  where#(lf)    status = 'approved'#(lf)    and date(hc.datetime) >= date('2022-01-01')#(lf)    and hc.advertiser_info <> ''#(lf)  group by all#(lf))#(lf), bank_take as#(lf)(#(lf)  select #(lf)  date_trunc('month',kl.referencia) as referencia,#(lf)  kl.indicador,#(lf)  sum(kl.valor) as valor#(lf)  from finance_cube.kpi_list kl#(lf)  where 1=1#(lf)  and id = '45KPI'#(lf)  group by all#(lf))#(lf), gmv_mensal as #(lf)( #(lf)  select#(lf)  date_trunc('month',po.processed_date) mes,#(lf)  sum(po.gmv) as gmv#(lf)  from gold.fact_operations po #(lf)  where is_ops_processed is true#(lf)  group by all #(lf)) #(lf)#(lf), base as #(lf)(#(lf)  select#(lf)  po.* ,#(lf)  gm.gmv                                              as gmv_total_mes,#(lf)  po.gmv / gm.gmv                                     as prop_gmv,#(lf)  -bt.valor * (po.gmv / gm.gmv)                       as bank_take,#(lf)  coalesce(po.real_message_cost,0)                         as despesa_real,#(lf)  coalesce(ca.payout,0)                               as payout,#(lf)  po.gross_revenue - (-bt.valor * (po.gmv / gm.gmv)) - coalesce(po.real_message_cost,0) - coalesce(ca.payout,0)  as lucro#(lf)  from gold.fact_operations as po#(lf)#(lf)  left join comissao_afiliados as ca #(lf)    on ca.id_remittance = po.id_remittance#(lf)#(lf)  left join gmv_mensal as gm #(lf)      on date_trunc('month',po.processed_date) = gm.mes #(lf)#(lf)  left join bank_take as bt #(lf)      on date_trunc('month',po.processed_date) = bt.referencia #(lf)#(lf)  where 1=1 #(lf)  and date_trunc('month',po.processed_date) >= date('2023-01-01')#(lf)  and date_trunc('month',po.processed_date) <= date_trunc('month',current_date) - interval '1' month#(lf)  and bt.valor is not null#(lf)  and is_ops_processed is true#(lf))#(lf)#(lf)select id_customer,#(lf)count(distinct nature_operation_name) as naturezas,#(lf)count(distinct in_or_out) as tipo_envio,#(lf)count(distinct currency_name) as currency,#(lf)count(distinct country) as country,#(lf)count(distinct id_remittance) as qtde_ops,#(lf)count(distinct case when lucro < 0 then id_remittance else null end) as ops_negativas,#(lf)sum(lucro)              as receita_liquida,#(lf)sum(gross_revenue)              as gross_revenue#(lf)from base#(lf)where 1=1#(lf)and date_trunc('month',processed_date) >= date('2023-01-01')#(lf)group by all", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

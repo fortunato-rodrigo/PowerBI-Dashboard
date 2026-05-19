@@ -1,0 +1,24 @@
+question_variants:
+  - "Quantas operações tiveram gross profit negativo no mês?"
+  - "Operações com net revenue negativo — volume e impacto"
+  - "Quais BUs concentram mais operações com prejuízo?"
+  - "Operações que custam mais do que geram — análise por BU"
+sql: |
+  SELECT
+    bu,
+    customer_type,
+    COUNT(id_remittance) AS total_ops_negativas,
+    ROUND(SUM(net_revenue), 2) AS net_revenue_negativo_total,
+    ROUND(AVG(net_revenue), 2) AS net_revenue_medio,
+    ROUND(SUM(gmv), 2) AS gmv_total
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND net_revenue < 0
+    AND processed_date >= DATE_TRUNC('month', current_date())
+  GROUP BY bu, customer_type
+  ORDER BY net_revenue_negativo_total ASC
+tables_used: [gold.fact_operations]
+notes: "net_revenue é a receita líquida (gross_revenue menos custos). net_revenue < 0 identifica operações em que o custo superou a receita bruta. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. Para análise histórica, ajuste o filtro de data."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

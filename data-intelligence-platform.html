@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plataforma de Inteligência de Dados</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0e0e0e;
+    --ink2: #3a3a3a;
+    --ink3: #6b6b6b;
+    --paper: #f5f2ec;
+    --paper2: #ede9e0;
+    --paper3: #e2ddd3;
+    --accent: #c85a1e;
+    --accent2: #1a5c8a;
+    --teal: #0f6e56;
+    --amber: #ba7517;
+    --purple: #534ab7;
+    --line: rgba(14,14,14,0.12);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(245,242,236,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: 0 48px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: var(--serif); font-size: 18px; letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--ink3);
+    text-decoration: none; letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 120px 80px 80px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -100px; right: -200px;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,90,30,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -1px;
+    max-width: 780px;
+    margin-bottom: 32px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc {
+    font-size: 18px; font-weight: 300; color: var(--ink2);
+    max-width: 560px; line-height: 1.7; margin-bottom: 48px;
+  }
+  .hero-meta {
+    display: flex; gap: 48px;
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+  }
+  .hero-stat { }
+  .hero-stat .num {
+    font-family: var(--serif); font-size: 36px;
+    color: var(--ink); display: block; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .hero-stat .lbl { font-size: 12px; color: var(--ink3); font-weight: 500; letter-spacing: 0.05em; }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 80px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink3);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1; letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .section-intro {
+    font-size: 17px; font-weight: 300; color: var(--ink2);
+    max-width: 680px; line-height: 1.7; margin-bottom: 64px;
+  }
+
+  /* STACK FLOW */
+  .stack-flow {
+    display: flex; align-items: stretch; gap: 0;
+    margin-bottom: 64px;
+    position: relative;
+  }
+  .stack-node {
+    flex: 1;
+    background: var(--paper2);
+    border: 1px solid var(--line);
+    border-right: none;
+    padding: 28px 24px;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .stack-node:first-child { border-radius: 12px 0 0 12px; }
+  .stack-node:last-child { border-radius: 0 12px 12px 0; border-right: 1px solid var(--line); }
+  .stack-node:hover { background: var(--paper3); }
+  .stack-arrow {
+    display: flex; align-items: center; justify-content: center;
+    width: 28px; flex-shrink: 0;
+    background: var(--paper2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink3);
+    font-size: 16px;
+    position: relative; z-index: 1;
+  }
+  .stack-node-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 12px;
+  }
+  .sn-aws { background: #FFF3E0; }
+  .sn-db  { background: #E3F2FD; }
+  .sn-dbt { background: #E8F5E9; }
+  .sn-pbi { background: #EDE7F6; }
+  .sn-ai  { background: #FFF8E1; }
+  .stack-node-name {
+    font-weight: 500; font-size: 14px; margin-bottom: 4px;
+  }
+  .stack-node-sub {
+    font-size: 12px; color: var(--ink3); line-height: 1.5;
+  }
+  .stack-node-badge {
+    display: inline-block; margin-top: 10px;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 2px 8px;
+    border-radius: 4px; background: var(--paper3);
+    color: var(--ink3); border: 1px solid var(--line);
+  }
+
+  /* LAYERS DIAGRAM */
+  .layers-diagram {
+    display: flex; flex-direction: column; gap: 2px;
+    margin-bottom: 64px;
+  }
+  .layer {
+    border-radius: 12px;
+    padding: 28px 36px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    align-items: start;
+    position: relative;
+    cursor: default;
+    transition: filter 0.2s;
+  }
+  .layer:hover { filter: brightness(0.97); }
+  .l0 { background: #fdf8f2; border: 1.5px solid #e8d5bb; }
+  .l1 { background: #f0f7f4; border: 1.5px solid #b8d9ce; }
+  .l2 { background: #f2f4fb; border: 1.5px solid #c4c8e8; }
+  .l3 { background: #fffaf0; border: 1.5px solid #e8d49a; }
+  .l4 { background: #f0f7ee; border: 1.5px solid #b8d4b2; }
+
+  .layer-meta { }
+  .layer-num {
+    font-family: var(--serif); font-size: 13px;
+    color: var(--ink3); margin-bottom: 4px;
+  }
+  .layer-name {
+    font-family: var(--serif); font-size: 22px;
+    line-height: 1.1; margin-bottom: 8px;
+  }
+  .layer-tech {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink3);
+  }
+  .layer-content { }
+  .layer-desc {
+    font-size: 14px; color: var(--ink2); line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .layer-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .chip {
+    font-size: 12px; font-weight: 500;
+    padding: 4px 12px; border-radius: 20px;
+    background: rgba(14,14,14,0.06);
+    color: var(--ink2);
+    border: 1px solid rgba(14,14,14,0.08);
+  }
+  .chip.accent { background: rgba(200,90,30,0.08); color: var(--accent); border-color: rgba(200,90,30,0.15); }
+  .chip.blue { background: rgba(26,92,138,0.08); color: var(--accent2); border-color: rgba(26,92,138,0.15); }
+  .chip.teal { background: rgba(15,110,86,0.08); color: var(--teal); border-color: rgba(15,110,86,0.15); }
+  .chip.purple { background: rgba(83,74,183,0.08); color: var(--purple); border-color: rgba(83,74,183,0.15); }
+
+  /* ONTOLOGIA */
+  .onto-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .onto-card {
+    background: var(--paper2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 32px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .onto-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(14,14,14,0.08);
+  }
+  .onto-file {
+    font-family: 'Courier New', monospace;
+    font-size: 13px; font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .onto-title {
+    font-family: var(--serif); font-size: 22px;
+    margin-bottom: 12px; line-height: 1.2;
+  }
+  .onto-desc {
+    font-size: 14px; color: var(--ink2); line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .onto-example {
+    background: var(--paper3);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    font-size: 12px; color: var(--ink2); line-height: 1.7;
+    font-family: 'Courier New', monospace;
+  }
+  .onto-example strong { color: var(--ink); }
+
+  /* REPO TREE */
+  .repo-container {
+    background: #1a1a18;
+    border-radius: 16px;
+    padding: 40px 48px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 2;
+    color: #c8c4b8;
+    overflow-x: auto;
+  }
+  .repo-root { color: #e8e4d8; font-weight: 700; font-size: 15px; }
+  .repo-dir { color: #7bc8a4; }
+  .repo-file { color: #c8c4b8; }
+  .repo-comment { color: #636057; font-style: italic; }
+  .repo-highlight { color: #e8a84a; font-weight: 700; }
+  .repo-new { color: #7ab8e8; }
+
+  /* BENEFITS */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 64px;
+  }
+  .benefit {
+    background: var(--paper);
+    padding: 40px 32px;
+    transition: background 0.2s;
+  }
+  .benefit:hover { background: var(--paper2); }
+  .benefit-icon {
+    font-size: 28px; margin-bottom: 16px; display: block;
+  }
+  .benefit-title {
+    font-family: var(--serif); font-size: 20px;
+    margin-bottom: 10px; line-height: 1.2;
+  }
+  .benefit-desc {
+    font-size: 14px; color: var(--ink2); line-height: 1.6;
+  }
+
+  /* ROADMAP */
+  .roadmap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+  .phase {
+    position: relative;
+    padding: 28px 24px;
+    background: var(--paper2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .phase-num {
+    font-family: var(--serif);
+    font-size: 48px; line-height: 1;
+    color: var(--paper3);
+    position: absolute; top: 16px; right: 20px;
+    pointer-events: none;
+  }
+  .phase-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink3);
+    margin-bottom: 6px;
+  }
+  .phase-name {
+    font-family: var(--serif); font-size: 18px;
+    margin-bottom: 12px; line-height: 1.2;
+  }
+  .phase-items {
+    list-style: none;
+    font-size: 13px; color: var(--ink2); line-height: 1.7;
+  }
+  .phase-items li::before { content: "→ "; color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    padding: 60px 80px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-brand { font-family: var(--serif); font-size: 20px; }
+  .footer-note { font-size: 13px; color: var(--ink3); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1, .hero-desc, .hero-meta {
+    animation: fadeUp 0.7s ease both;
+  }
+  .hero-desc { animation-delay: 0.12s; }
+  .hero-meta { animation-delay: 0.24s; }
+
+  /* CONNECTORS between layers */
+  .layer-connector {
+    display: flex; justify-content: center;
+    color: var(--ink3); font-size: 20px;
+    height: 20px; align-items: center;
+    line-height: 1;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .hero, section { padding: 80px 24px; }
+    .hero h1 { font-size: 38px; }
+    .stack-flow { flex-direction: column; }
+    .stack-arrow { width: auto; height: 24px; border: none; }
+    .stack-node { border-right: 1px solid var(--line); border-bottom: none; border-radius: 0; }
+    .stack-node:first-child { border-radius: 12px 12px 0 0; }
+    .stack-node:last-child { border-radius: 0 0 12px 12px; border-bottom: 1px solid var(--line); }
+    .onto-grid { grid-template-columns: 1fr; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .roadmap { grid-template-columns: repeat(2, 1fr); }
+    .layer { grid-template-columns: 1fr; gap: 12px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Data Intelligence Platform</span>
+  <div class="nav-links">
+    <a href="#stack">Stack</a>
+    <a href="#diagrama">Diagrama</a>
+    <a href="#camadas">Camadas</a>
+    <a href="#ontologia">Ontologia</a>
+    <a href="#repositorio">Repositório</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">Proposta Técnica — Plataforma de Inteligência de Dados</div>
+  <h1>De dados brutos a<br><em>conversas de negócio</em></h1>
+  <p class="hero-desc">
+    Uma arquitetura que conecta AWS, Databricks, DBT e Power BI a uma camada semântica inteligente — permitindo que qualquer colaborador faça perguntas sobre os dados da empresa em linguagem natural.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <span class="num">30+</span>
+      <span class="lbl">Dashboards documentados</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">1</span>
+      <span class="lbl">Glossário corporativo único</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">0</span>
+      <span class="lbl">Custo de licença adicional</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">∞</span>
+      <span class="lbl">Perguntas respondíveis</span>
+    </div>
+  </div>
+</section>
+
+<!-- STACK TECNOLÓGICO -->
+<section id="stack">
+  <div class="section-label">01 — Tecnologia</div>
+  <h2 class="section-title">O stack de dados existente</h2>
+  <p class="section-intro">
+    A empresa já possui uma infraestrutura robusta de dados. A proposta não substitui nada — adiciona uma camada de inteligência e documentação sobre o que já existe.
+  </p>
+
+  <div class="stack-flow">
+    <div class="stack-node">
+      <div class="stack-node-icon sn-aws">☁️</div>
+      <div class="stack-node-name">AWS</div>
+      <div class="stack-node-sub">Fontes de dados brutas. Sistemas transacionais, APIs, eventos, logs.</div>
+      <span class="stack-node-badge">origem</span>
+    </div>
+    <div class="stack-arrow">→</div>
+    <div class="stack-node">
+      <div class="stack-node-icon sn-db">🧱</div>
+      <div class="stack-node-name">Databricks</div>
+      <div class="stack-node-sub">Ingestão e armazenamento em camadas RAW e BRONZE. Unity Catalog gerencia metadados.</div>
+      <span class="stack-node-badge">raw · bronze</span>
+    </div>
+    <div class="stack-arrow">→</div>
+    <div class="stack-node">
+      <div class="stack-node-icon sn-dbt">🔧</div>
+      <div class="stack-node-name">DBT</div>
+      <div class="stack-node-sub">Transformações documentadas via YML. Cria camadas SILVER e GOLD com qualidade garantida.</div>
+      <span class="stack-node-badge">silver · gold</span>
+    </div>
+    <div class="stack-arrow">→</div>
+    <div class="stack-node">
+      <div class="stack-node-icon sn-pbi">📊</div>
+      <div class="stack-node-name">Power BI</div>
+      <div class="stack-node-sub">30+ dashboards conectados às camadas Bronze, Silver ou Gold conforme necessidade analítica.</div>
+      <span class="stack-node-badge">30+ dashboards</span>
+    </div>
+    <div class="stack-arrow">→</div>
+    <div class="stack-node">
+      <div class="stack-node-icon sn-ai">🤖</div>
+      <div class="stack-node-name">Claude AI</div>
+      <div class="stack-node-sub">Camada conversacional que responde perguntas sobre qualquer dado, dashboard ou KPI da empresa.</div>
+      <span class="stack-node-badge">novo</span>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGRAMA ARQUITETURA -->
+<section id="diagrama" style="background: #111110;">
+  <div class="section-label" style="color:#888780;">01B — Diagrama</div>
+  <h2 class="section-title" style="color:#e8e4d8;">Visão geral da arquitetura</h2>
+  <p class="section-intro" style="color:#9c9a92;">Do dado bruto à pergunta de negócio respondida — em um único fluxo integrado.</p>
+
+  <svg width="100%" viewBox="0 0 780 520" role="img" xmlns="http://www.w3.org/2000/svg">
+    <title>Diagrama de arquitetura: AWS → Databricks → DBT → Power BI → Claude → Usuário</title>
+    <desc>Fluxo completo do stack de dados com camada de metadados e inteligência conversacional</desc>
+    <defs>
+      <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- ── ROW 1: Stack de dados ── -->
+    <!-- AWS -->
+    <rect x="20" y="20" width="110" height="80" rx="10" fill="#8B5E2A" stroke="#C8862A" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="#fff" text-anchor="middle" x="75" y="50">AWS</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#f0d8b0" text-anchor="middle" x="75" y="67">fontes raw</text>
+
+    <!-- Arrow AWS → Databricks -->
+    <line x1="130" y1="60" x2="158" y2="60" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+    <!-- Databricks RAW/BRONZE -->
+    <rect x="158" y="20" width="145" height="80" rx="10" fill="#2a2a28" stroke="#555550" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="#e8e4d8" text-anchor="middle" x="230" y="46">Databricks</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#9c9a92" text-anchor="middle" x="230" y="62">RAW / BRONZE</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#7a7870" text-anchor="middle" x="230" y="76">ingestão bruta</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#7a7870" text-anchor="middle" x="230" y="89">sem transformação</text>
+
+    <!-- Arrow Databricks → DBT -->
+    <line x1="303" y1="60" x2="331" y2="60" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+    <!-- DBT SILVER/GOLD -->
+    <rect x="331" y="20" width="145" height="80" rx="10" fill="#0d3d2e" stroke="#1D9E75" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="#9FE1CB" text-anchor="middle" x="403" y="46">DBT</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#9FE1CB" text-anchor="middle" x="403" y="62">SILVER / GOLD</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#5DCAA5" text-anchor="middle" x="403" y="76">YML documentado</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#5DCAA5" text-anchor="middle" x="403" y="89">descricao de colunas</text>
+
+    <!-- Arrow DBT → Power BI -->
+    <line x1="476" y1="60" x2="504" y2="60" stroke="#888780" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+    <!-- Power BI -->
+    <rect x="504" y="20" width="255" height="80" rx="10" fill="#0c2a4a" stroke="#378ADD" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="#85B7EB" text-anchor="middle" x="631" y="46">Power BI (30+ dashboards)</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#5a9ed4" text-anchor="middle" x="631" y="62">conecta em BRONZE</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#5a9ed4" text-anchor="middle" x="631" y="76">SILVER ou GOLD</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#5a9ed4" text-anchor="middle" x="631" y="89">depende do projeto</text>
+
+    <!-- Labels qualidade metadados -->
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#555550" text-anchor="middle" x="230" y="115">fraco</text>
+    <line x1="230" y1="100" x2="230" y2="140" stroke="#444440" stroke-width="1" stroke-dasharray="3 3" marker-end="url(#arr2)"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#1D9E75" text-anchor="middle" x="403" y="115">rico</text>
+    <line x1="403" y1="100" x2="403" y2="140" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr2)"/>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#378ADD" text-anchor="middle" x="631" y="115">gerado</text>
+    <line x1="631" y1="100" x2="631" y2="140" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+    <!-- ── CAMADA DE METADADOS ── -->
+    <rect x="20" y="140" width="739" height="150" rx="12" fill="#2a1f6e" stroke="#7F77DD" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="#CECBF6" text-anchor="middle" x="389" y="168">Camada de metadados — o que você vai construir</text>
+
+    <!-- DBT YML box -->
+    <rect x="36" y="180" width="200" height="96" rx="8" fill="#0d3d2e" stroke="#1D9E75" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#9FE1CB" text-anchor="middle" x="136" y="200">DBT YML (já existe!)</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#5DCAA5" text-anchor="middle" x="136" y="218">descricao de modelos</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#5DCAA5" text-anchor="middle" x="136" y="234">descricao de colunas</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#5DCAA5" text-anchor="middle" x="136" y="250">testes de qualidade</text>
+
+    <!-- PBIP docs box -->
+    <rect x="269" y="180" width="200" height="96" rx="8" fill="#0c2a4a" stroke="#378ADD" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#85B7EB" text-anchor="middle" x="369" y="200">PBIP docs (gerar)</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#5a9ed4" text-anchor="middle" x="369" y="218">medidas DAX</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#5a9ed4" text-anchor="middle" x="369" y="234">paginas e visuais</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#5a9ed4" text-anchor="middle" x="369" y="250">relacionamentos</text>
+
+    <!-- Ontologia box -->
+    <rect x="503" y="180" width="240" height="96" rx="8" fill="#1e1a5c" stroke="#AFA9EC" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#CECBF6" text-anchor="middle" x="623" y="200">Ontologia (construir)</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#AFA9EC" text-anchor="middle" x="623" y="218">glossario unico</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#AFA9EC" text-anchor="middle" x="623" y="234">KPIs canonicos</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#AFA9EC" text-anchor="middle" x="623" y="250">mapping termo → dado</text>
+
+    <!-- Arrow metadados → Claude -->
+    <line x1="389" y1="290" x2="389" y2="318" stroke="#7F77DD" stroke-width="2" marker-end="url(#arr2)"/>
+
+    <!-- ── CLAUDE + MCP ── -->
+    <rect x="20" y="318" width="739" height="76" rx="12" fill="#4a2e06" stroke="#EF9F27" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="14" font-weight="600" fill="#FAC775" text-anchor="middle" x="389" y="346">Claude + MCP Databricks</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#e8c070" text-anchor="middle" x="389" y="366">contexto: ontologia + todos os PBIP docs + DBT YML consultado em tempo real</text>
+    <text font-family="DM Sans,sans-serif" font-size="11" fill="#e8c070" text-anchor="middle" x="389" y="382">responde sobre qualquer dashboard, qualquer tabela, qualquer KPI</text>
+
+    <!-- Arrow Claude → Usuário -->
+    <line x1="389" y1="394" x2="389" y2="422" stroke="#EF9F27" stroke-width="2" marker-end="url(#arr2)"/>
+
+    <!-- ── USUÁRIO DE NEGÓCIO ── -->
+    <rect x="20" y="422" width="739" height="82" rx="12" fill="#1a3a1a" stroke="#639922" stroke-width="1.5"/>
+    <text font-family="DM Sans,sans-serif" font-size="13" font-weight="600" fill="#C0DD97" text-anchor="middle" x="389" y="448">Usuário de negócio — exemplos de perguntas</text>
+
+    <!-- Pergunta 1 -->
+    <rect x="36" y="458" width="215" height="36" rx="6" fill="#112811" stroke="#3B6D11" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#97C459" text-anchor="middle" x="143" y="472">"qual dashboard mostra o churn por segmento?"</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#639922" text-anchor="middle" x="143" y="487">→ aponta o dashboard e a medida exata</text>
+
+    <!-- Pergunta 2 -->
+    <rect x="282" y="458" width="215" height="36" rx="6" fill="#112811" stroke="#3B6D11" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#97C459" text-anchor="middle" x="389" y="472">"de onde vem o dado de receita no PBI?"</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#639922" text-anchor="middle" x="389" y="487">→ rastreia ate a tabela GOLD do Databricks</text>
+
+    <!-- Pergunta 3 -->
+    <rect x="528" y="458" width="215" height="36" rx="6" fill="#112811" stroke="#3B6D11" stroke-width="1"/>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#97C459" text-anchor="middle" x="635" y="472">"o que e LTV e como esta sendo calculado?"</text>
+    <text font-family="DM Sans,sans-serif" font-size="10" fill="#639922" text-anchor="middle" x="635" y="487">→ glossario + DAX + coluna DBT</text>
+  </svg>
+</section>
+
+<!-- CAMADAS DE DADOS -->
+<section id="camadas">
+  <div class="section-label">02 — Arquitetura</div>
+  <h2 class="section-title">As camadas de dados</h2>
+  <p class="section-intro">
+    Cada camada tem uma responsabilidade clara. Dados sobem em qualidade da RAW até o Power BI, enquanto metadados e documentação fluem para a camada de inteligência.
+  </p>
+
+  <div class="layers-diagram">
+
+    <div class="layer l0">
+      <div class="layer-meta">
+        <div class="layer-num">Camada 0</div>
+        <div class="layer-name">RAW / BRONZE</div>
+        <div class="layer-tech">Databricks · AWS S3</div>
+      </div>
+      <div class="layer-content">
+        <p class="layer-desc">
+          Dados brutos ingeridos diretamente das fontes — sistemas transacionais, APIs externas, arquivos e eventos. Nenhuma transformação é aplicada. O objetivo é preservar a fidelidade total dos dados originais para rastreabilidade e reprocessamento.
+        </p>
+        <div class="layer-chips">
+          <span class="chip">Dados sem transformação</span>
+          <span class="chip">Ingestão em batch e streaming</span>
+          <span class="chip">Auditoria e reprocessamento</span>
+          <span class="chip accent">Metadados fracos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer-connector">↓</div>
+
+    <div class="layer l1">
+      <div class="layer-meta">
+        <div class="layer-num">Camada 1</div>
+        <div class="layer-name">SILVER</div>
+        <div class="layer-tech">DBT · Databricks</div>
+      </div>
+      <div class="layer-content">
+        <p class="layer-desc">
+          Dados limpos e padronizados. O DBT aplica regras de qualidade, normaliza tipos, remove duplicatas e documenta cada modelo via arquivos YML. Cada tabela Silver possui descrição do modelo e descrição de cada coluna — essa documentação é a base da nossa ontologia.
+        </p>
+        <div class="layer-chips">
+          <span class="chip teal">YML documentado no DBT</span>
+          <span class="chip teal">Descrição de colunas</span>
+          <span class="chip">Dados limpos e tipados</span>
+          <span class="chip">Testes de qualidade</span>
+          <span class="chip">Joins e relacionamentos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer-connector">↓</div>
+
+    <div class="layer l2">
+      <div class="layer-meta">
+        <div class="layer-num">Camada 2</div>
+        <div class="layer-name">GOLD</div>
+        <div class="layer-tech">DBT · Databricks</div>
+      </div>
+      <div class="layer-content">
+        <p class="layer-desc">
+          Tabelas analíticas prontas para consumo. Agregações, métricas de negócio pré-calculadas, modelos dimensionais (fatos e dimensões). É aqui que a linguagem técnica começa a se traduzir em linguagem de negócio — <em>net_revenue</em> se torna <em>Receita Líquida</em>.
+        </p>
+        <div class="layer-chips">
+          <span class="chip blue">Métricas pré-calculadas</span>
+          <span class="chip blue">Modelo dimensional</span>
+          <span class="chip teal">YML documentado no DBT</span>
+          <span class="chip">Fatos e dimensões</span>
+          <span class="chip">Alta qualidade de dado</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer-connector">↓</div>
+
+    <div class="layer l3">
+      <div class="layer-meta">
+        <div class="layer-num">Camada 3</div>
+        <div class="layer-name">Power BI</div>
+        <div class="layer-tech">PBIP · Semantic Model · DAX</div>
+      </div>
+      <div class="layer-content">
+        <p class="layer-desc">
+          30+ dashboards conectados às camadas Databricks. O formato PBIP (Power BI Project) salva todas as medidas DAX, relacionamentos e estrutura de relatório como arquivos de texto — legíveis por humanos e pela IA. Cada dashboard terá documentação gerada automaticamente via Claude Code.
+        </p>
+        <div class="layer-chips">
+          <span class="chip purple">Formato PBIP (texto legível)</span>
+          <span class="chip purple">Medidas DAX documentadas</span>
+          <span class="chip">Semantic Model</span>
+          <span class="chip">README por dashboard</span>
+          <span class="chip accent">Conecta em Bronze/Silver/Gold</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer-connector">↓</div>
+
+    <div class="layer l4">
+      <div class="layer-meta">
+        <div class="layer-num">Camada 4</div>
+        <div class="layer-name">Inteligência</div>
+        <div class="layer-tech">Claude AI · GitHub · Ontologia</div>
+      </div>
+      <div class="layer-content">
+        <p class="layer-desc">
+          A camada que une tudo. A Claude carrega o contexto completo — ontologia corporativa, documentação de todos os dashboards, metadados DBT — e responde perguntas em linguagem natural. Via MCP, consulta o Databricks em tempo real para dados atualizados.
+        </p>
+        <div class="layer-chips">
+          <span class="chip teal">Respostas em linguagem natural</span>
+          <span class="chip teal">MCP Databricks em tempo real</span>
+          <span class="chip blue">Ontologia corporativa</span>
+          <span class="chip">Rastreabilidade completa</span>
+          <span class="chip accent">Sem licença adicional</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ONTOLOGIA -->
+<section id="ontologia">
+  <div class="section-label">03 — Ontologia</div>
+  <h2 class="section-title">A ontologia corporativa de dados</h2>
+  <p class="section-intro">
+    Um conjunto de quatro documentos vivos que traduzem a linguagem técnica dos dados para a linguagem do negócio — e garantem que "receita" significa a mesma coisa em todos os dashboards da empresa.
+  </p>
+
+  <div class="onto-grid">
+
+    <div class="onto-card">
+      <div class="onto-file">GLOSSARY.md</div>
+      <div class="onto-title">Glossário Corporativo</div>
+      <p class="onto-desc">
+        O dicionário canônico da empresa. Cada termo de negócio tem uma única definição, aprovada e sem ambiguidade. Se dois dashboards calculam "churn" de formas diferentes, isso aparece aqui como conflito explícito — e resolve a disputa de forma definitiva.
+      </p>
+      <div class="onto-example">
+<strong>## Churn Rate</strong><br>
+<strong>Definição:</strong> percentual de clientes que cancelaram<br>
+no período em relação à base do início do período.<br>
+<strong>Fórmula:</strong> cancelamentos / base_inicio * 100<br>
+<strong>Owner:</strong> Customer Success<br>
+<strong>Fonte:</strong> gold_subscriptions.churn_flag
+      </div>
+    </div>
+
+    <div class="onto-card">
+      <div class="onto-file">KPIS.md</div>
+      <div class="onto-title">KPIs Estratégicos</div>
+      <p class="onto-desc">
+        Os indicadores que o board e os líderes acompanham, com contexto completo: fórmula de negócio, meta vigente, frequência de monitoramento, owner e qual dashboard é a fonte autoritativa. A Claude usa isso para contextualizar qualquer análise.
+      </p>
+      <div class="onto-example">
+<strong>## GMV (Gross Merchandise Value)</strong><br>
+<strong>Descrição:</strong> volume total transacionado<br>
+<strong>Meta 2025:</strong> R$ 500M<br>
+<strong>Frequência:</strong> diária<br>
+<strong>Owner:</strong> Finanças — CFO<br>
+<strong>Dashboard:</strong> /dashboards/Financeiro/
+      </div>
+    </div>
+
+    <div class="onto-card">
+      <div class="onto-file">DOMAINS.md</div>
+      <div class="onto-title">Domínios de Negócio</div>
+      <p class="onto-desc">
+        Mapa de responsabilidades: qual área é dona de quais dados e dashboards. Vendas é responsável por <em>fact_orders</em>. CS é responsável por <em>dim_customers</em>. Isso resolve conflitos de ownership e direciona perguntas ao stakeholder correto.
+      </p>
+      <div class="onto-example">
+<strong>## Domínio: Vendas</strong><br>
+<strong>Owner:</strong> VP de Vendas<br>
+<strong>Tabelas:</strong> fact_orders, fact_quotes<br>
+<strong>Dashboards:</strong> Vendas/, Pipeline/<br>
+<strong>KPIs:</strong> Receita, Conversão, CAC<br>
+<strong>Contato:</strong> squad-dados-vendas@empresa
+      </div>
+    </div>
+
+    <div class="onto-card">
+      <div class="onto-file">MAPPING.md</div>
+      <div class="onto-title">Mapeamento Semântico</div>
+      <p class="onto-desc">
+        A cola entre todas as camadas. Traduz explicitamente como um termo de negócio se conecta a uma medida DAX no Power BI e a uma coluna no Databricks. É o que permite à Claude rastrear de onde vem cada número que aparece em um dashboard.
+      </p>
+      <div class="onto-example">
+<strong>## Receita Líquida</strong><br>
+→ <strong>Sinônimos:</strong> faturamento, revenue, fat. liq.<br>
+→ <strong>DAX:</strong> [Faturamento Líquido]<br>
+&nbsp;&nbsp;&nbsp;no modelo Vendas.SemanticModel<br>
+→ <strong>Databricks:</strong> gold_orders.net_revenue<br>
+→ <strong>DBT model:</strong> gold_orders.yml (documentado)
+      </div>
+    </div>
+
+  </div>
+
+  <div style="background: var(--paper2); border: 1px solid var(--line); border-radius: 12px; padding: 32px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+    <div>
+      <div class="section-label" style="margin-bottom: 12px;">O DBT já fez metade do trabalho</div>
+      <p style="font-size: 14px; color: var(--ink2); line-height: 1.7;">
+        Os arquivos YML do DBT já documentam cada tabela Silver e Gold com descrições de modelos e colunas. Um script extrai automaticamente esses metadados e os incorpora ao <code style="font-size:12px; background: var(--paper3); padding: 1px 6px; border-radius: 4px;">MAPPING.md</code>. A ontologia não começa do zero — herda o trabalho já feito pelo time de dados.
+      </p>
+    </div>
+    <div>
+      <div class="section-label" style="margin-bottom: 12px;">Construção incremental</div>
+      <p style="font-size: 14px; color: var(--ink2); line-height: 1.7;">
+        A ontologia não precisa estar completa para ser útil. Começa com os 20 termos mais confusos e os 10 KPIs mais perguntados. Cada novo dashboard documentado sugere automaticamente adições ao glossário. O repositório cresce sozinho.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- REPOSITÓRIO -->
+<section id="repositorio">
+  <div class="section-label">04 — Repositório</div>
+  <h2 class="section-title">Estrutura do repositório GitHub</h2>
+  <p class="section-intro">
+    Todo o conhecimento de dados da empresa vive em um único repositório versionado. Cada mudança é rastreável, cada novo dashboard passa por um Pull Request com documentação incluída.
+  </p>
+
+  <div class="repo-container">
+    <div><span class="repo-root">📁 PowerBI-Dashboard/</span>  <span class="repo-comment"># repositório GitHub corporativo</span></div>
+    <div>&nbsp;</div>
+    <div>├── <span class="repo-highlight">CLAUDE.md</span>  <span class="repo-comment"># instruções globais — lidas automaticamente pelo Claude Code</span></div>
+    <div>&nbsp;</div>
+    <div>├── <span class="repo-dir">ontologia/</span>  <span class="repo-comment"># camada semântica corporativa — transversal a todos os dashboards</span></div>
+    <div>│   ├── <span class="repo-highlight">GLOSSARY.md</span>  <span class="repo-comment"># termos canônicos da empresa</span></div>
+    <div>│   ├── <span class="repo-highlight">KPIS.md</span>  <span class="repo-comment"># KPIs estratégicos com owner e meta</span></div>
+    <div>│   ├── <span class="repo-highlight">DOMAINS.md</span>  <span class="repo-comment"># domínios de negócio e responsabilidades</span></div>
+    <div>│   └── <span class="repo-highlight">MAPPING.md</span>  <span class="repo-comment"># termo negócio → DAX → coluna Databricks</span></div>
+    <div>&nbsp;</div>
+    <div>├── <span class="repo-dir">dbt-metadata/</span>  <span class="repo-comment"># extraído automaticamente dos YML do DBT</span></div>
+    <div>│   ├── <span class="repo-new">silver_models.md</span>  <span class="repo-comment"># gerado por script — tabelas Silver documentadas</span></div>
+    <div>│   └── <span class="repo-new">gold_models.md</span>  <span class="repo-comment"># gerado por script — tabelas Gold documentadas</span></div>
+    <div>&nbsp;</div>
+    <div>├── <span class="repo-dir">.claude/skills/</span>  <span class="repo-comment"># instruções automáticas para o Claude Code</span></div>
+    <div>│   ├── <span class="repo-highlight">documentar-dashboard.md</span>  <span class="repo-comment"># gera README + FORMULAS + TABELAS</span></div>
+    <div>│   ├── <span class="repo-highlight">atualizar-ontologia.md</span>  <span class="repo-comment"># sugere adições ao glossário ao documentar</span></div>
+    <div>│   └── <span class="repo-highlight">extrair-dbt-metadata.md</span>  <span class="repo-comment"># lê YML DBT e atualiza dbt-metadata/</span></div>
+    <div>&nbsp;</div>
+    <div>├── <span class="repo-dir">_template/</span>  <span class="repo-comment"># modelo para novos dashboards</span></div>
+    <div>│   ├── README.md</div>
+    <div>│   ├── FORMULAS.md</div>
+    <div>│   ├── TABELAS.md</div>
+    <div>│   └── DATASOURCES.md</div>
+    <div>&nbsp;</div>
+    <div>└── <span class="repo-dir">dashboards/</span>  <span class="repo-comment"># um subdiretório por projeto PBIP</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="repo-dir">Vendas/</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;│   ├── Vendas.pbip</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;│   ├── <span class="repo-dir">Vendas.SemanticModel/</span>  <span class="repo-comment"># medidas DAX em texto puro</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;│   ├── <span class="repo-dir">Vendas.Report/</span>  <span class="repo-comment"># estrutura de páginas e visuais</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;│   ├── <span class="repo-new">README.md</span>  <span class="repo-comment"># gerado pela skill</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;│   ├── <span class="repo-new">FORMULAS.md</span>  <span class="repo-comment"># glossário DAX para stakeholders</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;│   ├── <span class="repo-new">TABELAS.md</span>  <span class="repo-comment"># inventário de tabelas</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;│   └── <span class="repo-new">DATASOURCES.md</span>  <span class="repo-comment"># Bronze/Silver/Gold — alertas de mistura</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="repo-dir">Financeiro/</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="repo-dir">Estoque/</span></div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="repo-dir">... 27 outros dashboards</span></div>
+  </div>
+</section>
+
+<!-- BENEFÍCIOS -->
+<section>
+  <div class="section-label">05 — Valor</div>
+  <h2 class="section-title">O que a empresa ganha</h2>
+  <p class="section-intro">
+    Uma infraestrutura de conhecimento que cresce com o negócio e democratiza o acesso aos dados.
+  </p>
+
+  <div class="benefits-grid">
+    <div class="benefit">
+      <span class="benefit-icon">🔍</span>
+      <div class="benefit-title">Rastreabilidade total</div>
+      <p class="benefit-desc">Qualquer número em qualquer dashboard tem sua origem rastreável até a tabela Databricks — passando pelo modelo DBT e pela medida DAX.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">💬</span>
+      <div class="benefit-title">Perguntas em linguagem natural</div>
+      <p class="benefit-desc">Qualquer colaborador pode perguntar "qual dashboard mostra o churn por segmento?" ou "de onde vem o dado de receita?" sem depender do time de BI.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">📚</span>
+      <div class="benefit-title">Documentação sempre atualizada</div>
+      <p class="benefit-desc">Cada Pull Request de novo dashboard inclui a documentação gerada automaticamente. O conhecimento não fica na cabeça das pessoas.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">🤝</span>
+      <div class="benefit-title">Uma verdade única</div>
+      <p class="benefit-desc">O GLOSSARY.md elimina discussões sobre o que "churn" ou "receita" significa. Um termo, uma definição, aprovada pela área responsável.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">⚡</span>
+      <div class="benefit-title">Velocidade de onboarding</div>
+      <p class="benefit-desc">Novos analistas e gestores entendem o ecossistema de dados em dias, não meses. A ontologia é o mapa que faltava.</p>
+    </div>
+    <div class="benefit">
+      <span class="benefit-icon">💰</span>
+      <div class="benefit-title">Sem custo adicional</div>
+      <p class="benefit-desc">Funciona com a licença Power BI Pro existente. O repositório é GitHub. A IA é Claude. Nenhuma nova licença de plataforma é necessária.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-label">06 — Execução</div>
+  <h2 class="section-title">Roadmap de implementação</h2>
+  <p class="section-intro">
+    Entrega incremental de valor — cada fase é útil por si só, independente das seguintes.
+  </p>
+
+  <div class="roadmap">
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-label">Mês 1</div>
+      <div class="phase-name">Fundação</div>
+      <ul class="phase-items">
+        <li>Repositório GitHub</li>
+        <li>Skill de documentação</li>
+        <li>Primeiros 5 PBIP</li>
+        <li>Templates de docs</li>
+        <li>CLAUDE.md global</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-label">Mês 2</div>
+      <div class="phase-name">Metadados DBT</div>
+      <ul class="phase-items">
+        <li>Extrator YML → Markdown</li>
+        <li>dbt-metadata/ gerado</li>
+        <li>DATASOURCES.md por dash</li>
+        <li>Alertas Bronze vs Gold</li>
+        <li>10 dashboards documentados</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-label">Mês 3</div>
+      <div class="phase-name">Ontologia MVP</div>
+      <ul class="phase-items">
+        <li>20 termos no GLOSSARY</li>
+        <li>10 KPIs no KPIS.md</li>
+        <li>Domínios mapeados</li>
+        <li>MAPPING.md inicial</li>
+        <li>Todos 30 dashboards</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div class="phase-label">Mês 4+</div>
+      <div class="phase-name">Talk to Data</div>
+      <ul class="phase-items">
+        <li>Claude Project corporativo</li>
+        <li>MCP Databricks conectado</li>
+        <li>Treinamento dos usuários</li>
+        <li>Ontologia em crescimento</li>
+        <li>Automação contínua</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Data Intelligence Platform</div>
+  <div class="footer-note">Proposta técnica — confidencial</div>
+</footer>
+
+</body>
+</html>

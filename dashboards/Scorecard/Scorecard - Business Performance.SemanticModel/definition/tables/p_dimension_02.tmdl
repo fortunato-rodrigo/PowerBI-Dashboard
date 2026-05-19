@@ -1,0 +1,145 @@
+table p_dimension_02
+	lineageTag: cd24e87f-b83a-4b5d-b471-6375cb062c68
+
+	column 'Dimension 2'
+		lineageTag: 93d15ff7-7580-4c43-b953-1f6ad20a7f1d
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension 2 Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension 2 Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 2 Campos'
+		lineageTag: c997c2d0-2f05-4275-ba5c-f8c45b0b6ec2
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension 2 Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 2 Pedido'
+		formatString: 0
+		lineageTag: 48ac08f3-4f00-47cc-88e7-0f0536067f82
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_dimension_02-7ff57e61-e0bf-4d2f-bced-627a7f338f99 = calculated
+		mode: import
+		source =
+				{
+				    ("-", NAMEOF('f_operations'[-]), 0),
+				    ("Account Manager", NAMEOF('f_operations'[account_manager]), 1),
+				    ("Afiliado", NAMEOF('f_operations'[office]), 2),
+				    ("Afiliado - Agência de Viagem", NAMEOF('f_operations'[travel_agency_affiliate]), 3),
+				    ("Afiliado - Cliente Recorrente Ex-Nubank", NAMEOF('f_operations'[recorrente_afiliado]), 4),
+				    ("Afiliado - Source", NAMEOF('f_operations'[affiliate_source]), 5),
+				    ("Afiliado Flag", NAMEOF('f_operations'[flag_affiliate]), 6),
+				    ("Age", NAMEOF('f_operations'[age]), 7),
+				    ("Bank Name", NAMEOF(f_operations[bank_name]), 8),
+				    ("BU", NAMEOF('d_bu'[BU]), 9),
+				    ("BU Old", NAMEOF(f_operations[bu_old]), 10),
+				    ("Business Type", NAMEOF('d_business_type'[Business Type]), 11),
+				    ("Business Type Old", NAMEOF(f_operations[business_type_old]), 12),
+				    ("CNAE Class", NAMEOF(f_operations[cnae_class]), 13),
+				    ("CNAE Division", NAMEOF(f_operations[cnae_division]), 14),
+				    ("CNAE Group", NAMEOF(f_operations[cnae_group]), 15),
+				    ("CNAE ID", NAMEOF('f_operations'[cnae_subclass]), 16),
+				    ("CNAE Session", NAMEOF('f_operations'[cnae_session]), 17),
+				    ("CNR", NAMEOF(f_operations[is_cnr]), 18),
+				    ("Company Member Association Type", NAMEOF(f_operations[company_member_association_type]), 19),
+				    ("Company Members", NAMEOF(f_operations[company_shareholders_count]), 20),
+				    ("Company Type", NAMEOF(f_operations[company_type]), 21),
+				    ("Contraparte", NAMEOF(f_operations[contraparte]), 22),
+				    ("Corretora", NAMEOF(f_operations[corretora]), 23),
+				    ("Country", NAMEOF('f_operations'[country]), 24),
+				    ("Customer Category", NAMEOF('f_operations'[customer_category]), 25),
+				    ("Customer Type", NAMEOF('d_customer_type'[Customer Type]), 26),
+				    ("Desconto Aplicado", NAMEOF('f_operations'[applied_discount]), 27),
+				    ("Desconto Aplicado 1", NAMEOF('f_operations'[applied_discount_1]), 28),
+				    ("Desconto Aplicado 2", NAMEOF('f_operations'[applied_discount_2]), 29),
+				    ("Desconto Aplicado 3", NAMEOF('f_operations'[applied_discount_3]), 30),
+				    ("Desconto Categoria", NAMEOF(f_operations[discount_category]), 31),
+				    ("Desconto Concedido", NAMEOF(f_operations[desconto]), 32),
+				    ("Desconto Tipo", NAMEOF('f_operations'[discount_category]), 33),
+				    ("Distributor Name", NAMEOF('f_operations'[distributor_name_og]), 34),
+				    ("Event type", NAMEOF('f_operations'[Event type]), 35),
+				    ("Event type ops", NAMEOF('f_operations'[event_type_ops]), 36),
+				    ("First Click - Campaign", NAMEOF('f_operations'[mkt_campaign_fc]), 37),
+				    ("First Click - Canal", NAMEOF('f_operations'[canal_fc]), 38),
+				    ("First Click - Medium", NAMEOF('f_operations'[medium_fc]), 39),
+				    ("First Click - Source", NAMEOF('f_operations'[source_fc]), 40),
+				    ("Genre", NAMEOF('f_operations'[genre]), 41),
+				    ("Geo - City", NAMEOF('f_operations'[geo_city]), 42),
+				    ("Geo - Is International?", NAMEOF('f_operations'[is_international]), 43),
+				    ("Geo - State", NAMEOF('f_operations'[geo_state]), 44),
+				    ("Geo - Timezone", NAMEOF('f_operations'[geo_timezone]), 45),
+				    ("Google", NAMEOF('f_operations'[google]), 46),
+				    ("High PJ", NAMEOF('f_operations'[high_pj]), 47),
+				    ("High/Mid/Low", NAMEOF('f_operations'[high_mid_low]), 48),
+				    ("Id Customer", NAMEOF('f_operations'[id_customer]), 49),
+				    ("Id Operation", NAMEOF('f_operations'[id_remittance]), 50),
+				    ("In or Out", NAMEOF('f_operations'[in_or_out]), 51),
+				    ("Is Comex?", NAMEOF(f_operations[is_comex]), 52),
+				    ("Is Potencial Premium", NAMEOF(f_operations[is_potencial_premium]), 53),
+				    ("Is Premium?", NAMEOF(f_operations[is_premium_user]), 54),
+				    ("Last Click - Campaign", NAMEOF('f_operations'[mkt_campaign]), 55),
+				    ("Last Click - Canal", NAMEOF('f_operations'[canal]), 56),
+				    ("Last Click - Medium", NAMEOF('f_operations'[medium]), 57),
+				    ("Last Click - Page URL", NAMEOF('f_operations'[page_url]), 58),
+				    ("Last Click - Source", NAMEOF('f_operations'[source]), 59),
+				    ("Link Backoffice", NAMEOF('f_operations'[link_backoffice]), 60),
+				    ("Melhor Câmbio", NAMEOF('f_operations'[melhor_cambio]), 61),
+				    ("Mês da Aquisição", NAMEOF('f_operations'[acquisition_month]), 62),
+				    ("Mês do Presignup", NAMEOF('f_operations'[presignup_month]), 63),
+				    ("Método de Pagamento", NAMEOF('f_operations'[payment_method]), 64),
+				    ("MGM Code", NAMEOF('f_operations'[mgm_code]), 65),
+				    ("MGM Operation", NAMEOF('f_operations'[mgm_operation_type]), 66),
+				    ("Mid", NAMEOF('f_operations'[is_mid]), 67),
+				    ("Moeda", NAMEOF('f_operations'[currency]), 68),
+				    ("Month", NAMEOF('d_calendar'[date_month]), 69),
+				    ("Nature", NAMEOF('f_operations'[natureza]), 70),
+				    ("Natureza fato - Novo marco", NAMEOF(f_operations[purpose_of_remittance_operation]), 71),
+				    ("Nubank - Filtrar Cliente Recorrente", NAMEOF('f_operations'[recorrente_nubank]), 72),
+				    ("Nubank - Operação", NAMEOF('f_operations'[nubank]), 73),
+				    ("Onboarding Flow", NAMEOF('f_operations'[company_onboarding_flow]), 74),
+				    ("Onboarding Type", NAMEOF('f_operations'[onboarding_type]), 75),
+				    ("Operação Simbólica?", NAMEOF('f_operations'[ops_simbolicas_api]), 76),
+				    ("Partner name", NAMEOF(f_operations[partner_name]), 77),
+				    ("Platform Operation (Beecambio)", NAMEOF('f_operations'[operation_platform_beecambio]), 78),
+				    ("Presignup Platform", NAMEOF('f_operations'[origin_platform_psu]), 79),
+				    ("Product", NAMEOF('f_operations'[product]), 80),
+				    ("Provider - PSU", NAMEOF(f_operations[provider]), 81),
+				    ("Purpose Classification Description", NAMEOF(f_operations[description_purpose_classification]), 82),
+				    ("Purpose of Remittance", NAMEOF(f_operations[purpose_of_remittance]), 83),
+				    ("Qualificação - Motivo", NAMEOF(f_operations[onb_reason]), 84),
+				    ("Qualificação - Tipo", NAMEOF(f_operations[onb_ops_type]), 85),
+				    ("Resgate automático", NAMEOF(f_operations[is_automatic_operation]), 86),
+				    ("RMI", NAMEOF(f_operations[rmi]), 87),
+				    ("Segment - Payers", NAMEOF(f_operations[customer_segment]), 88),
+				    ("Segment New", NAMEOF(f_operations[segment]), 89),
+				    ("Segment Old", NAMEOF(f_operations[operation_segment]), 90),
+				    ("Service Description", NAMEOF(f_operations[service_description]), 91),
+				    ("Spread Fixado = Spread?", NAMEOF(f_operations[fixed_spread_equal_spread]), 92),
+				    ("Spread Fixado?", NAMEOF(f_operations[has_fixed_spread]), 93),
+				    ("Stock Option", NAMEOF(f_operations[stock_option]), 94),
+				    ("Ticket Range", NAMEOF(f_operations[Ticket Range]), 95),
+				    ("Ticket Range - Version II", NAMEOF(f_operations[ticket_range_v2]), 96),
+				    ("Ticket Range - Version III", NAMEOF(f_operations[ticket_range_v3]), 97),
+				    ("Voucher Code", NAMEOF(f_operations[voucher_code]), 98),
+				    ("Voucher Flag", NAMEOF(f_operations[fl_voucher]), 99),
+				    ("Voucher Type", NAMEOF(f_operations[voucher_type]), 100)
+				}
+
+	annotation PBI_Id = cf784e630b464740b257bb57b9b6e22d
+

@@ -1,0 +1,26 @@
+table 'Cenários Delta Spread'
+	lineageTag: b7ed4bc8-c941-4759-aff4-57de6d2bd504
+
+	measure 'Valor Delta Spread' = SELECTEDVALUE('Cenários Delta Spread'[Delta Spread], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: eadfa181-5215-42d9-b81d-fef39749ee5b
+
+	column 'Delta Spread'
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: adae3a62-06b9-4fa7-969c-d5c6df837535
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'Cenários Delta Spread' = calculated
+		mode: import
+		source = GENERATESERIES(-1, 1, 0.01)
+
+	annotation PBI_Id = 3e356f42305b4c60937108e07be08b4d
+

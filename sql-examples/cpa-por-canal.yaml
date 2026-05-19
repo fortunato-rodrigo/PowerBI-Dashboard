@@ -1,0 +1,36 @@
+question_variants:
+  - "Qual o CPA (custo por aquisição) por canal de marketing?"
+  - "Custo para adquirir um cliente novo por canal de mídia"
+  - "Qual canal tem o CPA mais eficiente?"
+  - "CPA mensal — quanto custa cada cliente novo?"
+sql: |
+  WITH investimento AS (
+    SELECT
+      DATE_TRUNC('month', date) AS month,
+      SUM(cost) AS total_investment
+    FROM bronze.paid_media_investments
+    GROUP BY 1
+  ),
+  acq AS (
+    SELECT
+      DATE_TRUNC('month', fe.event_tstamp) AS month,
+      COALESCE(fe.canal_lc, 'unknown') AS canal,
+      COUNT(DISTINCT fe.id_customer) AS acquisitions
+    FROM gold.funnel_event AS fe
+    WHERE fe.event_type = 'ACQUISITION'
+      AND fe.event_sequence = 1
+    GROUP BY 1, 2
+  )
+  SELECT
+    a.month,
+    a.canal,
+    a.acquisitions,
+    ROUND(i.total_investment, 0) AS total_investment,
+    ROUND(i.total_investment / NULLIF(a.acquisitions, 0), 2) AS cpa
+  FROM acq a
+  LEFT JOIN investimento i ON a.month = i.month
+  ORDER BY a.month DESC, cpa ASC
+tables_used: [gold.funnel_event, bronze.paid_media_investments]
+notes: "⚠️ bronze.paid_media_investments: dado bruto de investimento. CPA = investimento total / aquisições. Investimento sem breakdown por canal no Databricks. Aquisições via funnel_event event_type='ACQUISITION', event_sequence=1."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

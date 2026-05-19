@@ -1,0 +1,37 @@
+table 'Intraday Flag'
+	lineageTag: a703c92f-29c4-4e08-846b-1678c2618c16
+
+	column Id
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c100cc9a-e02a-4028-9daa-c6fe506a8cae
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Id]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Intraday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b5432c6a-ca3e-4eea-a648-94cd0d8643d6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Intraday]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Intraday Flag' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Id", BOOLEAN,
+				    "Intraday", STRING,
+				    {
+				        {1, TRUE},
+				        {2, FALSE}
+				    }
+				)
+
+	annotation PBI_Id = 24469e0295f440cc84ccc23c8943e251
+

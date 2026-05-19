@@ -1,0 +1,50 @@
+table Parceiros
+	lineageTag: c2ae9ff6-55b1-49c4-800c-99cfcb5e9736
+
+	column id_customer
+		dataType: int64
+		formatString: 0
+		lineageTag: 80157e76-438c-4fb6-9d32-4440f3d31548
+		summarizeBy: none
+		sourceColumn: id_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_name
+		dataType: string
+		lineageTag: 27cbb5c0-07f7-4dfe-b6fd-d627a459e4c9
+		summarizeBy: none
+		sourceColumn: partner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Escritórios = ```
+			IF(
+			    Parceiros[partner_name] = "HIGHER - ADM GIHER SERVIÇOS FINANCEIROS" || 
+			    Parceiros[partner_name] = "CHINA GATE" || 
+			    Parceiros[partner_name] = "SPEED SOLUTIONS" || 
+			    Parceiros[partner_name] = "EXCHANGE SERVICOS E TECNOLOGIA LTDA" || 
+			    Parceiros[partner_name] = "PRICE CAMBIO (PRADAS & REBELO)" || 
+			    Parceiros[partner_name] = "ROYAL PARTNER" ||
+			    Parceiros[partner_name] = "CORPORATE API" ||
+			    Parceiros[partner_name] = "TriStar",
+			    "Não", "Sim"
+			)
+			```
+		lineageTag: 8939d60c-0ac2-4087-b1ab-411104b2e7f0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Parceiros = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]){[Name="prod",Kind="Database"]}[Data], "select #(lf)c.id as id_customer,#(lf)mp.name as partner_name#(lf)from beecambio.beecambio_tbl_customer c#(lf)inner join beecambio.beecambio_maxima_partners as mp #(lf)#(tab)on mp.partner_code = c.maxima_partner_code#(lf)where 1=1 #(lf)and c.maxima_partner_code is not null", null, [EnableFolding=true])
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

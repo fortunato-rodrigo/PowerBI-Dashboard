@@ -1,0 +1,51 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["# Medidas","f_funnel_events","d_adgroup","d_calendar","d_canal","d_intervalo_meses","d_last_update","d_medium","d_mkt_campaign","d_source"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table '# Medidas'
+ref table p_Timeframe
+ref table p_Dimension_PSU_1
+ref table 'p_Aquisições (PSU - Cohort)'
+ref table p_Dimension_ACQ
+ref table f_funnel_events
+ref table 'p_Aquisições (SU - Cohort)'
+ref table 'p_Clientes únicos'
+ref table d_calendar
+ref table 'p_Segunda Operação (ACQ - Cohorted)'
+ref table p_Presignups
+ref table d_intervalo_meses
+ref table d_mkt_campaign
+ref table p_Funil_1
+ref table p_Funil_2
+ref table p_Funil_3
+ref table d_canal
+ref table d_source
+ref table d_medium
+ref table p_Cohort
+ref table 'p_Modo de Exibição'
+ref table d_adgroup
+ref table d_last_update
+ref table p_Dimension_PSU_2
+ref table p_Medidas
+ref table p_Dimension_PSU_3
+ref table p_Dimension_PSU_4
+ref table p_Dimension_PSU_5
+ref table p_Dimension_PSU_6
+ref table p_Medidas_Telas
+ref table t_Cohort
+ref table p_Medida_Tentativa
+ref table p_Onboarding_PJ
+ref table NomeSemana
+
+ref cultureInfo pt-BR
+

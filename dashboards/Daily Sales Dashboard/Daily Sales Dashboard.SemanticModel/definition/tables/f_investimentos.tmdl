@@ -1,0 +1,47 @@
+table f_investimentos
+	lineageTag: ed115d3c-ce78-49bc-afed-33019951764b
+
+	column date_key
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: b4b765f2-b29e-4c02-a938-69a479c02ae8
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column investimento
+		dataType: decimal
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 1de3d206-7ce4-4e23-894f-7f98409914af
+		summarizeBy: sum
+		sourceColumn: investimento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column customer_type
+		dataType: string
+		lineageTag: 29ad90c6-0709-429c-8f3e-28d66981adbc
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_investimentos = m
+		mode: import
+		queryGroup: Principais
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "select date as date_key,#(lf)'PF' as customer_type,#(lf)sum(cost) * 0.5822 as investimento#(lf)from bronze.paid_media_investments#(lf)where date >= '2024-01-01'#(lf)group by all#(lf)#(lf)union all#(lf)#(lf)select date as date_key,#(lf)'PJ' as customer_type,#(lf)sum(cost) * 0.4178 as investimento#(lf)from bronze.paid_media_investments#(lf)where date >= '2024-01-01'#(lf)group by all", null, [EnableFolding=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"investimento", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

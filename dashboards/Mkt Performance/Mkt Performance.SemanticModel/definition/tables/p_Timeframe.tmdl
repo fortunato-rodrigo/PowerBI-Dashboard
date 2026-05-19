@@ -1,0 +1,52 @@
+table p_Timeframe
+	lineageTag: 19f30641-329d-48a9-8170-1b8d290a11fe
+
+	column Timeframe
+		lineageTag: dfc01237-4045-402f-b1cd-8e6ac0101860
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Timeframe Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Timeframe Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Timeframe Campos'
+		isHidden
+		lineageTag: 9ebb3815-09f7-410b-9dd2-09c6cb7bfe97
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Timeframe Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Timeframe Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: caae577e-68bb-4642-b7c0-d0a1ce01d551
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Timeframe-c6611421-49bc-4526-bdb2-507bc32e5eef = calculated
+		mode: import
+		source =
+				{
+				    ("Por Ano", NAMEOF('d_calendar'[year]), 0),
+				    ("Por Mês", NAMEOF('d_calendar'[date_month]), 1),
+				    ("Por Semana", NAMEOF('d_calendar'[week]), 2),
+				    ("Por Dia", NAMEOF('d_calendar'[Date Key]), 3),
+				    ("Por Dia Útil", NAMEOF('d_calendar'[workday_processado]), 4),
+				    ("Por Dia da Semana", NAMEOF('d_calendar'[day]), 5)
+				}
+
+	annotation PBI_Id = 4008c6b94a494e4294b5291bec3370a7
+

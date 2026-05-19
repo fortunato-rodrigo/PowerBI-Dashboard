@@ -1,0 +1,63 @@
+table p_dimension
+	lineageTag: da35d2cd-b329-46b0-bf53-0baf6ddd5bc0
+
+	column Dimension
+		lineageTag: 4560d7f8-1281-4acf-9a36-ac9003dd7b79
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension Campos'
+		lineageTag: 1e74f246-83cd-4230-b9d8-e40467d526a3
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension Pedido'
+		formatString: 0
+		lineageTag: 71a847a6-56cd-4722-aa5a-b8d8b23d4243
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_dimension-fb647c1a-2994-4216-9746-2a3fbeaecd0b = calculated
+		mode: import
+		source =
+				{
+				    ("", NAMEOF(f_operations[Dimension Total]), 0),
+				    ("Event type", NAMEOF('f_operations'[Event type]), 1),
+				    ("Event type ops", NAMEOF('f_operations'[event_type_ops]), 2),
+				    ("BU", NAMEOF('d_bu'[BU]), 3),
+				    ("Customer Type", NAMEOF('d_customer_type'[Customer Type]), 4),
+				    ("Business Type", NAMEOF('d_business_type'[Business Type]), 5),
+				    ("Genre", NAMEOF('f_operations'[genre]), 7),
+				    ("High/Mid/Low", NAMEOF('f_operations'[high_mid_low]), 7),
+				    ("In or out", NAMEOF('f_operations'[in_or_out]), 8),
+				    ("Is Premium?", NAMEOF('f_operations'[is_premium_user]), 9),
+				    ("Is CNR?", NAMEOF(f_operations[is_cnr]), 10),
+				    ("Método de Pagamento", NAMEOF('f_operations'[payment_method]), 11),
+				    ("Mid", NAMEOF('f_operations'[is_mid]), 12),
+				    ("Moeda", NAMEOF('f_operations'[currency]), 13),
+				    ("Onboarding", NAMEOF('f_operations'[onboarding_type]), 14),
+				    ("Operação Simbólica?", NAMEOF('f_operations'[ops_simbolicas_api]), 15),
+				    ("Presignup Platform", NAMEOF('f_operations'[origin_platform_psu]), 16),
+				    ("Product", NAMEOF('f_operations'[product]), 17),
+				    ("Voucher", NAMEOF('f_operations'[fl_voucher]), 18)
+				}
+
+	annotation PBI_Id = 51d3c7dd50a64f3ea72ff9001efa0b99
+

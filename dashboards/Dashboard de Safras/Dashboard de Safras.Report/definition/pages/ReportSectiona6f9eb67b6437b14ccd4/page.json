@@ -1,0 +1,149 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "ReportSectiona6f9eb67b6437b14ccd4",
+  "displayName": "Cohort",
+  "displayOption": "FitToWidth",
+  "height": 3000,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "Filterada5c9ede0a4007a8852",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "d_calendar"
+              }
+            },
+            "Property": "Filter Today"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "d_calendar",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "d"
+                          }
+                        },
+                        "Property": "Filter Today"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "true"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      }
+    ]
+  },
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'#F0F3F7'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "270L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "d049b39a54bcd8c7369e",
+      "target": "2e44a9cd7cce687ba00c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "d049b39a54bcd8c7369e",
+      "target": "cce03c115e125c997340",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4f4406e8ecf0b7629659",
+      "target": "2e44a9cd7cce687ba00c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "4f4406e8ecf0b7629659",
+      "target": "cce03c115e125c997340",
+      "type": "NoFilter"
+    },
+    {
+      "source": "038b81e1a4a9e5220e61",
+      "target": "cce03c115e125c997340",
+      "type": "NoFilter"
+    },
+    {
+      "source": "6fc4744d2be0423d2a89",
+      "target": "cce03c115e125c997340",
+      "type": "NoFilter"
+    },
+    {
+      "source": "db5bdee6a76b0748547a",
+      "target": "70f3d99e58a0b063a039",
+      "type": "NoFilter"
+    },
+    {
+      "source": "70f3d99e58a0b063a039",
+      "target": "db5bdee6a76b0748547a",
+      "type": "NoFilter"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+question_variants:
+  - "Qual a performance desde 2024 por BU, Business Type, Customer Type e tipo de operação?"
+  - "GMV, receita bruta e lucro bruto segmentados por BU e customer type"
+  - "Performance consolidada por BU, segmento e tipo de cliente"
+  - "Qual foi a performance de clientes PJ Envio versus PF Recebimento?"
+sql: |
+  SELECT
+    bu,
+    business_type,
+    operation_event_type AS acquisition_or_recurrence,
+    customer_type,
+    in_or_out AS sending_or_receiving,
+    nature_operation_name AS nature,
+    COUNT(id_remittance) AS operations,
+    SUM(gmv) AS gmv,
+    SUM(gross_revenue) AS gross_revenue,
+    SUM(gross_profit) AS gross_profit
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= '2024-01-01'
+  GROUP BY ALL
+tables_used: [gold.fact_operations]
+notes: "is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. Ajuste processed_date >= conforme período solicitado. GROUP BY ALL é Databricks SQL válido. operation_event_type distingue Aquisição vs Recorrência."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

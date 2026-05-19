@@ -1,0 +1,36 @@
+question_variants:
+  - "Qual o gap acumulado entre receita realizada e meta no mês?"
+  - "Receita acumulada dia a dia vs meta acumulada"
+  - "Quanto falta para bater a meta de receita do mês?"
+  - "Déficit acumulado de receita vs meta — evolução diária"
+sql: |
+  SELECT
+    ds.date_key,
+    ds.bu,
+    ROUND(SUM(ds.gross_revenue) OVER (
+      PARTITION BY ds.bu, DATE_TRUNC('month', ds.date_key)
+      ORDER BY ds.date_key
+    ), 0) AS receita_acumulada,
+    ROUND(SUM(ds.meta_gross_revenue) OVER (
+      PARTITION BY ds.bu, DATE_TRUNC('month', ds.date_key)
+      ORDER BY ds.date_key
+    ), 0) AS meta_acumulada,
+    ROUND(
+      SUM(ds.gross_revenue) OVER (
+        PARTITION BY ds.bu, DATE_TRUNC('month', ds.date_key)
+        ORDER BY ds.date_key
+      )
+      - SUM(ds.meta_gross_revenue) OVER (
+        PARTITION BY ds.bu, DATE_TRUNC('month', ds.date_key)
+        ORDER BY ds.date_key
+      ),
+      0
+    ) AS gap_acumulado
+  FROM gold.daily_sales AS ds
+  JOIN bronze.dcalendar AS c ON ds.date_key = c.date_key
+  WHERE c.mtd = TRUE
+  ORDER BY ds.date_key, ds.bu
+tables_used: [gold.daily_sales, bronze.dcalendar]
+notes: "SUM() OVER (ORDER BY date_key) cria acumulado diário dentro do mês. gap_acumulado positivo = acima da meta, negativo = abaixo. Para total da empresa sem breakdown por BU: remover PARTITION BY ds.bu."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

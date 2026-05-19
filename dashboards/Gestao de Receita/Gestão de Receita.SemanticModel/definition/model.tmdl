@@ -1,0 +1,34 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Medidas","Cenários","Subsegmento PF","Parceiros","dcalendar","processed_operations","customer"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Timeframe
+ref table Medidas
+ref table KPI
+ref table 'Cenários Delta Operações'
+ref table 'Cenários Delta Spread'
+ref table Cenários
+ref table 'Subsegmento PF'
+ref table Parceiros
+ref table dcalendar
+ref table processed_operations
+ref table customer
+ref table 'Dimensão 1'
+ref table 'Dimensão 2'
+ref table 'Dimensão 3'
+ref table 'Dimensão 4'
+ref table 'Dimensão 5'
+ref table 'Escolha a métrica'
+
+ref cultureInfo pt-BR
+

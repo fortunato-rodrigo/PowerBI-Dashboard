@@ -1,0 +1,361 @@
+table d_calendar
+	lineageTag: 3070fd49-9098-417f-bfe7-9b102428094a
+
+	column date_month
+		dataType: dateTime
+		formatString: mmm"/"yy
+		lineageTag: 5ba660da-2446-46e0-b853-253e058c1a63
+		summarizeBy: none
+		sourceColumn: date_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column is_holiday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b07a80d5-084b-45a1-85a1-a61af35ff995
+		summarizeBy: none
+		sourceColumn: is_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column dayofweek
+		dataType: int64
+		formatString: 0
+		lineageTag: a805dd2f-1c79-43dc-88c9-f32ca165bb64
+		summarizeBy: sum
+		sourceColumn: dayofweek
+
+		annotation SummarizationSetBy = Automatic
+
+	column workday
+		dataType: int64
+		lineageTag: 61afacdd-df71-48c6-9e07-31ef0e4eb864
+		summarizeBy: sum
+		sourceColumn: workday
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column workday_processado
+		dataType: int64
+		formatString: 0
+		lineageTag: eaf48df1-f722-4136-9554-6474bd481cb3
+		summarizeBy: sum
+		sourceColumn: workday_processado
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_days
+		dataType: int64
+		formatString: 0
+		lineageTag: ab04b442-1bdb-4ced-84c7-46e982ff1ab8
+		summarizeBy: sum
+		sourceColumn: month_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column workdays_month
+		dataType: int64
+		formatString: 0
+		lineageTag: d6f43932-4c02-4cb7-9729-3ef17dc6a695
+		summarizeBy: sum
+		sourceColumn: workdays_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_workday
+		dataType: int64
+		lineageTag: 18b582b0-6138-43c4-ab95-61c47dd50b04
+		summarizeBy: sum
+		sourceColumn: last_workday
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d0
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b4d43d64-a9ca-4240-a030-59f520d5147a
+		summarizeBy: none
+		sourceColumn: d0
+
+		annotation SummarizationSetBy = Automatic
+
+	column m0
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 03f5944b-1330-4952-8f04-dcbbab958ac4
+		summarizeBy: none
+		sourceColumn: m0
+
+		annotation SummarizationSetBy = Automatic
+
+	column m1
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6b6f5298-66cc-4d30-a308-76ac22d69225
+		summarizeBy: none
+		sourceColumn: m1
+
+		annotation SummarizationSetBy = Automatic
+
+	column mtd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 87d2c87e-7eeb-4c39-9a1c-0dff84573568
+		summarizeBy: none
+		sourceColumn: mtd
+
+		annotation SummarizationSetBy = Automatic
+
+	column workdays_quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: b36a4bfc-4cda-4408-98d8-8bd050091834
+		summarizeBy: sum
+		sourceColumn: workdays_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column label
+		dataType: double
+		lineageTag: 67c71e72-7e0d-48cf-a137-c0ef32d63d1b
+		summarizeBy: sum
+		sourceColumn: label
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: de974c38-fdd9-4869-8982-07c73fd5c3ba
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column week
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 8f7774b2-8485-4fb0-b3d0-d65fa1bccaea
+		summarizeBy: none
+		sourceColumn: week
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Quarter
+		dataType: string
+		lineageTag: 49b44172-9d39-4c8e-a45c-335c34677d69
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_to_date
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: baa5565d-d15c-4eb0-bfed-ae5f605db174
+		summarizeBy: none
+		sourceColumn: month_to_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_update_calendar
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c1b69ef5-245f-4d0e-b192-9d5c861b0744
+		summarizeBy: none
+		sourceColumn: last_update_calendar
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: string
+		lineageTag: 6ba3f7af-cc58-4aee-9852-d8ff01a9ffb8
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: string
+		lineageTag: 11f33e02-3ee4-4101-a7ae-3be951b8bf2c
+		summarizeBy: none
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		lineageTag: cc19eb31-7fdb-45ee-b09b-c2597617e858
+		summarizeBy: sum
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column month_year
+		dataType: string
+		lineageTag: 1942c901-f663-473d-9453-d6d1a3d7ace6
+		summarizeBy: none
+		sourceColumn: month_year
+		sortByColumn: date_month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column mtd_calendar_days
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 70a8cc57-6122-4a32-959b-bbea019f273f
+		summarizeBy: none
+		sourceColumn: mtd_calendar_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Key'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: d9a12963-d2bd-4383-8f6f-65a58faafa43
+		summarizeBy: none
+		sourceColumn: Date Key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Filter Today'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 80deebcf-e29e-405f-afe9-8b55dc4af963
+		summarizeBy: none
+		sourceColumn: Filter Today
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Month'
+		dataType: string
+		lineageTag: 2f303622-4c1e-4849-b882-076bac9c487b
+		summarizeBy: none
+		sourceColumn: Current Month
+		sortByColumn: date_month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fim do Mês'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 591b4ab3-8d19-408d-a274-928d323cfc3a
+		summarizeBy: none
+		sourceColumn: Fim do Mês
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column last_day
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9c66396c-b376-4047-b88b-d8985fb1c072
+		summarizeBy: none
+		sourceColumn: last_day
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_ytd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c30b7481-e825-4c72-9f65-5ed1b794815f
+		summarizeBy: none
+		sourceColumn: is_ytd
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_month_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 98680170-ec03-4940-a3a6-ecbc1d3c7a71
+		summarizeBy: sum
+		sourceColumn: total_month_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column label_with_all_days_month
+		dataType: double
+		lineageTag: 3f08e9ba-ba9b-4206-ba6d-c9777cf4aaca
+		summarizeBy: sum
+		sourceColumn: label_with_all_days_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column special_condition
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 25878726-f2cc-482d-898a-99dda8f6fee5
+		summarizeBy: none
+		sourceColumn: special_condition
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_yesterday
+		dataType: int64
+		formatString: 0
+		lineageTag: 86c1041c-2fb1-495f-a56f-5832a568a415
+		summarizeBy: sum
+		sourceColumn: day_of_yesterday
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Google Day'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9b7afc4c-97a0-4588-8563-e4a3ceeab7ad
+		summarizeBy: none
+		sourceColumn: Google Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_current_date
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 88471e34-112a-4b4f-9514-ce0e9b68cc75
+		summarizeBy: none
+		sourceColumn: is_current_date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_calendar = m
+		mode: import
+		queryGroup: Dimensões
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"3cbe0c71-8501-42b4-bcea-9dfb4ff7adef" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="3cbe0c71-8501-42b4-bcea-9dfb4ff7adef"]}[Data],
+				    dcalendar_ = #"3cbe0c71-8501-42b4-bcea-9dfb4ff7adef"{[entity="dcalendar",version=""]}[Data],
+				    #"Fim do Mês Inserido" = Table.AddColumn(dcalendar_, "Fim do Mês", each Date.EndOfMonth([Date Key]), type date),
+				    #"Coluna Condicional Adicionada" = Table.AddColumn(#"Fim do Mês Inserido", "last_day", each if [Date Key] = [Fim do Mês] then true else false),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Condicional Adicionada",{{"last_day", type logical}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

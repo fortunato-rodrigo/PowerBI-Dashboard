@@ -1,0 +1,24 @@
+question_variants:
+  - "Quais os top 10 clientes por GMV no último trimestre?"
+  - "Ranking dos maiores clientes por volume de câmbio"
+  - "Top 10 clientes com mais GMV em 90 dias"
+  - "Quais clientes PJ movimentaram mais no trimestre?"
+sql: |
+  SELECT
+    id_customer,
+    customer_type,
+    bu,
+    COUNT(id_remittance) AS total_ops,
+    ROUND(SUM(gmv), 2) AS total_gmv,
+    ROUND(SUM(gross_revenue), 2) AS total_gross_revenue
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= date_sub(current_date(), 90)
+  GROUP BY id_customer, customer_type, bu
+  ORDER BY total_gmv DESC
+  LIMIT 10
+tables_used: [gold.fact_operations]
+notes: "Ajuste o período (date_sub) e o LIMIT conforme necessário. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

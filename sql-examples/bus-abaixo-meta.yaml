@@ -1,0 +1,22 @@
+question_variants:
+  - "Quais BUs estão abaixo de 80% da meta de GMV no mês?"
+  - "BUs em risco — atingimento abaixo de 80%"
+  - "Alerta de performance: quem está longe da meta?"
+  - "BUs críticas por atingimento de meta MTD"
+sql: |
+  SELECT
+    ds.bu,
+    ROUND(SUM(ds.gmv), 0) AS gmv_mtd,
+    ROUND(SUM(ds.meta_gmv), 0) AS meta_gmv,
+    ROUND(100.0 * SUM(ds.gmv) / NULLIF(SUM(ds.meta_gmv), 0), 2) AS atingimento_pct,
+    ROUND(SUM(ds.meta_gmv) - SUM(ds.gmv), 0) AS gap_absoluto
+  FROM gold.daily_sales AS ds
+  JOIN bronze.dcalendar AS c ON ds.date_key = c.date_key
+  WHERE c.mtd = TRUE
+  GROUP BY ds.bu
+  HAVING ROUND(100.0 * SUM(ds.gmv) / NULLIF(SUM(ds.meta_gmv), 0), 2) < 80
+  ORDER BY atingimento_pct ASC
+tables_used: [gold.daily_sales, bronze.dcalendar]
+notes: "HAVING filtra somente BUs abaixo de 80% de atingimento. Ajuste o threshold (80) conforme necessário. bronze.dcalendar.mtd=TRUE para filtro MTD. gap_absoluto mostra quanto falta em volume absoluto."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

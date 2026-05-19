@@ -1,0 +1,31 @@
+question_variants:
+  - "Qual o custo total e por componente por BU no mês atual?"
+  - "Breakdown de custos — bank take, mensagem, afiliado, parceiro"
+  - "Quanto cada BU gastou com cada componente de custo?"
+  - "Decomposição dos custos operacionais por BU"
+sql: |
+  SELECT
+    bu,
+    ROUND(SUM(cost_bank_take), 0) AS custo_bank_take,
+    ROUND(SUM(real_message_cost), 0) AS custo_mensagem,
+    ROUND(SUM(payout_affiliate), 0) AS custo_afiliado,
+    ROUND(SUM(partner_commissioning), 0) AS custo_parceiro,
+    ROUND(
+      SUM(cost_bank_take)
+      + SUM(real_message_cost)
+      + SUM(payout_affiliate)
+      + SUM(partner_commissioning),
+      0
+    ) AS custo_total,
+    ROUND(SUM(gross_revenue), 0) AS gross_revenue,
+    ROUND(SUM(net_revenue), 0) AS net_revenue
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= DATE_TRUNC('month', current_date())
+  GROUP BY bu
+  ORDER BY custo_total DESC
+tables_used: [gold.fact_operations]
+notes: "Componentes de custo: cost_bank_take (custo bancário), real_message_cost (custo de mensageria), payout_affiliate (comissão de afiliados), partner_commissioning (comissão de parceiros). is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

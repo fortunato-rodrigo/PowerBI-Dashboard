@@ -1,0 +1,3026 @@
+table '# Medidas'
+	lineageTag: 24248570-4817-4470-bbc7-2f3d84e38d23
+
+	measure Receita = ```
+			
+			VAR vIntraday = SELECTEDVALUE('Intraday Flag'[Intraday])
+			
+			VAR vRealizado = 
+			    COALESCE(
+			        SUM(f_gold_ops[GROS]),
+			        SUM(f_daily_sales[gross_revenue])
+			    ) 
+			    + SUM(f_wallet[gross_revenue])
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vIntraday = FALSE(), CALCULATE(vRealizado, dcalendar[is_current_date] = FALSE()),
+			    vIntraday = TRUE(), vRealizado
+			)
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Receita
+		lineageTag: 7f2c42aa-2f02-4283-b32f-d5da298c65b8
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta de Receita' =
+			
+			SUM( f_daily_sales[meta_gross_revenue] )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Receita
+		lineageTag: 8181d3a3-3c0c-412e-b3c5-576c59cba6c9
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Receita (MTD)' = CALCULATE( [Receita], dcalendar[mtd] = TRUE() )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Receita
+		lineageTag: e7826efa-e57a-4007-8c45-ec5981363ca7
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Receita (D-1)' =
+			
+			CALCULATE( [Receita], dcalendar[d0] = TRUE() )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Receita
+		lineageTag: b9577ec3-6ac7-488b-9d3c-dd98eb60736c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Meta x Receita' =
+			
+			DIVIDE(
+			    [Receita] - [Meta de Receita],
+			    [Meta de Receita],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Receita
+		lineageTag: 8a25138c-0e33-48b2-b974-08e7585ad6a4
+
+	measure '% GAP de Receita' =
+			
+			IF( ISBLANK( [Meta de Receita] ), BLANK(), [% Meta x Receita] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Receita
+		lineageTag: 4130968f-d3eb-4b5f-bcd1-60375dae9c8d
+
+	measure 'Projeção de Receita (Last Day)' =
+			
+			CALCULATE(
+			    SUM( f_daily_sales[projecao_gross_revenue] ),
+			    dcalendar[last_day] = TRUE()
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Receita
+		lineageTag: 4aea8234-4151-4c33-adce-4b3a49a93f8b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Gap de Receita (D-1)' =
+			
+			CALCULATE( [% GAP de Receita], dcalendar[d0] = TRUE() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Receita
+		lineageTag: 5cf769cc-ce69-42b3-b5ea-263cbce2cecc
+
+	measure '% Gap de Receita (MTD)' =
+			
+			CALCULATE( [% GAP de Receita], dcalendar[mtd] = TRUE() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Receita
+		lineageTag: 56932c58-365f-42ec-8062-0c764b4d8537
+
+	measure GMV =
+			
+			COALESCE(
+			    SUM(f_daily_sales[gmv]),
+			    SUM(f_gold_ops[gmv])
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: GMV
+		lineageTag: bd53a5b6-e602-4cbb-a96b-fb250c71e74e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta de GMV' =
+			
+			SUM( f_daily_sales[meta_gmv] )
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: GMV
+		lineageTag: 4aa68ac7-aeb6-4294-bf66-5474a9293432
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Projeção de GMV (Last Day)' =
+			
+			CALCULATE(
+			    SUM( f_daily_sales[projecao_gmv] ),
+			    dcalendar[last_day] = TRUE()
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: GMV
+		lineageTag: f821425a-afe6-43ac-92a6-4c21caa4416a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Realizado = ```
+			
+			VAR vIntraday = SELECTEDVALUE('Intraday Flag'[Intraday])
+			VAR vKPI = SELECTEDVALUE(Tabela[KPI])
+			RETURN
+			SWITCH(
+			    
+			    TRUE(),
+			    
+			    vKPI = "GMV" && vIntraday = FALSE(), CALCULATE([GMV], dcalendar[is_current_date] = FALSE()),
+			    vKPI = "Receita" && vIntraday = FALSE(), CALCULATE([Receita], dcalendar[is_current_date] = FALSE()),
+			    vKPI = "Operações" && vIntraday = FALSE(), CALCULATE([Ops], dcalendar[is_current_date] = FALSE()),
+			    vKPI = "Presignups" && vIntraday = FALSE(), CALCULATE([Presignups], dcalendar[is_current_date] = FALSE()),
+			    vKPI = "Investimento" && vIntraday = FALSE(), CALCULATE([Investimento], dcalendar[is_current_date] = FALSE()),
+			    vKPI = "CPP" && vIntraday = FALSE(), CALCULATE([CPP], dcalendar[is_current_date] = FALSE()),
+			    vKPI = "CPA" && vIntraday = FALSE(), CALCULATE([CPA], dcalendar[is_current_date] = FALSE()),
+			    vKPI = "PNL" && vIntraday = FALSE(), CALCULATE([PNL], dcalendar[is_current_date] = FALSE()),
+			
+			    vKPI = "GMV" && vIntraday = TRUE(), [GMV],
+			    vKPI = "Receita" && vIntraday = TRUE(), [Receita],
+			    vKPI = "Operações" && vIntraday = TRUE(), [Ops],
+			    vKPI = "Presignups" && vIntraday = TRUE(), [Presignups],
+			    vKPI = "Investimento" && vIntraday = TRUE(), [Investimento],
+			    vKPI = "CPP" && vIntraday = TRUE(), [CPP] ,
+			    vKPI = "CPA" && vIntraday = TRUE(), [CPA],
+			    vKPI = "PNL" && vIntraday = TRUE(), [PNL]
+			
+			)
+			```
+		displayFolder: # Oficial\Realizado
+		lineageTag: a84c5b72-2269-47a6-b3d1-affeb476c4dc
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure Ops =
+			
+			COALESCE(
+			    SUM(f_daily_sales[operations]),
+			    SUM(f_gold_ops[operations]),
+			    SUM(f_wallet[transactions])
+			)
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: ef04840a-b23c-411d-8ac5-926e8129af88
+
+	measure 'Meta de Ops' = SUM(f_daily_sales[meta_operations])
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 54e6b871-cc84-4aba-b711-bb94f7e133f3
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Projeção de Ops (Last Day)' =
+			
+			CALCULATE(
+			    SUM( f_daily_sales[projecao_operations] ),
+			    dcalendar[last_day] = TRUE()
+			)
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 2dcfa40f-a8ed-4dcc-90e2-e8ccbbd3065f
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '% Meta x Ops' =
+			
+			DIVIDE(
+			    [Ops] - [Meta de Ops],
+			    [Meta de Ops],
+			    BLANK()
+			)
+		displayFolder: Operações
+		lineageTag: 5f863496-3bc2-43f3-8776-b5cba94ff941
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% GAP de Ops' =
+			
+			IF(
+			    ISBLANK([Meta de Ops]),
+			    BLANK(),
+			    [% Meta x Ops]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Operações
+		lineageTag: fbb3205a-70a5-431f-b604-deb5de864b82
+
+	measure '% Gap de Ops (D-1)' =
+			
+			CALCULATE(
+			    [% GAP de Ops],
+			    dcalendar[d0] = TRUE()
+			)
+		displayFolder: Operações
+		lineageTag: aa874eb0-d826-4efe-89e0-16bdee358c9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Gap de Ops (MTD)' =
+			
+			CALCULATE(
+			    [% GAP de Ops],
+			    dcalendar[mtd] = TRUE()
+			)
+		displayFolder: Operações
+		lineageTag: a6eb11ca-1976-4237-90ec-d8019b2bc5c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Realizado (D-1)' =
+			
+			CALCULATE( [Realizado], dcalendar[d0] = TRUE() )
+		displayFolder: # Oficial\Realizado
+		lineageTag: 99893e7d-0bf2-4a5c-b60e-05288999a13b
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Realizado (M-1)' =
+			
+			CALCULATE( [Realizado], DATEADD( dcalendar[Date Key], -1, MONTH ) )
+		displayFolder: # Oficial\Realizado
+		lineageTag: aed09925-44e0-4921-809f-4ddf84e0d7f7
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Realizado (MTD)' =
+			
+			VAR vMTD = CALCULATE([Realizado], dcalendar[mtd] = TRUE())
+			VAR vIntraday = SELECTEDVALUE('Intraday Flag'[Intraday])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vIntraday = FALSE(),  vMTD,
+			    vIntraday = TRUE(), [Realizado]
+			)
+		displayFolder: # Oficial\Realizado
+		lineageTag: 1402abb3-e6b5-4c4f-853c-122782d306d6
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Realizado (PMTD)' =
+			
+			CALCULATE(
+			    [Realizado],
+			    DATEADD( dcalendar[Date Key], -1, MONTH ),
+			    dcalendar[mtd] = TRUE()
+			)
+		displayFolder: # Oficial\Realizado
+		lineageTag: 5657bf7d-be02-4ef9-a52f-f034f0c522e5
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure Meta =
+			
+			IF(
+			    HASONEVALUE( Tabela[KPI] ),
+			    SWITCH(
+			        VALUES( Tabela[KPI] ),
+			        "GMV", [Meta de GMV],
+			        "Receita", [Meta de Receita],
+			        "Operações", [Meta de Ops],
+			        "PNL", [Meta de PNL],
+			        "Presignups", [Meta de Presignups]
+			    ),
+			    BLANK()
+			)
+		displayFolder: # Oficial\Meta
+		lineageTag: a050d46b-4843-4895-8d4a-f39c36fa37f7
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Meta (D-1)' =
+			
+			CALCULATE( [Meta], dcalendar[d0] = TRUE() )
+		displayFolder: # Oficial\Meta
+		lineageTag: 534b80b2-18b3-4233-bd64-aa0f0bf1d69e
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Meta (MTD)' =
+			
+			VAR vMetaMTD = CALCULATE([Meta], dcalendar[mtd] = TRUE())
+			VAR vIntraday = SELECTEDVALUE('Intraday Flag'[Intraday])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vIntraday = FALSE(), vMetaMTD,
+			    vIntraday = TRUE(), vMetaMTD + [Meta (d0)]
+			)
+		displayFolder: # Oficial\Meta
+		lineageTag: 9814d26d-781c-4a7e-8d01-67d5b7864406
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure Projeção =
+			
+			IF(
+			    HASONEVALUE( Tabela[KPI] ),
+			    SWITCH(
+			        VALUES( Tabela[KPI] ),
+			        "GMV", [Projeção de GMV (Last Day)],
+			        "Receita", [Projeção de Receita (Last Day)],
+			        "Operações", [Projeção de Ops (Last Day)]
+			    ),
+			    BLANK()
+			)
+		displayFolder: # Oficial\Projeção
+		lineageTag: b1c19720-a62b-4bd8-af37-17701825b2d4
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Projeção x M-1 (#)' = [Projeção] - [Realizado (M-1)]
+		displayFolder: # Oficial\Projeção
+		lineageTag: 8368f178-7cc2-40eb-b5e0-ffbc88635e0c
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Projeção x Meta (#)' = [Projeção] - [Meta]
+		displayFolder: # Oficial\Projeção
+		lineageTag: a7c1e7dc-25cb-4d28-a59e-45ad1e4d5a94
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% MOM (MTD)' =
+			
+			DIVIDE( [Realizado (MTD)] - [Realizado (PMTD)], [Realizado (PMTD)], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\Growth
+		lineageTag: beda3a17-adfc-45b8-9d23-37327fd69f5d
+
+	measure '% MOM' =
+			
+			DIVIDE( [Realizado (MTD)] - [Realizado (M-1)], [Realizado (M-1)], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\Growth
+		lineageTag: 5e3917d5-149b-4a9a-b970-524dc4180073
+
+	measure 'Meta Acumulada' =
+			
+			CALCULATE(
+			    [Meta],
+			    FILTER(
+			        ALL( 'dcalendar' ),
+			        'dcalendar'[Date Key] <= MAX( 'dcalendar'[Date Key] )
+			            && 'dcalendar'[date_month] = MAX( 'dcalendar'[date_month] )
+			    )
+			)
+		displayFolder: # Oficial\Meta
+		lineageTag: 4e29e9e2-2b8d-485e-a8e5-913b4bc818ec
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% GAP' =
+			
+			IF( ISBLANK( [Meta] ), BLANK(), [% Meta x Realizado] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: f8f6a79d-7a6e-475b-9b1c-0ffbc976e0ea
+
+	measure '% Meta x Realizado' =
+			
+			DIVIDE( [Realizado], [Meta], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: b60f91a3-ef38-4802-88a4-19af07e3527a
+
+	measure '% GAP (D-1)' =
+			
+			CALCULATE( [% GAP], dcalendar[d0] = TRUE() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: 348ba9dd-bd5b-459f-872f-69ef0347ec44
+
+	measure '# GAP' =
+			
+			IF( ISBLANK( [% GAP] ), BLANK(), [Realizado] - [Meta] )
+		displayFolder: # Oficial\GAP
+		lineageTag: 31c99124-03d1-4be7-9c9a-e6038dd1bee6
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '# GAP (D-1)' =
+			
+			CALCULATE( [# GAP], dcalendar[d0] = TRUE() )
+		displayFolder: # Oficial\GAP
+		lineageTag: a516aa3d-5a15-438e-9f3e-588cd62966f0
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '# GAP (MTD)' =
+			
+			--CALCULATE( [# GAP], dcalendar[mtd] = TRUE() )
+			VAR vIntraday = SELECTEDVALUE('Intraday Flag'[Intraday])
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    vIntraday = FALSE(), [Realizado (MTD)] - [Meta (MTD)],
+			    vIntraday = TRUE(), [Realizado] - [Meta (MTD)]
+			)
+		displayFolder: # Oficial\GAP
+		lineageTag: 2919d98a-1d1a-4643-9513-e4be84e219c6
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% GAP (MTD)' =
+			
+			CALCULATE( [% GAP], dcalendar[mtd] = TRUE() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: 164eb138-f435-4eb6-b2ad-fdbd83e8f39d
+
+	measure 'Last Update' = MAX(f_last_update[last_update])
+		formatString: dd/mm/yy hh:nn
+		displayFolder: Auxiliar
+		lineageTag: a071d5dd-6c56-4bd8-a553-967590484ab7
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure '% Meta x Realizado - Acumulado' =
+			
+			DIVIDE( [Acumulado], [Meta Acumulada], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: 81aea4c7-097e-45c9-b96e-94b7203de6a2
+
+	measure 'Projeção Acumulada' =
+			
+			IF(
+			    HASONEVALUE( Tabela[KPI] ),
+			    SWITCH(
+			        VALUES( Tabela[KPI] ),
+			        "GMV", [Projeção de GMV Acumulada],
+			        "Receita", [Projeção de Receita Acumulada],
+			        "Operações", [Projeção de Ops Acumulada]
+			    ),
+			    BLANK()
+			)
+		displayFolder: # Oficial\Projeção
+		lineageTag: f213cf59-ca76-4994-b170-77d4936d43ff
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Bom Dia Dream Makers' =
+			
+			"<div style='font-family: Segoe UI; font-size: 20px;'>
+			<h2 style='color: #333;'>Hey, time Remessa!</h2>
+			Segue o resumo dos resultados registrados no último fechamento (D-1) e o desempenho acumulado no mês de <b>"
+			    & MAX( dcalendar[month_year] ) & "</b>.
+			</div>"
+		displayFolder: # Oficial\HMTL
+		lineageTag: 249167c4-3c98-4b84-a8b1-6638d7022e77
+
+	measure MaxData = MAX(dcalendar[Date Key])
+		formatString: Short Date
+		displayFolder: Auxiliar
+		lineageTag: 6d03ee5a-451a-40ec-99c3-df71ae47bf8b
+
+	measure 'Current Month Processed' =
+			
+			"Resultado Diário Acumulado"
+			--CALCULATE(
+			--MAX(dcalendar[month_year]),
+			--dcalendar[Current Month] = "Current Month"
+			--)
+		displayFolder: Auxiliar
+		lineageTag: a06febcc-61eb-4902-9a2e-9e5ec31e8c04
+
+	measure 'Mês Anterior' =
+			
+			FORMAT( EDATE( MAX( dcalendar[Date Key] ), -1 ), "MMM/YYYY" )
+		displayFolder: # Oficial\HMTL
+		lineageTag: 48b27ed6-2664-493d-aaaf-4e5ddc432546
+
+	measure Presignups = SUM(f_daily_sales_psu[realizado_psu])
+		displayFolder: Presignups
+		lineageTag: 0bccbb3d-c40d-4dcb-bbad-c35ba8dd3e23
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;-#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Presignups (D-1)' =
+			
+			CALCULATE( [Presignups], dcalendar[d0] = TRUE() )
+		formatString: #,0
+		displayFolder: Presignups
+		lineageTag: 62db6879-af9c-4871-9666-19e1326ecb51
+
+	measure 'Presignups (PMTD)' =
+			
+			CALCULATE(
+			    [Presignups],
+			    DATEADD( dcalendar[Date Key], -1, MONTH ),
+			    dcalendar[mtd] = TRUE()
+			)
+		formatString: #,0
+		displayFolder: Presignups
+		lineageTag: 92257704-684a-4bee-8831-3c03d97edde2
+
+	measure 'Presignups (MTD)' =
+			
+			CALCULATE( [Presignups], dcalendar[mtd] = TRUE() )
+		formatString: #,0
+		displayFolder: Presignups
+		lineageTag: 2b6582d8-1bae-4781-bea6-c2768f2c6327
+
+	measure 'Presignups % MOM (MTD)' =
+			
+			DIVIDE(
+			    [Presignups (MTD)] - [Presignups (PMTD)],
+			    [Presignups (PMTD)],
+			    BLANK()
+			)
+		displayFolder: Presignups
+		lineageTag: b85a93fd-c401-45c9-8ccc-4532b7759d16
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Aquisições =
+			
+			CALCULATE( [Ops], d_event_type[event_type] = "ACQUISITION" )
+		displayFolder: Operações
+		lineageTag: 0fe0a7bc-1e97-4a69-9a9c-9f27a5930b78
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;-#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições (D-1)' =
+			
+			CALCULATE( [Aquisições], dcalendar[d0] = TRUE() )
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 2255a2aa-3c9c-42d6-b35c-b4071c15cfd7
+
+	measure 'Aquisições (MTD)' =
+			
+			CALCULATE( [Aquisições], dcalendar[mtd] = TRUE() )
+		formatString: 0
+		displayFolder: Operações
+		lineageTag: a2d37503-d217-4aed-a979-9ddd35fdc906
+
+	measure '% Gap de Aquisições (D-1)' =
+			
+			CALCULATE(
+			    [% Gap de Ops (D-1)],
+			    d_event_type[event_type] = "ACQUISITION"
+			)
+		displayFolder: Operações
+		lineageTag: e584b543-00ce-495a-8838-68e805df1868
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Gap de Aquisições (MTD)' =
+			
+			CALCULATE(
+			    [% Gap de Ops (MTD)],
+			    d_event_type[event_type] = "ACQUISITION"
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Operações
+		lineageTag: adf5bc35-28ac-4b4d-8fa7-f260e808aae9
+
+	measure PNL =
+			
+			SUM( f_gold_ops[gross_revenue_treasury] )
+		displayFolder: PNL
+		lineageTag: daed48b7-1f0f-4d83-b974-c8bf87473707
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '# MOM (MTD)' =
+			
+			[Realizado (MTD)] - [Realizado (PMTD)]
+		displayFolder: # Oficial\Growth
+		lineageTag: 06cff014-ea2a-4450-b509-c4563c4137a8
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "#,0;#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Realizado YTD' =
+			
+			TOTALYTD( [Realizado], dcalendar[Date Key] )
+		displayFolder: # Oficial\Realizado
+		lineageTag: 13c84c3b-2f5b-4aa4-984d-dc793ae93f31
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Meta YTD' =
+			
+			CALCULATE(
+			    TOTALYTD(
+			        [Meta],
+			        dcalendar[Date Key]
+			    ),
+			    dcalendar[Date Key] <= MAX(f_gold_ops[operation_date]),
+			    dcalendar[is_current_date] = FALSE()
+			)
+		displayFolder: # Oficial\Meta
+		lineageTag: c7d1f7b4-4ee3-4f15-86c2-ebe0a6a7c3ad
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Meta FY' =
+			
+			CALCULATE(
+			    [Meta],
+			    REMOVEFILTERS( dcalendar[Current Month] ),
+			    dcalendar[year] = 2026
+			)
+		displayFolder: # Oficial\Meta
+		lineageTag: ab2c6b05-5df9-4726-972e-75a97c812eba
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Título Report Diário' =
+			
+			"Report Diário" &
+			" - " &
+			FORMAT( [Last Update], "DD/mm/YYYY" )
+		displayFolder: Auxiliar
+		lineageTag: 8e0c20cc-bcb6-4508-b2c0-c51b438dc70b
+
+	measure Investimento =
+			
+			SUM( f_investimentos[investimento] )
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Investimento
+		lineageTag: 4af9e885-8fcb-4535-960f-fd28fa6ef28b
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Investimento (D-1)' =
+			
+			CALCULATE( [Investimento], dcalendar[d0] = TRUE() )
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Investimento
+		lineageTag: daf9e5de-8172-40c8-bd09-e04021187ea2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Investimento (MTD)' =
+			
+			CALCULATE( [Investimento], dcalendar[mtd] = TRUE() )
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Investimento
+		lineageTag: fa143186-5921-4648-b2de-15badf5cac9b
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Investimento (PMTD)' =
+			
+			CALCULATE(
+			    [Investimento],
+			    DATEADD( dcalendar[Date Key], -1, MONTH ),
+			    dcalendar[mtd] = TRUE()
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Investimento
+		lineageTag: a4f48533-e460-477e-82bb-40686a52baa8
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Investimento % MOM (MTD)' =
+			
+			DIVIDE(
+			    [Investimento (MTD)] - [Investimento (PMTD)],
+			    [Investimento (PMTD)],
+			    BLANK()
+			)
+		displayFolder: Investimento
+		lineageTag: e47efbe4-f196-4acc-9ac4-b15e067c8e72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CPP =
+			
+			DIVIDE( [Investimento], [Presignups], BLANK() )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: dd20d2b8-64da-4dc7-82f5-f5ccfa5a6568
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPP (D-1)' =
+			
+			CALCULATE( [CPP], dcalendar[d0] = TRUE() )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 5280aa16-be89-4ce2-ac0e-5a0c02b7a2bb
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPP (MTD)' =
+			
+			CALCULATE( [CPP], dcalendar[mtd] = TRUE() )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 7e51277f-b9d5-47fe-bf4a-1a91f183ede0
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPP (PMTD)' =
+			
+			CALCULATE(
+			    [CPP],
+			    DATEADD( dcalendar[Date Key], -1, MONTH ),
+			    dcalendar[mtd] = TRUE()
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: e8acd865-2834-4f45-9ca7-45323fd0061f
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPP # MOM (MTD)' =
+			
+			[CPP (MTD)] - [CPP (PMTD)]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Investimento
+		lineageTag: 514849a3-57e3-4e32-8e7f-9e8c56182049
+
+	measure CPA =
+			
+			DIVIDE( [Investimento], [Aquisições], BLANK() )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 0d2c16fc-f2ca-4a22-b0d9-6241e1b7aa73
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPA (D-1)' =
+			
+			CALCULATE( [CPA], dcalendar[d0] = TRUE() )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: e33fb4bc-6b34-477d-93f1-082213c927c4
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPA (MTD)' =
+			
+			CALCULATE( [CPA], dcalendar[mtd] = TRUE() )
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 004fa4ab-f640-49cd-b2b1-5b4497e9a9f3
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPA (PMTD)' =
+			
+			CALCULATE(
+			    [CPA],
+			    DATEADD( dcalendar[Date Key], -1, MONTH ),
+			    dcalendar[mtd] = TRUE()
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 761ed621-7670-42e6-bbe5-ae83e2bf803d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPA # MOM (MTD)' =
+			
+			[CPA (MTD)] - [CPA (PMTD)]
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 130ad9d3-9f09-48a5-9990-70b7dc26c63b
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'CPA Acumulado' =
+			
+			CALCULATE(
+			    [CPA],
+			    FILTER(
+			        ALL( 'dcalendar' ),
+			        'dcalendar'[Date Key] <= MAX( f_investimentos[date_key] )
+			            && 'dcalendar'[date_month] = MAX( 'dcalendar'[date_month] )
+			    )
+			)
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Investimento
+		lineageTag: 0be54f54-5a1c-4683-81db-c214772c60a7
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Investimento Sem Filtro de Ano' =
+			
+			CALCULATE( [Investimento], REMOVEFILTERS( dcalendar[year] ) )
+		displayFolder: Investimento
+		lineageTag: 34758d0e-86db-4868-a9fa-eb65a5924537
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor >= 0, "R$ #,0;R$ #,0",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vValor < 0, "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% GAP (YTD)' =
+			
+			DIVIDE( [Realizado YTD], [Meta YTD], BLANK() )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: 47c998fb-ff5a-40ef-b0a6-429e609be8f8
+
+	measure 'Gauge - GAP YTD' =
+			
+			VAR vValor = [# GAP (YTD)]
+			VAR vMeasure = SELECTEDVALUE( Tabela[KPI] )
+			VAR Gap = FORMAT( DIVIDE( [Realizado YTD], [Meta YTD], BLANK() ), "0.0%" )
+			VAR vFormat =
+			    SWITCH(
+			        TRUE(),
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure IN {"Receita", "GMV", "Investimento", "PNL"} && vValor  < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure IN {"CPP", "CPA"}, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure IN {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure IN {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure IN {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure IN {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure IN {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure IN {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure IN {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure IN {"Operações", "Presignups"} && vValor <= 0, "+#,0;-#,0"
+			    )
+			RETURN
+			    "" & FORMAT( vValor, vFormat ) & ""
+		displayFolder: # Oficial\Realizado
+		lineageTag: 37061027-9f1f-498c-985d-dfc05fffec1f
+
+	measure '# GAP (YTD)' =
+			
+			[Realizado YTD] - [Meta YTD]
+		displayFolder: # Oficial\GAP
+		lineageTag: 7c974022-539c-4575-8c20-7f15215ccbeb
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Resumo Dashboard' = ```
+			
+			"<div style='display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-start;'>
+			
+			    <!-- Bloco 1: Investimento -->
+			    <div style='flex: 1; min-width: 350px; height: 160px; border: 1px solid #ddd; padding: 15px; background-color: #fff;'>
+			        <h3>Investimento em Marketing</h3>
+			        <div style='font-size: 20px;'>
+			            - D-1: <b>"
+			    & FORMAT( [Investimento (D-1)], "R$ #,##0" ) & "</b><br>
+			            - Acumulado: <b>"
+			    & FORMAT( [Investimento (MTD)], "R$ #,##0" ) & "</b>
+			            (<b style='color:"
+			    & IF( [Investimento % MOM (MTD)] >= 0, "#111111", "#111111" ) & ";'>"
+			    & IF( [Investimento % MOM (MTD)] > 0, "+", "" )
+			    & FORMAT( [Investimento % MOM (MTD)], "0.0%" ) & "</b> vs. " & [Mês Anterior] & ").<br><br>
+			        </div>
+			    </div>
+			
+			    <!-- Bloco 2: Presignups -->
+			    <div style='flex: 1; min-width: 350px; height: 160px; border: 1px solid #ddd; padding: 15px; background-color: #fff;'>
+			        <h3>Presignups (ex-FXaaS)</h3>
+			        <div style='font-size: 20px;'>
+			            - D-1: <b>"
+			    & FORMAT( [Presignups (D-1)], "#,##0" ) & "</b> presignups.<br>
+			            - Acumulado: <b>"
+			    & FORMAT( [Presignups (MTD)], "#,##0" ) & "</b>
+			            (<b style='color:"
+			    & IF( [Presignups % MOM (MTD)] >= 0, "#1AAB40", "#D64554" ) & ";'>"
+			    & IF( [Presignups % MOM (MTD)] > 0, "+", "" )
+			    & FORMAT( [Presignups % MOM (MTD)], "0.0%" ) & "</b> vs. " & [Mês Anterior] & ").<br><br>
+			        </div>
+			    </div>
+			
+			    <!-- Bloco 3: CPP -->
+			    <div style='flex: 1; min-width: 350px; height: 160px; border: 1px solid #ddd; padding: 15px; background-color: #fff;'>
+			        <h3>Custo por Presignup (CPP)</h3>
+			        <div style='font-size: 20px;'>
+			            - D-1: <b>"
+			    & FORMAT( [CPP (D-1)], "R$ #,##0.00" ) & "</b><br>
+			            - Acumulado: <b>"
+			    & FORMAT( [CPP (MTD)], "R$ #,##0.00" ) & "</b>
+			            (<b style='color:"
+			    & IF( [CPP # MOM (MTD)] >= 0, "#D64554", "#1AAB40" ) & ";'>"
+			    & IF( [CPP # MOM (MTD)] > 0, "+", "" )
+			    & FORMAT( [CPP # MOM (MTD)], "R$ #,##0.00" ) & "</b> vs. " & [Mês Anterior] & ").<br><br>
+			        </div>
+			    </div>
+			
+			    <!-- Bloco 4: Aquisições -->
+			    <div style='flex: 1; min-width: 350px; height: 160px; border: 1px solid #ddd; padding: 15px; background-color: #fff;'>
+			        <h3>Aquisições</h3>
+			        <div style='font-size: 20px;'>
+			            - D-1: <b>"
+			    & FORMAT( [Aquisições (D-1)], "#,##0" ) & "</b> aquisições 
+			            (<b style='color:"
+			    & IF( [% Gap de Aquisições (D-1)] >= 1, "#1AAB40", "#D64554" ) & ";'>"
+			    & FORMAT( [% Gap de Aquisições (D-1)], "0.0%" ) & "</b> da meta diária).<br>
+			            - Acumulado: <b>"
+			    & FORMAT( [Aquisições (MTD)], "#,##0" ) & "</b> 
+			            (<b style='color:"
+			    & IF( [% Gap de Aquisições (MTD)] >= 1, "#1AAB40", "#D64554" ) & ";'>"
+			    & FORMAT( [% Gap de Aquisições (MTD)], "0.0%" ) & "</b> da meta MTD).<br><br>
+			        </div>
+			    </div>
+			
+			    <!-- Bloco 5: CPA -->
+			    <div style='flex: 1; min-width: 350px; height: 160px; border: 1px solid #ddd; padding: 15px; background-color: #fff;'>
+			        <h3>Custo por Aquisição (CPA)</h3>
+			        <div style='font-size: 20px;'>
+			            - D-1: <b>"
+			    & FORMAT( [CPA (D-1)], "R$ #,##0.00" ) & "</b><br>
+			            - Acumulado: <b>"
+			    & FORMAT( [CPA (MTD)], "R$ #,##0.00" ) & "</b>
+			            (<b style='color:"
+			    & IF( [CPA # MOM (MTD)] >= 0, "#D64554", "#1AAB40" ) & ";'>"
+			    & IF( [CPA # MOM (MTD)] > 0, "+", "" )
+			    & FORMAT( [CPA # MOM (MTD)], "R$ #,##0.00" ) & "</b> vs. " & [Mês Anterior] & ").<br><br>
+			        </div>
+			    </div>
+			
+			    <!-- Bloco 6: Receita Bruta -->
+			    <div style='flex: 1; min-width: 350px; height: 160px; border: 1px solid #ddd; padding: 15px; background-color: #fff;'>
+			        <h3>Receita Bruta</h3>
+			        <div style='font-size: 20px;'>
+			            - D-1: <b>"
+			    & FORMAT( [Receita (D-1)], "R$ #,##0" ) & "</b> 
+			            (<b style='color:"
+			    & IF( [% Gap de Receita (D-1)] >= 1, "#1AAB40", "#D64554" ) & ";'>"
+			    & FORMAT( [% Gap de Receita (D-1)], "0.0%" ) & "</b> da meta diária).<br>
+			            - Acumulado: <b>"
+			    & FORMAT( [Receita (MTD)], "R$ #,##0" ) & "</b>
+			            (<b style='color:"
+			    & IF( [% Gap de Receita (MTD)] >= 1, "#1AAB40", "#D64554" ) & ";'>"
+			    & FORMAT( [% Gap de Receita (MTD)], "0.0%" ) & "</b> da meta MTD).<br><br>
+			        </div>
+			    </div>
+			
+			</div>"
+			```
+		displayFolder: # Oficial\HMTL
+		lineageTag: b0a29b93-e8a8-4d37-93e7-6f86e783c279
+
+	measure 'Meta de PNL' =
+			
+			SUM( f_pnl_tesouraria[meta_pnl] )
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: PNL
+		lineageTag: 3c8b72ba-6f27-488f-b878-27e7f19737f7
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Gauge Meta 0' =
+			
+			0
+		displayFolder: # Oficial\Meta
+		lineageTag: fd5b44f1-6e2b-4891-a028-0d103f002aa5
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Custo de Mensageria' =
+			
+			SUM( f_gold_ops[real_message_cost] )
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Mensageria
+		lineageTag: 0a5ff379-f4d5-4951-887f-0c4e08cc8d31
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Take do Banco' =
+			
+			SUM( f_gold_ops[cost_bank_take] )
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Take
+		lineageTag: c65204b2-7b70-4d9c-b84d-6f95e2038c30
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Projeção de GMV Acumulada' =
+			
+			SWITCH(
+			    TRUE(),
+			    NOT ISBLANK( [GMV] ), BLANK(),
+			    CALCULATE(
+			        SUM( f_daily_sales[projecao_gmv] ),
+			        dcalendar[Filter Today] = FALSE()
+			    )
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: 2c5a0633-9ede-44be-a1b9-fe845b3d6125
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Projeção de Ops Acumulada' =
+			
+			SWITCH(
+			    TRUE(),
+			    NOT ISBLANK( [Ops] ), BLANK(),
+			    CALCULATE(
+			        SUM( f_daily_sales[projecao_operations] ),
+			        dcalendar[Filter Today] = FALSE()
+			    )
+			)
+		displayFolder: Operações
+		lineageTag: 46100e8b-4858-4888-b6ca-f803eb06e358
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Projeção de Receita Acumulada' =
+			
+			SWITCH(
+			    TRUE(),
+			    NOT ISBLANK( [Receita] ), BLANK(),
+			    CALCULATE(
+			        SUM(f_daily_sales[projecao_gross_revenue]),
+			        dcalendar[Filter Today] = FALSE()
+			    )
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Receita
+		lineageTag: 9ff0448f-559b-4034-90d1-e600811863bc
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta (D0)' =
+			
+			CALCULATE( [Meta], dcalendar[Date Key] = TODAY() )
+		displayFolder: # Oficial\Meta
+		lineageTag: f4d5d028-d96f-4876-8565-3be4fa3e2089
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'AVG -3M (D-1)' = ```
+			
+			VAR UltimaDataRealizado = MAX(f_gold_ops[operation_date])
+			RETURN
+			CALCULATE(
+			    AVERAGEX(
+			        DATESINPERIOD(
+			            dcalendar[Date Key],
+			            UltimaDataRealizado,
+			            -90,
+			            DAY
+			        ), 
+			        [Realizado]
+			    )
+			)
+			```
+		displayFolder: # Oficial\Realizado
+		lineageTag: 1ff5cba2-1387-49a2-87ba-ee4463cc0f25
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "#,0;-#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% GAP AVG -3M (D-1)' =
+			
+			DIVIDE(
+			    [Realizado (D-1)] - [AVG -3M (D-1)],
+			    [AVG -3M (D-1)],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: a3cc9c6d-0021-44b3-8fed-c6823fe04d75
+
+	measure 'AVG -3M (MTD)' =
+			
+			// Calcula o final do último mês completo
+			VAR LastMonthEnd = EOMONTH(MAX(f_gold_ops[operation_date]), -1)
+			
+			// Define o intervalo de 3 meses
+			VAR StartDate = DATE(YEAR(EDATE(LastMonthEnd, -2)), MONTH(EDATE(LastMonthEnd, -2)), 1)
+			VAR EndDate = LastMonthEnd
+			
+			RETURN
+			CALCULATE(
+			    AVERAGEX(
+			        DATESBETWEEN(dcalendar[date_month], StartDate, EndDate),
+			        [Realizado]
+			    ),
+			    ALL('dcalendar'),
+			    'dcalendar'[mtd] = TRUE () // Considera apenas os dias do mês corrente
+			)
+		displayFolder: # Oficial\Realizado
+		lineageTag: e239dd76-a4d0-43af-9de6-9fa9ac73ac4e
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "#,0;-#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% GAP AVG -3M (MTD)' =
+			
+			DIVIDE(
+			    [Realizado (MTD)] - [AVG -3M (MTD)],
+			    [AVG -3M (MTD)],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: 2ecf1d72-ac6c-4528-8dd3-e55a6edcb8ea
+
+	measure 'AVG -3M (Full Month)' =
+			
+			// Calcula o final do último mês completo
+			VAR LastMonthEnd = EOMONTH(MAX(f_gold_ops[operation_date]), -1)
+			
+			// Define o intervalo de 3 meses
+			VAR StartDate = DATE(YEAR(EDATE(LastMonthEnd, -2)), MONTH(EDATE(LastMonthEnd, -2)), 1)
+			VAR EndDate = LastMonthEnd
+			
+			RETURN
+			CALCULATE(
+			    AVERAGEX(
+			        DATESBETWEEN(dcalendar[date_month], StartDate, EndDate),
+			        [Realizado]
+			    ),
+			    ALL('dcalendar')
+			)
+		displayFolder: # Oficial\Realizado
+		lineageTag: f0dc9bb2-e194-4fd5-9717-5eec843e3f79
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Investimento", "PNL"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "#,0;-#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% GAP AVG -3M (Full Month)' =
+			
+			DIVIDE(
+			    [Realizado] - [AVG -3M (Full Month)],
+			    [AVG -3M (Full Month)],
+			    BLANK()
+			)
+		displayFolder: # Oficial\GAP
+		lineageTag: cd3a6c19-779d-48ca-a42d-72c5f7f86999
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Projeção x Meta (%)' =
+			
+			DIVIDE(
+			    [Projeção],
+			    [Meta]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\Projeção
+		lineageTag: 414ecf66-b8c3-4861-bdaa-6a55e53a2a30
+
+	measure 'Projeção x AVG -3M (#)' = [Projeção] - [AVG -3M (Full Month)]
+		displayFolder: # Oficial\Projeção
+		lineageTag: 30a54a5a-f8b5-4d49-87d2-252b175404c1
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '# MOM' = [Realizado] - [Realizado (M-1)]
+		displayFolder: # Oficial\Growth
+		lineageTag: 8c8f3f6f-7165-44ae-b3ae-885fac3696e8
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "#,0;#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure Blank = ""
+		displayFolder: Auxiliar
+		lineageTag: fa1fe5c9-c2f6-4faf-aee4-2fbbf7a74607
+
+	measure 'Big Number - AVG -3M (D-1)' = ```
+			
+			VAR vValor = [# GAP AVG -3M (D-1)] // Valor absoluto
+			VAR vPercentual = [% GAP AVG -3M (D-1)] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,-#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0",
+			        // Formatação específica para "Gap"
+			        vMeasure in {"Gap"}, "+0.0%;-0.0%"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: a3cb9950-ee8b-4ce2-8603-dc67cf529e39
+
+	measure '# GAP AVG -3M (D-1)' = [Realizado (D-1)] - [AVG -3M (D-1)]
+		displayFolder: # Oficial\GAP
+		lineageTag: 1a2f664d-64c5-4bf4-af37-ee54ebac29ac
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Big Number - PMTD' = ```
+			
+			VAR vValor = [# MOM (MTD)] // Valor absoluto
+			VAR vPercentual = [% MOM (MTD)] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;-R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: 4040e5f6-a9b2-43e6-8f00-b3416af5156f
+
+	measure '# GAP AVG -3M (MTD)' = [Realizado (MTD)] - [AVG -3M (MTD)]
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: # Oficial\GAP
+		lineageTag: 49b2945f-67df-4938-94f5-e8ce454022ea
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '# GAP AVG -3M (Full Month)' = [Realizado] - [AVG -3M (Full Month)]
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: # Oficial\GAP
+		lineageTag: cf8bbc8f-a65a-4fba-91f5-1dd982d066fd
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Big Number - AVG -3M (MTD)' = ```
+			
+			VAR vValor = [# GAP AVG -3M (MTD)] // Valor absoluto
+			VAR vPercentual = [% GAP AVG -3M (MTD)] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;-R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0",
+			        // Formatação específica para "Gap"
+			        vMeasure in {"Gap"}, "+0.0%;-0.0%"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: 51efbdbb-8631-4aae-8504-16868307ae5e
+
+	measure 'Big Number - M-1' = ```
+			
+			VAR vValor = [# MOM] // Valor absoluto
+			VAR vPercentual = [% MOM] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;-R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: 9c1215e2-d0fc-4d43-95ba-537a6d8e68cc
+
+	measure 'Big Number - AVG -3M (Full Month)' = ```
+			
+			VAR vValor = [# GAP AVG -3M (Full Month)] // Valor absoluto
+			VAR vPercentual = [% GAP AVG -3M (Full Month)] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;-R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0",
+			        // Formatação específica para "Gap"
+			        vMeasure in {"Gap"}, "+0.0%;-0.0%"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: 340f19ae-12a3-4bd6-99a3-834b312d2b8f
+
+	measure 'Big Number - Projeção vs. M-1' = ```
+			
+			VAR vValor = [Projeção x M-1 (#)] // Valor absoluto
+			VAR vPercentual = [Projeção x M-1 (%)] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;-R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: d9ca0ffc-daa1-4735-9c56-7d5713e9c99b
+
+	measure 'Projeção x M-1 (%)' =
+			
+			DIVIDE(
+			    [Projeção] - [Realizado (M-1)],
+			    [Realizado (M-1)],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\Projeção
+		lineageTag: 118e5a2f-2d7e-4fe8-8af1-38a23917fcbb
+
+	measure 'Projeção x AVG -3M (%)' =
+			
+			DIVIDE(
+			    [Projeção] - [AVG -3M (Full Month)],
+			    [AVG -3M (Full Month)]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: # Oficial\Projeção
+		lineageTag: cf5bb04a-5275-47c6-a255-a80cc94169bb
+
+	measure 'Big Number - Projeção vs. AVG -3M' = ```
+			
+			VAR vValor = [Projeção x AVG -3M (#)] // Valor absoluto
+			VAR vPercentual = [Projeção x AVG -3M (%)] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;-R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: d2208ffa-3d49-4f92-a1af-5cc5105354a2
+
+	measure MinData = MIN(dcalendar[Date Key])
+		formatString: General Date
+		displayFolder: Auxiliar
+		lineageTag: 6d6153a9-ee75-4e08-a474-e826619c56ef
+
+	measure 'Meta de Presignups' = sum(f_daily_sales_psu[goal_psu])
+		displayFolder: Presignups
+		lineageTag: 71198d88-4fb3-48a3-8799-a8134ce92810
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Meta x Presignups' =
+			
+			DIVIDE(
+			    [Presignups],
+			    [Meta de Presignups],
+			    BLANK()
+			)
+		displayFolder: Presignups
+		lineageTag: e5afa412-cfb7-4dcc-a9b2-72f32fbe7afa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% GAP de Presignups' =
+			
+			IF(
+			    ISBLANK([Meta de Presignups]),
+			    BLANK(),
+			    [% Meta x Presignups]
+			)
+		displayFolder: Presignups
+		lineageTag: 37b48563-6e28-40eb-b003-435bb85ce769
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Gap de Presignups (D-1)' =
+			
+			CALCULATE(
+			    [% GAP de Presignups],
+			    dcalendar[d0] = TRUE()
+			)
+		displayFolder: Presignups
+		lineageTag: 056a7e3d-c2d6-4b49-90b9-486faa9d64e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Gap de Presignups (MTD)' =
+			
+			CALCULATE(
+			    [% GAP de Presignups],
+			    dcalendar[mtd] = TRUE()
+			)
+		displayFolder: Presignups
+		lineageTag: b3daade8-2360-48d5-9239-d9877711c2cb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Receita (PMTD)' =
+			
+			CALCULATE([Receita],
+			    DATEADD(
+			        dcalendar[Date Key],
+			        -1,
+			        MONTH
+			    )
+			    , dcalendar[mtd] = TRUE()
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Receita
+		lineageTag: a0094e9a-3326-48f6-93e3-2157761f2b99
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta de Receita (MTD)' = ```
+			
+			    CALCULATE([Meta de Receita],
+			        dcalendar[mtd] = TRUE()
+			    )
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Receita
+		lineageTag: 26a6387f-e611-49e4-9cfa-719c9604636c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '# Gap de Receita (MTD)' = ```
+			
+			--[Receita (MTD)] - [Meta de Receita (MTD)]   
+			CALCULATE([# GAP de Receita], dcalendar[mtd] = TRUE())
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Receita
+		lineageTag: b0984bc8-bf79-4576-91bb-56234b33df97
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '# GAP de Receita' = [Receita] - [Meta de Receita]
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Receita
+		lineageTag: d599fa92-1744-40d1-b106-340eaab8144e
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta de Receita (D0)' = ```
+			
+			    CALCULATE([Meta de Receita],
+			        dcalendar[d0] = TRUE()
+			    )
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Receita
+		lineageTag: e28da2b9-df62-47a5-92b7-25d653802572
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '# Gap de Receita (D-1)' = ```
+			
+			    CALCULATE(
+			        [# GAP de Receita],
+			        dcalendar[d0] = TRUE()
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: Receita
+		lineageTag: 6932ba04-2152-4f5d-a42d-c983473dc417
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Receita (M1)' =
+			
+			CALCULATE([Receita],
+			    DATEADD(
+			        dcalendar[Date Key],
+			        -1,
+			        MONTH
+			    )
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Receita
+		lineageTag: 93265ec3-3e43-4b9c-ab3c-a5d05702e4a7
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Proj. Receita x Meta' =
+			
+			DIVIDE(
+			    [Projeção de Receita (Last Day)] - [Meta de Receita],
+			    [Meta de Receita],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Receita
+		lineageTag: c07243fb-45d1-46ce-a9cd-8abab72615d5
+
+	measure 'GMV (PMTD)' =
+			
+			CALCULATE(
+			    [GMV],
+			    DATEADD(
+			        dcalendar[Date Key],
+			        -1,
+			        MONTH
+			    )
+			    , dcalendar[mtd] = TRUE()
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: c728d92d-b7aa-4fae-bcf6-f1b1383c5016
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Meta de GMV (MTD)' = ```
+			
+			    CALCULATE([Meta de GMV],
+			        dcalendar[mtd] = TRUE()
+			    )
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: 45bd9bbd-9adb-4e11-bbed-004c4e601df3
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '# Gap de GMV (MTD)' = ```
+			
+			    CALCULATE(
+			        [# GAP de GMV],
+			        dcalendar[mtd] = TRUE()
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: GMV
+		lineageTag: dda56651-46fc-4720-b623-6bf4db375b68
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '# GAP de GMV' = ```
+			
+			    IF (
+			        ISBLANK([% GAP de GMV]),
+			        BLANK(),
+			        [GMV] - [Meta de GMV]
+			    )
+			```
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: GMV
+		lineageTag: a8acc91e-7374-4c93-91b1-fe8d42624a96
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% GAP de GMV' = ```
+			
+			    IF (ISBLANK([Meta de GMV]),
+			    BLANK(),
+			    [% Meta x GMV]
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: GMV
+		lineageTag: 7058c3f9-b828-4356-9852-35510d3858d4
+
+	measure '% Meta x GMV' =
+			
+			DIVIDE(
+			    [GMV] - [Meta de GMV],
+			    [Meta de GMV],
+			    BLANK()
+			)
+		displayFolder: GMV
+		lineageTag: 88d5a2cd-3b1b-47e8-b9a8-6269bbd02e6d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Meta de GMV (D-1)' = ```
+			
+			    CALCULATE([Meta de GMV],
+			        dcalendar[d0] = TRUE()
+			    )
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: 484e296b-5fee-4c49-b460-52223d18cdb7
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'GMV (D-1)' =
+			
+			CALCULATE([GMV],
+			    dcalendar[d0] = TRUE()
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: 74f749c8-9072-48f7-a0a8-fe499033e9df
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '# Gap de GMV (D-1)' = ```
+			
+			    CALCULATE(
+			        [# GAP de GMV],
+			        dcalendar[d0] = TRUE()
+			    )
+			```
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: aef4e71d-7327-43ad-b472-7dd0db174c78
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'GMV (M1)' =
+			
+			CALCULATE(
+			    [GMV],
+			    DATEADD(
+			        dcalendar[Date Key],
+			        -1,
+			        MONTH
+			    )
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: f0ecb4c2-6411-42b6-a915-fcc2ff55ac46
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure '% Proj. GMV x Meta' = ```
+			
+			    DIVIDE(
+			        [Projeção de GMV (Last Day)] - [Meta de GMV],
+			        [Meta de GMV],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: GMV
+		lineageTag: e8df02aa-a090-4694-8ce1-9ac34ba4ccaf
+
+	measure 'Ops (PMTD)' = ```
+			
+			CALCULATE(
+			    [Ops],
+			    DATEADD(
+			        dcalendar[Date Key],
+			        -1,
+			        MONTH
+			    )
+			    , dcalendar[mtd] = TRUE()        
+			)
+			```
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 51fb1395-2af3-45df-8da4-1cadf92eed5a
+
+	measure 'Meta de Ops (MTD)' = ```
+			
+			    CALCULATE([Meta de Ops],
+			        dcalendar[mtd] = TRUE()
+			    )
+			```
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 504a012a-2e62-4287-917f-d746587bd36b
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '# GAP de Ops' = ```
+			
+			    IF (
+			        ISBLANK([% GAP de Ops]),
+			        BLANK(),
+			        [Ops] - [Meta de Ops]
+			    )
+			```
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: f12733a7-1e84-4276-882a-4041c9a97c48
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '# Gap de Ops (MTD)' = ```
+			
+			    CALCULATE(
+			        [# GAP de Ops],
+			        dcalendar[mtd] = TRUE()
+			    )
+			```
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 7beb56a0-3377-4894-b8c7-6ac9051d5990
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '# Gap de Ops (D0)' = ```
+			
+			    CALCULATE(
+			        [# GAP de Ops],
+			        dcalendar[d0] = TRUE()
+			    )
+			```
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: ec4d8793-10ff-41a1-88c0-7ab83dd898a8
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Meta de Ops (D0)' = ```
+			
+			    CALCULATE([Meta de Ops],
+			        dcalendar[d0] = TRUE()
+			    )
+			```
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 5a0144f1-87c7-472f-b6cc-d5836127ee03
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Ops (D0)' =
+			
+			CALCULATE([Ops],
+			    dcalendar[d0] = TRUE()
+			)
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: aff226d5-f927-4064-9160-67d3dd0595df
+
+	measure 'Ops (M-1)' =
+			
+			CALCULATE([Ops],
+			    DATEADD(
+			        dcalendar[Date Key],
+			        -1,
+			        MONTH
+			    )
+			)
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: df1c7355-d5fe-4263-8dca-ea38f0847229
+
+	measure '% Proj. Ops x Meta' =
+			
+			DIVIDE(
+			    [Projeção de Ops (Last Day)] - [Meta de Ops],
+			    [Meta de Ops],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Operações
+		lineageTag: 2b1e7873-3821-4ddb-83e8-e7f6a66e42ed
+
+	measure 'Realizado (D0)' =
+			
+			CALCULATE(
+			    [Realizado],
+			    dcalendar[is_current_date] = TRUE()
+			)
+		displayFolder: # Oficial\Realizado
+		lineageTag: bc2bc499-9e83-4b87-9eff-0a7a40c39594
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Título D0' =
+			
+			"Atualização: " &
+			FORMAT( [Last Update], "DD/mm/YYYY HH:mm" )
+		displayFolder: Auxiliar
+		lineageTag: a83cef71-59b0-49f4-a41f-964b76d003fb
+
+	measure '# GAP (D0)' =
+			
+			CALCULATE( [# GAP], dcalendar[is_current_date] = TRUE() )
+		displayFolder: # Oficial\GAP
+		lineageTag: 4ca9428e-ad92-4ee3-9efa-9a282578c3fd
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% GAP (D0)' =
+			
+			CALCULATE( [% GAP], dcalendar[is_current_date] = TRUE() )
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: # Oficial\GAP
+		lineageTag: c71a4eb0-812e-40e1-b975-df7bfbf0e5c3
+
+	measure '# GAP AVG -3M (D0)' = [Realizado (D0)] - [AVG -3M (D-1)]
+		displayFolder: # Oficial\GAP
+		lineageTag: 9ef43dda-2aaf-4dd6-a5bc-9ac3ece0a0e5
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B);-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;#,#0,,,.00B",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;#,#0,,.00M",
+				    vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,#0,.00K",
+				    vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;#,0"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Big Number - AVG -3M (D0)' = ```
+			
+			VAR vValor = [# GAP AVG -3M (D0)] // Valor absoluto
+			VAR vPercentual = [% GAP AVG -3M (D0)] // Valor em porcentagem
+			VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+			VAR vFormat = 
+			    SWITCH(
+			        TRUE(),
+			        // Formatação para valores absolutos específicos
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor >= 0, "+R$ #,0;R$ #,0",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000000, "+R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000000, "+R$ #,#0,,.00M;-R$ #,#0,,.00M",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor <= -1000, "+R$ #,#0,.00K;-R$ #,#0,.00K",
+			        vMeasure in {"Receita", "GMV", "PNL"} && vValor < 0, "+R$ #,0.00;-R$ #,0.00",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 1000, "+#,#0,.00K;-#,#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor >= 0, "+#,0;-#,0",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000000, "+#,#0,,,.00B;-#,#0,,,.00B",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000000, "+#,#0,,.00M;-#,#0,,.00M",
+			        vMeasure in {"Operações", "Presignups"} && vValor <= -1000, "+#,#0,.00K;#,-#0,.00K",
+			        vMeasure in {"Operações", "Presignups"} && vValor < 0, "+#,0;-#,0",
+			        // Formatação específica para "Gap"
+			        vMeasure in {"Gap"}, "+0.0%;-0.0%"
+			    )
+			VAR ValorFormatado = FORMAT(vValor, vFormat)
+			VAR PercentualFormatado = FORMAT(vPercentual, "+0.0%;-0.0%")
+			
+			// Concatenando as medidas com formatação preservada
+			RETURN 
+			    ValorFormatado & " (" & PercentualFormatado & ")"
+			```
+		displayFolder: # Oficial\Big Number
+		lineageTag: 759fae57-0695-4c7f-97a3-737e03c0d3f1
+
+	measure '% GAP AVG -3M (D0)' =
+			
+			DIVIDE(
+			    [Realizado (D0)] - [AVG -3M (D-1)],
+			    [AVG -3M (D-1)],
+			    BLANK()
+			)
+		displayFolder: # Oficial\GAP
+		lineageTag: 7cb99080-db33-4045-bf97-2675f73f5d8d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Resultado Intraday' = "Resultado Intraday"
+		displayFolder: Auxiliar
+		lineageTag: 101dda96-a0a2-40d8-8cfd-5e66eb703bc7
+
+	measure 'GMV (MTD)' =
+			
+			CALCULATE([GMV],
+			    dcalendar[mtd] = TRUE()
+			)
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		displayFolder: GMV
+		lineageTag: 39a13f77-1954-4078-be4f-98ef278cf44a
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Ops (MTD)' =
+			
+			CALCULATE([Ops],
+			    dcalendar[mtd] = TRUE()
+			)
+		formatString: #,0
+		displayFolder: Operações
+		lineageTag: 8e6fbb6d-c587-4f24-87b7-12540c952731
+
+	measure 'Meta de Presignups (MTD)' =
+			
+			CALCULATE(
+			    sum(f_daily_sales_psu[goal_psu]),
+			    dcalendar[mtd] = TRUE()
+			)
+		displayFolder: Presignups
+		lineageTag: 2e4fe1a8-09cd-4d55-9510-5bb3b5cf25ca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Meta de PNL (MTD)' =
+			
+			CALCULATE(
+			    [Meta de PNL],
+			    dcalendar[mtd] = TRUE()
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: PNL
+		lineageTag: e0b200ed-6f71-455a-96f5-c4d773c75814
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure Acumulado =
+			
+			IF(
+			    SELECTEDVALUE('dcalendar'[is_current_date]) = TRUE,
+			    BLANK(),
+			    CALCULATE(
+			        [Realizado],
+			        FILTER(
+			            ALL('dcalendar'),
+			            'dcalendar'[Date Key] <= MAX('f_gold_ops'[operation_date]) &&
+			            'dcalendar'[date_month] = MAX('dcalendar'[date_month]) &&
+			            NOT('dcalendar'[is_current_date])
+			        )
+			    )
+			)
+		displayFolder: # Oficial\Realizado
+		lineageTag: 602ffbab-e11a-4d54-a9ae-9edabe4bcf26
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Acumulado com Hoje' =
+			
+			CALCULATE(
+			    [Realizado],
+			    FILTER(
+			        ALL('dcalendar'),
+			            'dcalendar'[Date Key] <= MAX('f_gold_ops'[operation_date])
+			            && 'dcalendar'[date_month] = MAX('dcalendar'[date_month])
+			    )
+			)
+		displayFolder: # Oficial\Realizado
+		lineageTag: 009c54f9-b237-49cf-acc9-135716b14db9
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vMeasure = SELECTEDVALUE(Tabela[KPI])
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor >= 0, "R$ #,0;R$ #,0",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vMeasure in {"Receita", "GMV", "Ticket Médio", "Investimento", "PNL", "Custo de Mensageria", "Take do Banco"} && vValor < 0, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"CPP", "CPA"}, "R$ #,0.00;R$ #,0.00",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vMeasure in {"Operações", "DAUs", "Presignups"} && vValor >= 0, "#,0;-#,0",
+				    vMeasure = "Spread", "0.00%;-0.00%;0.00%"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Projeção Diária' =
+			
+			IF (
+			    HASONEVALUE(Tabela[KPI]),
+			    SWITCH (
+			        VALUES (Tabela[KPI]),
+			        "GMV", [Projeção Diária de GMV],
+			        "Receita", [Projeção Diária de Receita],
+			        "Operações", [Projeção Diária de Ops]
+			    ),
+			    BLANK()
+			)
+		displayFolder: # Oficial\Projeção
+		lineageTag: 468dd5a8-cdd6-4f93-a172-c9152e496656
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Projeção Diária de GMV' =
+			
+			CALCULATE(
+			    SUM(f_daily_sales[projecao_gmv]),
+			    dcalendar[Filter Today] = FALSE()
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: GMV
+		lineageTag: 32d85cd3-0e10-4eb9-8c98-a05f0796484b
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Projeção Diária de Receita' =
+			
+			CALCULATE(
+			    SUM(f_daily_sales[gross_revenue_diario]),
+			    dcalendar[Filter Today] = FALSE()
+			)
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		displayFolder: Receita
+		lineageTag: 931da6ba-a826-4f67-8bc0-044dbed952f9
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Projeção Diária de Ops' =
+			
+			CALCULATE(
+			    SUM(f_daily_sales[ops_diaria]),
+			    dcalendar[Filter Today] = FALSE()
+			)
+		displayFolder: Operações
+		lineageTag: 241292a2-fa10-45a2-9e69-39cef5e0f4a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '# Medidas'
+		dataType: string
+		isHidden
+		displayFolder: Auxiliar
+		lineageTag: eb9ce1f7-a3f8-49c2-8506-73cc1d6075b5
+		summarizeBy: none
+		sourceColumn: # Medidas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '# Medidas-a7aabfd1-e106-49b3-bf31-fb881aed6369' = m
+		mode: import
+		source =
+				let
+				    Fonte = ""
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Text
+

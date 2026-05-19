@@ -1,0 +1,52 @@
+table d_faq
+	lineageTag: 8fc4dc7f-bb26-4627-a071-7bb360c8b478
+
+	column KPI
+		dataType: string
+		lineageTag: 29cad6c9-a046-45da-bc99-2d8c567aa2c1
+		summarizeBy: none
+		sourceColumn: KPI
+
+		annotation SummarizationSetBy = Automatic
+
+	column Explicação
+		dataType: string
+		lineageTag: 13bb85c7-f3b7-452c-a654-c97783e3e291
+		summarizeBy: none
+		sourceColumn: Explicação
+
+		annotation SummarizationSetBy = Automatic
+
+	column Conta
+		dataType: string
+		lineageTag: d59d4e00-2feb-4c24-b721-3e55ee638c10
+		summarizeBy: none
+		sourceColumn: Conta
+
+		annotation SummarizationSetBy = Automatic
+
+	column Tipo
+		dataType: string
+		lineageTag: 7d41e89f-816c-4437-976b-781dd3775f3f
+		summarizeBy: none
+		sourceColumn: Tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_faq = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"42e64d90-423f-411d-8a92-c386b16a2e43" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="42e64d90-423f-411d-8a92-c386b16a2e43"]}[Data],
+				    Results_ = #"42e64d90-423f-411d-8a92-c386b16a2e43"{[entity="Results",version=""]}[Data]
+				in
+				    Results_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

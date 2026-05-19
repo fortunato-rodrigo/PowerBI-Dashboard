@@ -1,0 +1,20 @@
+question_variants:
+  - "Qual o GMV acumulado no mês (MTD) por BU?"
+  - "GMV MTD com atingimento de meta por BU"
+  - "Quanto de GMV cada BU fez até hoje no mês?"
+  - "Realizado vs meta de GMV no mês atual por BU"
+sql: |
+  SELECT
+    ds.bu,
+    ROUND(SUM(ds.gmv), 0) AS gmv_mtd,
+    ROUND(SUM(ds.meta_gmv), 0) AS meta_gmv_mtd,
+    ROUND(100.0 * SUM(ds.gmv) / NULLIF(SUM(ds.meta_gmv), 0), 2) AS atingimento_pct
+  FROM gold.daily_sales AS ds
+  JOIN bronze.dcalendar AS c ON ds.date_key = c.date_key
+  WHERE c.mtd = TRUE
+  GROUP BY ds.bu
+  ORDER BY gmv_mtd DESC
+tables_used: [gold.daily_sales, bronze.dcalendar]
+notes: "bronze.dcalendar.mtd=TRUE filtra apenas os dias do mês atual até hoje. Usar gold.daily_sales para métricas com metas. Para GMV sem meta: fact_operations com DATE_TRUNC('month', processed_date) = DATE_TRUNC('month', current_date())."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

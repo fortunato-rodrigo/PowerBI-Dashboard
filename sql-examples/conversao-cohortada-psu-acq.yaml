@@ -1,0 +1,35 @@
+question_variants:
+  - "Qual a conversão de presignup para aquisição por safra?"
+  - "Quantos % dos PSUs de cada mês viraram clientes?"
+  - "Taxa de conversão cohortada ACQ/PSU por mês"
+  - "Qual safra tem melhor conversão de PSU para primeira operação?"
+sql: |
+  WITH cohort_psu AS (
+    SELECT
+      DATE_TRUNC('month', fe.event_tstamp) AS cohort_month,
+      fe.id_customer
+    FROM gold.funnel_event AS fe
+    JOIN bronze.beecambio_customer AS bc ON fe.id_customer = bc.id_customer
+    WHERE fe.event_type = 'PRESIGNUP'
+      AND fe.event_sequence = 1
+      AND bc.email NOT LIKE '%fxaas%'
+  ),
+  cohort_acq AS (
+    SELECT DISTINCT id_customer
+    FROM gold.funnel_event
+    WHERE event_type = 'ACQUISITION'
+      AND event_sequence = 1
+  )
+  SELECT
+    p.cohort_month,
+    COUNT(DISTINCT p.id_customer) AS presignups,
+    COUNT(DISTINCT a.id_customer) AS acquisitions,
+    ROUND(100.0 * COUNT(DISTINCT a.id_customer) / NULLIF(COUNT(DISTINCT p.id_customer), 0), 2) AS conversion_pct
+  FROM cohort_psu AS p
+  LEFT JOIN cohort_acq AS a ON p.id_customer = a.id_customer
+  GROUP BY 1
+  ORDER BY 1 DESC
+tables_used: [gold.funnel_event, bronze.beecambio_customer]
+notes: "Cohort pelo mês do PSU. Conversão acumulada: conta ACQ em qualquer mês (não apenas o mesmo mês). FxaaS excluído via bronze.beecambio_customer. event_sequence=1 obrigatório em ambos os CTEs."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

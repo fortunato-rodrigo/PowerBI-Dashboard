@@ -1,0 +1,332 @@
+table Medidas
+	lineageTag: 3f3ba8da-6145-41cb-97e6-4156834b5047
+
+	measure 'Total operações' = DISTINCTCOUNT(processed_operations[id_remittance])
+		formatString: #,0
+		lineageTag: 8262d7d1-7077-4038-acda-7ebe354be860
+
+	measure 'Total GMV' = SUM(processed_operations[gmv])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 36793393-b7a8-4b1d-8db5-7ee325b02a8d
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Gross Revenue' = SUM(processed_operations[gross_revenue])
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 3e02e1fa-451a-4e1f-aa60-f3c081b959bf
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total clientes únicos' = DISTINCTCOUNT(processed_operations[id_customer])
+		formatString: #,0
+		lineageTag: 737cae26-0260-42ab-8133-2f7e9c5f85e9
+
+	measure 'Operaçoes por cliente' = [Total operações] / [Total clientes únicos]
+		formatString: 0.0
+		lineageTag: 6cfcaa82-765c-49e3-a5f1-43af58f9b0f0
+
+	measure Spread = [Total Gross Revenue] / [Total GMV]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 36dc0046-8df9-4783-9456-c1cc86fa88f9
+
+	measure '% variação' = DIVIDE([Total Gross Revenue]  - [Mes anterior], [Total Gross Revenue],0)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1e493811-e315-4a41-9d1c-85893343e234
+
+	measure 'Mes anterior' = CALCULATE([Total Gross Revenue],PREVIOUSMONTH(dcalendar[date_month]))
+		lineageTag: a1d6f9c7-8e9d-4b47-b657-87d497f39b84
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cor variação' =
+			
+			SWITCH(
+			    TRUE(),
+			    [% variação] < 0 , "#B22222",
+			    [% variação] >= 0, "00FA9A",
+			    "00FA9A"
+			)
+		lineageTag: ad66970d-4d94-4b28-8986-0f8c77c11cab
+
+	measure 'Mediana lucro' = MEDIAN(processed_operations[lucro])
+		lineageTag: 90389a4e-88c3-4224-8cac-ff6bfe2d2943
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'P25 lucro' = PERCENTILE.INC(processed_operations[lucro],0.25)
+		lineageTag: f66fd92d-4522-4a0d-9efb-2fb20165faa4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'P75 lucro' = PERCENTILE.INC(processed_operations[lucro],0.75)
+		lineageTag: 84461ef3-79aa-4fa2-9bd9-31be853fd7a4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Receita Líquida' = SUM(processed_operations[net_revenue])
+		formatString: "R$"#,0;-"R$"#,0;"R$"#,0
+		lineageTag: 7ea8f9a5-5016-4225-9ede-e45b0c7838c9
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	measure 'Total payout' = ```
+			SUM(processed_operations[payout_affiliate]) + SUM(processed_operations[partner_commissioning]) 
+			```
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: e4c5fa35-932e-4fbe-8ce0-75229936609c
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	measure 'Total take' = SUM(processed_operations[bank_take])
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: c2d164f1-60a4-4805-858a-af8d157c6e08
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	measure 'Total mensageria' = SUM(processed_operations[real_message_cost])
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: b57436e5-515b-4455-a411-469b1a683fce
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	measure '% operações' = ```
+			DIVIDE( 
+			    [Total operações], 
+			    CALCULATE(DISTINCTCOUNT(processed_operations[id_remittance]),ALLSELECTED())
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 53a4251f-6df0-43d8-93d6-92c131a50347
+
+	measure '% lucro' = ```
+			DIVIDE( 
+			    ABS([Total Receita Líquida]), 
+			    ABS(CALCULATE(SUM(processed_operations[lucro]),ALLSELECTED()
+			    )))
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: e6dbf021-83ba-4e8d-a215-3c61cfed853b
+
+	measure '% ops negativas' = ```
+			
+			VAR ops_negativas = CALCULATE(DISTINCTCOUNT(processed_operations[id_remittance]),processed_operations[Tipo Lucro] = "Negativo")
+			RETURN 
+			DIVIDE(ops_negativas,[Total operações],0)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1d49d939-2eb8-45ec-812e-fa2a2b6808d7
+
+	measure 'Total prejuizo' = CALCULATE(SUM(processed_operations[net_revenue]),processed_operations[Tipo Lucro] = "Negativo")
+		formatString: "R$"#,0;-"R$"#,0;"R$"#,0
+		lineageTag: 156a7198-4a87-40f5-bb10-d17d3d050c07
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	measure '% prejuizo' = ABS([Total prejuizo]) / [Total Gross Revenue]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 20b5b48b-6794-49a0-bcf5-300468300f43
+
+	measure 'Total Lucro absoluto' = CALCULATE(SUM(processed_operations[net_revenue]),ALLSELECTED())
+		lineageTag: 5d7a380d-d94e-407b-8297-b65da49d74c2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% custo' =
+			
+			VAR custo_total = [Total custo]
+			RETURN custo_total / [Total Gross Revenue]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 38a562d0-e36d-4504-9e74-c63d96ff80cd
+
+	measure '% clientes' = ```
+			DIVIDE( 
+			    [Total clientes únicos], 
+			    CALCULATE(DISTINCTCOUNT(processed_operations[id_customer]),ALLSELECTED())
+			    )
+			```
+		lineageTag: 1a4050c5-07d9-4f15-b453-b2852a889373
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% custo mensageria' =
+			
+			VAR custo_total = ABS([Total mensageria])
+			RETURN custo_total / [Total Gross Revenue]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: bd72a630-ab4d-450b-9920-6966e9d202da
+
+	measure '% custo comissão' =
+			
+			VAR custo_total = ABS([Total payout])
+			RETURN custo_total / [Total Gross Revenue]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2dd0750e-c0d6-4340-adc0-40298a4d569e
+
+	measure '% custo take' =
+			
+			VAR custo_total = ABS([Total take])
+			RETURN custo_total / [Total Gross Revenue]
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1615a9a3-939d-4552-95bc-fff75a7de8c9
+
+	measure 'Média mensageria' = AVERAGE(processed_operations[despesa_real])
+		formatString: 0.00
+		lineageTag: 33589700-3198-4da6-9bd2-435a81da580a
+
+	measure 'Total custo' =
+			
+			VAR custo_total = ABS([Total payout]) + ABS([Total mensageria]) + ABS([Total take])
+			RETURN custo_total
+		formatString: "R$"\ #,0;-"R$"\ #,0;"R$"\ #,0
+		lineageTag: 63a384d5-06b0-4cfd-b636-7fd77a965b4c
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Média Custo' = AVERAGE(processed_operations[custo_total])
+		lineageTag: fa3609a8-3417-4067-8a8a-457540163838
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Clientes negativados' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(customer[id_customer]),
+			        customer[receita_liquida] < 0
+			    )
+			```
+		formatString: #,0
+		displayFolder: .Métricas clientes
+		lineageTag: 221b92b4-0c7a-45f1-a77e-08f2cfb282e8
+
+	measure 'Clientes positivados' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(customer[id_customer]),
+			        customer[receita_liquida] > 0, customer[ops_negativas] > 0
+			        )
+			```
+		formatString: #,0
+		displayFolder: .Métricas clientes
+		lineageTag: c0eebb4c-92a6-45e4-a80c-8b6fcd712e8c
+
+	measure 'Clientes pelo menos 1 negativa' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(customer[id_customer]),
+			        customer[ops_negativas] > 0
+			    )
+			```
+		formatString: #,0
+		displayFolder: .Métricas clientes
+		lineageTag: fd9d0a15-10a0-44bd-9ae3-bb111355cca8
+
+	measure 'Clientes positivos' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(customer[id_customer]),
+			        customer[receita_liquida] > 0
+			    )
+			```
+		formatString: #,0
+		displayFolder: .Métricas clientes
+		lineageTag: 5270c3a9-20c4-4316-87a2-b6c7a0658607
+
+	measure 'Clientes mais moedas' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(customer[id_customer]),
+			        customer[currency] > 1
+			    )
+			```
+		formatString: #,0
+		displayFolder: .Métricas clientes
+		lineageTag: b988e5cd-e750-4f64-8648-28cbb5ea96aa
+
+	measure 'Média Gross Revenue' = AVERAGE(processed_operations[gross_revenue])
+		lineageTag: 161e3c8c-0821-4401-b1d9-4b7e48cdb78a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Clientes mais moedas' = ```
+			
+			    [Clientes mais moedas] / [Total clientes únicos]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: .Métricas clientes
+		lineageTag: a0188777-be7d-4f43-a65a-f9f685c98330
+
+	measure '% Clientes negativados' = ```
+			
+			    [Clientes negativados] / [Total clientes únicos]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: .Métricas clientes
+		lineageTag: bf437960-784d-473b-a867-1af0168fa5cf
+
+	measure '% Clientes pelo menos 1 negativa' = ```
+			
+			    [Clientes pelo menos 1 negativa] / [Total clientes únicos]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: .Métricas clientes
+		lineageTag: a4f797f6-7882-43c1-b556-d27b77f51a95
+
+	measure '% Clientes positivados' = ```
+			
+			    [Clientes positivados] / [Total clientes únicos]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: .Métricas clientes
+		lineageTag: 13fda418-7266-4f3d-b3dc-8dfad17d711c
+
+	measure '# operações' = SUM(customer[qtde_ops])
+		formatString: #,0
+		displayFolder: .Métricas clientes
+		lineageTag: d8e279a2-64e6-4e1f-a3d8-8659f37056e6
+
+	measure 'Total prejuizo ABS' = -CALCULATE(SUM(processed_operations[net_revenue]),processed_operations[Tipo Lucro] = "Negativo")
+		lineageTag: 847d9607-f555-4930-a4f4-c40e7049f47e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% operações (Graf)' = ```
+			DIVIDE( 
+			    [Total operações], 
+			    CALCULATE(DISTINCTCOUNT(processed_operations[id_remittance]))
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: aeb9984f-2a07-40fd-abb8-22c94d300844
+
+	measure 'Spread medio' = AVERAGE(processed_operations[spread])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e0744434-7df1-4346-9df8-9167363b221d
+
+	measure 'Média Tarifa' = AVERAGE(processed_operations[tariff])
+		lineageTag: fd4f07c7-81f6-49a9-8773-80fd5c5ceccb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Medidas
+		dataType: string
+		isHidden
+		lineageTag: 9cfb731e-2221-4b03-9908-9d68374fe46c
+		summarizeBy: none
+		sourceColumn: Medidas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Fonte = ""
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navegação
+

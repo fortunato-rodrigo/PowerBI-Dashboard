@@ -1,0 +1,15 @@
+question_variants:
+  - "Quantos clientes PF têm status Iceberg na classificação RMI?"
+  - "Clientes com RMI Iceberg — quantos são PF?"
+  - "Qual o total de clientes PF no status Iceberg do RMI?"
+  - "Contagem de clientes por status RMI e customer type"
+sql: |
+  SELECT
+    COUNT(DISTINCT id_customer) AS customer_count
+  FROM gold.fact_customers
+  WHERE customer_type = 'PF'
+    AND current_rmi_status = 'Iceberg'
+tables_used: [gold.fact_customers]
+notes: "current_rmi_status é a classificação RMI atual do cliente. Ajuste customer_type ('PF' ou 'PJ') e current_rmi_status conforme solicitado. COUNT(DISTINCT id_customer) evita duplicatas."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

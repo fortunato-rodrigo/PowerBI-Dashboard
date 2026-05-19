@@ -1,0 +1,1206 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "29e2a117c0906eb6cd8d",
+  "position": {
+    "x": 72,
+    "y": 3647.9999999999995,
+    "z": 29000,
+    "height": 344,
+    "width": 1200,
+    "tabOrder": 25000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "id_customer"
+                }
+              },
+              "queryRef": "f_funnel_events.id_customer",
+              "nativeQueryRef": "id_customer"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "presignup_date"
+                }
+              },
+              "queryRef": "f_funnel_events.presignup_date",
+              "nativeQueryRef": "psu_date",
+              "displayName": "psu_date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "signup_date"
+                }
+              },
+              "queryRef": "f_funnel_events.signup_date",
+              "nativeQueryRef": "signup_date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "created_history_date"
+                }
+              },
+              "queryRef": "f_funnel_events.created_history_date",
+              "nativeQueryRef": "created_history_date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "approved_history_date"
+                }
+              },
+              "queryRef": "f_funnel_events.approved_history_date",
+              "nativeQueryRef": "approved_history_date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "Mês da Aquisição"
+                }
+              },
+              "queryRef": "f_funnel_events.Mês da Aquisição",
+              "nativeQueryRef": "acquisition_date",
+              "displayName": "acquisition_date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "Diferença de Dias entre Presignup e Signup"
+                }
+              },
+              "queryRef": "Sum(f_funnel_events.Diferença de Dias entre Presignup e Signup)",
+              "nativeQueryRef": "Diferença de Dias entre Presignup e Signup"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "Diferença de Dias entre Presignup e Aquisição"
+                }
+              },
+              "queryRef": "Sum(f_funnel_events.Diferença de Dias entre Presignup e Aquisição)",
+              "nativeQueryRef": "Diferença de Dias entre Presignup e Aquisição"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "Diferença de Dias entre Signup e Aquisição"
+                }
+              },
+              "queryRef": "Sum(f_funnel_events.Diferença de Dias entre Signup e Aquisição)",
+              "nativeQueryRef": "Diferença de Dias entre Signup e Aquisição"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "customer_deleted"
+                }
+              },
+              "queryRef": "f_funnel_events.customer_deleted",
+              "nativeQueryRef": "deleted",
+              "displayName": "deleted"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "Company Type"
+                }
+              },
+              "queryRef": "f_funnel_events.Company Type",
+              "nativeQueryRef": "Company Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "company_member_association_type"
+                }
+              },
+              "queryRef": "f_funnel_events.company_member_association_type",
+              "nativeQueryRef": "company_member_association_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "company_shareholders_count"
+                }
+              },
+              "queryRef": "Sum(f_funnel_events.company_shareholders_count)",
+              "nativeQueryRef": "company_shareholders_count"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "company_shareholders_with_document"
+                }
+              },
+              "queryRef": "Sum(f_funnel_events.company_shareholders_with_document)",
+              "nativeQueryRef": "company_shareholders_with_document"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "qualification_type"
+                }
+              },
+              "queryRef": "f_funnel_events.qualification_type",
+              "nativeQueryRef": "qualification_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "Onboarding Type"
+                }
+              },
+              "queryRef": "f_funnel_events.Onboarding Type",
+              "nativeQueryRef": "Onboarding Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "Onboarding Flow"
+                }
+              },
+              "queryRef": "f_funnel_events.Onboarding Flow",
+              "nativeQueryRef": "Onboarding Flow"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "email_fxaas"
+                }
+              },
+              "queryRef": "f_funnel_events.email_fxaas",
+              "nativeQueryRef": "email_fxaas"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "pj_fluxo"
+                }
+              },
+              "queryRef": "f_funnel_events.pj_fluxo",
+              "nativeQueryRef": "pj_fluxo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "pj_journey_stage_express_inbound"
+                }
+              },
+              "queryRef": "f_funnel_events.pj_journey_stage_express_inbound",
+              "nativeQueryRef": "pj_journey_stage_express_inbound"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "pj_journey_stage_express_outbound"
+                }
+              },
+              "queryRef": "f_funnel_events.pj_journey_stage_express_outbound",
+              "nativeQueryRef": "pj_journey_stage_express_outbound"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "pj_journey_stage_instant_inbound"
+                }
+              },
+              "queryRef": "f_funnel_events.pj_journey_stage_instant_inbound",
+              "nativeQueryRef": "pj_journey_stage_instant_inbound"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "pj_journey_stage_instant_outbound"
+                }
+              },
+              "queryRef": "f_funnel_events.pj_journey_stage_instant_outbound",
+              "nativeQueryRef": "pj_journey_stage_instant_outbound"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "has_shared_bank_details"
+                }
+              },
+              "queryRef": "f_funnel_events.has_shared_bank_details",
+              "nativeQueryRef": "has_shared_bank",
+              "displayName": "has_shared_bank"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "shared_bank_details_label"
+                }
+              },
+              "queryRef": "f_funnel_events.shared_bank_details_label",
+              "nativeQueryRef": "label",
+              "displayName": "label"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "shared_bank_details_platform"
+                }
+              },
+              "queryRef": "f_funnel_events.shared_bank_details_platform",
+              "nativeQueryRef": "platform",
+              "displayName": "platform"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "requirement_status"
+                }
+              },
+              "queryRef": "f_funnel_events.requirement_status",
+              "nativeQueryRef": "requirement_status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "requirement_type"
+                }
+              },
+              "queryRef": "f_funnel_events.requirement_type",
+              "nativeQueryRef": "requirement_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "origin_platform_psu"
+                }
+              },
+              "queryRef": "f_funnel_events.origin_platform_psu",
+              "nativeQueryRef": "origin_platform_psu"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "os"
+                }
+              },
+              "queryRef": "f_funnel_events.os",
+              "nativeQueryRef": "os"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "device_category"
+                }
+              },
+              "queryRef": "f_funnel_events.device_category",
+              "nativeQueryRef": "device_category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "device_brand"
+                }
+              },
+              "queryRef": "f_funnel_events.device_brand",
+              "nativeQueryRef": "device_brand"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "device_name"
+                }
+              },
+              "queryRef": "f_funnel_events.device_name",
+              "nativeQueryRef": "device_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "cnae_subclass"
+                }
+              },
+              "queryRef": "f_funnel_events.cnae_subclass",
+              "nativeQueryRef": "cnae_subclass"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "cnae_session"
+                }
+              },
+              "queryRef": "f_funnel_events.cnae_session",
+              "nativeQueryRef": "cnae_session"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "cnae_division"
+                }
+              },
+              "queryRef": "f_funnel_events.cnae_division",
+              "nativeQueryRef": "cnae_division"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "cnae_group"
+                }
+              },
+              "queryRef": "f_funnel_events.cnae_group",
+              "nativeQueryRef": "cnae_group"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "cnae_class"
+                }
+              },
+              "queryRef": "f_funnel_events.cnae_class",
+              "nativeQueryRef": "cnae_class"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_funnel_events"
+                    }
+                  },
+                  "Property": "compliance_veredict"
+                }
+              },
+              "queryRef": "f_funnel_events.compliance_veredict",
+              "nativeQueryRef": "compliance_veredict"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "f_funnel_events"
+                  }
+                },
+                "Property": "presignup_date"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "backColorSecondary": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "FillRule": {
+                      "Input": {
+                        "Measure": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "# Medidas"
+                            }
+                          },
+                          "Property": "% CT"
+                        }
+                      },
+                      "FillRule": {
+                        "linearGradient2": {
+                          "min": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#FFFFFF'"
+                              }
+                            }
+                          },
+                          "max": {
+                            "color": {
+                              "Literal": {
+                                "Value": "'#798dff'"
+                              }
+                            }
+                          },
+                          "nullColoringStrategy": {
+                            "strategy": {
+                              "Literal": {
+                                "Value": "'asZero'"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "# Medidas.% CT"
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "f_funnel_events"
+                          }
+                        },
+                        "Property": "pf_app_journey_stage"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'0 - PJ - não se aplica'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "f_funnel_events"
+                          }
+                        },
+                        "Property": "pf_app_journey_stage"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'1 - Tela - Presignup'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "f_funnel_events"
+                          }
+                        },
+                        "Property": "pf_app_journey_stage"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'2 - Tela - Dados pessoais'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "f_funnel_events"
+                          }
+                        },
+                        "Property": "pf_app_journey_stage"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'3 - Tela - Endereço'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "f_funnel_events"
+                          }
+                        },
+                        "Property": "pf_app_journey_stage"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'4 - Tela - Renda e residência'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {},
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "f_funnel_events"
+                          }
+                        },
+                        "Property": "pf_app_journey_stage"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'5 - Tela - Envio Documento'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "gridVertical": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridHorizontal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "gridVerticalColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.1
+                    }
+                  }
+                }
+              }
+            },
+            "rowPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'PJ Express Outbound'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Default'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ReportSection05e7eb5d7bca4e5102e7'"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "themedBackground": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'PF não se aplica'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1b85a5a7c2a3d2103dd8",
+        "ordinal": 0,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "f_funnel_events"
+              }
+            },
+            "Property": "Customer Type"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      },
+      {
+        "name": "c0ec5667a330059404e8",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "f_funnel_events"
+              }
+            },
+            "Property": "id_customer"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "bb36328823470054a92c",
+        "ordinal": 2,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "f_funnel_events"
+              }
+            },
+            "Property": "pj_fluxo"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      },
+      {
+        "name": "c9bf4f547a0eeee80201",
+        "ordinal": 3,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "f_funnel_events"
+              }
+            },
+            "Property": "email_fxaas"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "22f9aad73b7390315b00",
+        "ordinal": 4,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "f_funnel_events"
+              }
+            },
+            "Property": "event_type"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "f",
+              "Entity": "f_funnel_events",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "f"
+                          }
+                        },
+                        "Property": "event_type"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'PRESIGNUP'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}

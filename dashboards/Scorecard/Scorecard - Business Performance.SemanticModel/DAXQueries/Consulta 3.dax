@@ -1,0 +1,64 @@
+DEFINE
+    MEASURE 'Medidas'[STD -3M Gross Revenue] = VAR LastMonthEnd = EOMONTH ( TODAY (), -1 ) // Pega o final do último mês completo
+VAR StartDate = DATE ( YEAR ( EDATE ( LastMonthEnd, -2 ) ), MONTH ( EDATE ( LastMonthEnd, -2 ) ), 1 ) // Ajusta para o primeiro dia de dois meses atrás
+VAR EndDate = LastMonthEnd // Data de término é o final do último mês completo
+
+// Verifica se o filtro 'dcalendar'[mtd] está aplicado
+VAR IsMTD = CALCULATE ( SELECTEDVALUE ( 'dcalendar'[mtd] ), ALLSELECTED ( 'dcalendar' ) )
+
+// Ajusta as datas com base no MTD, caso esteja ativo
+VAR FilteredStartDate =
+    IF (
+        IsMTD,
+        MINX (
+            FILTER ( ALL ( 'dcalendar' ), 'dcalendar'[mtd] = TRUE () ),
+            'dcalendar'[Date Key]
+        ),
+        StartDate
+    )
+
+VAR FilteredEndDate =
+    IF (
+        IsMTD,
+        MAXX (
+            FILTER ( ALL ( 'dcalendar' ), 'dcalendar'[mtd] = TRUE () ),
+            'dcalendar'[Date Key]
+        ),
+        EndDate
+    ) 
+
+// Cria uma tabela temporária com a soma do 'Gross Revenue' por mês
+VAR MonthlyTotals =
+    SUMMARIZE (
+        FILTER (
+            ALL ( 'dcalendar' ),
+            'dcalendar'[Date Key] >= FilteredStartDate
+                && 'dcalendar'[Date Key] <= FilteredEndDate
+        ),
+        'dcalendar'[date_month],
+        "TotalRealizado", SUM ( scorecard_operations[gross_revenue] )
+    )
+
+// Adiciona uma verificação para garantir que haja dados suficientes
+VAR TotalMonths = COUNTROWS ( MonthlyTotals )
+
+// Calcula a média dos totais mensais
+VAR MonthlyAverage =
+    IF ( 
+        TotalMonths > 1, // Garante que temos mais de um mês de dados
+        AVERAGEX ( MonthlyTotals, [TotalRealizado] ),
+        BLANK()
+    )
+
+// Verifica se há dados suficientes para calcular o desvio padrão
+RETURN
+    IF (
+        TotalMonths > 1,
+        STDEVX.P ( MonthlyTotals, [TotalRealizado] - MonthlyAverage ), // Calcula o desvio padrão
+        BLANK() // Retorna vazio se não houver dados suficientes
+    )
+
+EVALUATE
+    SUMMARIZECOLUMNS(
+        "STD -3M Gross Revenue", 'Medidas'[STD -3M Gross Revenue]
+    )

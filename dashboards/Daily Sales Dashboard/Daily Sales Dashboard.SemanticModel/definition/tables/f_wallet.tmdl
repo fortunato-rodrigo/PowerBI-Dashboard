@@ -1,0 +1,88 @@
+table f_wallet
+	lineageTag: 2cf6c687-dcaa-4dbe-8cc2-493ef1d03a99
+
+	column date_key
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4015dab9-a76c-404b-aa1e-32ae43e25846
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column bu
+		dataType: string
+		lineageTag: 54fd94dc-8b21-4032-b12c-86cd4b05df45
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_type
+		dataType: string
+		lineageTag: fa0adb02-d031-41d0-a6e2-83804da8f831
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_type
+		dataType: string
+		lineageTag: 0bedc374-f47e-4346-803c-425c9d8f5e6c
+		summarizeBy: none
+		sourceColumn: event_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_type
+		dataType: string
+		lineageTag: 88ccb5cc-6e24-464d-a2a1-6847f0c6aa50
+		summarizeBy: none
+		sourceColumn: business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column operation_segment
+		dataType: string
+		lineageTag: 7539f111-8d69-4c0b-919e-8d28a4029c94
+		summarizeBy: none
+		sourceColumn: operation_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column transactions
+		dataType: int64
+		formatString: 0
+		lineageTag: 28e95842-bb73-449f-af95-e9965b020c91
+		summarizeBy: sum
+		sourceColumn: transactions
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: decimal
+		formatString: "R$"\ #,0.###############;-"R$"\ #,0.###############;"R$"\ #,0.###############
+		lineageTag: 3ae8026a-0640-4e25-a0cf-5408d32f6ac7
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition f_wallet = m
+		mode: import
+		queryGroup: Principais
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "select#(lf)    date(transaction_date) as date_key,#(lf)    'Wallet' as bu,#(lf)    'PF' as customer_type,#(lf)    'Transações do Cartão' as event_type,#(lf)    'Wallet EUR' as business_type,#(lf)    'Conta Global' as operation_segment,#(lf)    count(transaction_id) as transactions,#(lf)    sum(gross_revenue) as gross_revenue#(lf)from explore.wallet_transactions#(lf)where declined_reason = 'Not declined'#(lf)and date(transaction_date) >= '2024-01-01'#(lf)group by all", null, [EnableFolding=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"gross_revenue", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

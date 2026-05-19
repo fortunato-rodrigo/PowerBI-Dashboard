@@ -1,0 +1,1540 @@
+table f_funnel_events
+	lineageTag: 2b87578e-fd8a-492a-ba68-856bf9fff36c
+
+	column id_customer
+		dataType: string
+		lineageTag: 61bcfe7b-e5aa-4769-aa3b-171a9b17a60e
+		summarizeBy: none
+		sourceColumn: id_customer
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_type
+		dataType: string
+		lineageTag: 48e53fb4-6bed-49ee-9236-1837dabb85a9
+		summarizeBy: none
+		sourceColumn: event_type
+		sortByColumn: event_type_id
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_month
+		dataType: dateTime
+		formatString: mmm"/"yy
+		lineageTag: fce38f0a-7391-4c1a-b29e-7adf9ed5485f
+		summarizeBy: none
+		sourceColumn: event_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column 'Customer Type'
+		dataType: string
+		lineageTag: 01d73c99-8ee3-491d-907a-81b974b1985b
+		summarizeBy: none
+		sourceColumn: Customer Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Company Type'
+		dataType: string
+		lineageTag: 9b56b41f-43b5-4fcd-b59a-0375c71324b6
+		summarizeBy: none
+		sourceColumn: Company Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Onboarding Type'
+		dataType: string
+		lineageTag: 34acaaf9-2edf-4877-91b1-f05e1713897b
+		summarizeBy: none
+		sourceColumn: Onboarding Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_session
+		dataType: string
+		lineageTag: 427bd6c0-e934-4c40-892d-560a2df86b5c
+		summarizeBy: none
+		sourceColumn: cnae_session
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_division
+		dataType: string
+		lineageTag: 3bb09fc5-c537-46b1-8905-19429e0db394
+		summarizeBy: none
+		sourceColumn: cnae_division
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_group
+		dataType: string
+		lineageTag: 6f7849d4-bdc7-40a3-9de6-ea70870c3192
+		summarizeBy: none
+		sourceColumn: cnae_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_class
+		dataType: string
+		lineageTag: 0bbdbfd1-7c28-4a0d-a842-9d67b03fa8b4
+		summarizeBy: none
+		sourceColumn: cnae_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnae_subclass
+		dataType: string
+		lineageTag: d62dd22d-c8cf-493b-a4df-70cd0424e087
+		summarizeBy: none
+		sourceColumn: cnae_subclass
+
+		annotation SummarizationSetBy = Automatic
+
+	column signup_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 5731dfa5-0429-469b-883d-867b17541bb9
+		summarizeBy: none
+		sourceColumn: signup_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column signup_month
+		dataType: dateTime
+		formatString: mmm"/"yyyy
+		lineageTag: 44bde57c-0359-4e64-8bc0-b87e1fd8c907
+		summarizeBy: none
+		sourceColumn: signup_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column operation_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 210e04ba-04f6-49bc-8b2b-8f9107800c58
+		summarizeBy: none
+		sourceColumn: operation_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column operation_month
+		dataType: dateTime
+		formatString: mmm"/"yyyy
+		lineageTag: 1ad24296-cebc-446c-9969-e8f6226cad4a
+		summarizeBy: none
+		sourceColumn: operation_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column presignup_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 2e73bf40-6e89-4f6c-b20c-45782d056a90
+		summarizeBy: none
+		sourceColumn: presignup_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_affiliate
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 29168926-29db-4d20-af2c-8adbe19f56d1
+		summarizeBy: none
+		sourceColumn: is_affiliate
+
+		annotation SummarizationSetBy = Automatic
+
+	column in_or_out
+		dataType: string
+		lineageTag: aa672eb1-6db9-4d34-b7dc-ae5e87ec1ff2
+		summarizeBy: none
+		sourceColumn: in_or_out
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency
+		dataType: string
+		lineageTag: b6e63b00-a8e8-4688-93bd-16013227b564
+		summarizeBy: none
+		sourceColumn: currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b40d698d-dad0-4f81-96d3-ccce766695d4
+		summarizeBy: none
+		sourceColumn: acquisition
+
+		annotation SummarizationSetBy = Automatic
+
+	column instituicao_fin
+		dataType: int64
+		formatString: 0
+		lineageTag: cd8b6268-a622-4502-8e46-268595b2d381
+		summarizeBy: sum
+		sourceColumn: instituicao_fin
+
+		annotation SummarizationSetBy = Automatic
+
+	column voucher_code
+		dataType: string
+		lineageTag: eeaa6703-18a6-4f63-8e6f-b375cfe59045
+		summarizeBy: none
+		sourceColumn: voucher_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column remessadora
+		dataType: string
+		lineageTag: 80dc1a9a-f37f-4151-9934-2c489cf69b4c
+		summarizeBy: none
+		sourceColumn: remessadora
+
+		annotation SummarizationSetBy = Automatic
+
+	column natureza
+		dataType: string
+		lineageTag: 1e12c2fe-b781-4344-8061-ccbb58b55098
+		summarizeBy: none
+		sourceColumn: natureza
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 5c501ed1-846b-4e74-9e5c-ecd965d866ae
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column gmv
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: 91b435cb-4617-4664-8fc9-be82335837da
+		summarizeBy: sum
+		sourceColumn: gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column bu
+		dataType: string
+		lineageTag: 3f3ef330-8c1c-4e65-87a5-38bc43a01f31
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_type
+		dataType: string
+		lineageTag: 706f8be9-556a-45c7-9cc4-9818606d7901
+		summarizeBy: none
+		sourceColumn: business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: e7a9dccd-a272-4bd0-b9bb-1af0c4c6f337
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column origin_platform_psu
+		dataType: string
+		lineageTag: 8111bfb9-6ef4-484c-a7c0-aa7e6256625b
+		summarizeBy: none
+		sourceColumn: origin_platform_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column origin_platform_acq
+		dataType: string
+		lineageTag: e38c171a-d48b-4279-99d3-3cccb7147213
+		summarizeBy: none
+		sourceColumn: origin_platform_acq
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_id
+		dataType: int64
+		lineageTag: 0c919b16-930f-4ac3-a483-3dea03a69b45
+		summarizeBy: sum
+		sourceColumn: event_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Mês da Aquisição'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 1760959c-5e03-4c08-9640-1629208421a6
+		summarizeBy: none
+		sourceColumn: Mês da Aquisição
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column acquisition_month
+		dataType: dateTime
+		formatString: mmm"/"yy
+		lineageTag: 5be7a768-4fe7-4d8f-96c6-28a923c15c0d
+		summarizeBy: none
+		sourceColumn: acquisition_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column event_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ebe68174-b452-4cc2-8d03-df1cdb459f3b
+		summarizeBy: none
+		sourceColumn: event_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column cluster_url
+		dataType: string
+		lineageTag: 0e1f0555-ebbc-46bd-b4b1-20f573e2cb0e
+		summarizeBy: none
+		sourceColumn: cluster_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_lc
+		dataType: string
+		lineageTag: f974f537-c3db-44fc-a66f-1b4aa8b60ce8
+		summarizeBy: none
+		sourceColumn: source_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column medium_lc
+		dataType: string
+		lineageTag: ea40a3fc-0499-44a3-8541-a08be999d698
+		summarizeBy: none
+		sourceColumn: medium_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column canal_lc
+		dataType: string
+		lineageTag: a1697162-c33f-4f74-98f3-762f5a81582c
+		summarizeBy: none
+		sourceColumn: canal_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column mkt_campaign_lc
+		dataType: string
+		lineageTag: dba5f106-075a-4110-9f8b-256a4b292fc9
+		summarizeBy: none
+		sourceColumn: mkt_campaign_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column cluster_campaign_lc
+		dataType: string
+		lineageTag: 062554fb-0047-40db-8818-ff04713aea56
+		summarizeBy: none
+		sourceColumn: cluster_campaign_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_page_url
+		dataType: string
+		lineageTag: 105e4696-27bc-4452-b462-236e5790ffd5
+		summarizeBy: none
+		sourceColumn: first_page_url
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_page_path_tratado
+		dataType: string
+		lineageTag: 4b4f9072-2357-4be1-8b73-06e197ef5a51
+		summarizeBy: none
+		sourceColumn: last_page_path_tratado
+
+		annotation SummarizationSetBy = Automatic
+
+	column voucher_type
+		dataType: string
+		lineageTag: 063f23f9-c205-4dd3-9138-1e2680f2610a
+		summarizeBy: none
+		sourceColumn: voucher_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column fl_voucher
+		dataType: string
+		lineageTag: 1ac7f6d1-b8e9-45ee-a672-7b9c6ada3a59
+		summarizeBy: none
+		sourceColumn: fl_voucher
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month PSU = Month ACQ'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 99e647b7-a115-4c5b-b5ca-813a4a84416c
+		summarizeBy: none
+		sourceColumn: Month PSU = Month ACQ
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month PSU = Month SU'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b2325ae9-b234-4844-b387-e9789724f58b
+		summarizeBy: none
+		sourceColumn: Month PSU = Month SU
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month SU = Month ACQ'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d361c16f-da00-4994-9c41-5a89e74d607d
+		summarizeBy: none
+		sourceColumn: Month SU = Month ACQ
+
+		annotation SummarizationSetBy = Automatic
+
+	column second_operation_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 3ab23de6-8de1-4e6f-925c-1cb678f9822f
+		summarizeBy: none
+		sourceColumn: second_operation_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column second_operation_month
+		dataType: dateTime
+		formatString: mmm"/"yyyy
+		lineageTag: 8b0e7bff-2323-494f-84d3-4ba7641e2cc2
+		summarizeBy: none
+		sourceColumn: second_operation_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column 'Month ACQ = Month SEC Op'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 19722801-cc01-4382-a3f7-603d26475838
+		summarizeBy: none
+		sourceColumn: Month ACQ = Month SEC Op
+
+		annotation SummarizationSetBy = Automatic
+
+	column presignup_month
+		dataType: dateTime
+		formatString: mmm"/"yyyy
+		lineageTag: 09a5d7dd-fbc5-4a91-bf89-0dc2f3ec6d5b
+		summarizeBy: none
+		sourceColumn: presignup_month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column is_premium_user
+		dataType: string
+		lineageTag: 554cda12-7a07-422a-a841-700ce659fc05
+		summarizeBy: none
+		sourceColumn: is_premium_user
+
+		annotation SummarizationSetBy = Automatic
+
+	column approved_history_month
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 1c41be95-de25-4119-a5c9-c950113ab1f6
+		summarizeBy: none
+		sourceColumn: approved_history_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column history_name
+		dataType: string
+		lineageTag: c4a4d61b-72de-409f-8341-549534ce7fde
+		summarizeBy: none
+		sourceColumn: history_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_type_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f560bca6-2717-47d1-aefa-25ec7f5be51f
+		summarizeBy: sum
+		sourceColumn: event_type_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column email_fxaas
+		dataType: string
+		lineageTag: 7b43ec20-3ffd-4a1d-97a5-d31e11c8e65e
+		summarizeBy: none
+		sourceColumn: email_fxaas
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Onboarding Flow'
+		dataType: string
+		lineageTag: 8dd4cea8-c72e-4712-b89b-d90175968d04
+		summarizeBy: none
+		sourceColumn: Onboarding Flow
+
+		annotation SummarizationSetBy = Automatic
+
+	column ad_group_lc
+		dataType: string
+		lineageTag: b159ec0a-adab-4253-80f0-f96932d1fcd7
+		summarizeBy: none
+		sourceColumn: ad_group_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_sequence
+		dataType: int64
+		formatString: 0
+		lineageTag: eeadb68a-376e-445a-a975-7364cc8b59ac
+		summarizeBy: sum
+		sourceColumn: event_sequence
+
+		annotation SummarizationSetBy = Automatic
+
+	column age
+		dataType: int64
+		formatString: 0"y"
+		lineageTag: 78ef07f6-e5fb-40ea-9e05-f389640d0ead
+		summarizeBy: sum
+		sourceColumn: age
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column nationality
+		dataType: string
+		lineageTag: a028d04c-2b7e-452c-910e-d8eeace607c7
+		summarizeBy: none
+		sourceColumn: nationality
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		lineageTag: 652b72dd-9162-480c-b71d-392ef3c9a941
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: 541d6da7-b2d4-4027-bcd3-2878c64dae1c
+		dataCategory: County
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column presignup_type
+		dataType: string
+		lineageTag: f0cddd69-2cce-4734-a170-56d85d71fb63
+		summarizeBy: none
+		sourceColumn: presignup_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column signup_type
+		dataType: string
+		lineageTag: 2bed1da7-45df-485f-8436-fe4d7a5b793a
+		summarizeBy: none
+		sourceColumn: signup_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment
+		dataType: string
+		lineageTag: 1c4af44b-3610-485f-a185-7cbfd9d64fe3
+		summarizeBy: none
+		sourceColumn: segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column requirement_type
+		dataType: string
+		lineageTag: e07829cb-495d-4c10-91a2-412913060a23
+		summarizeBy: none
+		sourceColumn: requirement_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column requirement_status
+		dataType: string
+		lineageTag: abf4dfae-8da6-4286-9d53-ee283099d9fe
+		summarizeBy: none
+		sourceColumn: requirement_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_registration
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9a80dce8-af75-428a-b633-176abcaa3149
+		summarizeBy: none
+		sourceColumn: full_registration
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_member_association_type
+		dataType: string
+		lineageTag: ccf34b90-6c91-442a-b9c0-60cc995b8300
+		summarizeBy: none
+		sourceColumn: company_member_association_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_shareholders_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 24a8bcb1-6736-465c-926a-ef999c0f8fb9
+		summarizeBy: sum
+		sourceColumn: company_shareholders_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column company_shareholders_with_document
+		dataType: int64
+		formatString: 0
+		lineageTag: bdfbe064-4449-4b61-81df-dcb93e5be18a
+		summarizeBy: sum
+		sourceColumn: company_shareholders_with_document
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_history_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 98580b32-1302-4924-babc-051f73dcef8c
+		summarizeBy: none
+		sourceColumn: created_history_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column approved_history_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 8a49159b-f0f1-4ba5-84f7-5ae2478d0f98
+		summarizeBy: none
+		sourceColumn: approved_history_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column lock_registration_signup
+		dataType: string
+		lineageTag: 56fbcbf4-535a-4cb2-b30d-6b496748d17d
+		summarizeBy: none
+		sourceColumn: lock_registration_signup
+
+		annotation SummarizationSetBy = Automatic
+
+	column ocr
+		dataType: string
+		lineageTag: 8c36076f-4438-47aa-8c1e-81248fb6745b
+		summarizeBy: none
+		sourceColumn: ocr
+
+		annotation SummarizationSetBy = Automatic
+
+	column requeriment_actual_status
+		dataType: string
+		lineageTag: 90d8b26e-79a9-47bc-aac6-163c31417a39
+		summarizeBy: none
+		sourceColumn: requeriment_actual_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column history_type
+		dataType: string
+		lineageTag: 72ae1dfc-880d-47b3-b0f1-7dd4e72ceae8
+		summarizeBy: none
+		sourceColumn: history_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column lock_history
+		dataType: string
+		lineageTag: 53b499b6-a393-4aad-a90e-34b759425abe
+		summarizeBy: none
+		sourceColumn: lock_history
+
+		annotation SummarizationSetBy = Automatic
+
+	column conciliation_type
+		dataType: string
+		lineageTag: 7b9cfa3c-cfdd-4803-a06d-0da40758bfc2
+		summarizeBy: none
+		sourceColumn: conciliation_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column settlement_type
+		dataType: string
+		lineageTag: 51ab5ba5-5fca-4394-8a92-afae9cca223b
+		summarizeBy: none
+		sourceColumn: settlement_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column history_deleted
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 94daaf52-407c-4fdf-b452-ca197e7ff7f8
+		summarizeBy: none
+		sourceColumn: history_deleted
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_deleted
+		dataType: string
+		lineageTag: edd3c115-ee5e-4101-8928-bd3cd8b9b997
+		summarizeBy: none
+		sourceColumn: customer_deleted
+
+		annotation SummarizationSetBy = Automatic
+
+	column operations
+		dataType: string
+		lineageTag: 02e49073-0542-4231-b263-cbf96bd5d0e3
+		summarizeBy: none
+		sourceColumn: operations
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ano da Aquisição'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f47e52b-62be-4e3e-8bf8-69fad24c6b90
+		summarizeBy: sum
+		sourceColumn: Ano da Aquisição
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diferença de Dias entre ACQ e SEC'
+		dataType: int64
+		formatString: 0
+		lineageTag: 225d1ea0-3f99-4b4d-a8db-e7d00138e935
+		summarizeBy: sum
+		sourceColumn: Diferença de Dias entre ACQ e SEC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diferença de Dias entre Presignup e Aquisição'
+		dataType: int64
+		formatString: 0
+		lineageTag: b867dbc9-5290-4e27-b94e-a74bccc39627
+		summarizeBy: sum
+		sourceColumn: Diferença de Dias entre Presignup e Aquisição
+
+		annotation SummarizationSetBy = Automatic
+
+	column diff_months_psu_to_acq
+		dataType: int64
+		formatString: 0
+		lineageTag: c5e7a384-ef1f-4c8f-83f1-15bbe250fedc
+		summarizeBy: sum
+		sourceColumn: diff_months_psu_to_acq
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diferença de Meses entre ACQ e SEC'
+		dataType: int64
+		formatString: 0
+		lineageTag: ccf8539d-43e4-4f88-9723-e0a19072f5a4
+		summarizeBy: sum
+		sourceColumn: Diferença de Meses entre ACQ e SEC
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês da Operação'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1dab1f56-5e41-4b81-9fac-1a841f655605
+		summarizeBy: sum
+		sourceColumn: Mês da Operação
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês da Segunda Operação'
+		dataType: int64
+		formatString: 0
+		lineageTag: f50ca35a-6599-4353-a4c5-d3c6ef762d26
+		summarizeBy: sum
+		sourceColumn: Mês da Segunda Operação
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês do Presignup'
+		dataType: int64
+		formatString: 0
+		lineageTag: 795f4b96-730d-4e10-a2db-de1bae16ce31
+		summarizeBy: sum
+		sourceColumn: Mês do Presignup
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Mês do Signup'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6841edbe-fd7a-4af8-8fc9-8b0cef89c588
+		summarizeBy: sum
+		sourceColumn: Mês do Signup
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Presignup Nubank'
+		dataType: string
+		lineageTag: 03bf0cb2-dc32-4d4e-b2cb-97a71ffaa0fa
+		summarizeBy: none
+		sourceColumn: Presignup Nubank
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diferença de Dias entre PSU e HIS'
+		dataType: int64
+		formatString: 0
+		lineageTag: a85a640d-1b51-4733-9c3b-2c67320ae398
+		summarizeBy: sum
+		sourceColumn: Diferença de Dias entre PSU e HIS
+
+		annotation SummarizationSetBy = Automatic
+
+	column diff_days_psu_to_approved_history
+		dataType: int64
+		formatString: 0
+		lineageTag: 9892fb5e-08a5-4e5f-88f3-08f41f1a8b40
+		summarizeBy: sum
+		sourceColumn: diff_days_psu_to_approved_history
+
+		annotation SummarizationSetBy = Automatic
+
+	column diff_days_psu_to_acq_category
+		dataType: string
+		lineageTag: c7be0c99-7d27-4a78-b597-6af2323db09c
+		summarizeBy: none
+		sourceColumn: diff_days_psu_to_acq_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diferença de Meses'
+		dataType: string
+		lineageTag: 4febcac3-1b29-494b-be7b-767e3964b55c
+		summarizeBy: none
+		sourceColumn: Diferença de Meses
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_brand
+		dataType: string
+		lineageTag: f81c6864-9644-473b-ba6c-ece735cdf333
+		summarizeBy: none
+		sourceColumn: device_brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column os_name
+		dataType: string
+		lineageTag: 145148ae-dd98-40fb-8f1e-8a8692dfbbe6
+		summarizeBy: none
+		sourceColumn: os_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column os
+		dataType: string
+		lineageTag: 19940721-cddc-401c-95f5-09247ee0342e
+		summarizeBy: none
+		sourceColumn: os
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_browser
+		dataType: string
+		lineageTag: 2e3da62d-4b3a-4c73-8c7d-a286ae642870
+		summarizeBy: none
+		sourceColumn: device_browser
+
+		annotation SummarizationSetBy = Automatic
+
+	column institution_financial
+		dataType: string
+		lineageTag: 3c0df6ed-5a85-408b-b0c1-c8cb2ae9ea73
+		summarizeBy: none
+		sourceColumn: institution_financial
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_uploaded_identification
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dddfc431-e34b-426d-bd49-fcae81ac59be
+		summarizeBy: none
+		sourceColumn: has_uploaded_identification
+
+		annotation SummarizationSetBy = Automatic
+
+	column identification_document_type_name
+		dataType: string
+		lineageTag: d009f571-e3d7-46e6-941e-84ece40db547
+		summarizeBy: none
+		sourceColumn: identification_document_type_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column doc_identification_status_name
+		dataType: string
+		lineageTag: 4517e2d4-05b0-4197-a74b-3de439f5ab54
+		summarizeBy: none
+		sourceColumn: doc_identification_status_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column ocr_doc_type
+		dataType: string
+		lineageTag: 83a54c34-18c6-407c-bcf3-0cb71bb3d9c9
+		summarizeBy: none
+		sourceColumn: ocr_doc_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column ocr_analysis_reference_status
+		dataType: string
+		lineageTag: 646767b8-9477-4d45-8eed-0f50a99e53d7
+		summarizeBy: none
+		sourceColumn: ocr_analysis_reference_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column ocr_validated
+		dataType: string
+		lineageTag: bc0f7145-d6d8-4427-b6e3-f3f04e220a81
+		summarizeBy: none
+		sourceColumn: ocr_validated
+
+		annotation SummarizationSetBy = Automatic
+
+	column ocr_analyzed_document
+		dataType: string
+		lineageTag: 891ba10b-5aec-49f9-b2a0-196ed8f215d9
+		summarizeBy: none
+		sourceColumn: ocr_analyzed_document
+
+		annotation SummarizationSetBy = Automatic
+
+	column compliance_lock
+		dataType: string
+		lineageTag: 2dea6afb-8d74-4137-aa23-f97aa03d9044
+		summarizeBy: none
+		sourceColumn: compliance_lock
+
+		annotation SummarizationSetBy = Automatic
+
+	column compliance_veredict
+		dataType: string
+		lineageTag: ae8c4bc9-4da4-45db-85ef-f83eac0f3176
+		summarizeBy: none
+		sourceColumn: compliance_veredict
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active_requirement
+		dataType: string
+		lineageTag: 98db7386-b29b-4d89-bf6f-42cbcc72a408
+		summarizeBy: none
+		sourceColumn: is_active_requirement
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diferença de Dias entre Presignup e Signup'
+		dataType: int64
+		formatString: 0
+		lineageTag: 4981e8ce-0a8e-418e-9385-8c133d4bbdd0
+		summarizeBy: sum
+		sourceColumn: Diferença de Dias entre Presignup e Signup
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Diferença de Dias entre Signup e Aquisição'
+		dataType: int64
+		formatString: 0
+		lineageTag: c13d4aac-7c18-40af-b26f-e3f706dc1d14
+		summarizeBy: sum
+		sourceColumn: Diferença de Dias entre Signup e Aquisição
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_name
+		dataType: string
+		lineageTag: b24919a7-d3da-407d-a716-4bd76b84a5b3
+		summarizeBy: none
+		sourceColumn: device_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column device_category
+		dataType: string
+		lineageTag: 0e937e9d-1894-425a-8194-1e34dee8b136
+		summarizeBy: none
+		sourceColumn: device_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_page_path_tratado_psu
+		dataType: string
+		lineageTag: bbd24eb0-ccfb-47db-8fea-895df32ea787
+		summarizeBy: none
+		sourceColumn: first_page_path_tratado_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column pf_app_screen1_filled
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6107f242-8657-49e8-9c65-28054745e1eb
+		summarizeBy: none
+		sourceColumn: pf_app_screen1_filled
+
+		annotation SummarizationSetBy = Automatic
+
+	column pf_app_screen4_personal_data_filled
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 71124a90-8ce3-4fcd-a607-da1315bb45be
+		summarizeBy: none
+		sourceColumn: pf_app_screen4_personal_data_filled
+
+		annotation SummarizationSetBy = Automatic
+
+	column pf_app_screen5_address_filled
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c719ce88-52c2-4529-874b-062b00a0a061
+		summarizeBy: none
+		sourceColumn: pf_app_screen5_address_filled
+
+		annotation SummarizationSetBy = Automatic
+
+	column pf_app_screen6_income_tax_residency_filled
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a770a292-5314-4e95-a4cc-f991a6a7f8e8
+		summarizeBy: none
+		sourceColumn: pf_app_screen6_income_tax_residency_filled
+
+		annotation SummarizationSetBy = Automatic
+
+	column pf_app_screens7_to_9_document_filled
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 13c2c14e-335d-42d4-b49d-335ec47a559b
+		summarizeBy: none
+		sourceColumn: pf_app_screens7_to_9_document_filled
+
+		annotation SummarizationSetBy = Automatic
+
+	column pf_app_journey_stage
+		dataType: string
+		lineageTag: 0414e69c-ef58-4a70-8d2b-10a682dc3c50
+		summarizeBy: none
+		sourceColumn: pf_app_journey_stage
+
+		annotation SummarizationSetBy = Automatic
+
+	column tentativa_documento_aprovado
+		dataType: string
+		lineageTag: c8f9b165-5d94-4213-b395-4356f270f720
+		summarizeBy: none
+		sourceColumn: tentativa_documento_aprovado
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_fxaas
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5c54d7fd-ddee-42d6-9f2a-bb4cb916f2e2
+		summarizeBy: none
+		sourceColumn: pj_fxaas
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_fluxo
+		dataType: string
+		lineageTag: 5cc7ed7e-797f-4181-900b-c1ce97bce992
+		summarizeBy: none
+		sourceColumn: pj_fluxo
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_shared_bank_details
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f8ba6936-f6bd-4842-bd28-b6869806bd04
+		summarizeBy: none
+		sourceColumn: has_shared_bank_details
+
+		annotation SummarizationSetBy = Automatic
+
+	column shared_bank_details_platform
+		dataType: string
+		lineageTag: e6467cb9-f91f-4e88-bb69-1890af4dcb4e
+		summarizeBy: none
+		sourceColumn: shared_bank_details_platform
+
+		annotation SummarizationSetBy = Automatic
+
+	column shared_bank_details_label
+		dataType: string
+		lineageTag: b53b9bf8-152a-4c53-a21e-a515f81eb698
+		summarizeBy: none
+		sourceColumn: shared_bank_details_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column shared_bank_details_tstamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: bde69f0e-8698-4ed9-900b-d5d25963f962
+		summarizeBy: none
+		sourceColumn: shared_bank_details_tstamp
+
+		annotation SummarizationSetBy = Automatic
+
+	column qualification_type
+		dataType: string
+		lineageTag: 8e74d94f-df98-4b27-ae9c-f199382b5ff0
+		summarizeBy: none
+		sourceColumn: qualification_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen1_psu
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 046933ce-b786-4f37-b384-db38e338512c
+		summarizeBy: none
+		sourceColumn: pj_screen1_psu
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen2_qualification
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b7aae43f-e90e-46f5-9014-3d323d2b097a
+		summarizeBy: none
+		sourceColumn: pj_screen2_qualification
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen3_shared_bank_details_instant_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9162bb0b-0006-44aa-84b4-9ec2c354a7dc
+		summarizeBy: none
+		sourceColumn: pj_screen3_shared_bank_details_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen3_signup_completed_express
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 352232ab-1c38-447b-a7ca-3d4d84455f19
+		summarizeBy: none
+		sourceColumn: pj_screen3_signup_completed_express
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen3_recipient_instant_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8aa7adc6-6d1f-4806-a013-7a4035e8b304
+		summarizeBy: none
+		sourceColumn: pj_screen3_recipient_instant_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen4_orders_instant_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 606d3830-c1f5-4bc2-be68-0ef2d5986f08
+		summarizeBy: none
+		sourceColumn: pj_screen4_orders_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen4_created_story_instant_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fdfd4b64-3b78-48aa-8c17-58c5721d35fa
+		summarizeBy: none
+		sourceColumn: pj_screen4_created_story_instant_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen4_documents_express
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 525e5dc5-476a-487c-99b5-d26c399571dd
+		summarizeBy: none
+		sourceColumn: pj_screen4_documents_express
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen5_created_story_instant_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1fd418f1-c796-4bb2-b6be-af779ce993b2
+		summarizeBy: none
+		sourceColumn: pj_screen5_created_story_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen5_signup_completed_instant_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 651fd9ae-9848-4c90-97c3-a9e1b84906e9
+		summarizeBy: none
+		sourceColumn: pj_screen5_signup_completed_instant_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen5_shared_bank_details_express_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0eeaca78-a51f-47fa-8692-51a5a56b6756
+		summarizeBy: none
+		sourceColumn: pj_screen5_shared_bank_details_express_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen5_recipient_express_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ac5a2184-0596-46b6-8dd5-5a1d522d66fb
+		summarizeBy: none
+		sourceColumn: pj_screen5_recipient_express_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen6_signup_completed_instant_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4e636e89-fc95-4623-8144-f031b1ecc34a
+		summarizeBy: none
+		sourceColumn: pj_screen6_signup_completed_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen6_documents_instant_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a8272285-5595-4c30-8965-d310a15b78a4
+		summarizeBy: none
+		sourceColumn: pj_screen6_documents_instant_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen6_orders_express_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e7c19ca8-5931-48f6-a177-fa5fe34295f7
+		summarizeBy: none
+		sourceColumn: pj_screen6_orders_express_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen6_created_story_express_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 69a26edd-502c-4033-8f7a-f13047d9e2b5
+		summarizeBy: none
+		sourceColumn: pj_screen6_created_story_express_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen7_documents_instant_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c48c54a0-fd47-4fb6-9040-4b60a4f74bf6
+		summarizeBy: none
+		sourceColumn: pj_screen7_documents_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen7_created_ops_instant_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9ae3ff78-8578-497e-8f25-8b0504e1ef40
+		summarizeBy: none
+		sourceColumn: pj_screen7_created_ops_instant_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen7_created_story_express_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: aadf1c9e-9f0b-4b60-aad6-9760ccac9476
+		summarizeBy: none
+		sourceColumn: pj_screen7_created_story_express_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen7_created_ops_express_outbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a2eebd3e-528d-4801-9f6e-36c90d67f863
+		summarizeBy: none
+		sourceColumn: pj_screen7_created_ops_express_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen8_bank_name_instant_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ff42a60b-d750-4bbd-b224-032f9de98dc0
+		summarizeBy: none
+		sourceColumn: pj_screen8_bank_name_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen8_bank_name_express_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1afef37f-dd29-44f7-beba-8f4c86162651
+		summarizeBy: none
+		sourceColumn: pj_screen8_bank_name_express_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen9_redeemed_order_instant_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b3a03545-19bb-4326-8246-fd161a0ef895
+		summarizeBy: none
+		sourceColumn: pj_screen9_redeemed_order_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_screen9_redeemed_order_express_inbound
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 11a81f95-e61b-4d0b-80e3-3538ad0a7615
+		summarizeBy: none
+		sourceColumn: pj_screen9_redeemed_order_express_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_journey_stage_instant_inbound
+		dataType: string
+		lineageTag: 05df7382-919b-49c5-9b77-26ca53c0665b
+		summarizeBy: none
+		sourceColumn: pj_journey_stage_instant_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_journey_stage_instant_outbound
+		dataType: string
+		lineageTag: d6cea125-dfc1-44c0-aff9-c058fae137ed
+		summarizeBy: none
+		sourceColumn: pj_journey_stage_instant_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_journey_stage_express_outbound
+		dataType: string
+		lineageTag: aee6db42-f593-499e-908b-9d584d4574a0
+		summarizeBy: none
+		sourceColumn: pj_journey_stage_express_outbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column pj_journey_stage_express_inbound
+		dataType: string
+		lineageTag: 0dac79b2-52c3-40ee-8a54-f854a39d5183
+		summarizeBy: none
+		sourceColumn: pj_journey_stage_express_inbound
+
+		annotation SummarizationSetBy = Automatic
+
+	column qualification_1
+		dataType: string
+		lineageTag: a9873528-8820-44bb-822d-ab4b05e85183
+		summarizeBy: none
+		sourceColumn: qualification_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column qualification_2
+		dataType: string
+		lineageTag: 59d40ed2-b1f2-404f-bd45-f7cdc4bdd6b6
+		summarizeBy: none
+		sourceColumn: qualification_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_affiliate_ops_rec
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: bf4e6514-dac6-4e21-90d7-241550d71e58
+		summarizeBy: none
+		sourceColumn: has_affiliate_ops_rec
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_affiliate_ops_acq
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 46dd2ef0-0493-4331-bc0c-53e77d704e74
+		summarizeBy: none
+		sourceColumn: has_affiliate_ops_acq
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_ops_type_pj
+		dataType: string
+		lineageTag: 15187ba2-cb73-423a-9e62-558a8998a413
+		summarizeBy: none
+		sourceColumn: onb_ops_type_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_reason_pj
+		dataType: string
+		lineageTag: 2da8195c-20e0-497c-a798-1e661f3b2cf9
+		summarizeBy: none
+		sourceColumn: onb_reason_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_digital_platform_pj
+		dataType: string
+		lineageTag: f43935df-4a91-4085-a85f-01c159ca72f2
+		summarizeBy: none
+		sourceColumn: onb_digital_platform_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_amount_pj
+		dataType: string
+		lineageTag: d4a2c9bf-c50b-4557-8b28-b3e30857699c
+		summarizeBy: none
+		sourceColumn: onb_amount_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column onb_forecast_pj
+		dataType: string
+		lineageTag: 9773615f-8404-4737-895b-e5d2cb0b15b5
+		summarizeBy: none
+		sourceColumn: onb_forecast_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column media_funnel_lc
+		dataType: string
+		lineageTag: 98ef2a85-234d-4f50-8e41-02fbb948cf19
+		summarizeBy: none
+		sourceColumn: media_funnel_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	column provider
+		dataType: string
+		lineageTag: b50ab6f0-100c-4faa-9ebf-ef34d027ad4d
+		summarizeBy: none
+		sourceColumn: provider
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_funnel_events = m
+		mode: import
+		source =
+				let
+				    Consulta = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", MetricViewBiCompatibilityMode=null]){[Name="prod",Kind="Database"]}[Data], "with recipient_name as (#(lf)select#(lf)  id_customer,#(lf)  max(id_recipient) as id_recipient#(lf)from beecambio.beecambio_tbl_remittance_operation#(lf)where id_recipient IS NOT NULL#(lf)group by all#(lf)),#(lf)#(lf)orders as (#(lf)SELECT #(lf)  id_customer,#(lf)  count(id) as orders,#(lf)  count(case when aggregate_order_status = 'Resgatado' then id else null end) as redeemed_orders#(lf)FROM silver.orders#(lf)GROUP BY 1#(lf)),#(lf)#(lf)created_ops as (#(lf)  select#(lf)    id_customer,#(lf)    count(id) as created_ops#(lf)  from beecambio.beecambio_tbl_remittance_operation#(lf)  group by all#(lf)),#(lf)#(lf)bank_name as (#(lf)select#(lf)  ba.id_customer,#(lf)  ba.bank_name,#(lf)  ba.created_at,#(lf)  row_number() over (partition by ba.id_customer order by ba.created_at desc) as rn#(lf)from beecambio.beecambio_tbl_customer_bank_account as ba#(lf)qualify rn = 1#(lf)),#(lf)#(lf)documentos_validos AS (#(lf)  SELECT#(lf)    id_customer,#(lf)    created_at,#(lf)    doc_status,#(lf)    ROW_NUMBER() OVER (PARTITION BY id_customer ORDER BY created_at) AS tentativa_envio#(lf)  FROM beecambio.beecambio_tbl_document#(lf)  WHERE id_doc_type = 2#(lf)    AND deleted = 'false'#(lf)    AND created_at >= '2024-01-01'#(lf)),#(lf)#(lf)primeira_aprovacao AS (#(lf)  SELECT *#(lf)  FROM documentos_validos#(lf)  WHERE doc_status = 3 -- Aprovado#(lf)),#(lf)#(lf)tentativas_doc_aprovado AS (#(lf)  SELECT#(lf)    id_customer,#(lf)    MIN(tentativa_envio) AS tentativa_documento_aprovado#(lf)  FROM primeira_aprovacao#(lf)  GROUP BY id_customer#(lf)),#(lf)#(lf)ops AS (#(lf)  SELECT#(lf)    id_customer,#(lf)    COUNT(id_remittance) as operations#(lf)  FROM gold.fact_operations#(lf)  WHERE is_ops_processed#(lf)    AND is_intercompany = FALSE#(lf)    AND processed_date >= '2024-01-01'#(lf)  GROUP BY id_customer#(lf)),#(lf)#(lf)patrimony as (#(lf)SELECT #(lf)  RF.customer_id,#(lf)  RF.patrimony,#(lf)  ROW_NUMBER() OVER (PARTITION BY RF.customer_id ORDER BY RF.created_at DESC) seq#(lf)FROM beecambio.beecambio_registration_form RF#(lf)WHERE deleted = false#(lf)),#(lf)#(lf)qualification as (#(lf)  SELECT distinct#(lf)    c.id as id_customer,#(lf)    a.id_question,#(lf)    coalesce(o.goal, 'unknown') as primeira_pergunta,#(lf)    CONCAT_WS("" | "", coalesce(o.goal, 'unknown'), o.title) as segunda_pergunta#(lf)  FROM silver.customers c #(lf)  left join prod.beecambio.beecambio_onboarding_qualification_answers a on c.id = a.id_customer #(lf)  left join prod.beecambio.beecambio_onboarding_qualification_form_questions q on q.id = a.id_question#(lf)  left join prod.beecambio.beecambio_onboarding_qualification_form_options o on o.id = a.id_option#(lf)),#(lf)#(lf)origem_psu as #(lf)(#(lf)    SELECT#(lf)      clp.customer_id,#(lf)      clp.provider#(lf)    FROM beecambio.beecambio_tbl_customer_login_provider clp#(lf)    JOIN beecambio.beecambio_tbl_customer c #(lf)      ON c.id = clp.customer_id#(lf)    WHERE clp.deleted_at IS NULL#(lf)      AND clp.linked_at_signup = TRUE#(lf)      AND clp.created_at >= '2026-04-01 00:00:00'#(lf)      AND c.deleted = FALSE#(lf)    QUALIFY ROW_NUMBER() OVER(PARTITION BY clp.customer_id ORDER BY clp.created_at DESC) = 1#(lf)),#(lf)#(lf)final as (#(lf)SELECT#(lf)    fe.* except(fe.event_tstamp, fe.requirement_type, fe.ocr),#(lf)    DATE(fe.event_tstamp) as event_date,#(lf)    DATE_TRUNC('month', fe.event_tstamp) AS event_month,#(lf)    CASE fe.event_type#(lf)        WHEN 'PRESIGNUP' THEN 1#(lf)        WHEN 'SIGNUP' THEN 2#(lf)        WHEN 'CREATED STORY' THEN 3#(lf)        WHEN 'APPROVED STORY' THEN 4#(lf)        WHEN 'ACQUISITION' THEN 5#(lf)        WHEN 'OPERATION' THEN 6#(lf)    END AS event_type_id,#(lf)    dc.channel_psu as canal_lc,#(lf)    LOWER(COALESCE(dc.source_psu, 'unknown')) AS source_lc,#(lf)    LOWER(COALESCE(dc.medium_psu, 'unknown')) AS medium_lc,#(lf)    dc.origin_platform_psu,#(lf)    dc.os_psu as os,#(lf)    dc.os_name_psu as os_name,#(lf)    dc.device_brand_psu as device_brand,#(lf)    dc.device_name_psu as device_name,#(lf)    dc.device_category_psu as device_category,#(lf)    dc.device_browser_psu as device_browser,#(lf)    dc.mkt_campaign_psu as mkt_campaign_lc,#(lf)    dc.cluster_campaign_psu AS cluster_campaign_lc,#(lf)    dc.media_funnel_psu as media_funnel_lc,#(lf)    dc.utm_adgroup_psu as ad_group_lc,#(lf)    dc.first_page_url_psu AS first_page_url,#(lf)    dc.first_page_path_tratado_psu,#(lf)    lc.first_page_cluster_url AS cluster_url,#(lf)    lc.last_page_path_tratado AS last_page_path_tratado,#(lf)    dc.company_type,#(lf)    dc.age,#(lf)    dc.nationality,#(lf)    dc.state,#(lf)    dc.city,#(lf)    CASE#(lf)        WHEN sv.email LIKE '%fxaas%' THEN 'Email fxaas'#(lf)        ELSE 'Default - Sem fxaas'#(lf)    END AS email_fxaas,#(lf)    CASE#(lf)      WHEN dc.signup_completed_tstamp IS NOT NULL THEN TRUE#(lf)      ELSE FALSE#(lf)    END AS full_registration,#(lf)    sv.company_member_association_type,#(lf)    sv.company_shareholders_count,#(lf)    sv.company_shareholders_with_document,#(lf)    dc.session_description AS cnae_session,#(lf)    dc.division_description AS cnae_division,#(lf)    dc.group_description AS cnae_group,#(lf)    dc.class_description AS cnae_class,#(lf)    dc.subclass AS cnae_subclass,#(lf)    DATE(dc.psu_tstamp) AS presignup_date,#(lf)    DATE(dc.signup_completed_tstamp) AS signup_date,#(lf)    DATE(hc.event_tstamp) AS created_history_date,#(lf)    DATE(hi.event_tstamp) AS approved_history_date,#(lf)    DATE(dc.acquisition_tstamp) AS acquisition_date, #(lf)    EXTRACT(YEAR FROM DATE(dc.acquisition_tstamp)) AS acquisition_year,#(lf)    DATE(so.event_tstamp) AS second_operation_date,#(lf)    po.processed_date as operation_date,#(lf)    DATE_TRUNC('month', dc.psu_tstamp) AS presignup_month,#(lf)    DATE_TRUNC('month', dc.signup_completed_tstamp) AS signup_month,#(lf)    DATE_TRUNC('month', hi.event_tstamp) AS approved_history_month,#(lf)    DATE_TRUNC('month', dc.acquisition_tstamp) AS acquisition_month,#(lf)    DATE_TRUNC('month', so.event_tstamp) AS second_operation_month,#(lf)    DATE_TRUNC('month', po.processed_date) AS operation_month,#(lf)    DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(dc.signup_completed_tstamp)) AS diff_days_psu_to_su,#(lf)    DATEDIFF(DAY, DATE(dc.signup_completed_tstamp), DATE(dc.acquisition_tstamp)) AS diff_days_su_to_acq,#(lf)    dc.days_to_conversion as diff_days_psu_to_acq,#(lf)    DATEDIFF(DAY, DATE(dc.acquisition_tstamp), DATE(so.event_tstamp)) AS diff_days_acq_to_sec,#(lf)    DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(hc.event_tstamp)) AS diff_days_psu_to_created_history,#(lf)    DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(hi.event_tstamp)) AS diff_days_psu_to_approved_history,#(lf)    CASE#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 0 THEN '  D0'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 1 THEN '  D1'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 2 THEN '  D2'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 3 THEN '  D3'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 4 THEN '  D4'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 5 THEN '  D5'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 6 THEN '  D6'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 7 THEN '  D7'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 8 AND 10 THEN ' 08-10'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 11 AND 14 THEN ' 11-14'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 15 AND 30 THEN ' 15-30'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 31 AND 60 THEN ' 31-60'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 61 AND 90 THEN ' 61-90'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 91 AND 100 THEN ' 91-100'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 101 AND 110 THEN '101-110'#(lf)      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 111 AND 120 THEN '111-120'#(lf)      ELSE '121+'#(lf)      END AS diff_days_psu_to_acq_category,#(lf)    CASE#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 0 THEN '   Mês 0'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 1 THEN '   Mês 1'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 2 THEN '   Mês 2'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 3 THEN '   Mês 3'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 4 THEN '   Mês 4'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 5 THEN '   Mês 5'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 6 THEN '   Mês 6'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 7 THEN '   Mês 7'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 8 THEN '   Mês 8'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 9 THEN '   Mês 9'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 10 THEN '  Mês 10'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 11 THEN '  Mês 11'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 12 THEN '  Mês 12'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 13 THEN '  Mês 13'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 14 THEN '  Mês 14'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 15 THEN '  Mês 15'#(lf)      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) > 15 THEN 'Acima 15m'#(lf)      ELSE 'Excluir'#(lf)    END AS diff_months_psu_to_acq_cat,#(lf)    DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) AS diff_months_psu_to_acq,#(lf)    DATEDIFF(MONTH, DATE(dc.acquisition_tstamp), DATE(so.event_tstamp)) AS diff_months_acq_to_sec,#(lf)    DATEDIFF(MONTH, DATE(dc.acquisition_tstamp), DATE_TRUNC('month', fe.event_tstamp)) AS month_diff_operation,#(lf)    DATEDIFF(MONTH, DATE(fe.event_tstamp), DATE(so.event_tstamp)) AS month_diff_second_operation,#(lf)    DATEDIFF(MONTH, DATE_TRUNC('month', fe.event_tstamp), DATE(dc.acquisition_tstamp)) AS month_diff_presignup,#(lf)    CASE WHEN DATEDIFF(MONTH, DATE_TRUNC('month', dc.signup_completed_tstamp), DATE(dc.acquisition_tstamp)) < 0 THEN 0 #(lf)         ELSE DATEDIFF(MONTH, DATE_TRUNC('month', dc.signup_completed_tstamp), DATE(dc.acquisition_tstamp)) #(lf)    END AS month_diff_signup,#(lf)    CASE WHEN LOWER(COALESCE(dc.source_psu, '')) = 'nubank' THEN 'Nubank' ELSE 'Não Nubank' END AS is_presignup_nubank,#(lf)    po.premium_status as is_premium_user,#(lf)    CASE#(lf)        WHEN fe.event_type = 'APPROVED STORY' AND fh.nature_operation_name = 'Global Account' THEN 'História de Conta Global'#(lf)        WHEN fe.event_type = 'APPROVED STORY' AND fh.nature_operation_name <> 'Global Account' THEN 'Não é História de Conta Global'#(lf)        ELSE 'Não é event_type = APPROVED STORY'#(lf)    END AS history_name,#(lf)    po.is_affiliate,#(lf)    po.in_or_out,#(lf)    po.currency_abbreviation as currency,#(lf)    po.acquisition,#(lf)    po.institution_fin_id as instituicao_fin,#(lf)    po.voucher_code,#(lf)    po.voucher_type,#(lf)    CASE#(lf)        WHEN po.voucher_code IS NOT NULL THEN 'Com Voucher'#(lf)        ELSE 'Sem Voucher'#(lf)    END AS fl_voucher,#(lf)    po.distributor_name as remessadora,#(lf)    po.nature_operation_name as natureza,#(lf)    po.country,#(lf)    po.operation_platform_beecambio as origin_platform_acq,#(lf)    po.gmv,#(lf)    po.segment,#(lf)    po.bu,#(lf)    po.business_type,#(lf)    po.gross_revenue,#(lf)    DATE_TRUNC('month', fe.event_tstamp) = DATE_TRUNC('month', dc.acquisition_tstamp) AS month_psu_equal_month_acq,#(lf)    DATE_TRUNC('month', fe.event_tstamp) = DATE_TRUNC('month', dc.signup_completed_tstamp) AS month_psu_equal_month_su,#(lf)    DATE_TRUNC('month', dc.acquisition_tstamp) = DATE_TRUNC('month', dc.signup_completed_tstamp) AS month_su_equal_month_acq,#(lf)    DATE_TRUNC('month', dc.acquisition_tstamp) = DATE_TRUNC('month', so.event_tstamp) AS month_acq_equal_month_second_operation,#(lf)    dc.has_shared_bank_details,#(lf)    dc.shared_bank_details_platform,#(lf)    dc.shared_bank_details_label,#(lf)    dc.shared_bank_details_tstamp,#(lf)    co.requeriment_actual_status as requirement_status,#(lf)    co.requirement_type,#(lf)    co.institution_financial,#(lf)    co.has_uploaded_identification,#(lf)    co.identification_document_type_name,#(lf)    co.doc_identification_status_name,#(lf)    co.ocr,#(lf)    co.ocr_doc_type,#(lf)    co.ocr_analysis_reference_status,#(lf)    co.ocr_validated,#(lf)    co.ocr_analyzed_document,#(lf)    co.compliance_lock,#(lf)    co.compliance_veredict,#(lf)    co.is_active_requirement,#(lf)    CASE#(lf)      WHEN ops.operations BETWEEN 0 AND 1 THEN ' 01'#(lf)      WHEN ops.operations = 2 THEN ' 02'#(lf)      WHEN ops.operations = 3 THEN ' 03'#(lf)      WHEN ops.operations = 4 THEN ' 04'#(lf)      WHEN ops.operations BETWEEN 5 AND 6 THEN ' 05 a 06'#(lf)      WHEN ops.operations BETWEEN 7 AND 10 THEN ' 07 a 10'#(lf)      WHEN ops.operations BETWEEN 11 AND 20 THEN ' 11 a 20'#(lf)      WHEN ops.operations BETWEEN 21 AND 50 THEN ' 21 a 50'#(lf)      WHEN ops.operations > 50 THEN '+50'#(lf)      ELSE 'Sem operação'#(lf)    END AS operations,#(lf)#(lf)--------------------------------------------------------- PJ:#(lf)#(lf)-- Filtro de Clientes FxaaS#(lf)CASE#(lf)    WHEN sv.email LIKE '%fxaas%' THEN TRUE#(lf)    ELSE FALSE#(lf)END AS pj_fxaas,#(lf)#(lf)CASE#(lf)  WHEN cq.id_qualification_outbound IS NOT NULL THEN 'Outbound'#(lf)  WHEN cq.id_qualification_inbound IS NOT NULL THEN 'Inbound'#(lf)  ELSE 'Sem Qualificação'#(lf)END AS qualification_type,#(lf)#(lf)-- Classificação do fluxo#(lf)CASE#(lf)  WHEN fe.customer_type = 'PF' THEN 'PF Normal'#(lf)  WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound is not null then 'PJ Instant Outbound'#(lf)  WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound  is not null then 'PJ Instant Inbound'#(lf)  WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound is not null then 'PJ Express Outbound'#(lf)  WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound  is not null then 'PJ Express Inbound'#(lf)  ELSE 'PJ Offline'#(lf)END AS pj_fluxo,#(lf)#(lf)-- Etapa 1 - Presignup (email, CNPJ, ddi, telefone e senha)#(lf)CASE WHEN sv.email IS NOT NULL AND sv.cnpj_cpf_client IS NOT NULL AND O.country_code IS NOT NULL AND O.phone IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen1_psu,#(lf)#(lf)-- Etapa 2 - Qualificação#(lf)CASE WHEN cq.id_customer IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen2_qualification,#(lf)#(lf)-- Etapa 3:#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND dc.has_shared_bank_details THEN TRUE ELSE FALSE END AS pj_screen3_shared_bank_details_instant_inbound, -- Instant Inbound compartilhar dados#(lf)CASE WHEN fe.onboarding_type = 'express' and dc.signup_completed_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen3_signup_completed_express, -- Express - Signup#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND rn.id_recipient IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen3_recipient_instant_outbound, -- Instant Outbound - Beneficiário#(lf)#(lf)-- Etapa 4#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND od.orders > 0 THEN TRUE ELSE FALSE END AS pj_screen4_orders_instant_inbound, -- Instant Inbound - Recebimento da Ordem#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen4_created_story_instant_outbound, -- Instant Outbound - Criar História#(lf)CASE WHEN fe.onboarding_type = 'express' and sv.company_shareholders_with_document > 0 THEN TRUE ELSE FALSE END AS pj_screen4_documents_express, -- Express - Envio do Documento#(lf)#(lf)-- Etapa 5#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen5_created_story_instant_inbound, -- Instant Inbound Criar História#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND dc.signup_completed_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen5_signup_completed_instant_outbound, -- Instant Outbound - Signup#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND dc.has_shared_bank_details THEN TRUE ELSE FALSE END AS pj_screen5_shared_bank_details_express_inbound, -- Express Inbound compartilhar dados#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound IS NOT NULL AND rn.id_recipient IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen5_recipient_express_outbound, -- Instant Outbound - Beneficiário#(lf)#(lf)-- Etapa 6#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND dc.signup_completed_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen6_signup_completed_instant_inbound, -- Instant Inbound - Signup#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND sv.company_shareholders_with_document > 0 THEN TRUE ELSE FALSE END AS pj_screen6_documents_instant_outbound, -- Instant Outbound - Envio do Documento#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND od.orders > 0 THEN TRUE ELSE FALSE END AS pj_screen6_orders_express_inbound, -- Express Inbound - Recebimento da Ordem#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen6_created_story_express_outbound, -- Express Outbound - Criar História#(lf)#(lf)-- Etapa 7#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND sv.company_shareholders_with_document > 0 THEN TRUE ELSE FALSE END AS pj_screen7_documents_instant_inbound, -- Instant Inbound - Envio do Documento#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND cr.created_ops > 0 THEN TRUE ELSE FALSE END AS pj_screen7_created_ops_instant_outbound, -- Instant Outbound - Criar Operação ETAPA FINAL#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen7_created_story_express_inbound, -- Express Inbound - Criar História#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound IS NOT NULL AND cr.created_ops > 0 THEN TRUE ELSE FALSE END AS pj_screen7_created_ops_express_outbound, -- Express Outbound - Criar Operação ETAPA FINAL#(lf)#(lf)-- Etapa 8#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND bk.bank_name IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen8_bank_name_instant_inbound, -- Instant Inbound - Conta PJ#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND bk.bank_name IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen8_bank_name_express_inbound, -- Express Inbound - Conta PJ#(lf)#(lf)-- Etapa 9#(lf)CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND od.redeemed_orders > 0 THEN TRUE ELSE FALSE END AS pj_screen9_redeemed_order_instant_inbound, -- Instant Inbound - Conta PJ -- Etapa Final#(lf)CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND od.redeemed_orders > 0 THEN TRUE ELSE FALSE END AS pj_screen9_redeemed_order_express_inbound, -- Express Inbound - Conta PJ -- Etapa Final#(lf)#(lf)--------------------------------------------------------- PF:#(lf)#(lf)-- Etapa 1 - Presignup (name, cpf_cnpj, email)#(lf)CASE WHEN sv.customer_name IS NOT NULL AND sv.cnpj_cpf_client IS NOT NULL AND sv.email IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen1_filled,#(lf)-- Etapa 2 - Dados Pessoais#(lf)CASE WHEN sv.customer_name IS NOT NULL AND sv.doc_number IS NOT NULL AND sv.birthday_date IS NOT NULL AND sv.nationality IS NOT NULL AND sv.genre IS NOT NULL AND sv.mother_name IS NOT NULL#(lf)AND O.country_code IS NOT NULL AND sv.mobile_phone IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen4_personal_data_filled,#(lf)-- Etapa 3: Endereço#(lf)CASE WHEN sv.address IS NOT NULL AND A.str_number IS NOT NULL AND A.neighbor IS NOT NULL AND A.city IS NOT NULL AND A.state IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen5_address_filled,#(lf)-- Etapa 4: Renda e residência fiscal#(lf)CASE WHEN dc.monthly_income IS NOT NULL AND RF.patrimony IS NOT NULL AND sv.american_fiscal_resident IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen6_income_tax_residency_filled,#(lf)-- Etapa 5: Documento de identificação#(lf)co.has_uploaded_identification AS pf_app_screens7_to_9_document_filled,#(lf)---------------------------------------------------------#(lf)#(lf)q.primeira_pergunta as qualification_1,#(lf)#(lf)q.segunda_pergunta as qualification_2, #(lf)dc.onb_ops_type as onb_ops_type_pj,#(lf)dc.onb_reason as onb_reason_pj,#(lf)dc.onb_digital_platform_pj,#(lf)dc.onb_amount_pj,#(lf)dc.onb_forecast_pj,#(lf)#(lf)dc.has_affiliate_ops_rec,#(lf)dc.has_affiliate_ops_acq,#(lf)#(lf)coalesce(ps.provider,'no provider') as provider#(lf)#(lf)FROM gold.funnel_event AS fe#(lf)#(tab)LEFT JOIN gold.fact_customers as dc ON fe.id_customer = dc.id_customer#(lf)#(tab)LEFT JOIN silver.customers AS sv ON fe.id_customer = sv.id#(lf)#(tab)LEFT JOIN patrimony AS RF ON fe.id_customer = RF.customer_id AND RF.seq = 1#(lf)  LEFT JOIN recipient_name as rn ON fe.id_customer = rn.id_customer#(lf)  LEFT JOIN orders AS od ON fe.id_customer = od.id_customer#(lf)  LEFT JOIN created_ops AS cr ON fe.id_customer = cr.id_customer#(lf)  LEFT JOIN bank_name AS bk ON fe.id_customer = bk.id_customer#(lf)#(tab)LEFT JOIN beecambio.beecambio_company_qualification AS cq ON fe.id_customer = cq.id_customer#(lf)  LEFT JOIN beecambio.beecambio_tbl_customer AS O ON fe.id_customer = O.id#(lf)#(tab)LEFT JOIN beecambio.beecambio_tbl_customer_address AS A ON O.id = A.id_customer#(lf)#(tab)LEFT JOIN gold.funnel_event AS hc ON fe.id_customer = hc.id_customer AND hc.event_type = 'CREATED STORY' AND hc.event_sequence = 1#(lf)#(tab)LEFT JOIN gold.funnel_event AS hi ON fe.id_customer = hi.id_customer AND hi.event_type = 'APPROVED STORY' AND hi.event_sequence = 1#(lf)#(tab)LEFT JOIN gold.funnel_event AS so ON fe.id_customer = so.id_customer AND so.event_type = 'OPERATION' AND so.event_sequence = 2#(lf)#(tab)LEFT JOIN gold.fact_operations AS po ON fe.event_id = po.id_remittance AND fe.event_type IN ('ACQUISITION', 'OPERATION')#(lf)#(tab)LEFT JOIN bronze.beecambio_history as fh ON fe.event_id = fh.id AND fe.event_type = 'APPROVED STORY'#(lf)#(tab)LEFT JOIN google_analytics.last_click_sessions AS lc ON lc.id_customer = fe.id_customer#(lf)#(tab)LEFT JOIN ops ON fe.id_customer = ops.id_customer AND fe.event_type = 'ACQUISITION'#(lf)#(tab)LEFT JOIN silver.requirement AS co ON fe.id_customer = co.id_customer#(lf)#(tab)#(tab)AND co.institution_financial = 'Topázio'#(lf)#(tab)#(tab)AND co.requeriment_date >= '2024-01-01'#(lf)#(tab)#(tab)AND (#(lf)#(tab)#(tab)  (co.customer_type = 'PF' AND co.requirement_type IN ('Simples', 'Completo'))#(lf)#(tab)#(tab)  OR#(lf)#(tab)#(tab)  (co.customer_type = 'PJ' AND co.requirement_type = 'Completo')#(lf)#(tab)#(tab))#(lf)  LEFT JOIN qualification as q on fe.id_customer = q.id_customer#(lf)  LEFT JOIN origem_psu as ps on fe.id_customer = ps.customer_id#(lf)WHERE DATE(fe.event_tstamp) >= '2024-01-01'#(lf)  AND (#(lf)        (fe.event_sequence = 1 AND fe.event_type IN ('ACQUISITION', 'PRESIGNUP', 'SIGNUP', 'APPROVED STORY', 'CREATED STORY'))#(lf)        OR#(lf)        (fe.event_type = 'OPERATION')#(lf)      )#(lf))#(lf)#(lf)SELECT DISTINCT#(lf)  f.*,#(lf)  case#(lf)    when f.pf_app_screens7_to_9_document_filled = false then 'Não Enviado'#(lf)    when f.pf_app_screens7_to_9_document_filled and t.tentativa_documento_aprovado is null then 'Não Aprovado'#(lf)    when t.tentativa_documento_aprovado = 1 then 'Aprovado na 1ª tentativa'#(lf)    when t.tentativa_documento_aprovado = 2 then 'Aprovado na 2ª tentativa'#(lf)    else 'Mais de +3ª tentativa'#(lf)  end as tentativa_documento_aprovado,  #(lf)#(lf)------------------------------------ PF:#(lf)  CASE#(lf)    WHEN customer_type = 'PJ' THEN 'PJ não se aplica'#(lf)    WHEN pf_app_screens7_to_9_document_filled = TRUE THEN 'Etapa 5 - Envio Documento'#(lf)    WHEN pf_app_screen6_income_tax_residency_filled = TRUE THEN 'Etapa 4 - Renda e Residência'#(lf)    WHEN pf_app_screen5_address_filled = TRUE THEN 'Etapa 3 - Endereço'#(lf)    WHEN pf_app_screen4_personal_data_filled = TRUE THEN 'Etapa 2 - Dados Pessoais'#(lf)    WHEN pf_app_screen1_filled = TRUE THEN 'Etapa 1 - Presignup'#(lf)  END AS pf_app_journey_stage,#(lf)#(lf)------------------------------------ PJ:#(lf)#(lf)CASE#(lf)  WHEN customer_type = 'PF' THEN 'PF não se aplica'#(lf)  WHEN pj_screen9_redeemed_order_instant_inbound THEN 'Etapa 9 - Ordem Resgatada'#(lf)  WHEN pj_screen8_bank_name_instant_inbound THEN 'Etapa 8 - Conta PJ Cadastrada'#(lf)  WHEN pj_screen7_documents_instant_inbound THEN 'Etapa 7 - Enviou Documentos'#(lf)  WHEN pj_screen6_signup_completed_instant_inbound THEN 'Etapa 6 - Finalizou Cadastro'#(lf)  WHEN pj_screen5_created_story_instant_inbound THEN 'Etapa 5 - Criou História'#(lf)  WHEN pj_screen4_orders_instant_inbound THEN 'Etapa 4 - Recebeu Ordem'#(lf)  WHEN pj_screen3_shared_bank_details_instant_inbound THEN 'Etapa 3 - Compartilhou Dados Bancários'#(lf)  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'#(lf)  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'#(lf)  ELSE 'Desconhecido'#(lf)END AS pj_journey_stage_instant_inbound,#(lf)#(lf)CASE#(lf)  WHEN customer_type = 'PF' THEN 'PF não se aplica'#(lf)  WHEN pj_screen7_created_ops_instant_outbound THEN 'Etapa 7 - Criou Operação'#(lf)  WHEN pj_screen6_documents_instant_outbound THEN 'Etapa 6 - Enviou Documentos'#(lf)  WHEN pj_screen5_signup_completed_instant_outbound THEN 'Etapa 5 - Finalizou Cadastro'#(lf)  WHEN pj_screen4_created_story_instant_outbound THEN 'Etapa 4 - Criou História'#(lf)  WHEN pj_screen3_recipient_instant_outbound THEN 'Etapa 3 - Indicou Beneficiário'#(lf)  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'#(lf)  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'#(lf)  ELSE 'Desconhecido'#(lf)END AS pj_journey_stage_instant_outbound,#(lf)#(lf)CASE#(lf)  WHEN customer_type = 'PF' THEN 'PF não se aplica'#(lf)  WHEN pj_screen9_redeemed_order_express_inbound THEN 'Etapa 9 - Ordem Resgatada'#(lf)  WHEN pj_screen8_bank_name_express_inbound THEN 'Etapa 8 - Conta PJ Cadastrada'#(lf)  WHEN pj_screen7_created_story_express_inbound THEN 'Etapa 7 - Criou História'#(lf)  WHEN pj_screen6_orders_express_inbound THEN 'Etapa 6 - Recebeu Ordem'#(lf)  WHEN pj_screen5_shared_bank_details_express_inbound THEN 'Etapa 5 - Compartilhou Dados Bancários'#(lf)  WHEN pj_screen4_documents_express THEN 'Etapa 4 - Enviou Documentos'#(lf)  WHEN pj_screen3_signup_completed_express THEN 'Etapa 3 - Finalizou Cadastro'#(lf)  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'#(lf)  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'#(lf)  ELSE 'Desconhecido'#(lf)END AS pj_journey_stage_express_inbound,#(lf)#(lf)CASE#(lf)  WHEN customer_type = 'PF' THEN 'PF não se aplica'#(lf)  WHEN pj_screen7_created_ops_express_outbound THEN 'Etapa 7 - Criou Operação'#(lf)  WHEN pj_screen6_created_story_express_outbound THEN 'Etapa 6 - Criou História'#(lf)  WHEN pj_screen5_recipient_express_outbound THEN 'Etapa 5 - Indicou Beneficiário'#(lf)  WHEN pj_screen4_documents_express THEN 'Etapa 4 - Enviou Documentos'#(lf)  WHEN pj_screen3_signup_completed_express THEN 'Etapa 3 - Finalizou Cadastro'#(lf)  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'#(lf)  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'#(lf)  ELSE 'Desconhecido'#(lf)END AS pj_journey_stage_express_outbound#(lf)#(lf)FROM final f#(lf)LEFT JOIN tentativas_doc_aprovado t ON f.id_customer = t.id_customer", null, [EnableFolding=true]),
+				    #"Colunas Renomeadas" = Table.RenameColumns(Consulta, {
+				    {"month_psu_equal_month_acq", "Month PSU = Month ACQ"},
+				    {"month_psu_equal_month_su", "Month PSU = Month SU"},
+				    {"month_su_equal_month_acq", "Month SU = Month ACQ"},
+				    {"month_acq_equal_month_second_operation", "Month ACQ = Month SEC Op"},
+				    {"acquisition_date", "Mês da Aquisição"},
+				    {"diff_days_acq_to_sec", "Diferença de Dias entre ACQ e SEC"},
+				    {"diff_days_psu_to_acq", "Diferença de Dias entre Presignup e Aquisição"},
+				    {"diff_days_psu_to_su", "Diferença de Dias entre Presignup e Signup"},
+				    {"diff_days_su_to_acq", "Diferença de Dias entre Signup e Aquisição"},
+				    {"diff_days_psu_to_created_history", "Diferença de Dias entre PSU e HIS"},
+				    {"diff_months_psu_to_acq_cat", "Diferença de Meses"},
+				    {"diff_months_acq_to_sec", "Diferença de Meses entre ACQ e SEC"},
+				    {"month_diff_operation", "Mês da Operação"},
+				    {"month_diff_second_operation", "Mês da Segunda Operação"},
+				    {"month_diff_presignup", "Mês do Presignup"},
+				    {"month_diff_signup", "Mês do Signup"},
+				    {"is_presignup_nubank", "Presignup Nubank"},
+				    {"company_onboarding_flow", "Onboarding Flow"},
+				    {"onboarding_type", "Onboarding Type"},
+				    {"customer_type", "Customer Type"},
+				    {"company_type", "Company Type"},
+				    {"acquisition_year", "Ano da Aquisição"}
+				}),
+				    #"Valor Substituído" = Table.ReplaceValue(#"Colunas Renomeadas",null,"Sem operação",Replacer.ReplaceValue,{"business_type"})
+				in
+				    #"Valor Substituído"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

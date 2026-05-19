@@ -1,0 +1,42 @@
+question_variants:
+  - "Qual a projeção de fechamento do mês baseada no pace atual?"
+  - "Se continuar no ritmo atual, qual será o GMV do mês?"
+  - "Pace do mês — projeção de GMV e receita para o fechamento"
+  - "Quanto vamos fechar de GMV esse mês no ritmo atual?"
+sql: |
+  WITH mtd AS (
+    SELECT
+      ds.bu,
+      SUM(ds.gmv) AS gmv_mtd,
+      SUM(ds.gross_revenue) AS receita_mtd,
+      SUM(ds.meta_gmv) AS meta_gmv_total,
+      COUNT(DISTINCT ds.date_key) AS dias_uteis_passados
+    FROM gold.daily_sales AS ds
+    JOIN bronze.dcalendar AS c ON ds.date_key = c.date_key
+    WHERE c.mtd = TRUE
+    GROUP BY ds.bu
+  ),
+  total_dias AS (
+    SELECT
+      COUNT(DISTINCT date_key) AS total_dias_uteis_mes
+    FROM bronze.dcalendar
+    WHERE DATE_TRUNC('month', date_key) = DATE_TRUNC('month', current_date())
+      AND date_key <= last_day(current_date())
+  )
+  SELECT
+    m.bu,
+    ROUND(m.gmv_mtd, 0) AS gmv_realizado,
+    ROUND(m.receita_mtd, 0) AS receita_realizada,
+    ROUND(m.meta_gmv_total, 0) AS meta_gmv_mes,
+    m.dias_uteis_passados,
+    td.total_dias_uteis_mes,
+    ROUND(m.gmv_mtd / m.dias_uteis_passados * td.total_dias_uteis_mes, 0) AS projecao_gmv_fechamento,
+    ROUND(m.receita_mtd / m.dias_uteis_passados * td.total_dias_uteis_mes, 0) AS projecao_receita_fechamento,
+    ROUND(100.0 * (m.gmv_mtd / m.dias_uteis_passados * td.total_dias_uteis_mes) / NULLIF(m.meta_gmv_total, 0), 2) AS atingimento_projetado_pct
+  FROM mtd AS m
+  CROSS JOIN total_dias AS td
+  ORDER BY projecao_gmv_fechamento DESC
+tables_used: [gold.daily_sales, bronze.dcalendar]
+notes: "Projeção linear: pace diário × total dias úteis do mês. bronze.dcalendar.mtd=TRUE para dias passados, last_day() para total de dias. gold.daily_sales para métricas com meta. Projeção assume ritmo constante — não considera sazonalidade semanal."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

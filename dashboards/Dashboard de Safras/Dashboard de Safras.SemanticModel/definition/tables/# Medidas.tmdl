@@ -1,0 +1,4047 @@
+table '# Medidas'
+	lineageTag: aca805d9-daaf-492c-846e-dec4c3439fc8
+
+	measure Presignups = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "PRESIGNUP"
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 021380a1-fb50-4c08-91e0-3a06d0189cee
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure Aquisições = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "ACQUISITION"
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 3a05cf3b-d8bf-4e35-a25b-275ffb0d238d
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas do Presignup | Mesmo Mês' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "PRESIGNUP",
+			        NOT ISBLANK(f_funnel_events[Mês da Aquisição]),
+			        f_funnel_events[Month PSU = Month ACQ] = TRUE()
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 427c8ffb-42d9-4f53-b8e6-0d48dce2d19b
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas do Presignup | Meses Seguintes' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "PRESIGNUP",
+			        f_funnel_events[Mês da Aquisição] <> BLANK(),
+			        f_funnel_events[Month PSU = Month ACQ] = FALSE()
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 6365fa13-fade-4bed-a9a6-b3c7f18d53d8
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas do Presignup' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[id_customer]),
+			    f_funnel_events[event_type] = "PRESIGNUP",
+			    f_funnel_events[Mês da Aquisição] <> BLANK()
+			)
+		displayFolder: Funnel Events
+		lineageTag: f58d9f4b-396e-4ccf-8ec6-33a2b8b302df
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Refresh Date' = MAX(d_last_update[last_update])
+		formatString: dd/mm/yy hh:nn
+		displayFolder: Funnel Events
+		lineageTag: 7305a09a-3083-4892-a7cd-01e29d1c09d8
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure 'Conversão Cohortada (ACQ/PSU)' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: cac73dd7-3d57-4955-91b7-322270d10192
+
+	measure 'Conversão Cohortada (ACQ/PSU) | Mesmo Mês' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup | Mesmo Mês],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 4d109924-2353-4501-9d59-2207da27cf5c
+
+	measure 'Conversão Cohortada (ACQ/PSU) | Meses Seguintes' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup | Meses Seguintes],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 6ac77221-609a-4e53-b85f-c5ce23168cb9
+
+	measure 'Divisão das Aquisições - Mesmo mês do PSU' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup | Mesmo Mês],
+			        [Aquisições Cohortadas do Presignup],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 57099a62-0715-4965-baf2-14f81e6d38c1
+
+	measure 'Divisão das Aquisições - Meses Seguintes do PSU' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup | Meses Seguintes],
+			        [Aquisições Cohortadas do Presignup],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: a3903149-cdde-4a23-aca3-c3baa77f79a7
+
+	measure 'Total de Aquisições (PSU - Cohorted)' = ```
+			
+			    CALCULATE(
+			        [Aquisições Cohortadas do Presignup],
+			        ALLSELECTED(f_funnel_events[Mês do Presignup])
+			        )
+			```
+		displayFolder: Funnel Events
+		lineageTag: e5f87bdf-f72b-46f6-9856-f17011e48aba
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% do Total de Aquisições (PSU - Cohorted)' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup],
+			        [Total de Aquisições (PSU - Cohorted)],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: cf395da3-99be-48c8-a773-8b86c83573db
+
+	measure Signups = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "SIGNUP"
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 33f5bd46-f297-4241-97da-c27ddb605f44
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas do Signup | Meses Seguintes' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "SIGNUP",
+			        f_funnel_events[Mês da Aquisição] <> BLANK(),
+			        f_funnel_events[Month SU = Month ACQ] = FALSE()
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 22611989-9f72-4e03-9cd1-d5625dceaaf3
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas do Signup | Mesmo Mês' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "SIGNUP",
+			        f_funnel_events[Mês da Aquisição] <> BLANK(),
+			        f_funnel_events[Month SU = Month ACQ] = TRUE()
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: ea968153-45bf-4d66-80fa-4a8a8e7088e7
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas do Signup' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[id_customer]),
+			    f_funnel_events[event_type] = "SIGNUP",
+			    f_funnel_events[Mês da Aquisição] <> BLANK()
+			)
+		displayFolder: Funnel Events
+		lineageTag: e62118f4-0762-47e6-afe9-09c74321ce73
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Conversão Cohortada (ACQ/SU)' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Signup],
+			        [Signups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: dce8994d-b4b5-491f-bb91-ac6e9178206f
+
+	measure 'Conversão Cohortada (ACQ/SU) | Meses Seguintes' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Signup | Meses Seguintes],
+			        [Signups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 4dbd97ef-6eae-43c6-b276-cdcd217966a7
+
+	measure 'Conversão Cohortada (ACQ/SU) | Mesmo Mês' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Signup | Mesmo Mês],
+			        [Signups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: dca650b9-edce-4a18-a68c-1aa5dddbd4d4
+
+	measure 'Divisão das Aquisições - Meses Seguintes do SU' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Signup | Meses Seguintes],
+			        [Aquisições Cohortadas do Signup],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: e9ce2c34-6ee3-41e0-9beb-ab53ff0ecf99
+
+	measure 'Divisão das Aquisições - Mesmo mês do SU' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Signup | Mesmo Mês],
+			        [Aquisições Cohortadas do Signup],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 0a9e8f5f-7c2d-483a-8773-2d483fa529d6
+
+	measure 'Signups Cohortados do Presignup | Meses Seguintes' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "PRESIGNUP",
+			        f_funnel_events[signup_date] <> BLANK(),
+			        f_funnel_events[Month PSU = Month SU] = FALSE()
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: a9f73ce8-e2bd-46a8-92f2-d2484cf52481
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Signups Cohortados do Presignup | Mesmo Mês' = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        f_funnel_events[event_type] = "PRESIGNUP",
+			        f_funnel_events[signup_date] <> BLANK(),
+			        f_funnel_events[Month PSU = Month SU]  = TRUE()
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 3cefe34f-03c4-49df-a003-8231a873a5f7
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Signups Cohortados do Presignup' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[id_customer]),
+			    f_funnel_events[event_type] = "PRESIGNUP",
+			    f_funnel_events[signup_date] <> BLANK()
+			)
+		displayFolder: Funnel Events
+		lineageTag: 6fe60cc8-7cec-4376-bb49-cfc95dab275a
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Conversão Cohortada (SU/PSU)' = ```
+			
+			    DIVIDE(
+			        [Signups Cohortados do Presignup],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 082fc534-2cf7-4360-86a5-9e3302860cc5
+
+	measure 'Conversão Cohortada (SU/PSU) | Meses Seguintes' = ```
+			
+			    DIVIDE(
+			        [Signups Cohortados do Presignup | Meses Seguintes],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: d80d587f-de4c-4170-b3b7-ee0541234135
+
+	measure 'Conversão Cohortada (SU/PSU) | Mesmo Mês' = ```
+			
+			    DIVIDE(
+			        [Signups Cohortados do Presignup | Mesmo Mês],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 2229cf3c-8347-425a-9468-87055f2c7b06
+
+	measure 'Divisão dos Signups - Meses Seguintes do PSU' = ```
+			
+			    DIVIDE(
+			        [Signups Cohortados do Presignup | Meses Seguintes],
+			        [Signups Cohortados do Presignup],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: e1fb3ca1-27ac-4804-b585-4f4383c93da7
+
+	measure 'Divisão dos Signups - Mesmo Mês do PSU' = ```
+			
+			    DIVIDE(
+			        [Signups Cohortados do Presignup | Mesmo Mês],
+			        [Signups Cohortados do Presignup],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: c620d5de-7eb1-4677-bd5c-816eaa95ff4b
+
+	measure '% do Total de Aquisições (SU - Cohorted)' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Signup],
+			        [Total de Aquisições (SU - Cohorted)],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 52f879b6-be3d-4186-95bc-e777ea72be56
+
+	measure 'Total de Aquisições (SU - Cohorted)' = ```
+			
+			    CALCULATE(
+			        [Aquisições Cohortadas do Signup],
+			        ALLSELECTED(f_funnel_events[Mês do Signup])
+			        )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 31e88f74-bddd-4563-b22a-41546cac2596
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Clientes Únicos' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[id_customer]),
+			    f_funnel_events[event_type] = "OPERATION" || f_funnel_events[event_type] = "ACQUISITION"
+			)
+		displayFolder: Funnel Events
+		lineageTag: fb22aedf-d4fb-40ba-86e8-0a3e290c9426
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Total de Clientes Únicos' = ```
+			
+			    CALCULATE(
+			        [Clientes Únicos],
+			        --ALLSELECTED(funnel_events[event_month])
+			        ALLSELECTED(f_funnel_events[Mês da Operação])
+			        )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 06987753-e207-4d80-85b8-1c857a6d5771
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% do Total de Clientes Únicos' = ```
+			
+			    DIVIDE(
+			        [Clientes Únicos],
+			        [Total de Clientes Únicos],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 2462e21f-1f7f-4d8a-939a-1c16233d77bd
+
+	measure Operações = ```
+			
+			    CALCULATE(
+			        COUNT(f_funnel_events[event_id]),
+			        f_funnel_events[event_type] in {"OPERATION", "ACQUISITION"}
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 83895c2d-f2a5-49d1-bc0b-94e74d22fe37
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Total de Operações' = ```
+			
+			    CALCULATE(
+			        [Operações],
+			        --ALLSELECTED(funnel_events[event_month])
+			        ALLSELECTED(f_funnel_events[Mês da Operação])
+			        )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 02f05f01-8107-4e08-9851-922ce74e1088
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% do Total de Operações' = ```
+			
+			    DIVIDE(
+			        [Operações],
+			        [Total de Operações],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 423fd712-bf02-4632-bc49-90b81a8cdfe3
+
+	measure 'Operações por Cliente' = ```
+			
+			    DIVIDE(
+			        [Operações],
+			        [Clientes Únicos],
+			        BLANK()
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Funnel Events
+		lineageTag: 37afc41a-d3c3-47b6-a01d-3a9acd4c3bcc
+
+	measure 'Aquisições Cohortadas do Presignup - Acumulado' =
+			
+			CALCULATE(
+			    [Aquisições Cohortadas do Presignup],
+			    FILTER(
+			        ALL(d_calendar),
+			        'd_calendar'[Date Key] <= MAX(f_funnel_events[event_date])
+			        && 'd_calendar'[date_month] = MAX('d_calendar'[date_month])
+			    )
+			)
+		displayFolder: Funnel Events
+		lineageTag: fbb1ad0d-c032-4d36-8c0d-26b92012c4ff
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Presignups (Acumulado)' =
+			
+			CALCULATE(
+			    [Presignups],
+			    FILTER(
+			        ALL('d_calendar'),
+			        'd_calendar'[Date Key] <= MAX(f_funnel_events[event_date])
+			        && 'd_calendar'[date_month] = MAX('d_calendar'[date_month])
+			    )
+			)
+		displayFolder: Funnel Events
+		lineageTag: 1873baad-765f-4055-a4e1-263310a044b6
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Conversão Cohortada Acumulada (ACQ/PSU)' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup - Acumulado],
+			        [Presignups (Acumulado)],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: f1b7b1c3-90e5-4d46-a624-0520e12f5fe8
+
+	measure 'Segunda Operação (Cohorted)' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[id_customer]),
+			    f_funnel_events[event_type] = "OPERATION",
+			    NOT ISBLANK(f_funnel_events[second_operation_month])
+			)
+		formatString: #,0
+		displayFolder: Funnel Events
+		lineageTag: 2ca85ab2-e147-4bd3-8839-be9fe1f2c5ac
+
+	measure 'Total de Segunda Operação (Cohorted)' = ```
+			
+			    CALCULATE(
+			        [Segunda Operação (Cohorted)],
+			        ALLSELECTED(f_funnel_events[Mês da Segunda Operação])
+			        )
+			```
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: aa6da2ba-3fc7-4251-a1ad-1817ba4af658
+
+	measure '% do Total de Segunda Operação (ACQ - Cohorted)' = ```
+			
+			    DIVIDE(
+			        [Segunda Operação (Cohorted)],
+			        [Total de Segunda Operação (Cohorted)],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 835f2b21-6ef5-49c0-982e-533c145c7f2a
+
+	measure 'Total de Aquisições (Origin Platform PSU)' = ```
+			
+			    CALCULATE(
+			        [Aquisições],
+			        ALLSELECTED(f_funnel_events[origin_platform_psu])
+			        )
+			```
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 7c33f0d7-a72f-467f-8688-6f893ec4b96b
+
+	measure '% do Total de Aquisições (Origin Platform PSU)' = ```
+			
+			    DIVIDE(
+			        [Aquisições],
+			        [Total de Aquisições (Origin Platform PSU)],
+			        BLANK()
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 83ae0681-482a-4f4d-8c26-c6aa23d30eb1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total de Presignups' = ```
+			
+			    CALCULATE(
+			        [Presignups],
+			        ALLSELECTED(f_funnel_events[Mês do Presignup])
+			        )
+			```
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 393101af-5660-42e2-bdf5-bd373c4ac224
+
+	measure '% do Total de Presignups' = ```
+			
+			    DIVIDE(
+			        [Presignups],
+			        [Total de Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 78490a04-8872-4ff2-9b72-a5b6348e88b7
+
+	measure '% do Total de Aquisições Cohorted (AVG)' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas do Presignup - Média Móvel Últimos 6 meses],
+			        [Total de Aquisições Cohorted (Média Móvel 60d)],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 0cf661fb-f430-4611-af4c-ae2b69dae1e0
+
+	measure 'Aquisições Cohortadas do Presignup - Média Móvel Últimos 6 meses' =
+			
+			CALCULATE(
+			    [Aquisições Cohortadas do Presignup] / DISTINCTCOUNT(f_funnel_events[event_month]),
+			    DATESINPERIOD(
+			        d_calendar[Date Key],
+			        MAX(f_funnel_events[event_date]),
+			        SELECTEDVALUE('d_intervalo_meses'[Interval]),
+			        MONTH
+			    )
+			)
+		displayFolder: Funnel Events
+		lineageTag: d366d3d7-e45e-4b68-b67b-9146f5174a38
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Total de Aquisições Cohorted (Média Móvel 60d)' = ```
+			
+			    CALCULATE(
+			        [Aquisições Cohortadas do Presignup - Média Móvel Últimos 6 meses],
+			        ALLSELECTED(f_funnel_events[Mês do Presignup])
+			        )
+			```
+		displayFolder: Funnel Events
+		lineageTag: f6d4baa5-146f-4971-aeac-322b3a2f8fc1
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Total de Presignups - Valor Min' =
+			
+			CALCULATE(
+			    MINX(
+			        ALL(f_funnel_events[Mês do Presignup]),
+			        [Presignups]
+			    )
+			)
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 61d5a695-73cf-4ef9-91d8-7a6f27f04c88
+
+	measure 'Total de Presignups - Valor Max' =
+			
+			CALCULATE(
+			    MAXX(
+			        ALL(f_funnel_events[Mês do Presignup]),
+			        [Presignups]
+			    )
+			)
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 7e613374-7ed9-47e2-b42d-a044910dae82
+
+	measure 'Total de Presignups - KPI' =
+			
+			DIVIDE(
+			    [Presignups] - [Total de Presignups - Valor Min],
+			    [Total de Presignups - Valor Max] - [Total de Presignups - Valor Min],
+			    1
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Funnel Events
+		lineageTag: 68de37e0-a84f-4f47-b069-4009f9e722fc
+
+	measure 'Total de Presignups - KPI Limpo' = ```
+			
+			SWITCH(
+			    
+			    TRUE(),
+			        
+			        ISBLANK([Presignups]) ||
+			        [Total de Presignups - KPI] < 0 ||
+			        [Total de Presignups - KPI] = 1 ||
+			        min(f_funnel_events[Mês do Presignup]) < 0,
+			        BLANK(),
+			        
+			        min(f_funnel_events[Mês do Presignup]) = 0, 0.05,
+			    
+			        [Total de Presignups - KPI]
+			
+			)
+			```
+		displayFolder: Funnel Events
+		lineageTag: 210225c8-2ca5-452c-8b5d-79a6e8255222
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total de Clientes Únicos - Valor Max' =
+			
+			CALCULATE(
+			    MAXX(
+			        ALL(f_funnel_events[Mês da Operação]),
+			        [Clientes Únicos]
+			    )
+			)
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 0c066bb3-79f3-44c3-9b23-1f127a9cb92e
+
+	measure 'Total de Clientes Únicos - Valor Min' =
+			
+			CALCULATE(
+			    MINX(
+			        ALL(f_funnel_events[Mês da Operação]),
+			        [Clientes Únicos]
+			    )
+			)
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 54f7c9a4-9310-4dba-bdd8-fb521adae1bf
+
+	measure 'Total de Clientes Únicos - KPI' =
+			
+			DIVIDE(
+			    [Clientes Únicos] - [Total de Clientes Únicos - Valor Min],
+			    [Total de Clientes Únicos - Valor Max] - [Total de Clientes Únicos - Valor Min],
+			    1
+			)
+		displayFolder: Funnel Events
+		lineageTag: 46a39d1f-1725-40fc-93ae-938379859b83
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Histórias Aprovadas' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[event_id]),
+			    f_funnel_events[event_type] = "APPROVED STORY"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 056ca1e3-d620-4eb5-816e-3e854af5bf07
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Aquisições Cohortadas da História Aprovada' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[event_id]),
+			    f_funnel_events[event_type] = "APPROVED STORY",
+			    NOT ISBLANK(f_funnel_events[Mês da Aquisição])
+			)
+		displayFolder: Funnel Events
+		lineageTag: 03a9aa56-2d5a-4a76-928d-8f1c0b922634
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Conversão Cohortada (ACQ/APPROVED STORY)' = ```
+			
+			    DIVIDE(
+			        [Aquisições Cohortadas da História Aprovada],
+			        [Histórias Aprovadas],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 4ad4c5e9-e89d-44c9-ae26-7a0e547eabbf
+
+	measure Eventos = DISTINCTCOUNT(f_funnel_events[event_id])
+		displayFolder: Funnel Events
+		lineageTag: e706de77-f32b-4af9-82e0-43a52775f140
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Eventos - Desloc Barra' =
+			
+			VAR vEventos = [Eventos]
+			VAR vTabela = ALL(f_funnel_events)
+			VAR vMax = MAXX(
+			    vTabela,
+			    [Eventos]
+			)
+			RETURN
+			    (vMax - vEventos) * 0.5
+		formatString: #,0
+		displayFolder: Funnel Events
+		lineageTag: 68f13296-ccb6-4080-94d9-29f55763ed08
+
+	measure 'Eventos - Desloc Barra %' =
+			
+			VAR vEventos = [Eventos]
+			VAR vTabela = ALL(f_funnel_events)
+			VAR vMax = cALCULATE([Eventos], ALLSELECTED(f_funnel_events), f_funnel_events[event_type] = "PRESIGNUP")
+			VAR vPercentual = DIVIDE(vEventos, vMax)
+			VAR vTexto = SWITCH(SELECTEDVALUE(f_funnel_events[event_type]), "PRESIGNUP", "TT: ", "% PSU: ")
+			RETURN
+			    vTexto & FORMAT(vPercentual, "0.0%")
+		displayFolder: Funnel Events
+		lineageTag: ba5fb127-a282-43bd-b4b9-3b018821cdd0
+
+	measure 'Eventos MAXX' =
+			
+			CALCULATE(
+			    [Eventos],
+			    ALLSELECTED(f_funnel_events),
+			    f_funnel_events[event_type] = "PRESIGNUP"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 10f99bc9-03ba-4390-bf60-08a2c34eb65b
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Texto Conversão PSU' = "CR PSU"
+		displayFolder: Funnel Events
+		lineageTag: b1247169-5c3f-4147-a599-38f6eb44e193
+
+	measure 'Eventos - Desloc Barra Anterior %' =
+			
+			VAR vEventos = [Eventos]
+			VAR vDesloc = CALCULATE([Eventos], OFFSET(-1, ALL(f_funnel_events[event_type], f_funnel_events[event_type_id]), ORDERBY(f_funnel_events[event_type_id], ASC)))
+			VAR vPercentual = DIVIDE(vEventos, vDesloc, BLANK())
+			VAR vTexto = "% ANT: "
+			RETURN
+			    IF(
+			        NOT SELECTEDVALUE(f_funnel_events[event_type_id]) = 1,
+			        vTexto & FORMAT(vPercentual, "0.0%"),
+			        ""
+			    )
+		displayFolder: Funnel Events
+		lineageTag: a5b132d0-c748-4ee4-b9e2-224933e81d56
+
+	measure 'Eventos MAXX AAAAA' =
+			
+			DIVIDE(
+			    [Eventos],
+			    [Eventos MAXX]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: b903d92e-34ec-4dcd-a553-75ce46a44459
+
+	measure 'Aquisições Cohortadas do Presignup | Cohort Dinâmico' =
+			
+			VAR DiasSelecionados = SELECTEDVALUE('p_Cohort'[SelectedValue])
+			RETURN
+			CALCULATE(
+			    [Aquisições Cohortadas do Presignup],
+			    f_funnel_events[Diferença de Dias entre Presignup e Aquisição] <= DiasSelecionados
+			)
+		displayFolder: Funnel Events
+		lineageTag: 2f5da1fc-3853-4758-aa39-eef62109be88
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Cohort Dinâmico Selecionado' =
+			"Cohort Dinâmico Selecionado: " &
+			SELECTEDVALUE('p_Cohort'[p_Cohort])
+			& " dias"
+		displayFolder: Funnel Events
+		lineageTag: ab3f8b47-40b7-4259-878d-8081e3f84162
+
+	measure 'Conversão Cohortada (ACQ/PSU) | Cohort Dinâmico' =
+			
+			DIVIDE(
+			    [Aquisições Cohortadas do Presignup | Cohort Dinâmico],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 022a5686-2876-49dc-a0ec-77ec974adfeb
+
+	measure 'Conversão Uncohorted (ACQ/PSU)' = ```
+			
+			    DIVIDE(
+			        [Aquisições],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 5d9a03fa-2b90-4b93-bf40-85c435db2af1
+
+	measure 'Aquisições Dinâmicas - Diferença de Meses' =
+			
+			VAR ExibicaoSelecionada = SELECTEDVALUE('p_Modo de Exibição'[Exibição], "#")
+			VAR TotalLinha = CALCULATE([Aquisições], ALL('f_funnel_events'[Diferença de Meses]))
+			VAR ValorFinal =
+			    SWITCH(
+			        TRUE(),
+			        ExibicaoSelecionada = "%", DIVIDE([Aquisições], TotalLinha, 0),
+			        [Aquisições] -- Valor Absoluto
+			    )
+			RETURN
+			    SWITCH(
+			        ExibicaoSelecionada,
+			        "%", FORMAT(ValorFinal, "0.0%"),
+			        FORMAT(ValorFinal, "#,##0")
+			    )
+		displayFolder: Funnel Events
+		lineageTag: 2629c57f-b27c-445f-9a3f-97ba7ee5deab
+
+	measure 'Aquisições Dinâmicas % Diferença de Meses' =
+			
+			DIVIDE(
+			    [Aquisições],
+			    CALCULATE(
+			        [Aquisições],
+			        ALL('f_funnel_events'[Diferença de Meses])
+			        ),
+			    0
+			)
+		displayFolder: Funnel Events
+		lineageTag: 6da3b4b2-2d85-4807-872d-f923ea9ba8a8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Aquisições Dinâmicas - Diferença de Dias' = ```
+			
+			VAR ExibicaoSelecionada = SELECTEDVALUE('p_Modo de Exibição'[Exibição], "#")
+			VAR TotalLinha = CALCULATE([Aquisições], ALL('f_funnel_events'[diff_days_psu_to_acq_category]))
+			VAR ValorFinal = 
+			    SWITCH(
+			        TRUE(),
+			        ExibicaoSelecionada = "%", DIVIDE([Aquisições], TotalLinha, 0),
+			        [Aquisições] -- Valor Absoluto
+			    )
+			RETURN
+			    SWITCH(
+			        ExibicaoSelecionada,
+			        "%", FORMAT(ValorFinal, "0.0%"),
+			        FORMAT(ValorFinal, "#,##0")
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: a987768f-9f4c-4d3f-97c2-7b79598787bb
+
+	measure 'Aquisições Dinâmicas % Diferença de Dias' =
+			
+			DIVIDE(
+			    [Aquisições],
+			    CALCULATE(
+			        [Aquisições],
+			        ALL('f_funnel_events'[diff_days_psu_to_acq_category])
+			        ),
+			    0
+			)
+		displayFolder: Funnel Events
+		lineageTag: b6041528-99cd-4419-bffc-90cbddc8a0ac
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure GMV = ```
+			
+			    CALCULATE(
+			        SUM(f_funnel_events[gmv]),
+			        f_funnel_events[event_type] in {"OPERATION", "ACQUISITION"}
+			        --funnel_events[event_type] = "OPERATION"
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 8b4d45a0-30e1-412b-97d6-be8a5c663b21
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor >= 0, "R$ #,0;R$ #,0",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vValor < 0, "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Gross Revenue' = ```
+			
+			    CALCULATE(
+			        SUM(f_funnel_events[gross_revenue]),
+			        f_funnel_events[event_type] in {"OPERATION", "ACQUISITION"}
+			        --funnel_events[event_type] = "OPERATION"
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: 68b00498-a087-448c-a4fe-12c73d24f35d
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor >= 0, "R$ #,0;R$ #,0",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vValor < 0, "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Total de GMV' = ```
+			
+			    CALCULATE(
+			        [GMV],
+			        --ALLSELECTED(funnel_events[event_month])
+			        ALLSELECTED(f_funnel_events[Mês da Operação])
+			        )
+			```
+		displayFolder: Funnel Events
+		lineageTag: d5ebfba8-d8bc-4696-abfd-bd8ac16f9159
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor >= 0, "R$ #,0;R$ #,0",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vValor < 0, "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Total de Gross Revenue' = ```
+			
+			    CALCULATE(
+			        [Gross Revenue],
+			        --ALLSELECTED(funnel_events[event_month])
+			        ALLSELECTED(f_funnel_events[Mês da Operação])
+			        )
+			```
+		displayFolder: Funnel Events
+		lineageTag: dd3d499c-7bd3-4618-ade3-8752fa93733c
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "R$ #,#0,,,.00B;-R$ #,#0,,,.00B",
+				    vValor >= 1000000, "R$ #,#0,,.00M;-R$ #,#0,,.00M",
+				    vValor >= 1000, "R$ #,#0,.00K;-R$ #,#0,.00K",
+				    vValor >= 0, "R$ #,0;R$ #,0",
+				    vValor <= -1000000000, "R$ #,#0,,,.00B;R$ #,#0,,,.00B",
+				    vValor <= -1000000, "R$ #,#0,,.00M;R$ #,#0,,.00M",
+				    vValor <= -1000, "R$ #,#0,.00K;R$ #,#0,.00K",
+				    vValor < 0, "R$ #,0.00;R$ #,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% do Total de GMV' = ```
+			
+			    DIVIDE(
+			        [GMV],
+			        [Total de GMV],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 479525e4-9545-4a32-b069-ebd7037dae9c
+
+	measure '% do Total de Gross Revenue' = ```
+			
+			    DIVIDE(
+			        [Gross Revenue],
+			        [Total de Gross Revenue],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: baf953f8-f8dc-4c01-be95-39667bf3cf8f
+
+	measure LineColor =
+			
+			SWITCH(
+			    TRUE(),
+			    SELECTEDVALUE('d_calendar'[Current Month]) = "Current Month", "#0000FF",  // Azul
+			    SELECTEDVALUE('d_calendar'[Current Month]) = "Previous Month", "#FFA500", // Laranja
+			    "#C0C0C0" // Cinza
+			)
+		displayFolder: Funnel Events
+		lineageTag: 8f0441ce-72e6-4ac4-8597-f1691c718cfc
+
+	measure 'Aquisições (Current Month)' = ```
+			
+			    CALCULATE(
+			        [Aquisições],
+			        d_calendar[Current Month] = "Current Month"
+			    )
+			```
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 6b702802-261c-4211-9d1e-8e18348549dc
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Aquisições Previous Month' = ```
+			
+			    CALCULATE(
+			        [Aquisições],
+			        d_calendar[Current Month] = "Previous Month"
+			    )
+			```
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: b3fb5611-1928-4455-9852-788705ea5191
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Aquisições (Other Months)' =
+			
+			CALCULATE(
+			    [Aquisições],
+			    NOT d_calendar[Current Month] IN {"Current Month", "Previous Month"}
+			)
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 73de888d-444c-4fc7-8cf6-77dacb1aee9d
+
+	measure '% Presignups' =
+			
+			DIVIDE(
+			    [Presignups],
+			    CALCULATE([Presignups], ALLSELECTED())
+			)
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: c1c65e68-d8ef-44a6-b515-c660dc5a170b
+
+	measure 'Cadastro 100% Preenchido' =
+			
+			DIVIDE(
+			    CALCULATE(
+			        [Presignups],
+			        f_funnel_events[full_registration] = TRUE()
+			    ),
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 879a3eb8-d681-4633-be37-13487d3205e0
+
+	measure 'Histórias Criadas' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[event_id]),
+			    f_funnel_events[event_type] = "CREATED STORY"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 484641ed-b85c-421d-806c-f3c383ab3fa0
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Histórias Criadas Cohortadas do Presignup' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[event_id]),
+			    f_funnel_events[event_type] = "PRESIGNUP",
+			    f_funnel_events[created_history_date] <> BLANK()
+			)
+		displayFolder: Funnel Events
+		lineageTag: 852a3fd8-9730-4de6-ac7e-e5ca424d0983
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Histórias Aprovadas Cohortadas do Presignup' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[event_id]),
+			    f_funnel_events[event_type] = "PRESIGNUP",
+			    f_funnel_events[approved_history_date] <> BLANK()
+			)
+		displayFolder: Funnel Events
+		lineageTag: d71c0e27-807b-4dfb-bf3c-61089ec5887a
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Conversão Cohortada (CREATED STORY/PSU)' =
+			
+			DIVIDE(
+			    [Histórias Criadas Cohortadas do Presignup],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 13239fb6-d6c0-41d8-ad4d-0ad89e4e3201
+
+	measure 'Conversão Cohortada (APPROVED STORY/PSU)' =
+			
+			DIVIDE(
+			    [Histórias Aprovadas Cohortadas do Presignup],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: a501f3bb-055a-4f37-bed0-f3441b1cd2be
+
+	measure 'Histórias Criadas Cohortadas do Signup' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[event_id]),
+			    f_funnel_events[event_type] = "SIGNUP",
+			    f_funnel_events[created_history_date] <> BLANK()
+			)
+		displayFolder: Funnel Events
+		lineageTag: 03bfdb0e-4395-4015-afa7-79bc7b10d43f
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Histórias Aprovadas Cohortadas do Signup' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(f_funnel_events[event_id]),
+			    f_funnel_events[event_type] = "SIGNUP",
+			    f_funnel_events[approved_history_date] <> BLANK()
+			)
+		displayFolder: Funnel Events
+		lineageTag: fe64f8eb-c2eb-4038-9bb7-da4e10db4999
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Conversão Cohortada (CREATED STORY/SU)' = ```
+			
+			    DIVIDE(
+			        [Histórias Criadas Cohortadas do Signup],
+			        [Signups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 7972c2a8-cb68-4806-8374-0eff4bb8962d
+
+	measure 'Conversão Cohortada (APPROVED STORY/SU)' = ```
+			
+			    DIVIDE(
+			        [Histórias Aprovadas Cohortadas do Signup],
+			        [Signups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 742a3585-c161-4f4e-88da-eb1fdc78f8b9
+
+	measure Customers = ```
+			
+			    CALCULATE(
+			        DISTINCTCOUNT(f_funnel_events[id_customer]),
+			        FILTER(f_funnel_events, [event_type] in {"OPERATION", "ACQUISITION"})
+			        --funnel_events[event_type] = "OPERATION"
+			    )
+			```
+		formatString: 0
+		displayFolder: Funnel Events
+		lineageTag: 49ac8404-57de-48dc-bd57-75fa4e652c43
+
+	measure 'Aquisições Dinâmicas - Número de Operações' = ```
+			
+			VAR ExibicaoSelecionada = SELECTEDVALUE('p_Modo de Exibição'[Exibição], "#")
+			VAR TotalLinha = CALCULATE([Customers], ALL('f_funnel_events'[operations]))
+			VAR ValorFinal = 
+			    SWITCH(
+			        TRUE(),
+			        ExibicaoSelecionada = "%", DIVIDE([Customers], TotalLinha, 0),
+			        [Customers] -- Valor Absoluto
+			    )
+			RETURN
+			    SWITCH(
+			        ExibicaoSelecionada,
+			        "%", FORMAT(ValorFinal, "0.0%"),
+			        FORMAT(ValorFinal, "#,##0")
+			    )
+			```
+		displayFolder: Funnel Events
+		lineageTag: b16db095-4dbc-4e32-9d25-2ff948822baa
+
+	measure 'Aquisições Dinâmicas % Número de Operações' =
+			
+			DIVIDE(
+			    [Customers],
+			    CALCULATE(
+			        [Customers],
+			        ALL('f_funnel_events'[operations])
+			        ),
+			    0
+			)
+		displayFolder: Funnel Events
+		lineageTag: 813e83a5-695b-4363-8f45-c9b19835ab63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Conversão Uncohorted (ACQ/SU)' = ```
+			
+			    DIVIDE(
+			        [Aquisições],
+			        [Signups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 1f9922c3-1316-4e8c-b5c1-0f6b80f42134
+
+	measure 'Conversão Uncohorted (SU/PSU)' = ```
+			
+			    DIVIDE(
+			        [Signups],
+			        [Presignups],
+			        BLANK()
+			    )
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 96f1685d-e38a-42ee-afdc-2b837e7b5104
+
+	measure 'Aquisições Cohortadas do Signup | Cohort Dinâmico' =
+			
+			VAR DiasSelecionados = SELECTEDVALUE('p_Cohort'[SelectedValue])
+			RETURN
+			CALCULATE(
+			    [Aquisições Cohortadas do Signup],
+			    f_funnel_events[Diferença de Dias entre Signup e Aquisição] <= DiasSelecionados
+			)
+		displayFolder: Funnel Events
+		lineageTag: 6c0fd1be-a264-4cac-9d98-4a96292643ae
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Signups Cohortados do Presignup | Cohort Dinâmico' =
+			
+			VAR DiasSelecionados = SELECTEDVALUE('p_Cohort'[SelectedValue])
+			RETURN
+			CALCULATE(
+			    [Signups Cohortados do Presignup],
+			    f_funnel_events[Diferença de Dias entre Presignup e Signup] <= DiasSelecionados
+			)
+		displayFolder: Funnel Events
+		lineageTag: 0810d4ad-bb10-4ffd-8e48-e20184bb500b
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Conversão Cohortada (SU/PSU) | Cohort Dinâmico' =
+			
+			DIVIDE(
+			    [Signups Cohortados do Presignup | Cohort Dinâmico],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: f5466bf2-dc87-42b7-ad69-8f3b9c04acfe
+
+	measure 'Conversão Cohortada (ACQ/SU) | Cohort Dinâmico' =
+			
+			DIVIDE(
+			    [Aquisições Cohortadas do Signup | Cohort Dinâmico],
+			    [Signups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: c25ee371-5bac-469b-9292-51cb6a2ebd9a
+
+	measure --------------------------------------------- = BLANK()
+		formatString: 0
+		displayFolder: Aux
+		lineageTag: fb4a59cd-82f4-491d-ba7d-b33e2af93b66
+
+	measure '% CT' = ```
+			
+			VAR vDenominador = 
+			CALCULATE(
+			    [Presignups],
+			    ALLSELECTED('f_funnel_events'[pf_app_journey_stage])
+			)
+			RETURN
+			DIVIDE(
+			    [Presignups],
+			    vDenominador,
+			    BLANK()
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 0736d6aa-7443-41b6-83df-c471434b7c00
+
+	measure 'Cadastro 100% Preenchido #' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[full_registration] = TRUE()
+			)
+		displayFolder: Funnel Events
+		lineageTag: d6b8005b-4ccb-4205-ab74-70b78d23ea34
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Etapa 1 PSU' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[pf_app_journey_stage] = "Etapa 1 - Presignup"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 09c2c784-82b2-4e7a-ab11-862519e9114a
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Etapa 2 Pessoais' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[pf_app_journey_stage] = "Etapa 2 - Dados Pessoais"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 97d7c8bd-50da-47f9-94d0-af8de1cd897e
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Etapa 3 Endereço' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[pf_app_journey_stage] = "Etapa 3 - Endereço"
+			)
+		displayFolder: Funnel Events
+		lineageTag: c2592332-b147-4e25-bef2-fc343577cb6e
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Etapa 4 Renda' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[pf_app_journey_stage] = "Etapa 4 - Renda e Residência"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 520041ae-3931-409b-b388-c69b816d4418
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Etapa 5 Envio Doc' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[pf_app_journey_stage] = "Etapa 5 - Envio Documento"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 4550d457-951f-4a6d-be7c-bf82c4eb0528
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Doc Não Aprov.' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[tentativa_documento_aprovado] = "Não Aprovado"
+			)
+		displayFolder: Funnel Events
+		lineageTag: bb8d1d26-d2de-4cc5-899a-52e26bf82d9c
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Doc Não Aprovado %' =
+			
+			DIVIDE(
+			    [Doc Não Aprov.],
+			    [Etapa 5 Envio Doc],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 45ba27e6-155b-495c-9a9f-77c41b8ce4c6
+
+	measure 'Etapa 1 PSU %' =
+			
+			DIVIDE(
+			    [Etapa 1 PSU],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: d4706351-5e37-47ab-aa3b-9577afa37dbe
+
+	measure 'Etapa 2 Pessoais %' =
+			
+			DIVIDE(
+			    [Etapa 2 Pessoais],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: e20feaf7-5872-40d6-b866-f0439b7e5054
+
+	measure 'Etapa 3 Endereço %' =
+			
+			DIVIDE(
+			    [Etapa 3 Endereço],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: fc1c6a4c-082b-451e-b690-9703aacb6385
+
+	measure 'Etapa 4 Renda %' =
+			
+			DIVIDE(
+			    [Etapa 4 Renda],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 197818e3-5f06-48dd-bc00-cfeea04239b3
+
+	measure 'Etapa 5 Envio Doc %' =
+			
+			DIVIDE(
+			    [Etapa 5 Envio Doc],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 81bbffd0-dba9-4a8c-8fdb-8bffd2cdb9a8
+
+	measure 'Doc Aprov.' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[tentativa_documento_aprovado] in {
+			        "Aprovado na 1ª tentativa",
+			        "Aprovado na 2ª tentativa",
+			        "Mais de +3ª tentativa"
+			    }
+			)
+		displayFolder: Funnel Events
+		lineageTag: f92df291-9677-4d70-a3c5-48ff6783efe3
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Doc Aprov. %' =
+			
+			DIVIDE(
+			    [Doc Aprov.],
+			    [Etapa 5 Envio Doc],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: f720ac9c-3d11-41c7-80bc-43111cd9069a
+
+	measure 'Doc Aprov. 1ª' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[tentativa_documento_aprovado] in {
+			        "Aprovado na 1ª tentativa"
+			    }
+			)
+		displayFolder: Funnel Events
+		lineageTag: 0854e699-b81f-4dc2-8b1e-1d69dc0b790f
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Doc Aprov. 1ª %' =
+			
+			DIVIDE(
+			    [Doc Aprov. 1ª],
+			    [Doc Aprov.],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 6d5c7c61-9ac3-4476-995f-7d3315dca8dd
+
+	measure '% CT Tentativa' = ```
+			
+			VAR vDenominador = 
+			CALCULATE(
+			    [Presignups],
+			    ALLSELECTED('f_funnel_events'[tentativa_documento_aprovado])
+			)
+			RETURN
+			DIVIDE(
+			    [Presignups],
+			    vDenominador,
+			    BLANK()
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: b9057566-dddd-4538-b013-f03daf6f6d5d
+
+	measure 'Drop 1 -> 2' = [Etapa 1 PSU % Acumulado] - [Etapa 2 Pessoais % Acumulado]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 09be90e3-b127-459f-ad4f-eb9c2fe56670
+
+	measure 'Drop 2 -> 3' = [Etapa 2 Pessoais % Acumulado] - [Etapa 3 Endereço % Acumulado]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 33053972-4419-4b18-a336-037c9a8359fc
+
+	measure 'Drop 3 -> 4' = [Etapa 3 Endereço % Acumulado] - [Etapa 4 Renda % Acumulado]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: dd57bf98-0112-4944-ad6a-e72b817b1ce4
+
+	measure 'Drop 4 -> 5' = [Etapa 4 Renda % Acumulado] - [Etapa 5 Envio Doc %]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 9992c902-d2df-4ef9-963f-ac3b1887defa
+
+	measure 'Etapa 4 Renda % Acumulado' = [Etapa 5 Envio Doc %] + [Etapa 4 Renda %]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 4d44dc31-8a55-40b4-8072-16954ec39191
+
+	measure 'Etapa 3 Endereço % Acumulado' = [Etapa 4 Renda % Acumulado] + [Etapa 3 Endereço %]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: cd26660f-7705-4f3b-918a-6ba405d39dcb
+
+	measure 'Etapa 2 Pessoais % Acumulado' = [Etapa 3 Endereço % Acumulado] + [Etapa 2 Pessoais %]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 384c2e1c-3314-4d98-88b4-c904680a4911
+
+	measure 'Etapa 1 PSU % Acumulado' = [Etapa 2 Pessoais % Acumulado] + [Etapa 1 PSU %]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: dcad3751-4864-4cfe-bb13-3450a7e29d0f
+
+	measure 'PJ Express Outbound - Etapa 1 PSU' =
+			
+			CALCULATE(
+			    [PJ Express Outbound],
+			    f_funnel_events[pj_journey_stage_express_outbound] = "Etapa 1 - Presignup"
+			)
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 4deb3e36-1a7e-47ad-9dd8-a049f18c5638
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Etapa 1 PSU PJ %' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 1 PSU],
+			    [Presignups],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 21c3acee-1ff8-47bb-b88e-4d42e6a5a678
+
+	measure 'Presignups PJ Fluxo Online' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[Customer Type] = "PJ",
+			    f_funnel_events[Onboarding Flow] = "online"
+			)
+		displayFolder: Funnel Events
+		lineageTag: 537b0465-41ca-4021-a103-36eb9abb1310
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'Presignups PJ Fluxo Online %' =
+			
+			VAR vPJ = CALCULATE([Presignups], f_funnel_events[Customer Type] = "PJ")
+			RETURN
+			DIVIDE(
+			    [Presignups PJ Fluxo Online],
+			    vPJ,
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: 2bfd62fd-b2ba-4d78-94ce-8ad89756d3cc
+
+	measure 'PJ Express Inbound - Etapa 1 PSU' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 1 - Presignup"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 3b5a7cdc-7a5a-4682-8111-a976418e1541
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Inbound - Etapa 1 PSU' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 1 - Presignup"
+			)
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: f22111a1-8ce3-4f20-8ca5-2c77a21adf5f
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Outbound - Etapa 1 PSU' =
+			
+			CALCULATE(
+			    [PJ Instant Outbound],
+			    f_funnel_events[pj_journey_stage_instant_outbound] = "Etapa 1 - Presignup"
+			)
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: d06b0d65-a7aa-4fb7-89ec-c9980c39ed12
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 2 Qualificação' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 2 - Qualificação"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 58bcabcb-e2e7-437e-8006-f2148e4f4679
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Outbound - Etapa 2 Qualificação' =
+			
+			CALCULATE(
+			    [PJ Express Outbound],
+			    f_funnel_events[pj_journey_stage_express_outbound] = "Etapa 2 - Qualificação"
+			)
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 4cd4e7a7-9c6e-4608-a228-9190fae0ff12
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Inbound - Etapa 2 Qualificação' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 2 - Qualificação"
+			)
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 03a0bdad-193d-4a80-a403-fee0222cbd7a
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Outbound - Etapa 2 Qualificação' =
+			
+			CALCULATE(
+			    [PJ Instant Outbound],
+			    f_funnel_events[pj_journey_stage_instant_outbound] = "Etapa 2 - Qualificação"
+			)
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: bfe37e8d-86c5-4f34-b69e-dda766ce92e0
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 3 Cadastro' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 3 - Finalizou Cadastro"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: db79de8a-9d86-426f-8d7c-03b52924d791
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 4 Documentos' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 4 - Enviou Documentos"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: d7073dbe-e8e5-4928-ba8b-bd7f5ae8b4f9
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 5 Dados Bancários' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 5 - Compartilhou Dados Bancários"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: f94e5372-c2d2-456e-b2da-4be3489639c1
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 6 Recebeu Ordem' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 6 - Recebeu Ordem"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: a512af78-caec-417f-9091-f2103f9f2f3c
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 7 Criou História' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 7 - Criou História"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 1a4b2b50-6f89-4084-ba82-c46c864fc601
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 8 Conta PJ' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 8 - Conta PJ Cadastrada"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 76bce381-ee0e-42d7-8c3d-6476161b2a39
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound - Etapa 9 Ordem Resgatada' =
+			
+			CALCULATE(
+			    [PJ Express Inbound],
+			    f_funnel_events[pj_journey_stage_express_inbound] = "Etapa 9 - Ordem Resgatada"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 3040fa74-4bba-4e6c-be10-64a16cc04965
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Outbound - Etapa 3 Cadastro' =
+			
+			CALCULATE(
+			    [PJ Express Outbound],
+			    f_funnel_events[pj_journey_stage_express_outbound] = "Etapa 3 - Finalizou Cadastro"
+			)
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 62e114bc-5b67-4767-b952-7ac109b004d1
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Outbound - Etapa 4 Documentos' =
+			
+			CALCULATE(
+			    [PJ Express Outbound],
+			    f_funnel_events[pj_journey_stage_express_outbound] = "Etapa 4 - Enviou Documentos"
+			)
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: f3742669-d7af-443a-95c8-c582d133b8a6
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Outbound - Etapa 6 História' =
+			
+			CALCULATE(
+			    [PJ Express Outbound],
+			    f_funnel_events[pj_journey_stage_express_outbound] = "Etapa 6 - Criou História"
+			)
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 7c8e8390-29c0-4978-bed6-51345a744e0a
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Outbound - Etapa 7 Operação' =
+			
+			CALCULATE(
+			    [PJ Express Outbound],
+			    f_funnel_events[pj_journey_stage_express_outbound] = "Etapa 7 - Criou Operação"
+			)
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 281927e1-1046-4164-96b3-5342777c9a48
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Inbound - Etapa 7 Enviou Documentos' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 7 - Enviou Documentos"
+			)
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 6ef4a761-9ad7-4e37-a418-e0e370dc257e
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Inbound - Etapa 8 Conta PJ' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 8 - Conta PJ Cadastrada"
+			)
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 3474d936-45e5-40fc-9f67-f0dbf04376fa
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Inbound - Etapa 9 Ordem Resgatada' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 9 - Ordem Resgatada"
+			)
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 140222d5-2a52-495c-a006-d9055ba8751d
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Outbound - Etapa 6 Documentos' =
+			
+			CALCULATE(
+			    [PJ Instant Outbound],
+			    f_funnel_events[pj_journey_stage_instant_outbound] = "Etapa 6 - Enviou Documentos"
+			)
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 33b4a4c8-b627-4544-9527-af6f96fb1a10
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Outbound - Etapa 7 Criou Operação' =
+			
+			CALCULATE(
+			    [PJ Instant Outbound],
+			    f_funnel_events[pj_journey_stage_instant_outbound] = "Etapa 7 - Criou Operação"
+			)
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 2b80d698-0d56-4826-a7ef-8b211818a729
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Outbound' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[Onboarding Type] = "express",
+			    f_funnel_events[qualification_type] = "Outbound"
+			)
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 5f6f130c-b9f9-43c5-9430-65ec6a7ab14e
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Inbound' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[Onboarding Type] = "express",
+			    f_funnel_events[qualification_type] = "Inbound"
+			)
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: ea88396a-3fd3-4f69-ad83-1fd55e39adf8
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Inbound' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[Onboarding Type] = "instant",
+			    f_funnel_events[qualification_type] = "Inbound"
+			)
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: a872e53e-002c-46e1-b0d1-30c2d08339d6
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Instant Outbound' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[Onboarding Type] = "instant",
+			    f_funnel_events[qualification_type] = "Outbound"
+			)
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 251089cb-ed9f-4c7a-997a-2e33d7fb94bc
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure '% Qualificação' =
+			
+			VAR vQualificados = CALCULATE([Presignups], f_funnel_events[qualification_type] <> "Sem Qualificação")
+			RETURN
+			DIVIDE(vQualificados, [Presignups], BLANK())
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events
+		lineageTag: a63c7e05-de38-476a-a971-fee72580fe40
+
+	measure Qualificados = CALCULATE([Presignups], f_funnel_events[qualification_type] <> "Sem Qualificação")
+		displayFolder: Funnel Events
+		lineageTag: cd0b2cd0-2467-4b2f-81b6-d3fb6d33147a
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	measure 'PJ Express Outbound - Etapa 1 PSU vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 1 PSU],
+			    [PJ Express Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: af1c28c1-3dac-4ded-92f4-99f36efc2635
+
+	measure 'PJ Express Outbound - Etapa 2 Qualificação vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 2 Qualificação],
+			    [PJ Express Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 9cb8e132-5a42-42a7-8754-8308b7eb0e61
+
+	measure 'PJ Express Outbound - Etapa 3 Cadastro vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 3 Cadastro],
+			    [PJ Express Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: bac310bd-a8ce-4f78-9ebc-dc7d9cb77c0e
+
+	measure 'PJ Express Outbound - Etapa 4 Documentos vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 4 Documentos],
+			    [PJ Express Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: de6d217b-82dd-4026-8b50-5b9061570c20
+
+	measure 'PJ Express Outbound - Etapa 5 Beneficiário vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 5 Beneficiário],
+			    [PJ Express Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 7453bbc6-7529-4d13-b0a8-bdaecf650e56
+
+	measure 'PJ Express Outbound - Etapa 6 História vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 6 História],
+			    [PJ Express Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: d39e285e-3307-4938-a82a-2509c221071e
+
+	measure 'PJ Express Outbound - Etapa 7 Operação vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Outbound - Etapa 7 Operação],
+			    [PJ Express Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: d1b17a61-ef1a-4201-9a22-7a6c4fbdfa53
+
+	measure 'PJ Express Outbound - Etapa 5 Beneficiário' =
+			
+			CALCULATE(
+			    [PJ Express Outbound],
+			    f_funnel_events[pj_journey_stage_express_outbound] = "Etapa 5 - Indicou Beneficiário"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 8fd1a308-04bb-4525-ba99-8e4a3b7afffa
+
+	measure 'PJ Express Inbound - Etapa 1 PSU vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 1 PSU],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 2c5ff48b-0a85-4188-a386-3063c286d04b
+
+	measure 'PJ Express Inbound - Etapa 2 Qualificação vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 2 Qualificação],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 8937f18c-2747-4142-a384-895eb301a3bc
+
+	measure 'PJ Express Inbound - Etapa 3 Cadastro vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 3 Cadastro],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 808413b8-a134-4dff-997b-2b816239c2e8
+
+	measure 'PJ Express Inbound - Etapa 4 Documentos vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 4 Documentos],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 0120231e-13cb-4e9d-b4fc-81fea14dc7a0
+
+	measure 'PJ Express Inbound - Etapa 5 Dados Bancários vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 5 Dados Bancários],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: b8075ed2-4ae6-4043-a18a-79828963f4f7
+
+	measure 'PJ Express Inbound - Etapa 6 Recebeu Ordem vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 6 Recebeu Ordem],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 6a888c4d-5677-4693-8e90-8f12b4c69392
+
+	measure 'PJ Express Inbound - Etapa 7 Criou História vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 7 Criou História],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 0ea50abc-fd12-4f77-98db-d7749f4c5118
+
+	measure 'PJ Express Inbound - Etapa 8 Conta PJ vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 8 Conta PJ],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 4dddba2e-9b41-4556-b0ba-bc396708a04c
+
+	measure 'PJ Express Inbound - Etapa 9 Ordem Resgatada vs. Total' =
+			
+			DIVIDE(
+			    [PJ Express Inbound - Etapa 9 Ordem Resgatada],
+			    [PJ Express Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 60edc527-6fea-4dd1-8664-e6804c26d794
+
+	measure 'PJ Instant Inbound - Etapa 3 Dados Bancários' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 3 - Compartilhou Dados Bancários"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 6078a7b8-be33-4d0f-bff9-8220ab48cbb0
+
+	measure 'PJ Instant Inbound - Etapa 4 Recebeu Ordem' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 4 - Recebeu Ordem"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: c63ac598-5753-4c1c-8647-79a77342f5bb
+
+	measure 'PJ Instant Inbound - Etapa 5 Criou História' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 5 - Criou História"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 13a8b529-6ab6-499b-8b49-b3df3ea98b03
+
+	measure 'PJ Instant Inbound - Etapa 6 Finalizou Cadastro' =
+			
+			CALCULATE(
+			    [PJ Instant Inbound],
+			    f_funnel_events[pj_journey_stage_instant_inbound] = "Etapa 6 - Finalizou Cadastro"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 9ba9e2f0-23f8-4f13-9b74-79895da4fc29
+
+	measure 'PJ Instant Inbound - Etapa 1 PSU vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 1 PSU],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: b46d1d26-7969-4d2b-944a-37e6ec919970
+
+	measure 'PJ Instant Inbound - Etapa 2 Qualificação vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 2 Qualificação],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: b870225c-d454-4444-af16-ac530fbfc8d8
+
+	measure 'PJ Instant Inbound - Etapa 3 Dados Bancários vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 3 Dados Bancários],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: f8fb51a7-f5e5-493b-9e37-8850b6edfb4b
+
+	measure 'PJ Instant Inbound - Etapa 4 Recebeu Ordem vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 4 Recebeu Ordem],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: fb1790d7-151d-4a3c-9306-29ac35e35fd3
+
+	measure 'PJ Instant Inbound - Etapa 5 Criou História vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 5 Criou História],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 39ccab36-eba6-4ed0-b187-1413c37db72e
+
+	measure 'PJ Instant Inbound - Etapa 6 Finalizou Cadastro vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 6 Finalizou Cadastro],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: e44edc44-148e-4e97-a3f1-4d411181d2e8
+
+	measure 'PJ Instant Inbound - Etapa 7 Enviou Documentos vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 7 Enviou Documentos],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 4f3ec6f3-05f1-493d-92ea-17f5eda6b8f9
+
+	measure 'PJ Instant Inbound - Etapa 8 Conta PJ vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 8 Conta PJ],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 561d984a-5f1e-46fb-98dc-c547e897c44f
+
+	measure 'PJ Instant Inbound - Etapa 9 Ordem Resgatada vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Inbound - Etapa 9 Ordem Resgatada],
+			    [PJ Instant Inbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 409a232d-d658-4f93-8596-1e04e273fd65
+
+	measure 'PJ Instant Outbound - Etapa 1 PSU vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Outbound - Etapa 1 PSU],
+			    [PJ Instant Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 65af0a8a-1005-4324-bb41-13530a6a79dc
+
+	measure 'PJ Instant Outbound - Etapa 3 Beneficiário' =
+			
+			CALCULATE(
+			    [PJ Instant Outbound],
+			    f_funnel_events[pj_journey_stage_instant_outbound] = "Etapa 3 - Indicou Beneficiário"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 5e858fac-af8c-45c9-9983-c99a980ad5d0
+
+	measure 'PJ Instant Outbound - Etapa 4 Criou História' =
+			
+			CALCULATE(
+			    [PJ Instant Outbound],
+			    f_funnel_events[pj_journey_stage_instant_outbound] = "Etapa 4 - Criou História"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 6e3f4e42-111c-4675-8391-ab5d07a28ee2
+
+	measure 'PJ Instant Outbound - Etapa 5 Finalizou Cadastro' =
+			
+			CALCULATE(
+			    [PJ Instant Outbound],
+			    f_funnel_events[pj_journey_stage_instant_outbound] = "Etapa 5 - Finalizou Cadastro"
+			)
+		formatString: 0
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 2bb66dbf-2017-41e5-8303-248b5b58201d
+
+	measure 'PJ Instant Outbound - Etapa 2 Qualificação vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Outbound - Etapa 2 Qualificação],
+			    [PJ Instant Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 00649610-42b1-4b34-8f59-39b4efc1b63f
+
+	measure 'PJ Instant Outbound - Etapa 3 Beneficiário vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Outbound - Etapa 3 Beneficiário],
+			    [PJ Instant Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: a30ef351-6f8f-4915-86cd-430954ef454f
+
+	measure 'PJ Instant Outbound - Etapa 4 Criou História vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Outbound - Etapa 4 Criou História],
+			    [PJ Instant Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 39b814fb-1a12-4b7e-b4eb-1f1107892100
+
+	measure 'PJ Instant Outbound - Etapa 5 Finalizou Cadastro vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Outbound - Etapa 5 Finalizou Cadastro],
+			    [PJ Instant Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 123f740a-75c8-4121-bd38-d20127950fef
+
+	measure 'PJ Instant Outbound - Etapa 6 Documentos vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Outbound - Etapa 6 Documentos],
+			    [PJ Instant Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 76b57bd7-2ab3-47ec-beda-b3fe99468722
+
+	measure 'PJ Instant Outbound - Etapa 7 Criou Operação vs. Total' =
+			
+			DIVIDE(
+			    [PJ Instant Outbound - Etapa 7 Criou Operação],
+			    [PJ Instant Outbound],
+			    BLANK()
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 095482fc-d026-4bd6-8f9f-57fab31cab3a
+
+	measure 'PJ Express Inbound - Etapa 7 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 8 % Acumulado] +
+			[PJ Express Inbound - Etapa 7 Criou História vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 56f9ed60-b848-40f8-bd19-710f81c14a1e
+
+	measure 'PJ Express Inbound - Etapa 6 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 7 % Acumulado] +
+			[PJ Express Inbound - Etapa 6 Recebeu Ordem vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: d4bae317-cb71-4610-8ec2-341d38c104b6
+
+	measure 'PJ Express Inbound - Etapa 5 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 6 % Acumulado] +
+			[PJ Express Inbound - Etapa 5 Dados Bancários vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 4e9f6336-1ba8-487f-97ef-0f0fa631d3bd
+
+	measure 'PJ Express Inbound - Etapa 4 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 5 % Acumulado] +
+			[PJ Express Inbound - Etapa 4 Documentos vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 7cb85ca7-8873-4792-bb18-c65ea3723752
+
+	measure 'PJ Express Inbound - Etapa 3 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 4 % Acumulado] +
+			[PJ Express Inbound - Etapa 3 Cadastro vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: ba6c2fcf-bacd-45bb-9cd1-f2e2ebf98ec9
+
+	measure 'PJ Express Inbound - Etapa 2 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 3 % Acumulado] +
+			[PJ Express Inbound - Etapa 2 Qualificação vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 2967cf70-3d26-4dd7-ba18-683d4b29f15e
+
+	measure 'PJ Express Inbound - Etapa 1 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 2 % Acumulado] +
+			[PJ Express Inbound - Etapa 1 PSU vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 017dedb5-802e-4b5b-ae65-e04678ffde9a
+
+	measure 'PJ Express Inbound - Etapa 8 % Acumulado' =
+			
+			[PJ Express Inbound - Etapa 8 Conta PJ vs. Total] +
+			[PJ Express Inbound - Etapa 9 Ordem Resgatada vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 39387382-d50f-4b45-8449-dbf0bed5097b
+
+	measure 'PJ Express Inbound - Drop 8 -> 9' = ```
+			
+			[PJ Express Inbound - Etapa 8 % Acumulado] - 
+			[PJ Express Inbound - Etapa 9 Ordem Resgatada vs. Total]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: b98c3785-dc22-44d7-80fd-0baff15523f8
+
+	measure 'PJ Express Inbound - Drop 7 -> 8' = ```
+			
+			[PJ Express Inbound - Etapa 7 % Acumulado] - 
+			[PJ Express Inbound - Etapa 8 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 7ee3936f-0838-488c-840f-32eb62a67e93
+
+	measure 'PJ Express Inbound - Drop 6 -> 7' = ```
+			
+			[PJ Express Inbound - Etapa 6 % Acumulado] - 
+			[PJ Express Inbound - Etapa 7 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: d60de752-6e4a-4050-b4c8-7300ed06bfd2
+
+	measure 'PJ Express Inbound - Drop 5 -> 6' = ```
+			
+			[PJ Express Inbound - Etapa 5 % Acumulado] - 
+			[PJ Express Inbound - Etapa 6 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 6475db4e-4fb6-41d6-b2e0-d7c0b474ccc4
+
+	measure 'PJ Express Inbound - Drop 4 -> 5' = ```
+			
+			[PJ Express Inbound - Etapa 4 % Acumulado] - 
+			[PJ Express Inbound - Etapa 5 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 4602877d-927c-4988-a5ad-a439d50934ec
+
+	measure 'PJ Express Inbound - Drop 3 -> 4' = ```
+			
+			[PJ Express Inbound - Etapa 3 % Acumulado] - 
+			[PJ Express Inbound - Etapa 4 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 4797b1c7-e994-4ec6-a806-d5d4e6bcfa9f
+
+	measure 'PJ Express Inbound - Drop 2 -> 3' = ```
+			
+			[PJ Express Inbound - Etapa 2 % Acumulado] - 
+			[PJ Express Inbound - Etapa 3 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 145ff129-7716-493d-8666-275abcd6c42b
+
+	measure 'PJ Express Inbound - Drop 1 -> 2' = ```
+			
+			[PJ Express Inbound - Etapa 1 % Acumulado] - 
+			[PJ Express Inbound - Etapa 2 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Inbound
+		lineageTag: 9d1c9fad-bddc-46d6-93fa-1a9cecd51a7c
+
+	measure 'PJ Express Outbound - Etapa 6 % Acumulado' =
+			
+			[PJ Express Outbound - Etapa 6 História vs. Total] +
+			[PJ Express Outbound - Etapa 7 Operação vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: e1e5f400-c345-4a31-9756-feaf02764a06
+
+	measure 'PJ Express Outbound - Etapa 5 % Acumulado' =
+			
+			[PJ Express Outbound - Etapa 6 % Acumulado] +
+			[PJ Express Outbound - Etapa 5 Beneficiário vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 7a3edded-4bcc-42ff-a3ae-497752be8b88
+
+	measure 'PJ Express Outbound - Etapa 4 % Acumulado' =
+			
+			[PJ Express Outbound - Etapa 5 % Acumulado] +
+			[PJ Express Outbound - Etapa 4 Documentos vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: e1db9ab4-2707-41ce-b57b-ab05de9cb5dd
+
+	measure 'PJ Express Outbound - Etapa 3 % Acumulado' =
+			
+			[PJ Express Outbound - Etapa 4 % Acumulado] +
+			[PJ Express Outbound - Etapa 3 Cadastro vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 0e35495f-17d9-4000-8c20-28a1962550a9
+
+	measure 'PJ Express Outbound - Etapa 2 % Acumulado' =
+			
+			[PJ Express Outbound - Etapa 3 % Acumulado] +
+			[PJ Express Outbound - Etapa 2 Qualificação vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: c5105b46-1157-41c5-a196-39d00d5c4f0e
+
+	measure 'PJ Express Outbound - Etapa 1 % Acumulado' =
+			
+			[PJ Express Outbound - Etapa 2 % Acumulado] +
+			[PJ Express Outbound - Etapa 1 PSU vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 51faeb9f-9418-4a6c-9240-3b38eb38a2a7
+
+	measure 'PJ Express Outbound - Drop 6 -> 7' = ```
+			
+			[PJ Express Outbound - Etapa 6 % Acumulado] - 
+			[PJ Express Outbound - Etapa 7 Operação vs. Total]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: b8f93449-8f11-4420-b9fd-f45465bb6dfb
+
+	measure 'PJ Express Outbound - Drop 5 -> 6' = ```
+			
+			[PJ Express Outbound - Etapa 5 % Acumulado] - 
+			[PJ Express Outbound - Etapa 6 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 8444c1ef-bdeb-4f5f-8671-78b3e1b348b6
+
+	measure 'PJ Express Outbound - Drop 4 -> 5' = ```
+			
+			[PJ Express Outbound - Etapa 4 % Acumulado] - 
+			[PJ Express Outbound - Etapa 5 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 6c9b0c14-c250-406a-a40d-082ce8a598e5
+
+	measure 'PJ Express Outbound - Drop 3 -> 4' = ```
+			
+			[PJ Express Outbound - Etapa 3 % Acumulado] - 
+			[PJ Express Outbound - Etapa 4 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: a0369217-7163-4445-8e7d-cdf86b6899b6
+
+	measure 'PJ Express Outbound - Drop 2 -> 3' = ```
+			
+			[PJ Express Outbound - Etapa 2 % Acumulado] - 
+			[PJ Express Outbound - Etapa 3 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: d085efc7-5901-49b9-9b94-99309b406e6e
+
+	measure 'PJ Express Outbound - Drop 1 -> 2' = ```
+			
+			[PJ Express Outbound - Etapa 1 % Acumulado] - 
+			[PJ Express Outbound - Etapa 2 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Express Outbound
+		lineageTag: 4739b961-9a77-40ba-b9a1-73905441dae2
+
+	measure 'PJ Instant Inbound - Etapa 8 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 8 Conta PJ vs. Total] +
+			[PJ Instant Inbound - Etapa 9 Ordem Resgatada vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: a7e81a1b-4689-4e23-b26b-a7a9adbbacf0
+
+	measure 'PJ Instant Inbound - Etapa 7 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 8 % Acumulado] +
+			[PJ Instant Inbound - Etapa 7 Enviou Documentos vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 82a01850-94bf-4aa5-a3a7-a78af5b49ca6
+
+	measure 'PJ Instant Inbound - Etapa 6 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 7 % Acumulado] +
+			[PJ Instant Inbound - Etapa 6 Finalizou Cadastro vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: c9788cea-cf27-4c26-a482-d1ac2282e46f
+
+	measure 'PJ Instant Inbound - Etapa 5 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 6 % Acumulado] +
+			[PJ Instant Inbound - Etapa 5 Criou História vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 469f6ff4-9121-4f62-b428-49c272d88887
+
+	measure 'PJ Instant Inbound - Etapa 4 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 5 % Acumulado] +
+			[PJ Instant Inbound - Etapa 4 Recebeu Ordem vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 3b09fa6f-3265-4d55-935d-35b3ce22e82b
+
+	measure 'PJ Instant Inbound - Etapa 3 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 4 % Acumulado] +
+			[PJ Instant Inbound - Etapa 3 Dados Bancários vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: d14a9bf7-579b-46b2-ac43-c38e5a899a63
+
+	measure 'PJ Instant Inbound - Etapa 2 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 3 % Acumulado] +
+			[PJ Instant Inbound - Etapa 2 Qualificação vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 6dd566d7-9663-46cf-b1b4-75a8b10244f2
+
+	measure 'PJ Instant Inbound - Etapa 1 % Acumulado' =
+			
+			[PJ Instant Inbound - Etapa 2 % Acumulado] +
+			[PJ Instant Inbound - Etapa 1 PSU vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: fb012eff-d2dd-442f-a8d5-3ea8bed44b0e
+
+	measure 'PJ Instant Inbound - Drop 8 -> 9' = ```
+			
+			[PJ Instant Inbound - Etapa 8 % Acumulado] - 
+			[PJ Instant Inbound - Etapa 9 Ordem Resgatada vs. Total]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: e4742a58-6f44-44b8-bc37-3c6cf04c3537
+
+	measure 'PJ Instant Inbound - Drop 7 -> 8' = ```
+			
+			[PJ Instant Inbound - Etapa 7 % Acumulado] - 
+			[PJ Instant Inbound - Etapa 8 % Acumulado]
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Inbound
+		lineageTag: 804150ab-e706-490c-b5e1-96027cc22a39
+
+	measure 'PJ Instant Outbound - Etapa 6 % Acumulado' =
+			
+			[PJ Instant Outbound - Etapa 6 Documentos vs. Total] +
+			[PJ Instant Outbound - Etapa 7 Criou Operação vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 4f512585-d8ea-4e57-83aa-b4cd0f137094
+
+	measure 'PJ Instant Outbound - Etapa 5 % Acumulado' =
+			
+			[PJ Instant Outbound - Etapa 6 % Acumulado] +
+			[PJ Instant Outbound - Etapa 5 Finalizou Cadastro vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 30e90eec-ba50-41aa-8466-7b7bcb5d8f21
+
+	measure 'PJ Instant Outbound - Etapa 4 % Acumulado' =
+			
+			[PJ Instant Outbound - Etapa 5 % Acumulado] +
+			[PJ Instant Outbound - Etapa 4 Criou História vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: bdca0bee-b0f0-4e6c-bab2-2932558b18e2
+
+	measure 'PJ Instant Outbound - Etapa 3 % Acumulado' =
+			
+			[PJ Instant Outbound - Etapa 4 % Acumulado] +
+			[PJ Instant Outbound - Etapa 3 Beneficiário vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 42a08ffc-5338-497d-a301-1941d339bdf1
+
+	measure 'PJ Instant Outbound - Etapa 2 % Acumulado' =
+			
+			[PJ Instant Outbound - Etapa 3 % Acumulado] +
+			[PJ Instant Outbound - Etapa 2 Qualificação vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 12daa618-fa55-48bd-9bd3-4d7dfb97719c
+
+	measure 'PJ Instant Outbound - Etapa 1 % Acumulado' =
+			
+			[PJ Instant Outbound - Etapa 2 % Acumulado] +
+			[PJ Instant Outbound - Etapa 1 PSU vs. Total]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Funnel Events\Jornada Instant Outbound
+		lineageTag: 1ad565ca-86ef-4904-8660-01882e273b18
+
+	measure 'Presignups Compartilhou Dados Bancários' =
+			
+			CALCULATE(
+			    [Presignups],
+			    f_funnel_events[has_shared_bank_details] = TRUE()
+			)
+		displayFolder: Funnel Events
+		lineageTag: 854acf34-bda3-4cb9-a42a-4928525f3507
+
+		formatStringDefinition = ```
+				VAR vValor = SELECTEDMEASURE()
+				VAR vFormat = 
+				SWITCH(
+				    TRUE(),
+				    vValor >= 1000000000, "#,#0,,,.00B;-#,#0,,,.00B",
+				    vValor >= 1000000, "#,#0,,.00M;-#,#0,,.00M",
+				    vValor >= 1000, "#,#0,.00K;-#,#0,.00K",
+				    vValor >= 0, "#,0;#,0",
+				    vValor <= -1000000000, "#,#0,,,.00B;#,#0,,,.00B",
+				    vValor <= -1000000, "#,#0,,.00M;#,#0,,.00M",
+				    vValor <= -1000, "#,#0,.00K;#,#0,.00K",
+				    vValor < 0, "#,0.00;#,0.00"
+				)
+				RETURN 
+				"""" & FORMAT(vValor, vFormat) & """"
+				```
+
+	column '# Medidas'
+		dataType: string
+		isHidden
+		displayFolder: Aux
+		lineageTag: e8ba86f2-2b5b-48ad-b1ba-e8ba8421f5e8
+		summarizeBy: none
+		sourceColumn: # Medidas
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '# Medidas-054c22c0-97e6-4406-a380-127fa2eafde4' = m
+		mode: import
+		source =
+				let
+				    Fonte = ""
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navegação
+

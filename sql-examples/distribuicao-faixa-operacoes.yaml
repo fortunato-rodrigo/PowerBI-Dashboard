@@ -1,0 +1,33 @@
+question_variants:
+  - "Qual a distribuição de clientes por faixa de número de operações?"
+  - "Quantos clientes são one-timers vs recorrentes?"
+  - "Segmentação da base por volume de operações ao longo da vida"
+  - "Distribuição de clientes por nível de engajamento operacional"
+sql: |
+  SELECT
+    CASE
+      WHEN qtd_ops_total_lifetime = 1 THEN '1 op (one-timer)'
+      WHEN qtd_ops_total_lifetime BETWEEN 2 AND 3 THEN '2-3 ops'
+      WHEN qtd_ops_total_lifetime BETWEEN 4 AND 10 THEN '4-10 ops'
+      WHEN qtd_ops_total_lifetime BETWEEN 11 AND 30 THEN '11-30 ops'
+      ELSE '31+ ops (high value)'
+    END AS faixa_ops,
+    bu,
+    COUNT(DISTINCT id_customer) AS total_clientes,
+    ROUND(AVG(gmv_total_lifetime), 0) AS gmv_medio_lifetime,
+    ROUND(AVG(gross_revenue_total_lifetime), 0) AS receita_media_lifetime
+  FROM gold.fact_customers
+  GROUP BY 1, 2
+  ORDER BY
+    CASE faixa_ops
+      WHEN '1 op (one-timer)' THEN 1
+      WHEN '2-3 ops' THEN 2
+      WHEN '4-10 ops' THEN 3
+      WHEN '11-30 ops' THEN 4
+      ELSE 5
+    END,
+    bu
+tables_used: [gold.fact_customers]
+notes: "gold.fact_customers.qtd_ops_total_lifetime é a contagem total de operações do cliente na vida. gmv_total_lifetime e gross_revenue_total_lifetime são acumulados lifetime. Para filtrar por customer_type (PF/PJ): adicionar WHERE customer_type = 'PF'."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

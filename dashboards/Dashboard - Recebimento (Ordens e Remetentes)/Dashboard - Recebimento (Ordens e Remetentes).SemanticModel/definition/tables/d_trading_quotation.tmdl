@@ -1,0 +1,59 @@
+table d_trading_quotation
+	lineageTag: bfdba09d-0cab-4e01-9ba2-1af2dc774d27
+
+	column date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: aeb87d05-c75e-4659-be90-e4a4565d8f38
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column trading_quotation
+		dataType: double
+		lineageTag: 85d00420-5308-4624-9d55-7d903a89e3f8
+		summarizeBy: sum
+		sourceColumn: trading_quotation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column currency_key = CONCATENATE(d_trading_quotation[currency_abbrev], d_trading_quotation[date])
+		isHidden
+		lineageTag: e4c41932-f730-4ba3-85b6-0e9dfab794ad
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_abbrev
+		dataType: string
+		lineageTag: b79afe5f-1671-4495-b58f-644ea77306cd
+		summarizeBy: none
+		sourceColumn: currency_abbrev
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_trading_quotation-98a266e8-ede6-46cb-92d5-15407874b36d = m
+		mode: import
+		source =
+				let
+				  Origem = Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]),
+				    prod_Database = Origem{[Name="prod",Kind="Database"]}[Data],
+				    silver_Schema = prod_Database{[Name="silver",Kind="Schema"]}[Data],
+				    trading_quotations_Table = silver_Schema{[Name="trading_quotations",Kind="Table"]}[Data],
+				    #"Colunas Renomeadas" = Table.RenameColumns(trading_quotations_Table,{{"id_currency", "id_dim_currency"}, {"currency_abbreviation", "currency_abbrev"}}),
+				  #"Outras Colunas Removidas" = Table.SelectColumns(#"Colunas Renomeadas",{"currency_abbrev", "date", "trading_quotation"}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"Outras Colunas Removidas", each [date] > #date(2024, 1, 1))
+				in
+				  #"Linhas Filtradas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

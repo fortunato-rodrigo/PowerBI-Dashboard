@@ -1,0 +1,42 @@
+table Tabela
+	lineageTag: 1ba0014d-4d28-4fe3-8a5c-8530e1d9796f
+
+	column KPI
+		lineageTag: a0ef7e2b-dc58-4de6-8faa-6c3152ab176d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KPI]
+		sortByColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column Id
+		formatString: 0
+		lineageTag: 398afead-87d9-4d9b-bdff-f8e72d899685
+		summarizeBy: count
+		isNameInferred
+		sourceColumn: [Id]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Tabela-11f86908-3212-4a0c-8773-01ad6b9e322c = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Id", INTEGER,
+				    "KPI", STRING,
+				    {
+				        {1, "GMV"},
+				        {2, "Receita"},
+				        {3, "Operações"},
+				        {4, "Presignups"},
+				        {5, "Investimento"},
+				        {6, "CPP"},
+				        {7, "CPA"},
+				        {8, "PNL"}
+				    }
+				)
+
+	annotation PBI_Id = 7d551081546d41768e649d0bfc196029
+

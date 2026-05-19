@@ -1,0 +1,66 @@
+table f_trading_quotation
+	lineageTag: 60a1a230-ac5f-4412-ab15-64ab0c61328a
+
+	column date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: f19c36c1-9b7a-41d4-9cdc-b7a784387229
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column trading_quotation
+		dataType: double
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: a2b4d560-419a-49e7-8217-e5d81a52b74a
+		summarizeBy: sum
+		sourceColumn: trading_quotation
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	column id_currency
+		dataType: int64
+		formatString: 0
+		lineageTag: ef2e5163-d954-4669-90c1-7bc88dea1df3
+		summarizeBy: sum
+		sourceColumn: id_currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_abbreviation
+		dataType: string
+		lineageTag: 181ee705-d61a-4a7f-8526-0e358f2a9c5d
+		summarizeBy: none
+		sourceColumn: currency_abbreviation
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_name
+		dataType: string
+		lineageTag: f3e90fba-566a-4fe9-8c50-c4b9e1ff7d31
+		summarizeBy: none
+		sourceColumn: currency_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_trading_quotation-5746b9d2-b2e1-4522-91f0-da6750f1e89d = m
+		mode: import
+		queryGroup: Fato
+		source =
+				let
+				  Origem = Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]),
+				    prod_Database = Origem{[Name="prod",Kind="Database"]}[Data],
+				    silver_Schema = prod_Database{[Name="silver",Kind="Schema"]}[Data],
+				    trading_quotations_Table = silver_Schema{[Name="trading_quotations",Kind="Table"]}[Data]
+				in
+				    trading_quotations_Table
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

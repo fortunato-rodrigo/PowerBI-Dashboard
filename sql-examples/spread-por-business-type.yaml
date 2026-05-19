@@ -1,0 +1,24 @@
+question_variants:
+  - "Qual o spread médio por business type no mês atual?"
+  - "Spread ponderado por segmento de negócio — B2B vs B2C"
+  - "Rentabilidade por business type medida pelo spread"
+  - "Quais business types têm spread mais alto?"
+sql: |
+  SELECT
+    business_type,
+    bu,
+    COUNT(id_remittance) AS total_ops,
+    ROUND(SUM(gmv), 0) AS total_gmv,
+    ROUND(SUM(gross_revenue), 0) AS total_gross_revenue,
+    ROUND(100.0 * SUM(gross_revenue) / NULLIF(SUM(gmv), 0), 4) AS spread_ponderado_pct,
+    ROUND(AVG(spread) * 100, 4) AS spread_simples_pct
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= DATE_TRUNC('month', current_date())
+  GROUP BY business_type, bu
+  ORDER BY spread_ponderado_pct DESC
+tables_used: [gold.fact_operations]
+notes: "business_type é a segmentação do tipo de negócio do cliente (ex: B2B, B2C). Spread ponderado = SUM(gross_revenue)/SUM(gmv) — mais preciso que AVG(spread). Para total consolidado sem breakdown por BU: remover bu do SELECT e GROUP BY."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

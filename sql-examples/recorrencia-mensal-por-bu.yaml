@@ -1,0 +1,27 @@
+question_variants:
+  - "Qual a recorrência média mensal dos clientes da BU Plataforma separados por PF e PJ?"
+  - "Quantas operações por mês em média fazem os clientes recorrentes da Plataforma?"
+  - "Frequência média mensal de operação por customer type na BU Plataforma"
+  - "Com que frequência clientes PF e PJ operam por mês?"
+sql: |
+  WITH recorrencia_mensal AS (
+    SELECT
+      id_customer,
+      customer_type,
+      COUNT(*) * 1.0 / COUNT(DISTINCT DATE_TRUNC('month', processed_date)) AS operations_per_month
+    FROM gold.fact_operations
+    WHERE bu = 'Plataforma'
+      AND is_ops_processed = TRUE
+      AND is_intercompany = FALSE
+    GROUP BY id_customer, customer_type
+    HAVING COUNT(*) > 1
+  )
+  SELECT
+    customer_type,
+    AVG(operations_per_month) AS average_monthly_recurrence
+  FROM recorrencia_mensal
+  GROUP BY customer_type
+tables_used: [gold.fact_operations]
+notes: "HAVING COUNT(*) > 1 exclui clientes com apenas uma operação (sem recorrência). Ajuste bu= conforme BU solicitada. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

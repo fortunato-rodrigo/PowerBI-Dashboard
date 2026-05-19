@@ -1,0 +1,18 @@
+question_variants:
+  - "Como obtenho a data de aquisição de uma operação?"
+  - "Qual a data da primeira compra de um cliente?"
+  - "Quando um cliente foi adquirido? Qual o processed_date de aquisição?"
+  - "Data de aquisição na fact_operations"
+sql: |
+  SELECT
+    id_remittance,
+    id_customer,
+    processed_date
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND operation_event_type = 'Aquisição'
+tables_used: [gold.fact_operations]
+notes: "Filtrar operation_event_type = 'Aquisição' para identificar a operação de aquisição. processed_date é a data de aquisição. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

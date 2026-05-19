@@ -1,0 +1,65 @@
+table p_choose_metric
+	lineageTag: 90886e71-545c-4fcb-86d0-a8d749242b1a
+
+	column 'Choose metric'
+		lineageTag: 12adcbdb-1e21-4c45-9c58-88a4c681550d
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Choose metric Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Choose metric Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Choose metric Campos'
+		lineageTag: 577a66f6-0fc4-4886-96f0-fe181c02f11a
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Choose metric Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Choose metric Pedido'
+		formatString: 0
+		lineageTag: 031e21eb-4f06-42ae-b097-88f1b7491673
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_choose_metric-4894c4a5-0619-4f2d-aecd-c295ac58c326 = calculated
+		mode: import
+		source = ```
+				{
+				    ("ARPU (Gross Revenue / Customers)", NAMEOF('Medidas'[ARPU (Gross Revenue / Customers)]), 0),
+				    ("AVG Ticket", NAMEOF('Medidas'[AVG Ticket GMV]), 1),
+				    ("AVG Ticket - Gross Profit", NAMEOF('Medidas'[Ticket Médio (Gross Profit)]), 2),
+				    ("GMV", NAMEOF('Medidas'[GMV]), 3),
+				    ("Gross Revenue", NAMEOF('Medidas'[Gross Revenue]), 4),
+				    ("Gross Profit", NAMEOF([Gross Profit]), 5),
+				    ("MAUs", NAMEOF('Medidas'[Customers]), 6),
+				    ("Operations", NAMEOF('Medidas'[Operations]), 7),
+				    ("Operations by Customer", NAMEOF('Medidas'[Operations by Customer]), 8),
+				    ("Quantity (ME)", NAMEOF('Medidas'[Quantity (ME)]), 9),
+				    ("Spread", NAMEOF('Medidas'[Spread]), 10),
+				    ("Spread AVGX", NAMEOF('Medidas'[Spread AVGX]), 11),
+				    ("Spread Original (AVGX)", NAMEOF('Medidas'[Spread Original (AVGX)]), 12),
+				    ("Spread Dif", NAMEOF('Medidas'[Spread Dif]), 13),
+				    ("Tariff", NAMEOF('Medidas'[Tariff]), 14),
+				    ("Tariff AVGX", NAMEOF('Medidas'[Tariff AVGX]), 15),
+				    ("Total Cost", NAMEOF('Medidas'[Total Cost]), 16),
+				    ("Gross Rev Orig (Sem Desconto)", NAMEOF('Medidas'[Gross Revenue Original]), 17),
+				    ("Diff Gross Rev", NAMEOF('Medidas'[Diff Gross Revenue]), 18),
+				    ("GMV USD", NAMEOF('Medidas'[GMV USD]), 19)        
+				}
+				```
+
+	annotation PBI_Id = 107c864f29674d3c8bd0a49e818c5106
+

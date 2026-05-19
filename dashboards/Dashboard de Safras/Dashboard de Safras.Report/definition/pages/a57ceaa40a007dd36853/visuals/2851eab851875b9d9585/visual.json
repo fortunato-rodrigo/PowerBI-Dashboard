@@ -1,0 +1,3297 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "2851eab851875b9d9585",
+  "position": {
+    "x": 16,
+    "y": 64,
+    "z": 1000,
+    "height": 648,
+    "width": 1256,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "with recipient_name as ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "select"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  id_customer,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  max(id_recipient) as id_recipient"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "from beecambio.beecambio_tbl_remittance_operation"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "where id_recipient IS NOT NULL"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "group by all"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "orders as ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "SELECT "
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  id_customer,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  count(id) as orders,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  count(case when aggregate_order_status = 'Resgatado' then id else null end) as redeemed_orders"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "FROM silver.orders"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "GROUP BY 1"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "created_ops as ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  select"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    id_customer,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    count(id) as created_ops"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  from beecambio.beecambio_tbl_remittance_operation"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  group by all"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "bank_name as ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "select"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ba.id_customer,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ba.bank_name,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ba.created_at,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  row_number() over (partition by ba.id_customer order by ba.created_at desc) as rn"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "from beecambio.beecambio_tbl_customer_bank_account as ba"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "qualify rn = 1"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "documentos_validos AS ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  SELECT"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    id_customer,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    created_at,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    doc_status,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    ROW_NUMBER() OVER (PARTITION BY id_customer ORDER BY created_at) AS tentativa_envio"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  FROM beecambio.beecambio_tbl_document"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHERE id_doc_type = 2"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    AND deleted = 'false'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    AND created_at >= '2023-01-01'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "primeira_aprovacao AS ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  SELECT *"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  FROM documentos_validos"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHERE doc_status = 3 -- Aprovado"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "tentativas_doc_aprovado AS ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  SELECT"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    id_customer,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    MIN(tentativa_envio) AS tentativa_documento_aprovado"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  FROM primeira_aprovacao"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  GROUP BY id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "ops AS ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  SELECT"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    id_customer,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    COUNT(id_remittance) as operations"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  FROM gold.fact_operations"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHERE is_ops_processed"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    AND is_intercompany = FALSE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    AND processed_date >= '2023-01-01'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  GROUP BY id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "patrimony as ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "SELECT "
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  RF.customer_id,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  RF.patrimony,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ROW_NUMBER() OVER (PARTITION BY RF.customer_id ORDER BY RF.created_at DESC) seq"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "FROM beecambio.beecambio_registration_form RF"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "WHERE deleted = false"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "final as ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "SELECT"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    fe.* except(fe.event_tstamp, fe.requirement_type, fe.ocr),"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE(fe.event_tstamp) as event_date,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', fe.event_tstamp) AS event_month,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE fe.event_type"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN 'PRESIGNUP' THEN 1"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN 'SIGNUP' THEN 2"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN 'CREATED STORY' THEN 3"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN 'APPROVED STORY' THEN 4"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN 'ACQUISITION' THEN 5"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN 'OPERATION' THEN 6"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS event_type_id,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.channel_psu as canal_lc,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    LOWER(COALESCE(dc.source_psu, 'unknown')) AS source_lc,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    LOWER(COALESCE(dc.medium_psu, 'unknown')) AS medium_lc,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.origin_platform_psu,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.os_psu as os,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.os_name_psu as os_name,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.device_brand_psu as device_brand,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.device_name_psu as device_name,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.device_category_psu as device_category,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.device_browser_psu as device_browser,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.mkt_campaign_psu as mkt_campaign_lc,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.cluster_campaign_psu AS cluster_campaign_lc,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.utm_adgroup_psu as ad_group_lc,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.first_page_url_psu AS first_page_url,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.first_page_path_tratado_psu,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    lc.first_page_cluster_url AS cluster_url,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    lc.last_page_path_tratado AS last_page_path_tratado,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.company_type,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.age,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.nationality,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.state,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.city,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN sv.email LIKE '%fxaas%' THEN 'Email fxaas'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        ELSE 'Default - Sem fxaas'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS email_fxaas,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN dc.signup_completed_tstamp IS NOT NULL THEN TRUE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      ELSE FALSE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS full_registration,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    sv.company_member_association_type,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    sv.company_shareholders_count,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    sv.company_shareholders_with_document,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.session_description AS cnae_session,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.division_description AS cnae_division,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.group_description AS cnae_group,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.class_description AS cnae_class,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.subclass AS cnae_subclass,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE(dc.psu_tstamp) AS presignup_date,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE(dc.signup_completed_tstamp) AS signup_date,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE(hc.event_tstamp) AS created_history_date,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE(hi.event_tstamp) AS approved_history_date,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE(dc.acquisition_tstamp) AS acquisition_date, "
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    EXTRACT(YEAR FROM DATE(dc.acquisition_tstamp)) AS acquisition_year,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE(so.event_tstamp) AS second_operation_date,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.processed_date as operation_date,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', dc.psu_tstamp) AS presignup_month,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', dc.signup_completed_tstamp) AS signup_month,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', hi.event_tstamp) AS approved_history_month,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', dc.acquisition_tstamp) AS acquisition_month,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', so.event_tstamp) AS second_operation_month,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', po.processed_date) AS operation_month,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(dc.signup_completed_tstamp)) AS diff_days_psu_to_su,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(DAY, DATE(dc.signup_completed_tstamp), DATE(dc.acquisition_tstamp)) AS diff_days_su_to_acq,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.days_to_conversion as diff_days_psu_to_acq,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(DAY, DATE(dc.acquisition_tstamp), DATE(so.event_tstamp)) AS diff_days_acq_to_sec,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(hc.event_tstamp)) AS diff_days_psu_to_created_history,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(hi.event_tstamp)) AS diff_days_psu_to_approved_history,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 0 THEN '  D0'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 1 THEN '  D1'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 2 THEN '  D2'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 3 THEN '  D3'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 4 THEN '  D4'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 5 THEN '  D5'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 6 THEN '  D6'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 7 THEN '  D7'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 8 AND 10 THEN ' 08-10'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 11 AND 14 THEN ' 11-14'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 15 AND 30 THEN ' 15-30'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 31 AND 60 THEN ' 31-60'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 61 AND 90 THEN ' 61-90'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 91 AND 100 THEN ' 91-100'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 101 AND 110 THEN '101-110'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(DAY, DATE(dc.psu_tstamp), DATE(po.processed_date)) BETWEEN 111 AND 120 THEN '111-120'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      ELSE '121+'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      END AS diff_days_psu_to_acq_category,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 0 THEN '   Mês 0'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 1 THEN '   Mês 1'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 2 THEN '   Mês 2'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 3 THEN '   Mês 3'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 4 THEN '   Mês 4'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 5 THEN '   Mês 5'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 6 THEN '   Mês 6'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 7 THEN '   Mês 7'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 8 THEN '   Mês 8'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 9 THEN '   Mês 9'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 10 THEN '  Mês 10'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 11 THEN '  Mês 11'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 12 THEN '  Mês 12'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 13 THEN '  Mês 13'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 14 THEN '  Mês 14'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) = 15 THEN '  Mês 15'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) > 15 THEN 'Acima 15m'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      ELSE 'Excluir'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS diff_months_psu_to_acq_cat,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(MONTH, DATE(dc.psu_tstamp), DATE(po.processed_date)) AS diff_months_psu_to_acq,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(MONTH, DATE(dc.acquisition_tstamp), DATE(so.event_tstamp)) AS diff_months_acq_to_sec,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(MONTH, DATE(dc.acquisition_tstamp), DATE_TRUNC('month', fe.event_tstamp)) AS month_diff_operation,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(MONTH, DATE(fe.event_tstamp), DATE(so.event_tstamp)) AS month_diff_second_operation,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATEDIFF(MONTH, DATE_TRUNC('month', fe.event_tstamp), DATE(dc.acquisition_tstamp)) AS month_diff_presignup,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE WHEN DATEDIFF(MONTH, DATE_TRUNC('month', dc.signup_completed_tstamp), DATE(dc.acquisition_tstamp)) < 0 THEN 0 "
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "         ELSE DATEDIFF(MONTH, DATE_TRUNC('month', dc.signup_completed_tstamp), DATE(dc.acquisition_tstamp)) "
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS month_diff_signup,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE WHEN LOWER(COALESCE(dc.source_psu, '')) = 'nubank' THEN 'Nubank' ELSE 'Não Nubank' END AS is_presignup_nubank,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.premium_status as is_premium_user,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN fe.event_type = 'APPROVED STORY' AND fh.nature_operation_name = 'Global Account' THEN 'História de Conta Global'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN fe.event_type = 'APPROVED STORY' AND fh.nature_operation_name <> 'Global Account' THEN 'Não é História de Conta Global'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        ELSE 'Não é event_type = APPROVED STORY'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS history_name,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.is_affiliate,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.in_or_out,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.currency_abbreviation as currency,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.acquisition,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.institution_fin_id as instituicao_fin,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.voucher_code,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.voucher_type,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        WHEN po.voucher_code IS NOT NULL THEN 'Com Voucher'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        ELSE 'Sem Voucher'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS fl_voucher,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.distributor_name as remessadora,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.nature_operation_name as natureza,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.country,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.operation_platform_beecambio as origin_platform_acq,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.gmv,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.segment,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.bu,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.business_type,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    po.gross_revenue,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', fe.event_tstamp) = DATE_TRUNC('month', dc.acquisition_tstamp) AS month_psu_equal_month_acq,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', fe.event_tstamp) = DATE_TRUNC('month', dc.signup_completed_tstamp) AS month_psu_equal_month_su,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', dc.acquisition_tstamp) = DATE_TRUNC('month', dc.signup_completed_tstamp) AS month_su_equal_month_acq,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    DATE_TRUNC('month', dc.acquisition_tstamp) = DATE_TRUNC('month', so.event_tstamp) AS month_acq_equal_month_second_operation,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.has_shared_bank_details,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.shared_bank_details_platform,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.shared_bank_details_label,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    dc.shared_bank_details_tstamp,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.requeriment_actual_status as requirement_status,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.requirement_type,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.institution_financial,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.has_uploaded_identification,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.identification_document_type_name,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.doc_identification_status_name,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.ocr,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.ocr_doc_type,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.ocr_analysis_reference_status,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.ocr_validated,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.ocr_analyzed_document,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.compliance_lock,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.compliance_veredict,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    co.is_active_requirement,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations BETWEEN 0 AND 1 THEN ' 01'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations = 2 THEN ' 02'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations = 3 THEN ' 03'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations = 4 THEN ' 04'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations BETWEEN 5 AND 6 THEN ' 05 a 06'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations BETWEEN 7 AND 10 THEN ' 07 a 10'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations BETWEEN 11 AND 20 THEN ' 11 a 20'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations BETWEEN 21 AND 50 THEN ' 21 a 50'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      WHEN ops.operations > 50 THEN '+50'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      ELSE 'Sem operação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    END AS operations,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "--------------------------------------------------------- PJ:"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Filtro de Clientes FxaaS"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    WHEN sv.email LIKE '%fxaas%' THEN TRUE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    ELSE FALSE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "END AS pj_fxaas,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN cq.id_qualification_outbound IS NOT NULL THEN 'Outbound'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN cq.id_qualification_inbound IS NOT NULL THEN 'Inbound'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ELSE 'Sem Qualificação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "END AS qualification_type,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Classificação do fluxo"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN fe.customer_type = 'PF' THEN 'PF Normal'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound is not null then 'PJ Instant Outbound'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound  is not null then 'PJ Instant Inbound'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound is not null then 'PJ Express Outbound'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound  is not null then 'PJ Express Inbound'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ELSE 'PJ Offline'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "END AS pj_fluxo,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 1 - Presignup (email, CNPJ, ddi, telefone e senha)"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN sv.email IS NOT NULL AND sv.cnpj_cpf_client IS NOT NULL AND O.country_code IS NOT NULL AND O.phone IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen1_psu,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 2 - Qualificação"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN cq.id_customer IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen2_qualification,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 3:"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND dc.has_shared_bank_details THEN TRUE ELSE FALSE END AS pj_screen3_shared_bank_details_instant_inbound, -- Instant Inbound compartilhar dados"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and dc.signup_completed_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen3_signup_completed_express, -- Express - Signup"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND rn.id_recipient IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen3_recipient_instant_outbound, -- Instant Outbound - Beneficiário"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 4"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND od.orders > 0 THEN TRUE ELSE FALSE END AS pj_screen4_orders_instant_inbound, -- Instant Inbound - Recebimento da Ordem"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen4_created_story_instant_outbound, -- Instant Outbound - Criar História"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and sv.company_shareholders_with_document > 0 THEN TRUE ELSE FALSE END AS pj_screen4_documents_express, -- Express - Envio do Documento"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 5"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen5_created_story_instant_inbound, -- Instant Inbound Criar História"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND dc.signup_completed_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen5_signup_completed_instant_outbound, -- Instant Outbound - Signup"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND dc.has_shared_bank_details THEN TRUE ELSE FALSE END AS pj_screen5_shared_bank_details_express_inbound, -- Express Inbound compartilhar dados"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound IS NOT NULL AND rn.id_recipient IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen5_recipient_express_outbound, -- Instant Outbound - Beneficiário"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 6"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND dc.signup_completed_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen6_signup_completed_instant_inbound, -- Instant Inbound - Signup"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND sv.company_shareholders_with_document > 0 THEN TRUE ELSE FALSE END AS pj_screen6_documents_instant_outbound, -- Instant Outbound - Envio do Documento"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND od.orders > 0 THEN TRUE ELSE FALSE END AS pj_screen6_orders_express_inbound, -- Express Inbound - Recebimento da Ordem"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen6_created_story_express_outbound, -- Express Outbound - Criar História"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 7"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND sv.company_shareholders_with_document > 0 THEN TRUE ELSE FALSE END AS pj_screen7_documents_instant_inbound, -- Instant Inbound - Envio do Documento"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_outbound IS NOT NULL AND cr.created_ops > 0 THEN TRUE ELSE FALSE END AS pj_screen7_created_ops_instant_outbound, -- Instant Outbound - Criar Operação ETAPA FINAL"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND hc.event_tstamp IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen7_created_story_express_inbound, -- Express Inbound - Criar História"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_outbound IS NOT NULL AND cr.created_ops > 0 THEN TRUE ELSE FALSE END AS pj_screen7_created_ops_express_outbound, -- Express Outbound - Criar Operação ETAPA FINAL"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 8"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND bk.bank_name IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen8_bank_name_instant_inbound, -- Instant Inbound - Conta PJ"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND bk.bank_name IS NOT NULL THEN TRUE ELSE FALSE END AS pj_screen8_bank_name_express_inbound, -- Express Inbound - Conta PJ"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 9"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'instant' and cq.id_qualification_inbound IS NOT NULL AND od.redeemed_orders > 0 THEN TRUE ELSE FALSE END AS pj_screen9_redeemed_order_instant_inbound, -- Instant Inbound - Conta PJ -- Etapa Final"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN fe.onboarding_type = 'express' and cq.id_qualification_inbound IS NOT NULL AND od.redeemed_orders > 0 THEN TRUE ELSE FALSE END AS pj_screen9_redeemed_order_express_inbound, -- Express Inbound - Conta PJ -- Etapa Final"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "--------------------------------------------------------- PF:"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 1 - Presignup (name, cpf_cnpj, email)"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN sv.customer_name IS NOT NULL AND sv.cnpj_cpf_client IS NOT NULL AND sv.email IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen1_filled,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 2 - Dados Pessoais"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN sv.customer_name IS NOT NULL AND sv.doc_number IS NOT NULL AND sv.birthday_date IS NOT NULL AND sv.nationality IS NOT NULL AND sv.genre IS NOT NULL AND sv.mother_name IS NOT NULL"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "AND O.country_code IS NOT NULL AND sv.mobile_phone IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen4_personal_data_filled,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 3: Endereço"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN sv.address IS NOT NULL AND A.str_number IS NOT NULL AND A.neighbor IS NOT NULL AND A.city IS NOT NULL AND A.state IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen5_address_filled,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 4: Renda e residência fiscal"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE WHEN dc.monthly_income IS NOT NULL AND RF.patrimony IS NOT NULL AND sv.american_fiscal_resident IS NOT NULL THEN TRUE ELSE FALSE END AS pf_app_screen6_income_tax_residency_filled,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "-- Etapa 5: Documento de identificação"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "co.has_uploaded_identification AS pf_app_screens7_to_9_document_filled"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "---------------------------------------------------------"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "FROM gold.funnel_event AS fe"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN gold.fact_customers as dc ON fe.id_customer = dc.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN silver.customers AS sv ON fe.id_customer = sv.id"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN patrimony AS RF ON fe.id_customer = RF.customer_id AND RF.seq = 1"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  LEFT JOIN recipient_name as rn ON fe.id_customer = rn.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  LEFT JOIN orders AS od ON fe.id_customer = od.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  LEFT JOIN created_ops AS cr ON fe.id_customer = cr.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  LEFT JOIN bank_name AS bk ON fe.id_customer = bk.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN beecambio.beecambio_company_qualification AS cq ON fe.id_customer = cq.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  LEFT JOIN beecambio.beecambio_tbl_customer AS O ON fe.id_customer = O.id"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN beecambio.beecambio_tbl_customer_address AS A ON O.id = A.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN gold.funnel_event AS hc ON fe.id_customer = hc.id_customer AND hc.event_type = 'CREATED STORY' AND hc.event_sequence = 1"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN gold.funnel_event AS hi ON fe.id_customer = hi.id_customer AND hi.event_type = 'APPROVED STORY' AND hi.event_sequence = 1"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN gold.funnel_event AS so ON fe.id_customer = so.id_customer AND so.event_type = 'OPERATION' AND so.event_sequence = 2"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN gold.fact_operations AS po ON fe.event_id = po.id_remittance AND fe.event_type IN ('ACQUISITION', 'OPERATION')"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN bronze.beecambio_history as fh ON fe.event_id = fh.id AND fe.event_type = 'APPROVED STORY'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN google_analytics.last_click_sessions AS lc ON lc.id_customer = fe.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN ops ON fe.id_customer = ops.id_customer AND fe.event_type = 'ACQUISITION'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\tLEFT JOIN silver.requirement AS co ON fe.id_customer = co.id_customer"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\t\tAND co.institution_financial = 'Topázio'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\t\tAND co.requeriment_date >= '2023-01-01'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\t\tAND ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\t\t  (co.customer_type = 'PF' AND co.requirement_type IN ('Simples', 'Completo'))"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\t\t  OR"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\t\t  (co.customer_type = 'PJ' AND co.requirement_type = 'Completo')"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "\t\t)"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "WHERE DATE(fe.event_tstamp) >= '2023-01-01'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  AND ("
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        (fe.event_sequence = 1 AND fe.event_type IN ('ACQUISITION', 'PRESIGNUP', 'SIGNUP', 'APPROVED STORY', 'CREATED STORY'))"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        OR"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "        (fe.event_type = 'OPERATION')"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "      )"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ")"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "SELECT DISTINCT"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  f.*,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  case"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    when f.pf_app_screens7_to_9_document_filled = false then 'Não Enviado'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    when f.pf_app_screens7_to_9_document_filled and t.tentativa_documento_aprovado is null then 'Não Aprovado'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    when t.tentativa_documento_aprovado = 1 then 'Aprovado na 1ª tentativa'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    when t.tentativa_documento_aprovado = 2 then 'Aprovado na 2ª tentativa'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    else 'Mais de +3ª tentativa'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  end as tentativa_documento_aprovado,  "
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "------------------------------------ PF:"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    WHEN customer_type = 'PJ' THEN 'PJ não se aplica'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    WHEN pf_app_screens7_to_9_document_filled = TRUE THEN 'Etapa 5 - Envio Documento'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    WHEN pf_app_screen6_income_tax_residency_filled = TRUE THEN 'Etapa 4 - Renda e Residência'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    WHEN pf_app_screen5_address_filled = TRUE THEN 'Etapa 3 - Endereço'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    WHEN pf_app_screen4_personal_data_filled = TRUE THEN 'Etapa 2 - Dados Pessoais'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "    WHEN pf_app_screen1_filled = TRUE THEN 'Etapa 1 - Presignup'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  END AS pf_app_journey_stage,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "------------------------------------ PJ:"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN customer_type = 'PF' THEN 'PF não se aplica'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen9_redeemed_order_instant_inbound THEN 'Etapa 9 - Ordem Resgatada'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen8_bank_name_instant_inbound THEN 'Etapa 8 - Conta PJ Cadastrada'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen7_documents_instant_inbound THEN 'Etapa 7 - Enviou Documentos'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen6_signup_completed_instant_inbound THEN 'Etapa 6 - Finalizou Cadastro'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen5_created_story_instant_inbound THEN 'Etapa 5 - Criou História'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen4_orders_instant_inbound THEN 'Etapa 4 - Recebeu Ordem'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen3_shared_bank_details_instant_inbound THEN 'Etapa 3 - Compartilhou Dados Bancários'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ELSE 'Desconhecido'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "END AS pj_journey_stage_instant_inbound,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN customer_type = 'PF' THEN 'PF não se aplica'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen7_created_ops_instant_outbound THEN 'Etapa 7 - Criou Operação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen6_documents_instant_outbound THEN 'Etapa 6 - Enviou Documentos'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen5_signup_completed_instant_outbound THEN 'Etapa 5 - Finalizou Cadastro'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen4_created_story_instant_outbound THEN 'Etapa 4 - Criou História'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen3_recipient_instant_outbound THEN 'Etapa 3 - Indicou Beneficiário'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ELSE 'Desconhecido'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "END AS pj_journey_stage_instant_outbound,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN customer_type = 'PF' THEN 'PF não se aplica'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen9_redeemed_order_express_inbound THEN 'Etapa 9 - Ordem Resgatada'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen8_bank_name_express_inbound THEN 'Etapa 8 - Conta PJ Cadastrada'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen7_created_story_express_inbound THEN 'Etapa 7 - Criou História'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen6_orders_express_inbound THEN 'Etapa 6 - Recebeu Ordem'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen5_shared_bank_details_express_inbound THEN 'Etapa 5 - Compartilhou Dados Bancários'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen4_documents_express THEN 'Etapa 4 - Enviou Documentos'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen3_signup_completed_express THEN 'Etapa 3 - Finalizou Cadastro'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ELSE 'Desconhecido'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "END AS pj_journey_stage_express_inbound,"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "CASE"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN customer_type = 'PF' THEN 'PF não se aplica'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen7_created_ops_express_outbound THEN 'Etapa 7 - Criou Operação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen6_created_story_express_outbound THEN 'Etapa 6 - Criou História'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen5_recipient_express_outbound THEN 'Etapa 5 - Indicou Beneficiário'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen4_documents_express THEN 'Etapa 4 - Enviou Documentos'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen3_signup_completed_express THEN 'Etapa 3 - Finalizou Cadastro'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen2_qualification THEN 'Etapa 2 - Qualificação'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  WHEN pj_screen1_psu THEN 'Etapa 1 - Presignup'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "  ELSE 'Desconhecido'"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "END AS pj_journey_stage_express_outbound"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "FROM final f"
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "LEFT JOIN tentativas_doc_aprovado t ON f.id_customer = t.id_customer"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": -0.3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            },
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,480 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "ac8ca77d09ff899497db",
+  "position": {
+    "x": 50,
+    "y": 655,
+    "z": 12000,
+    "height": 717,
+    "width": 1534,
+    "tabOrder": 13000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "id_remittance"
+                }
+              },
+              "queryRef": "Sum(processed_operations.id_remittance)",
+              "nativeQueryRef": "id_remittance"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "processed_date"
+                }
+              },
+              "queryRef": "processed_operations.processed_date",
+              "nativeQueryRef": "processed_date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "policy_label"
+                }
+              },
+              "queryRef": "processed_operations.policy_label",
+              "nativeQueryRef": "policy_label"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "applied_discount"
+                }
+              },
+              "queryRef": "processed_operations.applied_discount",
+              "nativeQueryRef": "applied_discount"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "MID"
+                }
+              },
+              "queryRef": "processed_operations.MID",
+              "nativeQueryRef": "MID"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "distributor_name"
+                }
+              },
+              "queryRef": "processed_operations.distributor_name",
+              "nativeQueryRef": "distributor_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "country"
+                }
+              },
+              "queryRef": "processed_operations.country",
+              "nativeQueryRef": "country"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "currency_abbreviation"
+                }
+              },
+              "queryRef": "processed_operations.currency_abbreviation",
+              "nativeQueryRef": "currency_abbreviation"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "spread"
+                }
+              },
+              "queryRef": "Sum(processed_operations.spread)",
+              "nativeQueryRef": "spread"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "tariff"
+                }
+              },
+              "queryRef": "Sum(processed_operations.tariff)",
+              "nativeQueryRef": "tariff"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "gmv"
+                }
+              },
+              "queryRef": "Sum(processed_operations.gmv)",
+              "nativeQueryRef": "gmv"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "gross_revenue"
+                }
+              },
+              "queryRef": "Sum(processed_operations.gross_revenue)",
+              "nativeQueryRef": "gross_revenue"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "bank_take_abs"
+                }
+              },
+              "queryRef": "Sum(processed_operations.bank_take_abs)",
+              "nativeQueryRef": "bank_take_abs"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "partner_commissioning"
+                }
+              },
+              "queryRef": "Sum(processed_operations.partner_commissioning)",
+              "nativeQueryRef": "partner_commissioning"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "payout"
+                }
+              },
+              "queryRef": "Sum(processed_operations.payout)",
+              "nativeQueryRef": "payout"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "real_message_cost"
+                }
+              },
+              "queryRef": "Sum(processed_operations.real_message_cost)",
+              "nativeQueryRef": "real_message_cost"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "cost_funding"
+                }
+              },
+              "queryRef": "Sum(processed_operations.cost_funding)",
+              "nativeQueryRef": "cost_funding"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "cost_bacen"
+                }
+              },
+              "queryRef": "Sum(processed_operations.cost_bacen)",
+              "nativeQueryRef": "cost_bacen"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "taxes"
+                }
+              },
+              "queryRef": "Sum(processed_operations.taxes)",
+              "nativeQueryRef": "taxes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "custo_total"
+                }
+              },
+              "queryRef": "Sum(processed_operations.custo_total)",
+              "nativeQueryRef": "custo_total"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "lucro"
+                }
+              },
+              "queryRef": "Sum(processed_operations.lucro)",
+              "nativeQueryRef": "lucro"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "natureza"
+                }
+              },
+              "queryRef": "processed_operations.natureza",
+              "nativeQueryRef": "natureza"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "in_or_out"
+                }
+              },
+              "queryRef": "processed_operations.in_or_out",
+              "nativeQueryRef": "in_or_out"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "Tarifa aplicada"
+                }
+              },
+              "queryRef": "processed_operations.Tarifa aplicada",
+              "nativeQueryRef": "Tarifa aplicada"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "customer_type"
+                }
+              },
+              "queryRef": "processed_operations.customer_type",
+              "nativeQueryRef": "customer_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "in_or_out"
+                }
+              },
+              "queryRef": "processed_operations.in_or_out",
+              "nativeQueryRef": "in_or_out"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "business_type"
+                }
+              },
+              "queryRef": "processed_operations.business_type",
+              "nativeQueryRef": "business_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "Ticket Range"
+                }
+              },
+              "queryRef": "processed_operations.Ticket Range",
+              "nativeQueryRef": "Ticket Range"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "aquisicao_recorrencia"
+                }
+              },
+              "queryRef": "processed_operations.aquisicao_recorrencia",
+              "nativeQueryRef": "acq/rec",
+              "displayName": "acq/rec"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "voucher_code"
+                }
+              },
+              "queryRef": "processed_operations.voucher_code",
+              "nativeQueryRef": "voucher_code"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "processed_operations"
+                  }
+                },
+                "Property": "id_remittance"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "67D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(processed_operations.gmv)"
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

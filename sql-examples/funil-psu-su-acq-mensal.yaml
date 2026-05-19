@@ -1,0 +1,49 @@
+question_variants:
+  - "Qual o funil completo PSU → SU → ACQ por mês?"
+  - "Volume de presignup, signup e aquisição mensalmente"
+  - "Taxa de conversão de cada etapa do funil"
+  - "Quantos PSU viraram SU e quantos SU viraram clientes?"
+sql: |
+  WITH sem_fxaas AS (
+    SELECT DISTINCT fe.id_customer
+    FROM gold.funnel_event fe
+    JOIN bronze.beecambio_customer bc ON fe.id_customer = bc.id_customer
+    WHERE bc.email NOT LIKE '%fxaas%'
+  ),
+  psu AS (
+    SELECT DATE_TRUNC('month', fe.event_tstamp) AS month,
+      COUNT(DISTINCT fe.id_customer) AS presignups
+    FROM gold.funnel_event fe
+    JOIN sem_fxaas sf ON fe.id_customer = sf.id_customer
+    WHERE fe.event_type = 'PRESIGNUP' AND fe.event_sequence = 1
+    GROUP BY 1
+  ),
+  su AS (
+    SELECT DATE_TRUNC('month', fe.event_tstamp) AS month,
+      COUNT(DISTINCT fe.id_customer) AS signups
+    FROM gold.funnel_event fe
+    WHERE fe.event_type = 'SIGNUP' AND fe.event_sequence = 1
+    GROUP BY 1
+  ),
+  acq AS (
+    SELECT DATE_TRUNC('month', fe.event_tstamp) AS month,
+      COUNT(DISTINCT fe.id_customer) AS acquisitions
+    FROM gold.funnel_event fe
+    WHERE fe.event_type = 'ACQUISITION' AND fe.event_sequence = 1
+    GROUP BY 1
+  )
+  SELECT
+    p.month,
+    p.presignups,
+    COALESCE(s.signups, 0) AS signups,
+    COALESCE(a.acquisitions, 0) AS acquisitions,
+    ROUND(100.0 * COALESCE(s.signups, 0) / NULLIF(p.presignups, 0), 2) AS su_psu_pct,
+    ROUND(100.0 * COALESCE(a.acquisitions, 0) / NULLIF(p.presignups, 0), 2) AS acq_psu_pct
+  FROM psu p
+  LEFT JOIN su s ON p.month = s.month
+  LEFT JOIN acq a ON p.month = a.month
+  ORDER BY p.month DESC
+tables_used: [gold.funnel_event, bronze.beecambio_customer]
+notes: "PSU sem FxaaS via bronze.beecambio_customer. SIGNUP e ACQUISITION sem filtro FxaaS. event_sequence=1 em todos. Nomes em inglês: PRESIGNUP, SIGNUP, ACQUISITION."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

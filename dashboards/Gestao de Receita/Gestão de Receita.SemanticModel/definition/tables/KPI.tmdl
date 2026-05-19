@@ -1,0 +1,42 @@
+table KPI
+	lineageTag: 3521725e-0533-4d09-b2ec-d3dd7546785a
+
+	measure 'Metricas de operações' =
+			
+			SWITCH (
+			    SELECTEDVALUE('KPI'[KPI]),
+			    "GMV", [Total GMV],
+			    "Gross Revenue", [Total Gross Revenue],
+			    "Operações", [Total operações],
+			    "Clientes únicos", [Total clientes únicos],
+			    "Operações por clientes", [Operaçoes por cliente],
+			    BLANK()
+			)
+		lineageTag: 56359e40-b6fe-43c7-bce6-04ac3cf97027
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KPI
+		lineageTag: 6a3f5e49-240f-4a41-94fe-56a298fb0efc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [KPI]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition KPI = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "KPI", STRING,
+				    {
+				        {"GMV"},
+				        {"Gross Revenue"},
+				        {"Operações"},
+				        {"Clientes únicos"},
+				        {"Operações por clientes"}
+				    })
+
+	annotation PBI_Id = 806461a6ce7d4742b55ab2ea96ea38c0
+

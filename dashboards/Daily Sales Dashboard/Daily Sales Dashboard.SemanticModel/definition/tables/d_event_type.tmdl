@@ -1,0 +1,36 @@
+table d_event_type
+	lineageTag: 79023f11-c150-4613-b265-7c06e7d3a37e
+
+	column event_type
+		dataType: string
+		lineageTag: a1cd9382-2747-4058-a693-01d46458eabf
+		summarizeBy: none
+		sourceColumn: event_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Evento
+		dataType: string
+		lineageTag: b63f29b3-ef1a-4570-ad96-a2f21cbcf696
+		summarizeBy: none
+		sourceColumn: Evento
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_event_type-beb6af5b-fba2-45cb-aece-4451b46202fb = m
+		mode: import
+		queryGroup: dim
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"32502a54-a25e-49da-96b6-b9d541c6dc0b" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="32502a54-a25e-49da-96b6-b9d541c6dc0b"]}[Data],
+				    event_type_ = #"32502a54-a25e-49da-96b6-b9d541c6dc0b"{[entity="event_type",version=""]}[Data]
+				in
+				    event_type_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

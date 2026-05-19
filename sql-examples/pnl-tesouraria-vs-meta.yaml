@@ -1,0 +1,20 @@
+question_variants:
+  - "Qual o PNL de tesouraria no mês atual por BU?"
+  - "Receita de tesouraria MTD vs meta por BU"
+  - "Como está o gross revenue treasury acumulado no mês?"
+  - "PNL tesouraria — realizado vs meta mês atual"
+sql: |
+  SELECT
+    ds.bu,
+    ROUND(SUM(ds.gross_revenue_treasury), 0) AS pnl_treasury_mtd,
+    ROUND(SUM(ds.meta_gross_revenue_treasury), 0) AS meta_treasury_mtd,
+    ROUND(100.0 * SUM(ds.gross_revenue_treasury) / NULLIF(SUM(ds.meta_gross_revenue_treasury), 0), 2) AS atingimento_pct
+  FROM gold.daily_sales AS ds
+  JOIN bronze.dcalendar AS c ON ds.date_key = c.date_key
+  WHERE c.mtd = TRUE
+  GROUP BY ds.bu
+  ORDER BY pnl_treasury_mtd DESC
+tables_used: [gold.daily_sales, bronze.dcalendar]
+notes: "gross_revenue_treasury é a receita de tesouraria (PNL), diferente de gross_revenue (receita cambial). bronze.dcalendar.mtd=TRUE para filtro MTD. Para histórico sem meta: usar gold.fact_operations.gross_revenue_treasury com DATE_TRUNC."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

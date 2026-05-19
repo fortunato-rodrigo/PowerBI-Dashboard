@@ -1,0 +1,27 @@
+table 'p_Spread (What if?)'
+	lineageTag: b5f8612d-2c55-47f0-99fe-2792d457df15
+
+	measure 'Valor Spread (What if?)' = SELECTEDVALUE('p_Spread (What if?)'[Spread (What if?)])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7a0908ec-9df1-4921-bfee-a0724d9256b4
+
+	column 'Spread (What if?)'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8b595057-3bf7-4542-8114-ff978294caf6
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'p_Spread (What if?)-438e0e76-cffc-4774-a8e9-742db2698c69' = calculated
+		mode: import
+		source = GENERATESERIES(0, 0.02, 0.0001)
+
+	annotation PBI_Id = 1ccb42dad71b46f399897ee43410b991
+

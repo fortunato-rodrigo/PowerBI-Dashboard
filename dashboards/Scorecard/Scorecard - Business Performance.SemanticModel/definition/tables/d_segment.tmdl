@@ -1,0 +1,28 @@
+table d_segment
+	lineageTag: 492cd83d-3089-494c-82ec-be1ce2311939
+
+	column operation_segment
+		dataType: string
+		lineageTag: b17ab69e-dfb5-437f-8240-09ab6771244f
+		summarizeBy: none
+		sourceColumn: operation_segment
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_segment = m
+		mode: import
+		queryGroup: Dimensions
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"61b71bc0-5ab5-45b6-91eb-a941dbaa9684" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="61b71bc0-5ab5-45b6-91eb-a941dbaa9684"]}[Data],
+				    operation_segment_ = #"61b71bc0-5ab5-45b6-91eb-a941dbaa9684"{[entity="operation_segment",version=""]}[Data]
+				in
+				    operation_segment_
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,509 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "6db11e59ab3a24d0b04e",
+  "position": {
+    "x": 56,
+    "y": 3010,
+    "z": 29000,
+    "height": 378,
+    "width": 1530,
+    "tabOrder": 28000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "customer_type"
+                }
+              },
+              "queryRef": "processed_operations.customer_type",
+              "nativeQueryRef": "customer_type",
+              "active": true,
+              "displayName": "customer_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "swift_or_distributor"
+                }
+              },
+              "queryRef": "processed_operations.swift_or_distributor",
+              "nativeQueryRef": "swift_remessadora",
+              "active": true,
+              "displayName": "swift_remessadora"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "in_or_out"
+                }
+              },
+              "queryRef": "processed_operations.in_or_out",
+              "nativeQueryRef": "in_or_out",
+              "active": false,
+              "displayName": "in_or_out"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "partner_name"
+                }
+              },
+              "queryRef": "processed_operations.partner_name",
+              "nativeQueryRef": "Parceiro",
+              "active": false,
+              "displayName": "Parceiro"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processed_operations"
+                    }
+                  },
+                  "Property": "Ticket Range"
+                }
+              },
+              "queryRef": "processed_operations.Ticket Range",
+              "nativeQueryRef": "Ticket Range",
+              "active": false,
+              "displayName": "Ticket Range"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimensão 1"
+                    }
+                  },
+                  "Property": "Dimensão1"
+                }
+              },
+              "index": 0,
+              "length": 1
+            },
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimensão 2"
+                    }
+                  },
+                  "Property": "Dimensão 2"
+                }
+              },
+              "index": 1,
+              "length": 1
+            },
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimensão 3"
+                    }
+                  },
+                  "Property": "Dimensão 3"
+                }
+              },
+              "index": 2,
+              "length": 1
+            },
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimensão 4"
+                    }
+                  },
+                  "Property": "Dimensão 4"
+                }
+              },
+              "index": 3,
+              "length": 1
+            },
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Dimensão 5"
+                    }
+                  },
+                  "Property": "Dimensão 5"
+                }
+              },
+              "index": 4,
+              "length": 1
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Total clientes únicos"
+                }
+              },
+              "queryRef": "Medidas.Total clientes únicos",
+              "nativeQueryRef": "Total clientes únicos"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "% Clientes mais moedas"
+                }
+              },
+              "queryRef": "Medidas.% Clientes mais moedas",
+              "nativeQueryRef": "% C. mais moedas",
+              "displayName": "% C. mais moedas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "% Clientes pelo menos 1 negativa"
+                }
+              },
+              "queryRef": "Medidas.% Clientes pelo menos 1 negativa",
+              "nativeQueryRef": "% C. pelo menos 1 negativa",
+              "displayName": "% C. pelo menos 1 negativa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "% Clientes negativados"
+                }
+              },
+              "queryRef": "Medidas.% Clientes negativados",
+              "nativeQueryRef": "% C. negativados",
+              "displayName": "% C. negativados"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "% Clientes positivados"
+                }
+              },
+              "queryRef": "Medidas.% Clientes positivados",
+              "nativeQueryRef": "% C. positivados",
+              "displayName": "% C. positivados"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Clientes mais moedas"
+                }
+              },
+              "queryRef": "Medidas.Clientes mais moedas",
+              "nativeQueryRef": "C. mais moedas",
+              "displayName": "C. mais moedas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Clientes negativados"
+                }
+              },
+              "queryRef": "Medidas.Clientes negativos",
+              "nativeQueryRef": "C. negativos",
+              "displayName": "C. negativos"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Clientes positivados"
+                }
+              },
+              "queryRef": "Medidas.Clientes positivados",
+              "nativeQueryRef": "C. positivados",
+              "displayName": "C. positivados"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Clientes pelo menos 1 negativa"
+                }
+              },
+              "queryRef": "Medidas.Clientes pelo menos 1 negativa",
+              "nativeQueryRef": "C. pelo menos 1 negativa",
+              "displayName": "C. pelo menos 1 negativa"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Total prejuizo"
+                }
+              },
+              "queryRef": "Medidas.Total prejuizo",
+              "nativeQueryRef": "Total prejuizo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Total Receita Líquida"
+                }
+              },
+              "queryRef": "Medidas.Total Lucro",
+              "nativeQueryRef": "Total Receita Líquida"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Medidas"
+                  }
+                },
+                "Property": "Total prejuizo"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "Row"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "rowTotal": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "stylePreset": [
+        {
+          "properties": {
+            "name": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Default'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Tabela de análise por cliente único'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

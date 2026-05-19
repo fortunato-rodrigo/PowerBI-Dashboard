@@ -1,0 +1,20 @@
+question_variants:
+  - "Qual a natureza com mais operações processadas no business type Outbound PF?"
+  - "Top 5 naturezas de operação por volume no Outbound PF"
+  - "Quais os produtos mais utilizados por segmento de cliente?"
+  - "Qual natureza domina no PJ Recebimento?"
+sql: |
+  SELECT
+    nature_operation_name,
+    COUNT(id_remittance) AS operation_count
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND business_type = 'Outbound PF'
+  GROUP BY nature_operation_name
+  ORDER BY operation_count DESC
+  LIMIT 5
+tables_used: [gold.fact_operations]
+notes: "Ajuste LIMIT conforme a pergunta: LIMIT 1 para a principal, LIMIT 5 para top 5. Ajuste business_type conforme solicitado (ex: 'Inbound PJ', 'Outbound PF'). is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

@@ -1,0 +1,30 @@
+question_variants:
+  - "Quanto de lucro bruto médio os clientes da BU Plataforma geram nos 12 primeiros meses?"
+  - "LTV 12 meses para clientes adquiridos pela Plataforma"
+  - "Qual o gross profit médio no primeiro ano dos clientes da Plataforma?"
+  - "Lifetime value (12 meses) dos clientes de aquisição da BU Plataforma"
+sql: |
+  WITH clientes_selecionados AS (
+    SELECT DISTINCT id_customer
+    FROM gold.fact_operations
+    WHERE bu = 'Plataforma'
+      AND acquisition = TRUE
+      AND is_ops_processed = TRUE
+      AND is_intercompany = FALSE
+  ),
+  receita_por_cliente AS (
+    SELECT
+      fo.id_customer,
+      SUM(fo.gross_profit) AS total_gross_profit
+    FROM gold.fact_operations AS fo
+    WHERE fo.id_customer IN (SELECT id_customer FROM clientes_selecionados)
+      AND fo.processed_date <= ADD_MONTHS(fo.first_processed_operation, 12)
+    GROUP BY fo.id_customer
+  )
+  SELECT
+    AVG(total_gross_profit) AS average_gross_profit
+  FROM receita_por_cliente
+tables_used: [gold.fact_operations]
+notes: "acquisition=TRUE filtra clientes cuja primeira op foi na BU indicada. first_processed_operation é a data da 1ª operação do cliente. Ajuste bu= e o intervalo ADD_MONTHS(…, N) conforme solicitado."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

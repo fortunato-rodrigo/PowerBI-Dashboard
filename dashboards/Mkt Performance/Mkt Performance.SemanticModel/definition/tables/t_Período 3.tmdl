@@ -1,0 +1,34 @@
+table 't_Período 3'
+	lineageTag: d32dd323-17de-474a-9709-98de8d9366cf
+
+	column Date
+		formatString: Short Date
+		lineageTag: 6a009f2a-0fc8-4081-8a58-a61ba2282f3a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ano
+		formatString: 0
+		lineageTag: 11f3b383-ba26-4d1f-9546-c351cf98135c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Ano]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 't_Período 3' = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS(
+				    CALENDAR(
+				        MIN(f_mkt_performance[event_date]),
+				        MAX(f_mkt_performance[event_date])),
+				        "Ano", YEAR([Date])
+				    )
+
+	annotation PBI_Id = 45b49ad320a6403bb4f5f3a514c19145
+

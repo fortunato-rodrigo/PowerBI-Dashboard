@@ -1,0 +1,23 @@
+question_variants:
+  - "Qual foi o gross profit mensal nos últimos 12 meses?"
+  - "Evolução da receita líquida mês a mês por BU"
+  - "Net revenue mensal — histórico de 1 ano"
+  - "Como evoluiu o gross profit ao longo do ano?"
+sql: |
+  SELECT
+    DATE_TRUNC('month', processed_date) AS month,
+    bu,
+    ROUND(SUM(gross_revenue), 0) AS gross_revenue,
+    ROUND(SUM(net_revenue), 0) AS net_revenue,
+    ROUND(SUM(gross_revenue) - SUM(net_revenue), 0) AS total_costs,
+    ROUND(100.0 * SUM(net_revenue) / NULLIF(SUM(gross_revenue), 0), 2) AS net_margin_pct
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= ADD_MONTHS(DATE_TRUNC('month', current_date()), -12)
+  GROUP BY 1, 2
+  ORDER BY 1 DESC, net_revenue DESC
+tables_used: [gold.fact_operations]
+notes: "net_revenue = gross_revenue - custos totais (cost_bank_take + real_message_cost + payout_affiliate + partner_commissioning). is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. Para total sem breakdown por BU: remover bu do SELECT e GROUP BY."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

@@ -1,0 +1,75 @@
+table Cenários
+	lineageTag: e8331d2a-9603-4460-a411-1e7b00f55297
+
+	measure 'Total Gross Revenue - Cenário' = ```
+			
+			SUMX(
+			    'processed_operations',
+			    1 * (1 + 'Cenários Delta Operações'[Valor Operações]) * processed_operations[gmv] * 
+			    ((processed_operations[spread_revenue] / processed_operations[gmv]) * (1+'Cenários Delta Spread'[Valor Delta Spread])) + processed_operations[tariff]
+			)
+			```
+		lineageTag: ccdfc080-51dd-42d7-98f8-5fac9f1168ed
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Mes anterior - Cenário' = CALCULATE([Total Gross Revenue - Cenário],PREVIOUSMONTH(dcalendar[date_month]))
+		lineageTag: 29817638-c50e-4dda-9b46-c92fec5f6a3f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% variação - Cenário' = DIVIDE([Total Gross Revenue - Cenário]  - [Mes anterior], [Total Gross Revenue - Cenário],0)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: de02c46f-3df4-4188-8f3e-e6ac0fde2beb
+
+	measure 'Cor variação - Cenário' =
+			
+			SWITCH(
+			    TRUE(),
+			    [% variação - Cenário] < 0 , "#B22222",
+			    [% variação - Cenário] >= 0, "00FA9A",
+			    "00FA9A"
+			)
+		lineageTag: 5b16ffa8-16e9-4230-a88a-ecf5b9bb7e75
+
+	measure '% spread' = SUMX(processed_operations,(processed_operations[spread_revenue])) / SUMX(processed_operations,(processed_operations[gmv])) * (1+'Cenários Delta Spread'[Valor Delta Spread])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9b1b3490-3ca2-4fe1-af59-1e78e8c3c7a2
+
+	measure 'Total operações - Cenário' = ```
+			
+			SUMX(
+			    'processed_operations',
+			    1 * (1 + 'Cenários Delta Operações'[Valor Operações]) 
+			    )
+			```
+		formatString: 0
+		lineageTag: a1e4128b-503c-49e5-8213-ea0d26dac6d0
+
+	measure 'Last Update' = max(processed_operations[last_update])
+		formatString: dd/mm/yyyy hh:nn
+		lineageTag: 19cba4b8-dcb1-440c-87a7-c3389162679d
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Cenários
+		dataType: string
+		isHidden
+		lineageTag: 23a7b3c3-d00b-40a7-91a4-9da8fe3ae9f9
+		summarizeBy: none
+		sourceColumn: Cenários
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cenários = m
+		mode: import
+		source =
+				let
+				    Fonte = ""
+				in
+				    Fonte
+
+	annotation PBI_ResultType = Text
+

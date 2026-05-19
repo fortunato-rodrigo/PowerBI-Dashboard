@@ -1,0 +1,29 @@
+question_variants:
+  - "Qual o LTV médio por canal de aquisição?"
+  - "Clientes adquiridos por qual canal têm maior valor ao longo da vida?"
+  - "ROI por canal: GMV lifetime de clientes por canal_lc"
+  - "Canal de marketing com clientes mais valiosos no longo prazo"
+sql: |
+  WITH canal_aquisicao AS (
+    SELECT
+      fe.id_customer,
+      COALESCE(fe.canal_lc, 'unknown') AS canal
+    FROM gold.funnel_event AS fe
+    WHERE fe.event_type = 'PRESIGNUP'
+      AND fe.event_sequence = 1
+  )
+  SELECT
+    ca.canal,
+    COUNT(DISTINCT fc.id_customer) AS total_clientes,
+    ROUND(AVG(fc.gmv_total_lifetime), 0) AS gmv_medio_lifetime,
+    ROUND(AVG(fc.gross_revenue_total_lifetime), 0) AS receita_media_lifetime,
+    ROUND(AVG(fc.qtd_ops_total_lifetime), 1) AS ops_media_lifetime,
+    ROUND(SUM(fc.gross_revenue_total_lifetime), 0) AS receita_total_canal
+  FROM canal_aquisicao AS ca
+  JOIN gold.fact_customers AS fc ON ca.id_customer = fc.id_customer
+  GROUP BY ca.canal
+  ORDER BY gmv_medio_lifetime DESC
+tables_used: [gold.funnel_event, gold.fact_customers]
+notes: "Canal de aquisição = canal_lc no primeiro PRESIGNUP (event_sequence=1). LTV via gold.fact_customers.gmv_total_lifetime / gross_revenue_total_lifetime. Para incluir apenas clientes com pelo menos 1 op: adicionar WHERE fc.qtd_ops_total_lifetime >= 1."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

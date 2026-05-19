@@ -1,0 +1,48 @@
+table NomeSemana
+	lineageTag: d9cbcc82-7d4d-4612-ab5a-85a3fe698085
+
+	column InicioNum
+		formatString: 0
+		lineageTag: f8baabde-59f7-4d6e-a010-fba1883dbcd7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [InicioNum]
+
+		annotation SummarizationSetBy = Automatic
+
+	column InicioNome
+		lineageTag: 39c7b2b0-6c3c-487f-8a91-78a2a0dce69d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [InicioNome]
+
+		annotation SummarizationSetBy = Automatic
+
+	column mNomeSemana = NomeSemana[InicioNome]
+		lineageTag: 781276da-b1d7-4729-a75e-770b0a9ea3cc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition NomeSemana = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "InicioNum", INTEGER,
+				    "InicioNome", STRING,
+				    {
+				        {0, "Segunda"},
+				        {1, "Terça"},
+				        {2, "Quarta"},
+				        {3, "Quinta"},
+				        {4, "Sexta"},
+				        {5, "Sábado"},
+				        {6, "Domingo"}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = cc9158d5b7314e259dfd1ac6186f5fc7
+

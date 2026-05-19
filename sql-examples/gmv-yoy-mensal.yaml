@@ -1,0 +1,28 @@
+question_variants:
+  - "Qual o GMV mensal comparado com o mesmo período do ano anterior?"
+  - "GMV YoY — crescimento ano contra ano por mês"
+  - "Variação percentual do GMV vs ano passado"
+  - "Evolução mensal do GMV com comparativo YoY"
+sql: |
+  WITH gmv_mensal AS (
+    SELECT
+      DATE_TRUNC('month', processed_date) AS month,
+      ROUND(SUM(gmv), 0) AS gmv
+    FROM gold.fact_operations
+    WHERE is_ops_processed = TRUE
+      AND is_intercompany = FALSE
+    GROUP BY 1
+  )
+  SELECT
+    curr.month,
+    curr.gmv AS gmv_atual,
+    prev.gmv AS gmv_ano_anterior,
+    ROUND(100.0 * (curr.gmv - prev.gmv) / NULLIF(prev.gmv, 0), 2) AS variacao_yoy_pct
+  FROM gmv_mensal AS curr
+  LEFT JOIN gmv_mensal AS prev
+    ON curr.month = ADD_MONTHS(prev.month, 12)
+  ORDER BY curr.month DESC
+tables_used: [gold.fact_operations]
+notes: "is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. ADD_MONTHS(prev.month, 12) faz o self-join YoY. Para YoY por BU: adicionar bu no SELECT e GROUP BY de gmv_mensal."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

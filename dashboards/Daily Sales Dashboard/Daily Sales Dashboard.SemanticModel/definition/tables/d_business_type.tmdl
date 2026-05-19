@@ -1,0 +1,41 @@
+table d_business_type
+	lineageTag: 1056e3f8-2c7f-4ac8-bd98-4ba276b13086
+
+	column 'Business Type'
+		dataType: string
+		lineageTag: 4d30bd38-c3d4-47ab-9b48-711171ec3c8f
+		summarizeBy: none
+		sourceColumn: Business Type
+		sortByColumn: index
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column index
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c865acb-7fc9-4996-8879-1ba38f69f722
+		summarizeBy: sum
+		sourceColumn: index
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_business_type-5d313e8d-6ece-4dc8-bb50-f28dace42fc5 = m
+		mode: import
+		queryGroup: dim
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"a58daa91-b31a-4f5d-9e56-f4befa9050f0" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="a58daa91-b31a-4f5d-9e56-f4befa9050f0"]}[Data],
+				    business_type_ = #"a58daa91-b31a-4f5d-9e56-f4befa9050f0"{[entity="business_type",version=""]}[Data],
+				    #"Colunas Removidas" = Table.RemoveColumns(business_type_,{"bu"})
+				in
+				    #"Colunas Removidas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

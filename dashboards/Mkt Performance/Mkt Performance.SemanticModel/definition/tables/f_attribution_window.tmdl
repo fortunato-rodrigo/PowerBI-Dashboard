@@ -1,0 +1,129 @@
+table f_attribution_window
+	lineageTag: 7c3b041f-6ca7-48b2-a858-c4885dc15a93
+
+	column event_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: edc245a1-86d4-451a-b5e8-50413078a58a
+		summarizeBy: none
+		sourceColumn: event_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column canal
+		dataType: string
+		lineageTag: 0b5c8d21-9f84-4331-82ce-25214a1db512
+		summarizeBy: none
+		sourceColumn: canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column source
+		dataType: string
+		lineageTag: 7a42a926-7bc7-4e10-9549-066eb1b7d2a7
+		summarizeBy: none
+		sourceColumn: source
+
+		annotation SummarizationSetBy = Automatic
+
+	column medium
+		dataType: string
+		lineageTag: 9cab7577-5571-4a4e-bb6a-94137c1b5a2b
+		summarizeBy: none
+		sourceColumn: medium
+
+		annotation SummarizationSetBy = Automatic
+
+	column mkt_campaign
+		dataType: string
+		lineageTag: 5fabfe1c-13d2-471f-ac7c-a7dc7fe132d4
+		summarizeBy: none
+		sourceColumn: mkt_campaign
+
+		annotation SummarizationSetBy = Automatic
+
+	column presignups_pf
+		dataType: int64
+		formatString: 0
+		lineageTag: 1fd889e2-8cd4-4c8e-b877-565a62e6e4a8
+		summarizeBy: sum
+		sourceColumn: presignups_pf
+
+		annotation SummarizationSetBy = Automatic
+
+	column presignups_pj
+		dataType: int64
+		formatString: 0
+		lineageTag: d986a85a-815a-4102-abd0-963460a2bf29
+		summarizeBy: sum
+		sourceColumn: presignups_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisitions_pf
+		dataType: int64
+		formatString: 0
+		lineageTag: 7db2b04b-e9a6-4408-acdf-e6c0911a0e9d
+		summarizeBy: sum
+		sourceColumn: acquisitions_pf
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisitions_pj
+		dataType: int64
+		formatString: 0
+		lineageTag: cc0faedd-35ee-42fb-abe7-a986e4bff2e3
+		summarizeBy: sum
+		sourceColumn: acquisitions_pj
+
+		annotation SummarizationSetBy = Automatic
+
+	column presignups
+		dataType: int64
+		formatString: 0
+		lineageTag: a6431bfe-ac81-4b24-9f9f-7d4045cba768
+		summarizeBy: sum
+		sourceColumn: presignups
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisitions
+		dataType: int64
+		formatString: 0
+		lineageTag: 5dbf6953-490b-49f2-b7fe-f6977e6c8127
+		summarizeBy: sum
+		sourceColumn: acquisitions
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_type
+		dataType: string
+		lineageTag: 877b90c0-8cf8-477d-ad09-d6823da10bc1
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column ad_group_lc
+		dataType: string
+		lineageTag: 473bd945-d626-4422-875b-e5fcc3ab3861
+		summarizeBy: none
+		sourceColumn: ad_group_lc
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_attribution_window = m
+		mode: import
+		queryGroup: Fato
+		source =
+				let
+				    Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "select distinct#(lf)  date(aw.event_date) as event_date,#(lf)  case#(lf)    when aw.mkt_campaign like '%pmax%'#(lf)    then 'display'#(lf)    else coalesce(aw.canal, 'unknown')#(lf)  end as canal,#(lf)  coalesce(aw.source, 'unknown') as source,#(lf)  coalesce(aw.medium, 'unknown') as medium,#(lf)  coalesce(trim(aw.mkt_campaign), 'organic/direct') as mkt_campaign,#(lf)  lower(coalesce(c.utm_adgroup_psu, 'unknown')) as ad_group_lc,#(lf)  dc.customer_type,#(lf)  count(distinct case when aw.event = 'PRESIGNUP'   then aw.id_customer else null end) as presignups,#(lf)  count(distinct case when dc.customer_type = 'PF' and aw.event = 'PRESIGNUP'   then aw.id_customer else null end) as presignups_pf,#(lf)  count(distinct case when dc.customer_type = 'PJ' and aw.event = 'PRESIGNUP'   then aw.id_customer else null end) as presignups_pj,#(lf)  count(distinct case when aw.event = 'ACQUISITION' then aw.id_customer else null end) as acquisitions,#(lf)  count(distinct case when dc.customer_type = 'PF' and aw.event = 'ACQUISITION' then aw.id_customer else null end) as acquisitions_pf,#(lf)  count(distinct case when dc.customer_type = 'PJ' and aw.event = 'ACQUISITION' then aw.id_customer else null end) as acquisitions_pj#(lf)from google_analytics.attribution_window as aw#(lf)  inner join silver.customers as dc on aw.id_customer = dc.id#(lf)  left join google_analytics.last_click_sessions as lc on aw.session_id = lc.session_id#(lf)  left join gold.fact_customers as c on dc.id = c.id_customer#(lf)where date(aw.event_date) >= '2023-08-01'#(lf)  and lc.session_id is null#(lf)group by all", null, [EnableFolding=true])
+				in
+				    Origem
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

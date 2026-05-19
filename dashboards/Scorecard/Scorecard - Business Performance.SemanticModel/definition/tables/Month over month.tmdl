@@ -1,0 +1,192 @@
+table 'Month over month'
+	lineageTag: 821a69c1-2d83-43c3-b417-99289f8cd357
+
+	calculationGroup
+
+		calculationItem 'Período Anterior' =
+				
+				SWITCH(
+				    TRUE(),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Dia", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, DAY)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Mês", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, MONTH)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Ano", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, YEAR)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Quarter", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, QUARTER)),
+				    BLANK()
+				)
+
+		calculationItem 'Growth #' = ```
+				
+				VAR current_value = SELECTEDMEASURE()
+				VAR previous_value = 
+				SWITCH(
+				    TRUE(),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Dia", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, DAY)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Mês", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, MONTH)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Ano", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, YEAR)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Quarter", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, QUARTER)),
+				    BLANK()
+				    )
+				RETURN
+				current_value - previous_value
+				```
+
+		calculationItem 'Growth %' = ```
+				
+				VAR current_value = SELECTEDMEASURE()
+				VAR previous_value = 
+				SWITCH(
+				    TRUE(),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Dia", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, DAY)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Mês", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, MONTH)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Ano", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, YEAR)),
+				    SELECTEDVALUE('p_timeframe'[SelectedValue]) = "por Quarter", CALCULATE(SELECTEDMEASURE(), DATEADD(d_calendar[Date Key], -1, QUARTER)),
+				    BLANK()
+				    )
+				RETURN
+				DIVIDE(
+				    (current_value - previous_value),
+				    previous_value,
+				    BLANK()
+				)
+				```
+
+			formatStringDefinition = "0.0%"
+
+		calculationItem 'Conditional - Gross Revenue' =
+				
+				IF(
+				    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) in {"Growth #", "Growth #"},
+				    SELECTEDMEASURE(),
+				    BLANK()
+				)
+
+		calculationItem Realizado = SELECTEDMEASURE()
+
+	measure 'Color - GMV' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [GMV],
+			    BLANK ()
+			)
+		lineageTag: 55878184-c42f-4b40-9762-ae1b57e0eceb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - Gross Revenue' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [Gross Revenue],
+			    BLANK ()
+			)
+		lineageTag: b7d1a9b8-ca5e-478e-994c-2fc64121fccb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - MAUs' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [Customers],
+			    BLANK ()
+			)
+		lineageTag: fdf27499-0f59-4830-85d7-0842bfda5eb0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - Operations' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [Operations],
+			    BLANK ()
+			)
+		lineageTag: 6e833772-a941-4373-bbf1-546a9144a5e8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - TKM GMV' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [AVG Ticket GMV],
+			    BLANK ()
+			)
+		lineageTag: 88f82d8d-3a2f-4a09-8cc7-924ecdd3614a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - TKM Receita' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [AVG Ticket Gross Revenue],
+			    BLANK ()
+			)
+		lineageTag: 37015bc7-5341-411a-8fd9-1e90f11a84ab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - Ops by Customer' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [Operations by Customer],
+			    BLANK ()
+			)
+		lineageTag: a9fc6144-dfd4-444c-9be8-8a2631f587db
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - Spread' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [Spread],
+			    BLANK ()
+			)
+		lineageTag: 1edea269-7211-4792-89fd-406c601c8b33
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - Spread AVGX' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [Spread AVGX],
+			    BLANK ()
+			)
+		lineageTag: 71c3010b-f224-4455-8886-41ec16023b52
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Color - Spread Original AVGX' =
+			
+			IF (
+			    SELECTEDVALUE('Month over month'[Coluna do grupo de cálculo]) IN {"Growth #", "Growth %"},
+			    [Spread Original (AVGX)],
+			    BLANK ()
+			)
+		lineageTag: 673a3c99-048e-4685-a9c8-c1940c8d6f3b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Coluna do grupo de cálculo'
+		dataType: string
+		lineageTag: a2e73d9b-0a20-48f7-beba-775c5ec7f105
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: b3ec3e6b-f657-4a6f-ac1f-316acab3ad46
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

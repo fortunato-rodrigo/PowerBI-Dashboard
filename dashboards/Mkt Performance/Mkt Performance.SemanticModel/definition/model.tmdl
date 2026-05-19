@@ -1,0 +1,71 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Fato
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Dimensões
+
+	annotation PBI_QueryGroupOrder = 3
+
+annotation PBI_QueryOrder = ["# Medidas","d_qualificacao_1","d_qualificacao_2","d_adgroup","d_blank","d_calendar","d_canal","d_customer_type","d_medium","d_mkt_campaign","d_source","f_attribution_window","f_investimento","f_mkt_performance","f_trading_quotation","d_canal_fc","d_mkt_campaign_fc"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["CalcGroup","DaxQueryView_Desktop","DevMode"]
+
+ref table p_Medidas
+ref table p_Timeframe
+ref table 'p_Medidas (Ops)'
+ref table 'p_Eixo X'
+ref table 'p_Eixo Y'
+ref table f_trading_quotation
+ref table f_mkt_performance
+ref table '# Medidas'
+ref table 't_Período 1'
+ref table 't_Período 2'
+ref table 't_Período 3'
+ref table t_Tabela
+ref table 'p_Dimension 1 - PSU'
+ref table f_investimento
+ref table d_source
+ref table d_mkt_campaign
+ref table d_calendar
+ref table 'Grupo de cálculo'
+ref table d_canal
+ref table d_medium
+ref table 'p_Dimension 1 - Aba Analítico'
+ref table 'p_Dimension 2 - Aba Analítico'
+ref table 'p_Dimension 3 - Aba Analítico'
+ref table 'p_Dimension 4 - Aba Analítico'
+ref table 'p_Dimension 5 - Aba Analítico'
+ref table d_blank
+ref table 'p_Medidas 2'
+ref table 'p_Dimension Voucher'
+ref table f_attribution_window
+ref table 'p_Dimension 2 - PSU'
+ref table 'p_Medidas PF'
+ref table 'p_Medidas PF 2'
+ref table 'p_Medidas Investimento 1'
+ref table 'p_Medidas Investimento 2'
+ref table 'p_Dimension 3 - PSU'
+ref table 'p_Dimension 4 - PSU'
+ref table 'p_Medidas PJ'
+ref table 'p_Medidas PJ 2'
+ref table 'p_Dimension 6 - Aba Analítico'
+ref table d_adgroup
+ref table d_customer_type
+ref table d_qualificacao_1
+ref table d_qualificacao_2
+ref table d_canal_fc
+ref table d_mkt_campaign_fc
+
+ref cultureInfo pt-BR
+

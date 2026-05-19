@@ -1,0 +1,30 @@
+question_variants:
+  - "Operações e receita do segmento Creators no business Inbound PF de jan a jun 2025"
+  - "Performance mensal por segmento e business type em um período"
+  - "Quantas operações e receita o segmento Creators fez por mês?"
+  - "Receita e ops mensais de um segmento específico com média do período"
+sql: |
+  WITH filtered_operations AS (
+    SELECT
+      DATE_TRUNC('month', processed_date) AS month,
+      COUNT(id_remittance) AS operation_count,
+      SUM(gross_revenue) AS total_revenue
+    FROM gold.fact_operations
+    WHERE is_ops_processed = TRUE
+      AND is_intercompany = FALSE
+      AND processed_date BETWEEN '2025-01-01' AND '2025-06-30'
+      AND UPPER(segment) = 'CREATORS'
+      AND UPPER(business_type) = 'INBOUND PF'
+    GROUP BY month
+  )
+  SELECT
+    month,
+    operation_count,
+    total_revenue,
+    AVG(operation_count) OVER () AS avg_operations,
+    AVG(total_revenue) OVER () AS avg_revenue
+  FROM filtered_operations
+tables_used: [gold.fact_operations]
+notes: "UPPER() no segment e business_type para comparação case-insensitive. AVG(...) OVER () calcula a média do período como coluna adicional. Ajuste BETWEEN, segment e business_type conforme solicitado."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

@@ -1,0 +1,55 @@
+table 'p_Clientes únicos'
+	lineageTag: be6e7a0b-a6bb-4d07-9ea8-01be17eb9033
+
+	column 'Clientes únicos'
+		lineageTag: c53b05ff-ef87-4721-96b5-f07d37a51d73
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Clientes únicos Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Clientes únicos Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clientes únicos Campos'
+		isHidden
+		lineageTag: b10797dd-2497-4a0a-a8e5-94eaec8a1ea1
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Clientes únicos Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Clientes únicos Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 24f4d5c5-26bd-4abd-a266-77e47813140a
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Clientes únicos' = calculated
+		mode: import
+		source =
+				{
+				    ("Clientes Únicos", NAMEOF('# Medidas'[Clientes Únicos]), 0),
+				    ("% do Total de Clientes Únicos", NAMEOF('# Medidas'[% do Total de Clientes Únicos]), 1),
+				    ("Operações (Cohorted)", NAMEOF('# Medidas'[Operações]), 2),
+				    ("% do Total de Operações", NAMEOF('# Medidas'[% do Total de Operações]), 3),
+				    ("Operações por Cliente", NAMEOF('# Medidas'[Operações por Cliente]), 4),
+				    ("GMV", NAMEOF('# Medidas'[GMV]), 5),
+				    ("% do GMV", NAMEOF('# Medidas'[% do Total de GMV]), 6),
+				    ("Gross Revenue", NAMEOF('# Medidas'[Gross Revenue]), 7),
+				    ("% do Gross Revenue", NAMEOF('# Medidas'[% do Total de Gross Revenue]), 8)
+				}
+
+	annotation PBI_Id = d348c75a2d8743969c6b19ed4eb8ddc5
+

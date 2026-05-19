@@ -1,0 +1,19 @@
+question_variants:
+  - "Quanto fizemos de receita bruta em D-1 e quanto atingimos da meta?"
+  - "Receita de ontem vs meta"
+  - "Qual foi a receita do dia anterior comparada com a meta?"
+  - "D-1: receita realizada, meta e desvio percentual"
+sql: |
+  SELECT
+    date_key,
+    ROUND(SUM(gross_revenue), 0) AS gross_revenue_d1,
+    ROUND(SUM(meta_gross_revenue), 0) AS gross_revenue_d1_target,
+    ROUND(SUM(gross_revenue) - SUM(meta_gross_revenue), 0) AS gross_revenue_d1_vs_target,
+    ROUND(100.0 * SUM(gross_revenue) / NULLIF(SUM(meta_gross_revenue), 0), 2) AS gross_revenue_d1_vs_target_pct
+  FROM gold.daily_sales
+  WHERE date_key = date_sub(current_date(), 1)
+  GROUP BY date_key
+tables_used: [gold.daily_sales]
+notes: "Duas abordagens para D-1: (1) date_key = date_sub(current_date(), 1) — preferida, sem JOIN; (2) JOIN com bronze.dcalendar filtrando WHERE dc.d0 — usa flag de calendário. Ajuste para outros dias: date_sub(current_date(), N)."
+validated_by: genie-remessagpt
+validated_date: 2026-05-16

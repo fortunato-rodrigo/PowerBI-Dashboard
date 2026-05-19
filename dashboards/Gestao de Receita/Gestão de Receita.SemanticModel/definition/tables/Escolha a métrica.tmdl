@@ -1,0 +1,50 @@
+table 'Escolha a métrica'
+	lineageTag: 229f7102-04bf-4616-9229-77b4ca8950b5
+
+	column 'Escolha a métrica'
+		lineageTag: 73f89d97-478b-476d-9ac5-112d25f4e40b
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Escolha a métrica Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Escolha a métrica Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Escolha a métrica Campos'
+		isHidden
+		lineageTag: 5ea7cd12-f77f-45c3-a374-34b61ad5b7b6
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Escolha a métrica Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Escolha a métrica Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 2feb0f2b-0268-4855-8982-0c5998a28ee2
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Escolha a métrica' = calculated
+		mode: import
+		source =
+				{
+				    ("# operações", NAMEOF('Medidas'[Total operações]), 0),
+				    ("% ops negativas", NAMEOF('Medidas'[% ops negativas]), 1),
+				    ("# prejuizo", NAMEOF('Medidas'[Total prejuizo]), 2),
+				    ("# Receita Líquida", NAMEOF('Medidas'[Total Receita Líquida]), 3)
+				}
+
+	annotation PBI_Id = a2ec299af80c4163a985df8432c82b6f
+

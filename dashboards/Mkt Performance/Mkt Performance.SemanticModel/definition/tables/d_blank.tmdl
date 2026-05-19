@@ -1,0 +1,25 @@
+table d_blank
+	lineageTag: c51ddeee-8b69-4958-9f89-62501f041527
+
+	column Blank
+		dataType: string
+		lineageTag: bf6bbf3d-db14-43d7-8c4c-273f52a35678
+		summarizeBy: none
+		sourceColumn: Blank
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_blank = m
+		mode: import
+		queryGroup: Dimensões
+		source =
+				let
+				    Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Blank = _t]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"Blank", type text}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

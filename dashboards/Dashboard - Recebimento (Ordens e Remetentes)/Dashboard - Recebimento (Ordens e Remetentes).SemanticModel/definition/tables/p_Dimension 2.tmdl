@@ -1,0 +1,74 @@
+table 'p_Dimension 2'
+	lineageTag: c3ffd749-1d3f-4091-8fb8-39929a2793a3
+
+	column 'Dimension 2'
+		lineageTag: 9a43eded-b041-4ce4-9855-7e9e50207182
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension 2 Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension 2 Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 2 Campos'
+		isHidden
+		lineageTag: 649f729c-76d7-43aa-b750-403c4f480c12
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension 2 Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 2 Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 350134ef-c022-444b-a868-3d73d1419abd
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Dimension 2' = calculated
+		mode: import
+		source =
+				{
+				    ("BU", NAMEOF('f_orders'[bu]), 0),
+				    ("Onboarding Flow", NAMEOF('f_orders'[company_onboarding_flow]), 1),
+				    ("Contraparte Ajustada", NAMEOF('f_orders'[Contraparte Ajustada]), 2),
+				    ("Contraparte", NAMEOF('f_orders'[Contraparte]), 2),
+				    ("Cupom", NAMEOF('f_orders'[cupom_desconto]), 3),
+				    ("Currency", NAMEOF('f_orders'[currency]), 3),
+				    ("Customer Type", NAMEOF('f_orders'[Customer Type]), 4),
+				    ("Desconto", NAMEOF('f_orders'[desconto]), 5),
+				    ("Fenix", NAMEOF('f_orders'[Fenix]), 6),
+				    ("Funil", NAMEOF('f_orders'[funil]), 7),
+				    ("Filtrar Google", NAMEOF('f_orders'[Google]), 8),
+				    ("ID Customer", NAMEOF('f_orders'[id_customer]), 9),
+				    ("ID da Ordem", NAMEOF('f_orders'[id]), 9),
+				    ("Instituição Financeira", NAMEOF('f_orders'[Instituição Financeira]), 10),
+				    ("Onboarding Type", NAMEOF('f_orders'[onboarding_type]), 11),
+				    ("Prazo de Resgate", NAMEOF('f_orders'[Prazo de Resgate]), 12),
+				    ("Remittance Nature", NAMEOF('f_orders'[nature_operation_name]), 13),
+				    ("Resgate no mesmo mês", NAMEOF('f_orders'[Resgate no mesmo mês]), 14),
+				    ("Type", NAMEOF('f_orders'[type]), 15),
+				    ("Canal", NAMEOF('f_orders'[canal]), 16),
+				    ("Medium", NAMEOF('f_orders'[medium]), 17),
+				    ("Source", NAMEOF('f_orders'[source]), 18),
+				    ("Mkt Campaign", NAMEOF('f_orders'[mkt_campaign]), 19),
+				    ("Última BU", NAMEOF('f_orders'[last_bu]), 20),
+				    ("Última Business Type", NAMEOF('f_orders'[last_business_type]), 21),
+				    ("Última Natureza", NAMEOF('f_orders'[last_nature]), 22),
+				    ("Último Segmento", NAMEOF('f_orders'[last_segment]), 23),
+				    ("Último Subsegmento", NAMEOF('f_orders'[last_subsegment]), 24)
+				}
+
+	annotation PBI_Id = 298897e7fc184b70879d32e08ff5c705
+

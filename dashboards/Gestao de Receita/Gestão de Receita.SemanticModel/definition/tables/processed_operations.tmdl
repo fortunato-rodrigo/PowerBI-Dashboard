@@ -1,0 +1,673 @@
+table processed_operations
+	lineageTag: 6345b7bc-3fb5-4d01-86ad-dc8fefec7b4f
+
+	column id_customer
+		dataType: string
+		lineageTag: 9c7f93e5-756f-4d92-9f02-b872da99a7e5
+		summarizeBy: none
+		sourceColumn: id_customer
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column id_remittance
+		dataType: int64
+		lineageTag: c6ec5444-fcff-4994-874f-3874585a92c0
+		summarizeBy: sum
+		sourceColumn: id_remittance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customer_type
+		dataType: string
+		lineageTag: 22c1e20e-9c2f-4713-82f0-63cd69f988ed
+		summarizeBy: none
+		sourceColumn: customer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_affiliate
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 755cc8c8-9d36-48aa-bdf8-0eb6f36fc8b0
+		summarizeBy: none
+		sourceColumn: is_affiliate
+
+		annotation SummarizationSetBy = Automatic
+
+	column in_or_out
+		dataType: string
+		lineageTag: 087f9674-9045-45fe-9f64-2b61d3a3a1b5
+		summarizeBy: none
+		sourceColumn: in_or_out
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 279b22f8-0989-416e-b5b0-404f85e3976c
+		summarizeBy: none
+		sourceColumn: acquisition
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: dc958d56-886e-4641-9f23-a7acb63c1e45
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column spread
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9729b2d0-2915-48c5-8696-6cde32d4e306
+		summarizeBy: sum
+		sourceColumn: spread
+
+		annotation SummarizationSetBy = Automatic
+
+	column gmv
+		dataType: double
+		lineageTag: 9d43175d-9591-4fed-ae79-bcb46b18b14e
+		summarizeBy: sum
+		sourceColumn: gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_intercompany
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8e281ca9-418f-4497-b531-a588d1adce8d
+		summarizeBy: none
+		sourceColumn: is_intercompany
+
+		annotation SummarizationSetBy = Automatic
+
+	column MID
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 291363cd-b0f0-4932-9b43-6387b678c555
+		summarizeBy: none
+		sourceColumn: MID
+
+		annotation SummarizationSetBy = Automatic
+
+	column bu
+		dataType: string
+		lineageTag: fee6f50b-3678-4675-bc22-e780b88eb416
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_type
+		dataType: string
+		lineageTag: 92f8f1e4-4f72-4d9d-b751-499f0a08c764
+		summarizeBy: none
+		sourceColumn: business_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: double
+		lineageTag: 81d3c81e-3898-437c-abe2-882354aac221
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column applied_discount
+		dataType: string
+		lineageTag: 59c648de-9c4d-4126-8a59-d1020532ed55
+		summarizeBy: none
+		sourceColumn: applied_discount
+
+		annotation SummarizationSetBy = Automatic
+
+	column lucro
+		dataType: double
+		lineageTag: 279b5f6a-5776-4538-ad0f-1345c0e7f699
+		summarizeBy: sum
+		sourceColumn: lucro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Tipo Lucro' =
+			
+			IF(
+			    processed_operations[lucro] < 0,
+			    "Negativo",
+			    "Positivo"
+			)
+		lineageTag: 100636c7-245b-4e60-9f70-298396dcf1ba
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column bank_take
+		dataType: double
+		lineageTag: 82dd6c07-b94e-4458-8352-9ef58bbbf083
+		summarizeBy: sum
+		sourceColumn: bank_take
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_cupom =
+			
+			IF( processed_operations[voucher_code] = BLANK(), "S/ cupom", "C/ cupom")
+		lineageTag: 3b4e753c-5694-4663-8d06-e802bd464eb4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ticket Range' = ```
+			
+			SWITCH(
+			    
+			   TRUE(),
+			
+			    --PF Default
+			    processed_operations[gmv] < 1200,
+			    "a) 0-1200",
+			
+			    processed_operations[gmv] <= 3000,
+			    "b) 1200-3000",
+			
+			    processed_operations[gmv] <= 5000,
+			    "c) 3000-5000",
+			
+			    processed_operations[gmv] <= 10000,
+			    "d) 5000-10000",
+			
+			    processed_operations[gmv] <= 15000,
+			    "e) 10000-15000",
+			
+			    processed_operations[gmv] <= 20000,
+			    "f) 15000-20000",
+			
+			    processed_operations[gmv] <= 30000,
+			    "g) 20000-30000",
+			
+			    "h) +30000"
+			   --
+			)
+			```
+		lineageTag: 9c389243-c0e2-4579-90db-cf081ca23345
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column swift_remessadora =
+			
+			IF(
+			    processed_operations[swift_or_distributor] = BLANK(), "Swift",
+			    "Remessadora"
+			)
+		lineageTag: fd58ea48-cce7-4064-8769-e804581414af
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column aquisicao_recorrencia =
+			
+			IF(
+			    processed_operations[acquisition] = TRUE(), "Aquisição",
+			    "Recorrência"
+			)
+		lineageTag: 87fd320e-549e-4ce7-be8b-67ce54fdf58b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Moedas = ```
+			if ( 
+			    processed_operations[currency_name] = "Dólar Americano" || processed_operations[currency_name] = "Euro" || processed_operations[currency_name] = "Libra Esterlina" || processed_operations[currency_name] = "Peso Chileno" || processed_operations[currency_name] = "Peso Argentino",
+			    processed_operations[currency_name],
+			    "Moeda exótica"
+			)
+			
+			```
+		lineageTag: 8723038a-04d9-4bd8-a540-848a1d3f509d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Tarifa aplicada' =
+			
+			IF(
+			    processed_operations[tariff] = 0,
+			    "S/ tarifa",
+			    "C/ tarifa"
+			)
+		lineageTag: a4ab38ed-968f-4a1e-8c37-8c39e35e5f1e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Desconto aplicado' =
+			
+			IF(
+			    processed_operations[applied_discount] = "DISCOUNT NOT APPLIED",
+			    "Sem desconto",
+			        IF(
+			            processed_operations[applied_discount] = BLANK(),
+			            "Vazio",
+			            IF(
+			                CONTAINSSTRING(processed_operations[applied_discount],"produccine") = TRUE(),
+			                "Produccine",
+			                IF(
+			                    CONTAINSSTRING(processed_operations[applied_discount],"nubank") = TRUE(),
+			                    "Nubank",
+			                    "Com desconto"
+			                )
+			            )
+			        )
+			)
+		lineageTag: 0761ac11-dcaa-4254-97cf-6c7151412f6f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column policy_label
+		dataType: string
+		lineageTag: c359799a-5dac-46ac-a775-4e65018c423b
+		summarizeBy: none
+		sourceColumn: policy_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column gmv_total_mes
+		dataType: double
+		lineageTag: 097ba4be-1b9c-4867-b569-eb9a88cffe2b
+		summarizeBy: sum
+		sourceColumn: gmv_total_mes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prop_gmv
+		dataType: double
+		lineageTag: 981a9aaa-2c39-4f1a-ba40-7f1254ead88f
+		summarizeBy: sum
+		sourceColumn: prop_gmv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column despesa_real
+		dataType: double
+		lineageTag: fe9317fe-a1bb-4c6e-869f-cb9b36d47f70
+		summarizeBy: sum
+		sourceColumn: despesa_real
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column payout
+		dataType: double
+		lineageTag: 96b414b4-cd54-4a6c-91f7-67a2e6242aa5
+		summarizeBy: sum
+		sourceColumn: payout
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_update
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 932f0c4c-ddaa-4820-8ad8-403397d898cc
+		summarizeBy: none
+		sourceColumn: last_update
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_ops_processed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 125336a4-0f5e-498a-98a1-11d3af159a8d
+		summarizeBy: none
+		sourceColumn: is_ops_processed
+
+		annotation SummarizationSetBy = Automatic
+
+	column processed_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: b304b777-f31e-4e65-802c-2fd9230139cc
+		summarizeBy: none
+		sourceColumn: processed_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column natureza
+		dataType: string
+		lineageTag: a413f088-d9be-4468-8cfb-d6df2109acee
+		summarizeBy: none
+		sourceColumn: natureza
+
+		annotation SummarizationSetBy = Automatic
+
+	column spread_original
+		dataType: double
+		lineageTag: fb187704-57ac-4ce3-9641-79ae293b5ad7
+		summarizeBy: sum
+		sourceColumn: spread_original
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column partner_commissioning
+		dataType: double
+		lineageTag: 85415491-9ce3-45ad-80e7-b025ca4302bf
+		summarizeBy: sum
+		sourceColumn: partner_commissioning
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column has_fixed_spread
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a4465e52-a7b0-4067-976e-17217f1e394d
+		summarizeBy: none
+		sourceColumn: has_fixed_spread
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_name
+		dataType: string
+		lineageTag: 66d21990-0886-4bc4-a9fc-5ca35c085064
+		summarizeBy: none
+		sourceColumn: currency_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency_abbreviation
+		dataType: string
+		lineageTag: 9db9dcc8-6bce-4318-be85-d62b6e9c1cdb
+		summarizeBy: none
+		sourceColumn: currency_abbreviation
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_bacen
+		dataType: double
+		lineageTag: c09aef7c-7152-4134-b6c3-35562dccdd3c
+		summarizeBy: sum
+		sourceColumn: cost_bacen
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cost_funding
+		dataType: double
+		lineageTag: 30fca348-d0c8-4020-b984-6c67f163c93d
+		summarizeBy: sum
+		sourceColumn: cost_funding
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column swift_or_distributor
+		dataType: string
+		lineageTag: a8db1458-7ac2-45e8-a740-9112f4ce6ace
+		summarizeBy: none
+		sourceColumn: swift_or_distributor
+
+		annotation SummarizationSetBy = Automatic
+
+	column taxes
+		dataType: double
+		lineageTag: 44beb232-669b-483a-a709-375df14b4240
+		summarizeBy: sum
+		sourceColumn: taxes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column custo_total = ABS(processed_operations[payout]) + ABS(processed_operations[real_message_cost]) + ABS(processed_operations[partner_commissioning]) + ABS(processed_operations[bank_take])
+		lineageTag: fd7c90b4-59c3-452f-9f20-daf4f48f4e29
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column bank_take_abs = -processed_operations[bank_take]
+		lineageTag: 0dba1b39-34e5-416a-9113-d0eaa7338ed1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column real_message_cost
+		dataType: double
+		lineageTag: 189fa50a-6a10-4715-8401-a61601afcc99
+		summarizeBy: sum
+		sourceColumn: real_message_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tariff
+		dataType: double
+		lineageTag: 9386417c-ed10-4779-9ce2-cb7396c7cb77
+		summarizeBy: sum
+		sourceColumn: tariff
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column voucher_code
+		dataType: string
+		lineageTag: d7b1959e-5d6f-4632-ac23-86dabc864919
+		summarizeBy: none
+		sourceColumn: voucher_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column net_revenue
+		dataType: double
+		lineageTag: 12e9cfe3-ac0f-4c15-a35e-df3c80744cf8
+		summarizeBy: sum
+		sourceColumn: net_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column payout_affiliate
+		dataType: double
+		lineageTag: 9b18fed5-888d-42b7-afef-25d49ebb6351
+		summarizeBy: sum
+		sourceColumn: payout_affiliate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column spread_revenue
+		dataType: double
+		lineageTag: 38abe5cb-5c28-41e5-a9a5-475e5c5327e6
+		summarizeBy: sum
+		sourceColumn: spread_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_efx
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 061da73c-d57c-4a8d-ad83-ce3ec3b2d914
+		summarizeBy: none
+		sourceColumn: is_efx
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_partner
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8155a62e-99b0-4a7c-8cae-59a6d652c89c
+		summarizeBy: none
+		sourceColumn: is_partner
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_corporate_api
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f3d537e9-6935-4b37-a233-b12e4922a3f3
+		summarizeBy: none
+		sourceColumn: is_corporate_api
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_fxaas
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 65b1d4cb-c377-435d-9940-2fc5f19eb603
+		summarizeBy: none
+		sourceColumn: is_fxaas
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Faixa Spread' =
+			
+			VAR Spread = processed_operations[spread]  -- substitua pelo nome real da coluna
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        Spread < 0, "0 - Negativo",
+			        Spread = 0, "1 - 0%",
+			        Spread < 0.002, "2 - 0% a 0,2%",
+			        Spread < 0.004, "3 - 0,2% a 0,4%",
+			        Spread < 0.006, "4 - 0,4% a 0,6%",
+			        Spread < 0.008, "5 - 0,6% a 0,8%",
+			        Spread < 0.010, "6 - 0,8% a 1,0%",
+			        Spread < 0.012, "7 - 1,0% a 1,2%",
+			        "8 - Acima de 1,2%"
+			    )
+		lineageTag: de65bc37-c1a6-4312-a957-d03d2d755412
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column perc_mensageria = processed_operations[real_message_cost] / processed_operations[gross_revenue]
+		lineageTag: 69c0f044-7321-46f1-a7da-26febeb82283
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Faixa perc_mensageria' = ```
+			
+			VAR Perc = [perc_mensageria]  -- substitua pelo nome exato da coluna
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        Perc < 0, "0 - Negativo",
+			        Perc < 0.2, "1 - 0% a 20%",
+			        Perc < 0.4, "2 - 20% a 40%",
+			        Perc < 0.6, "3 - 40% a 60%",
+			        Perc < 0.8, "4 - 60% a 80%",
+			        Perc < 0.9, "5 - 80% a 90%",
+			        "8 - Acima de 90%"
+			    )
+			
+			```
+		lineageTag: daefca4a-3a22-46b3-83dc-3fbdd791b77c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column spread_calculado = processed_operations[gross_revenue] / processed_operations[gmv]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 525cd8e9-e3c8-4ff0-b455-f134ac848d1e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Class Spread Real' =
+			
+			VAR Spread = processed_operations[spread]  -- substitua pelo nome real da coluna
+			VAR Spread_calc = processed_operations[spread_calculado]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        Spread < Spread_calc, "Spread Real Maior",
+			        Spread = Spread_calc, "Spread Real igual",
+			        "Spread Real menor"
+			    )
+		lineageTag: c0328a33-712b-4422-965d-0cacc8aa5d90
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column distributor_name
+		dataType: string
+		lineageTag: 7c6a45d2-7c26-4b56-950b-b4b9d51ed4e3
+		summarizeBy: none
+		sourceColumn: distributor_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column partner_name
+		dataType: string
+		lineageTag: 9696ca74-1218-44f4-a298-95b1b6850865
+		summarizeBy: none
+		sourceColumn: partner_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column google
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6ebe553b-5dd6-4a3d-bbe0-24bb60130314
+		summarizeBy: none
+		sourceColumn: google
+
+		annotation SummarizationSetBy = Automatic
+
+	partition processed_operations = m
+		mode: import
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]){[Name="prod",Kind="Database"]}[Data], "with gmv_mensal as #(lf)( #(lf)  select#(lf)  date_trunc('month',po.processed_date) mes,#(lf)  sum(po.gmv) as gmv#(lf)  from gold.fact_operations po #(lf)  group by all #(lf)) #(lf)select#(lf)  po.id_remittance,#(lf)  po.in_or_out,#(lf)  po.id_customer,#(lf)  po.gmv,#(lf)  po.gross_revenue,#(lf)  po.is_ops_processed,#(lf)  po.processed_date,#(lf)  po.nature_operation_name,#(lf)  po.customer_type,#(lf)  po.business_type,#(lf)  po.bu,#(lf)  po.distributor_name,#(lf)  po.is_affiliate,#(lf)  po.MID,#(lf)  po.currency_abbreviation,#(lf)  po.currency_name,#(lf)  po.has_fixed_spread,#(lf)  po.is_intercompany,#(lf)  po.applied_discount,#(lf)  po.spread,#(lf)  po.spread_original,#(lf)  po.taxes,#(lf)  po.swift_or_distributor,#(lf)  po.acquisition,#(lf)  po.country,#(lf)  po.real_message_cost,#(lf)  po.tariff,#(lf)  po.voucher_code,#(lf)  po.net_revenue,#(lf)  ro.policy_label,#(lf)  po.payout_affiliate ,#(lf)  po.spread_revenue,#(lf)  po.is_efx,#(lf)  po.is_partner,#(lf)  po.is_corporate_api,#(lf)  po.is_fxaas,#(lf)  CASE#(lf)    WHEN po.counterpart = 'Google' then TRUE#(lf)    ELSE FALSE#(lf)  END AS google, #(lf)  gm.gmv                                              as gmv_total_mes,#(lf)  po.gmv / gm.gmv                                     as prop_gmv,#(lf)  po.cost_bank_take                                   as bank_take,#(lf)  coalesce(po.real_message_cost,0)                    as despesa_real,#(lf)  po.payout_affiliate                                 as payout,#(lf)  po.partner_commissioning,#(lf)  po.cost_bacen,#(lf)  po.cost_funding,#(lf)  po.net_revenue                                      as lucro,#(lf)  coalesce(po.partner_name_from_maxima_code,po.partner_name_from_fxaas) as partner_name,#(lf)  current_timestamp() - interval '3' hour as last_update#(lf)from gold.fact_operations as po#(lf)  left join beecambio.beecambio_tbl_remittance_operation as ro on ro.id = po.id_remittance #(lf)  --left join select * from stage.dim_monthly_messaging_cost as mm on mm.id_remittance = po.id_remittance#(lf)  left join gmv_mensal as gm on date_trunc('month',po.processed_date) = gm.mes #(lf)where 1=1 #(lf)  and date_trunc('month',po.processed_date) >= date('2024-01-01')#(lf)  and date_trunc('month',po.processed_date) <= date_trunc('month',current_date)", null, [EnableFolding=true]),
+				    #"Colunas Renomeadas" = Table.RenameColumns(Fonte,{{"nature_operation_name", "natureza"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+

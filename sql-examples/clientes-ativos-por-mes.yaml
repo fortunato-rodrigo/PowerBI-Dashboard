@@ -1,0 +1,24 @@
+question_variants:
+  - "Quantos clientes ativos tivemos por mês nos últimos 12 meses?"
+  - "Evolução mensal de clientes únicos operando"
+  - "Base ativa de clientes mês a mês — PF e PJ"
+  - "Série histórica de clientes ativos mensais por BU"
+sql: |
+  SELECT
+    DATE_TRUNC('month', processed_date) AS month,
+    bu,
+    customer_type,
+    COUNT(DISTINCT id_customer) AS clientes_ativos,
+    COUNT(id_remittance) AS total_ops,
+    ROUND(SUM(gmv), 0) AS gmv_total,
+    ROUND(SUM(gmv) / COUNT(DISTINCT id_customer), 0) AS gmv_por_cliente
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= ADD_MONTHS(DATE_TRUNC('month', current_date()), -12)
+  GROUP BY 1, 2, 3
+  ORDER BY 1 DESC, clientes_ativos DESC
+tables_used: [gold.fact_operations]
+notes: "Cliente ativo = teve ao menos 1 operação processada no mês. COUNT(DISTINCT id_customer) conta cada cliente uma vez por mês. is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. Para total sem breakdown: remover bu e customer_type do SELECT e GROUP BY."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

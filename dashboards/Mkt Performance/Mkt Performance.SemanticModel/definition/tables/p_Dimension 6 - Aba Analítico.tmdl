@@ -1,0 +1,49 @@
+table 'p_Dimension 6 - Aba Analítico'
+	lineageTag: 28743095-a445-412f-899c-919dcdf75e3b
+
+	column 'Dimension 6 - Aba Analítico'
+		lineageTag: c4d4a942-c89c-4946-b2e5-c5aeaf3e54de
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension 6 - Aba Analítico Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension 6 - Aba Analítico Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 6 - Aba Analítico Campos'
+		isHidden
+		lineageTag: b8da9ada-9803-44f7-93b3-5311721bd721
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension 6 - Aba Analítico Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 6 - Aba Analítico Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 335036d7-30e1-41fa-a37d-6b9350fe0275
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Dimension 6 - Aba Analítico' = calculated
+		mode: import
+		source =
+				{
+				    ("Canal", NAMEOF('d_canal'[canal]), 0),
+				    ("Campaign", NAMEOF('d_mkt_campaign'[Campaign]), 1),
+				    ("Funil de Mídia", NAMEOF('d_mkt_campaign'[media_funnel]), 2)
+				}
+
+	annotation PBI_Id = 6d63fba9a9024099a40d23ad0592d44e
+

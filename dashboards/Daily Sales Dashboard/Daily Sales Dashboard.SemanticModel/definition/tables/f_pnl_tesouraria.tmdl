@@ -1,0 +1,47 @@
+table f_pnl_tesouraria
+	lineageTag: 0e2c1196-5079-4f3c-b1ee-5a671ed0571d
+
+	column date_key
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 39897b7e-eb0b-41ab-9314-3a5fdf8b25f4
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column bu
+		dataType: string
+		lineageTag: 57d7a5b9-2a13-47c2-84b0-f372f33fc7be
+		summarizeBy: none
+		sourceColumn: bu
+
+		annotation SummarizationSetBy = Automatic
+
+	column meta_pnl
+		dataType: decimal
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		lineageTag: dff5613d-1c6e-4842-8331-99354757e8cd
+		summarizeBy: sum
+		sourceColumn: meta_pnl
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	partition f_pnl_tesouraria = m
+		mode: import
+		queryGroup: Principais
+		source =
+				let
+				    Fonte = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation=null]){[Name="prod",Kind="Database"]}[Data], "WITH metas_2025 AS (#(lf)    SELECT 'Plataforma'    AS bu, 408000 AS meta_anual#(lf)    UNION ALL#(lf)    SELECT 'Processamento' AS bu, 175000 AS meta_anual#(lf)),#(lf)#(lf)metas_2026 AS (#(lf)    SELECT 'Premium'       AS bu#(lf)    UNION ALL SELECT 'COMEX'#(lf)    UNION ALL SELECT 'Processamento'#(lf)    UNION ALL SELECT 'Plataforma'#(lf)    UNION ALL SELECT 'Afiliados'#(lf))#(lf)#(lf)    -- 2025#(lf)    SELECT#(lf)    c.date_key,#(lf)    m.bu,#(lf)    m.meta_anual * c.label AS meta_pnl#(lf)FROM bronze.dcalendar as  c#(lf)CROSS JOIN metas_2025 m#(lf)WHERE YEAR(c.date_key) = 2025#(lf)#(lf)    UNION ALL#(lf)#(lf)    -- 2026#(lf)    SELECT#(lf)        c.date_key,#(lf)        m26.bu,#(lf)        (141666.67 / 5) * c.label_with_all_days_month AS meta_pnl#(lf)    FROM bronze.dcalendar c#(lf)    CROSS JOIN metas_2026 m26#(lf)    WHERE YEAR(c.date_key) = 2026", null, [EnableFolding=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(Fonte,{{"meta_pnl", Currency.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

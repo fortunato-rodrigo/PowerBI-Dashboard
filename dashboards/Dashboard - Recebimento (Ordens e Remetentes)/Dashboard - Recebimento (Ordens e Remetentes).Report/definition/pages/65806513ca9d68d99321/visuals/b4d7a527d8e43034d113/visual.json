@@ -1,0 +1,496 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "b4d7a527d8e43034d113",
+  "position": {
+    "x": 6.2569832402234642,
+    "y": 154.6368715083799,
+    "z": 2000,
+    "height": 557.76536312849169,
+    "width": 1266.5921787709499,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "id_ordem"
+                }
+              },
+              "queryRef": "credito_identificado.id_ordem",
+              "nativeQueryRef": "id_ordem"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "status_ordem"
+                }
+              },
+              "queryRef": "credito_identificado.status_ordem",
+              "nativeQueryRef": "status_ordem"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "remittance_operation_id"
+                }
+              },
+              "queryRef": "Sum(credito_identificado.remittance_operation_id)",
+              "nativeQueryRef": "operation_id",
+              "displayName": "operation_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "status_remittance_operation"
+                }
+              },
+              "queryRef": "credito_identificado.status_remittance_operation",
+              "nativeQueryRef": "status_operation",
+              "displayName": "status_operation"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "id_customer"
+                }
+              },
+              "queryRef": "Sum(credito_identificado.id_customer)",
+              "nativeQueryRef": "id_customer"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "created_at"
+                }
+              },
+              "queryRef": "credito_identificado.created_at",
+              "nativeQueryRef": "created_at"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "customer_type"
+                }
+              },
+              "queryRef": "credito_identificado.customer_type",
+              "nativeQueryRef": "ct",
+              "displayName": "ct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "remetente"
+                }
+              },
+              "queryRef": "credito_identificado.remetente",
+              "nativeQueryRef": "remetente"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "moeda"
+                }
+              },
+              "queryRef": "credito_identificado.moeda",
+              "nativeQueryRef": "moeda"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "f_credito_identificado"
+                    }
+                  },
+                  "Property": "link"
+                }
+              },
+              "queryRef": "credito_identificado.link",
+              "nativeQueryRef": "link"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_credito_identificado"
+                        }
+                      },
+                      "Property": "quantity"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(credito_identificado.quantity)",
+              "nativeQueryRef": "quantity",
+              "displayName": "quantity"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_credito_identificado"
+                        }
+                      },
+                      "Property": "id_ordem"
+                    }
+                  },
+                  "Function": 2
+                }
+              },
+              "queryRef": "Sum(credito_identificado.id_ordem)",
+              "nativeQueryRef": "Contagem de id_ordem1",
+              "displayName": "ordens"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "f_credito_identificado"
+                        }
+                      },
+                      "Property": "total_value_remittance_operation"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(credito_identificado.total_value_remittance_operation)",
+              "nativeQueryRef": "total_value",
+              "displayName": "total_value"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "f_credito_identificado"
+                  }
+                },
+                "Property": "id_ordem"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnFormatting": [
+        {
+          "properties": {
+            "styleTotal": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "styleHeader": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Left'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "# Medidas.Ordens"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'wf_standard-font, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "backColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 3,
+                      "Percent": -0.5
+                    }
+                  }
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'wf_standard-font, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "60.332504836067756D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "# Medidas.Ordens"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "267.53833367473374D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "credito_identificado.link"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "15D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ordens com status ''Crédito identificado'', mas que em algum momento da vida passaram pelo status ''Crédito resgatado'''"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'id_status = 3 -- ''Crédito identificado''   /   id_financial_institution = 3 -- Topázio   /   Ordens criadas a partir de 2024 e não deletadas'"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 9,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

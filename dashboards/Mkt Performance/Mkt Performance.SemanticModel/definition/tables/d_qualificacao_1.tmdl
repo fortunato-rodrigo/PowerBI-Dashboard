@@ -1,0 +1,24 @@
+table d_qualificacao_1
+	lineageTag: e7a8e788-323c-4bcb-8d19-829116e63124
+
+	column primeira_pergunta
+		dataType: string
+		lineageTag: de3b714f-766d-4ee0-aa47-4dee584c811d
+		summarizeBy: none
+		sourceColumn: primeira_pergunta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_qualificacao_1 = m
+		mode: import
+		queryGroup: Dimensões
+		source =
+				let
+				    Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "SELECT distinct#(lf)coalesce(o.goal, 'unknown') as primeira_pergunta#(lf)FROM silver.customers c #(lf)  left join prod.beecambio.beecambio_onboarding_qualification_answers a on c.id = a.id_customer #(lf)  left join prod.beecambio.beecambio_onboarding_qualification_form_questions q on q.id = a.id_question#(lf)  left join prod.beecambio.beecambio_onboarding_qualification_form_options o on o.id = a.id_option", null, [EnableFolding=true])
+				in
+				    Origem
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

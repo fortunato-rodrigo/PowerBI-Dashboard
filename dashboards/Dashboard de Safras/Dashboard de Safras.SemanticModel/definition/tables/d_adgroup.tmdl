@@ -1,0 +1,27 @@
+table d_adgroup
+	lineageTag: 311dbeec-7445-428c-8262-e9f4da33556c
+
+	column ad_group
+		dataType: string
+		lineageTag: 67e2f8cf-44a7-47e1-8aca-60ac7173700e
+		summarizeBy: none
+		sourceColumn: ad_group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_adgroup = m
+		mode: import
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows(null),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"d823fda8-e56a-4fdb-a243-e10604f3ff69" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="d823fda8-e56a-4fdb-a243-e10604f3ff69"]}[Data],
+				    mkt_adgroup_ = #"d823fda8-e56a-4fdb-a243-e10604f3ff69"{[entity="mkt_adgroup",version=""]}[Data]
+				in
+				    mkt_adgroup_
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

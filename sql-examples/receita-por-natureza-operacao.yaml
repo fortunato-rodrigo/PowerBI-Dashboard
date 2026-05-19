@@ -1,0 +1,22 @@
+question_variants:
+  - "Qual o GMV e receita por natureza de operação no trimestre?"
+  - "Quais naturezas de operação geram mais receita?"
+  - "Breakdown de GMV por tipo de remessa (natureza)"
+  - "Top naturezas de operação por volume de câmbio"
+sql: |
+  SELECT
+    nature_operation_name,
+    COUNT(id_remittance) AS total_ops,
+    ROUND(SUM(gmv), 0) AS total_gmv,
+    ROUND(SUM(gross_revenue), 0) AS total_gross_revenue,
+    ROUND(100.0 * SUM(gross_revenue) / NULLIF(SUM(gmv), 0), 4) AS spread_pct
+  FROM gold.fact_operations
+  WHERE is_ops_processed = TRUE
+    AND is_intercompany = FALSE
+    AND processed_date >= date_sub(current_date(), 90)
+  GROUP BY nature_operation_name
+  ORDER BY total_gmv DESC
+tables_used: [gold.fact_operations]
+notes: "nature_operation_name é a descrição da natureza da operação (ex: Remessa para exterior, Importação de mercadorias). is_ops_processed=TRUE + is_intercompany=FALSE obrigatórios. Ajuste o período conforme necessário."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

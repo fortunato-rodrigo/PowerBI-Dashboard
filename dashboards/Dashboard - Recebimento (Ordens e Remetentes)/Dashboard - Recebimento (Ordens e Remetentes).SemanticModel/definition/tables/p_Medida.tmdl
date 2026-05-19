@@ -1,0 +1,62 @@
+table p_Medida
+	lineageTag: a7433930-6de6-401f-846a-50eb683f6388
+
+	column Medida
+		lineageTag: 1579a7ff-921b-4d62-852e-80193efc35e6
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Medida Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Medida Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medida Campos'
+		isHidden
+		lineageTag: 431e71b0-8415-48f6-89ee-2ae704f0582c
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Medida Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medida Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 2a3affe5-d56d-49b6-8006-592347e8e613
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Medida = calculated
+		mode: import
+		source =
+				{
+				    ("Ordens", NAMEOF('# Medidas'[Ordens]), 0),
+				    ("Resgatadas", NAMEOF('# Medidas'[Resgatadas]), 1),
+				    ("Pendentes", NAMEOF('# Medidas'[Pendentes]), 2),
+				    ("% Resgate", NAMEOF('# Medidas'[% Resgate]), 3),
+				    ("Clientes únicos", NAMEOF('# Medidas'[Clientes únicos]), 4),
+				    ("Ordens por cliente", NAMEOF('# Medidas'[Ordens por cliente]), 5),
+				    ("Resgatadas (mesmo mês)", NAMEOF('# Medidas'[Resgatadas (mesmo mês)]), 6),
+				    ("% Resgate no mesmo mês", NAMEOF('# Medidas'[% Resgate no mesmo mês]), 7),
+				    ("GMV (Resgatado)", NAMEOF('# Medidas'[GMV (Resgatado)]), 8),
+				    ("GMV Pendente (Forecast)", NAMEOF('# Medidas'[GMV Pendente (Forecast)]), 9),
+				    ("Receita (Resgatado)", NAMEOF('# Medidas'[Receita (Resgatado)]), 10),
+				    ("Receita Pendente (Forecast)", NAMEOF('# Medidas'[Receita Pendente (Forecast)]), 11),
+				    ("Ticket Médio (Resgatado)", NAMEOF('# Medidas'[Ticket Médio (Resgatado)]), 12),
+				    ("AVG Ticket (Pendente)", NAMEOF('# Medidas'[AVG Ticket (Pendente)]), 13),
+				    ("GMV (Resgatado + Pendente)", NAMEOF('# Medidas'[GMV (Resgatado + Pendente)]), 14),
+				    ("Ticket médio (Resgatado + Pendente)", NAMEOF('# Medidas'[Ticket Médio (Resgatado + Pendente)]), 15)
+				}
+
+	annotation PBI_Id = 72720e4fd1984598ba508a816728acbf
+

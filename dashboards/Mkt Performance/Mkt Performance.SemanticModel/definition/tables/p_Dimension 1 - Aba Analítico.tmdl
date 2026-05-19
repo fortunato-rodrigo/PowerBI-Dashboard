@@ -1,0 +1,54 @@
+table 'p_Dimension 1 - Aba Analítico'
+	lineageTag: 8e379d0d-5188-4fb7-8405-3965260db54e
+
+	column 'Dimension 1 - Aba Analítico'
+		lineageTag: 7f885355-89d4-4a87-ad92-6c04522e29e8
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension 1 - Aba Analítico Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension 1 - Aba Analítico Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 1 - Aba Analítico Campos'
+		isHidden
+		lineageTag: beacaed6-0ade-4124-b706-2194bd046401
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension 1 - Aba Analítico Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension 1 - Aba Analítico Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 076bf83f-eea8-4ad1-b49e-552dfb4af7b6
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Dimension 1 - Aba Analítico' = calculated
+		mode: import
+		source =
+				{
+				    ("-", NAMEOF('d_blank'[Blank]), 0),
+				    ("Canal", NAMEOF('d_canal'[canal]), 0),
+				    ("Source", NAMEOF('d_source'[Source]), 1),
+				    ("Medium", NAMEOF('d_medium'[medium]), 2),
+				    ("Adgroup", NAMEOF('d_adgroup'[ad_group]), 3),
+				    ("Campaign", NAMEOF('d_mkt_campaign'[Campaign]), 4),
+				    ("Cluster Campaign", NAMEOF('d_mkt_campaign'[cluster_campaign]), 5),
+				    ("Funil de Mídia", NAMEOF('d_mkt_campaign'[media_funnel]), 6)
+				}
+
+	annotation PBI_Id = 43306c4a7e634c82af677d618ef296db
+

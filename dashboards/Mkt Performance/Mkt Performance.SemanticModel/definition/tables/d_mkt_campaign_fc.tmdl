@@ -1,0 +1,70 @@
+table d_mkt_campaign_fc
+	lineageTag: ccc2060c-d942-49ef-b61a-ce4e459a1a8f
+
+	column Campaign
+		dataType: string
+		lineageTag: 76d102a3-2775-4bb0-9f86-a0fc394291db
+		summarizeBy: none
+		sourceColumn: Campaign
+
+		annotation SummarizationSetBy = Automatic
+
+	column cluster_campaign
+		dataType: string
+		lineageTag: 520ff425-5977-406f-ab52-2e2c98b5d1cd
+		summarizeBy: none
+		sourceColumn: cluster_campaign
+
+		annotation SummarizationSetBy = Automatic
+
+	column investment_type
+		dataType: string
+		lineageTag: e590f611-c638-4537-adbb-e83741de9d0f
+		summarizeBy: none
+		sourceColumn: investment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column paid_search_restructuring
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4e52abf2-3740-4c19-9160-4a923872fd3e
+		summarizeBy: none
+		sourceColumn: paid_search_restructuring
+
+		annotation SummarizationSetBy = Automatic
+
+	column awareness_2024
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e8c7d565-27bd-4c96-ad78-3838af73bffe
+		summarizeBy: none
+		sourceColumn: awareness_2024
+
+		annotation SummarizationSetBy = Automatic
+
+	column media_funnel
+		dataType: string
+		lineageTag: 2dd980f2-95ac-421d-a3aa-d402f81615be
+		summarizeBy: none
+		sourceColumn: media_funnel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition d_mkt_campaign_fc = m
+		mode: import
+		queryGroup: Dimensões
+		source =
+				let
+				    Fonte = PowerPlatform.Dataflows([]),
+				    Workspaces = Fonte{[Id="Workspaces"]}[Data],
+				    #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e" = Workspaces{[workspaceId="5381a7f5-5b4c-4fa7-96d6-48992d85d88e"]}[Data],
+				    #"b289027c-da70-4578-8627-0c05c1471ac3" = #"5381a7f5-5b4c-4fa7-96d6-48992d85d88e"{[dataflowId="b289027c-da70-4578-8627-0c05c1471ac3"]}[Data],
+				    mkt_campaign_ = #"b289027c-da70-4578-8627-0c05c1471ac3"{[entity="mkt_campaign",version=""]}[Data]
+				in
+				    mkt_campaign_
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

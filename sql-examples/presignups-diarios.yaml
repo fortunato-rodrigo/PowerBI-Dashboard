@@ -1,0 +1,21 @@
+question_variants:
+  - "Quantos presignups por dia nos últimos 30 dias?"
+  - "Volume diário de PSU sem FxaaS"
+  - "Série histórica de presignups dia a dia"
+  - "PSU D-1 e tendência dos últimos 30 dias"
+sql: |
+  SELECT
+    DATE(fe.event_tstamp) AS date,
+    COUNT(DISTINCT fe.id_customer) AS presignups
+  FROM gold.funnel_event AS fe
+  JOIN bronze.beecambio_customer AS bc ON fe.id_customer = bc.id_customer
+  WHERE fe.event_type = 'PRESIGNUP'
+    AND fe.event_sequence = 1
+    AND bc.email NOT LIKE '%fxaas%'
+    AND fe.event_tstamp >= date_sub(current_date(), 30)
+  GROUP BY 1
+  ORDER BY 1 DESC
+tables_used: [gold.funnel_event, bronze.beecambio_customer]
+notes: "event_sequence=1 + FxaaS excluído via bronze.beecambio_customer. Ajuste date_sub conforme período desejado. Para canal: adicionar COALESCE(fe.canal_lc, 'unknown') no SELECT e GROUP BY."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

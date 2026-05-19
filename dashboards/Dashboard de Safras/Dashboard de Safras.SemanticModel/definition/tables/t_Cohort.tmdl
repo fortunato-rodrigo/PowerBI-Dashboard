@@ -1,0 +1,37 @@
+table t_Cohort
+	lineageTag: 3d5b2c22-0f73-418d-a773-afb774d68401
+
+	column id
+		formatString: 0
+		lineageTag: f3d783e2-741c-462a-bef7-f647e7b85199
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [id]
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort
+		lineageTag: 89e33538-45d3-4150-97f2-3085a5fd72ec
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [cohort]
+		sortByColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition t_Cohort = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "id", INTEGER,
+				    "cohort", STRING,
+				    {
+				        {1, "Funil Uncohorted"},
+				        {2, "Funil Cohorted"},
+				        {3, "Funil Cohort Dinâmico"}
+				    }
+				)
+
+	annotation PBI_Id = ae974ccf5ddb4cc19295824b48cd6fda
+

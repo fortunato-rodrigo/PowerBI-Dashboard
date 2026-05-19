@@ -1,0 +1,55 @@
+table 'p_Medidas PJ 2'
+	lineageTag: 3a29ad90-af46-418b-9391-ac5ec98fa8a7
+
+	column 'Medidas PJ 2'
+		lineageTag: 8ee231c6-b4af-4217-95bd-87e7fd1b2297
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Medidas PJ 2 Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Medidas PJ 2 Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas PJ 2 Campos'
+		isHidden
+		lineageTag: 971f8dac-1161-441a-a617-923da3d90ad8
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Medidas PJ 2 Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Medidas PJ 2 Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 99a62c23-50f8-483f-af44-47c9a32ff81f
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'p_Medidas PJ 2' = calculated
+		mode: import
+		source =
+				{
+				    ("Investimento", NAMEOF('# Medidas'[Investimento]), 0),
+				    ("PJ Investimento", NAMEOF('# Medidas'[PJ Investimento]), 0),
+				    ("PJ Aquisições", NAMEOF('# Medidas'[PJ Aquisições]), 1),
+				    ("PJ Aquisições Assistidas (ACQ Att)", NAMEOF('# Medidas'[Acquisitions PJ Conversão Assistida]), 2),
+				    ("PJ Presignups", NAMEOF('# Medidas'[PJ Presignups]), 3),
+				    ("PJ Presignups Assistidos (PSU Att)", NAMEOF('# Medidas'[Presignups PJ Conversão Assistida]), 4),
+				    ("PJ Signups", NAMEOF('# Medidas'[PJ Signups]), 5),
+				    ("CAC PJ", NAMEOF('# Medidas'[CPA PJ]), 6),
+				    ("CPP PJ", NAMEOF('# Medidas'[CPP PJ]), 7)
+				}
+
+	annotation PBI_Id = 238e98fd91ef425d8cf95e5449887556
+

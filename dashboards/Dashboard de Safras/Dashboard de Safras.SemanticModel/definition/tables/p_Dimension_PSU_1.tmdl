@@ -1,0 +1,79 @@
+table p_Dimension_PSU_1
+	lineageTag: 0fa206a7-5a92-4aed-96ad-ffaf24eb1cc6
+
+	column p_Dimension_PSU_1
+		lineageTag: a09cea18-8cba-40a1-9bd2-dae91fbb1b07
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Dimension Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'Dimension Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension Campos'
+		isHidden
+		lineageTag: 99e5d11b-5d28-41b6-a2ac-05cafa866bcd
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Dimension Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Dimension Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: 85707f53-2047-448b-b051-de071effe06a
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Dimension_PSU_1-beb49ab1-88f9-4997-825b-fa2cda27f346 = calculated
+		mode: import
+		source =
+				{
+				    ("Age", NAMEOF('f_funnel_events'[age]), 0),
+				    ("Análise Compliance", NAMEOF('f_funnel_events'[compliance_veredict]), 1),
+				    ("Cadastro 100% Preenchido", NAMEOF('f_funnel_events'[full_registration]), 2),
+				    ("CNAE Class", NAMEOF('f_funnel_events'[cnae_class]), 3),
+				    ("CNAE Division", NAMEOF('f_funnel_events'[cnae_division]), 4),
+				    ("CNAE Group", NAMEOF('f_funnel_events'[cnae_group]), 5),
+				    ("CNAE Session", NAMEOF('f_funnel_events'[cnae_session]), 6),
+				    ("CNAE Subclass", NAMEOF('f_funnel_events'[cnae_subclass]), 7),
+				    ("Company Type", NAMEOF('f_funnel_events'[Company Type]), 8),
+				    ("Company Member Association", NAMEOF('f_funnel_events'[company_member_association_type]), 9),
+				    ("Customer Type", NAMEOF('f_funnel_events'[Customer Type]), 10),
+				    ("Device Category", NAMEOF('f_funnel_events'[device_category]), 11),
+				    ("Device Brand", NAMEOF('f_funnel_events'[device_brand]), 12),
+				    ("Device Name", NAMEOF('f_funnel_events'[device_name]), 13),
+				    ("LC - Canal", NAMEOF(d_canal[canal]), 14),
+				    ("LC - Source", NAMEOF(d_source[source]), 15),
+				    ("LC - Medium", NAMEOF(d_medium[medium]), 16),
+				    ("LC - Mkt Campaign", NAMEOF(d_mkt_campaign[Campaign]), 17),
+				    ("LC - Adgroup", NAMEOF(d_adgroup[ad_group]), 18),
+				    ("LC - Cluster Campaign", NAMEOF(d_mkt_campaign[cluster_campaign]), 19),
+				    ("LC - First Page Path", NAMEOF('f_funnel_events'[first_page_path_tratado_psu]), 20),
+				    ("LC - Page URL", NAMEOF('f_funnel_events'[first_page_url]), 21),
+				    ("Onboarding Flow", NAMEOF('f_funnel_events'[Onboarding Flow]), 22),
+				    ("Onboarding Type", NAMEOF('f_funnel_events'[Onboarding Type]), 23),
+				    ("Origin Presignup Platform", NAMEOF('f_funnel_events'[origin_platform_psu]), 24),
+				    ("OS do Presignup", NAMEOF('f_funnel_events'[os]), 25),
+				    ("OS Name do Presignup", NAMEOF('f_funnel_events'[os_name]), 26),
+				    ("Qualification Type", NAMEOF('f_funnel_events'[qualification_type]), 27),
+				    ("Requirement Type", NAMEOF('f_funnel_events'[requirement_type]), 28),
+				    ("Requirement Status", NAMEOF('f_funnel_events'[requirement_status]), 29),
+				    ("Timeframe - Month", NAMEOF(d_calendar[date_month]), 30),
+				    ("Timeframe - Week", NAMEOF(d_calendar[week]), 31),
+				    ("Timeframe - Date", NAMEOF(d_calendar[Date Key]), 32)
+				}
+
+	annotation PBI_Id = 9e00510b3197422093bb8ae605b0772b
+

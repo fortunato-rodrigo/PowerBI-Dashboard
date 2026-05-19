@@ -1,0 +1,28 @@
+question_variants:
+  - "Quais BUs estão abaixo da meta de GMV no mês?"
+  - "Atingimento de meta MTD — GMV e receita por BU"
+  - "Ranking de BUs por atingimento de meta no mês atual"
+  - "Quem está batendo a meta de GMV esse mês?"
+sql: |
+  SELECT
+    ds.bu,
+    ROUND(SUM(ds.gmv), 0) AS gmv_mtd,
+    ROUND(SUM(ds.meta_gmv), 0) AS meta_gmv,
+    ROUND(100.0 * SUM(ds.gmv) / NULLIF(SUM(ds.meta_gmv), 0), 2) AS atingimento_gmv_pct,
+    ROUND(SUM(ds.gross_revenue), 0) AS receita_mtd,
+    ROUND(SUM(ds.meta_gross_revenue), 0) AS meta_receita,
+    ROUND(100.0 * SUM(ds.gross_revenue) / NULLIF(SUM(ds.meta_gross_revenue), 0), 2) AS atingimento_receita_pct,
+    CASE
+      WHEN 100.0 * SUM(ds.gmv) / NULLIF(SUM(ds.meta_gmv), 0) >= 100 THEN 'Acima da meta'
+      WHEN 100.0 * SUM(ds.gmv) / NULLIF(SUM(ds.meta_gmv), 0) >= 80 THEN 'Próximo da meta'
+      ELSE 'Abaixo da meta'
+    END AS status_meta
+  FROM gold.daily_sales AS ds
+  JOIN bronze.dcalendar AS c ON ds.date_key = c.date_key
+  WHERE c.mtd = TRUE
+  GROUP BY ds.bu
+  ORDER BY atingimento_gmv_pct DESC
+tables_used: [gold.daily_sales, bronze.dcalendar]
+notes: "bronze.dcalendar.mtd=TRUE para filtro MTD automático. gold.daily_sales contém gmv, meta_gmv, gross_revenue, meta_gross_revenue diários por BU. Para ver apenas BUs abaixo da meta: adicionar HAVING atingimento_gmv_pct < 100."
+validated_by: equipe-analytics
+validated_date: 2026-05-16

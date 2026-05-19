@@ -1,0 +1,48 @@
+table p_Medida_Tentativa
+	lineageTag: 070bc5c7-b290-4c31-8831-fb9e6c4551cb
+
+	column p_Medida_Tentativa
+		lineageTag: 02c5c71a-db17-4f6a-aca9-42b6ae1de793
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'p_Medida_Tentativa Pedido'
+
+		relatedColumnDetails
+			groupByColumn: 'p_Medida_Tentativa Campos'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_Medida_Tentativa Campos'
+		isHidden
+		lineageTag: 080f6cc4-b639-4cd1-9b4c-9eb4112c7648
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'p_Medida_Tentativa Pedido'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'p_Medida_Tentativa Pedido'
+		isHidden
+		formatString: 0
+		lineageTag: bd4f0764-fd58-4239-8d0d-31e4af9038e3
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition p_Medida_Tentativa = calculated
+		mode: import
+		source =
+				{
+				    ("% Linha", NAMEOF('# Medidas'[% CT Tentativa]), 0),
+				    ("Presignups", NAMEOF('# Medidas'[Presignups]), 1)
+				}
+
+	annotation PBI_Id = e9d7e656b02a46fa82d04c5207b6c21f
+

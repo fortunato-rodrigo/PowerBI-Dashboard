@@ -1,0 +1,122 @@
+table f_fonte_entrada
+	lineageTag: 01c4d76a-3c56-4cca-bd48-e34cbb52c998
+
+	column id
+		dataType: string
+		lineageTag: a6935360-c3d0-424b-bfb4-f3e18f7cbe6f
+		summarizeBy: none
+		sourceColumn: id
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_criacao
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: effa5ea9-8306-4619-be9a-234534475073
+		summarizeBy: none
+		sourceColumn: data_criacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column fonte_entrada
+		dataType: string
+		lineageTag: 462d19bf-8aca-449d-81fd-df30af462375
+		summarizeBy: none
+		sourceColumn: fonte_entrada
+
+		annotation SummarizationSetBy = Automatic
+
+	column code
+		dataType: string
+		lineageTag: a2ebc33d-4fd3-43e5-9ca4-2340f4e9afcf
+		summarizeBy: none
+		sourceColumn: code
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_via_opr
+		dataType: string
+		lineageTag: ce11a3af-de4c-4af3-8fbb-9641d8bda823
+		summarizeBy: none
+		sourceColumn: created_via_opr
+
+		annotation SummarizationSetBy = Automatic
+
+	column type
+		dataType: string
+		lineageTag: fba5a720-470e-4730-944c-35ff715236ae
+		summarizeBy: none
+		sourceColumn: type
+
+		annotation SummarizationSetBy = Automatic
+
+	column error_reason
+		dataType: string
+		lineageTag: a559af1a-367b-4a84-9ef4-47b1523a9757
+		summarizeBy: none
+		sourceColumn: error_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column correspondent_reference
+		dataType: string
+		lineageTag: db169d80-bba8-4e89-a0cb-ac06a46271ce
+		summarizeBy: none
+		sourceColumn: correspondent_reference
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_criacao_data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 14d51bf5-1ce0-49c8-b54f-92b2f04a7d5f
+		summarizeBy: none
+		sourceColumn: data_criacao_data
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9cb48db2-486f-4626-b021-4df0522ef4ce
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at_api
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d8a6e332-7870-4229-ad87-4bab4cfc70f9
+		summarizeBy: none
+		sourceColumn: created_at_api
+
+		annotation SummarizationSetBy = Automatic
+
+	column diff_falha_api
+		dataType: int64
+		formatString: 0
+		lineageTag: d6b50835-788d-48a9-a647-1991e1846cef
+		summarizeBy: sum
+		sourceColumn: diff_falha_api
+
+		annotation SummarizationSetBy = Automatic
+
+	partition f_fonte_entrada = m
+		mode: import
+		source =
+				let
+				  Origem = Value.NativeQuery(Databricks.Catalogs("beetech-prod-analytics.cloud.databricks.com", "/sql/1.0/endpoints/e35e97a9319a6fe7", [Catalog="prod", Database=null, EnableAutomaticProxyDiscovery=null]){[Name="prod",Kind="Database"]}[Data], "with#(lf)erro_conc as (#(lf)  select #(lf)    correspondent_reference,#(lf)    error_reason#(lf)  from conciliation_service.conciliation_payment_orders#(lf)  where status = 'error'#(lf))#(lf)select #(lf)  od.id,#(lf)  date_trunc('hour', od.created_at - interval '3' hour) data_criacao,#(lf)  bpo.code,#(lf)  od.created_via_opr,#(lf)  od.type,#(lf)  cpo.error_reason,#(lf)  od.correspondent_reference,#(lf)  od.created_at - interval 3 hour as created_at,#(lf)  bpo.created_at - interval 3 hour as created_at_api,#(lf)  date_diff(minute, bpo.created_at - interval 3 hour, od.created_at - interval 3 hour) as diff_falha_api,#(lf)  case#(lf)    when bpo.code is not null and date_diff(minute, bpo.created_at - interval 3 hour, od.created_at - interval 3 hour) <= 10 then 'API' #(lf)    when bpo.code is null and od.created_via_opr is true and od.type = 'normal' and cpo.error_reason is null then 'Arquivo da OPR'#(lf)    when cpo.error_reason is not null and od.created_via_opr is true then 'Ferramenta de Emenda'#(lf)    when od.type = 'massive_children' then 'Coleta Local'#(lf)    when od.created_via_opr is false then 'Emenda Manual'#(lf)    when od.type = 'wallet' then 'Wallet/Conta Global'#(lf)    when bpo.code is not null and date_diff(minute, bpo.created_at - interval 3 hour, od.created_at - interval 3 hour) > 10 then 'Falha API'#(lf)    else null#(lf)  end fonte_entrada#(lf)from beecambio.beecambio_tbl_payment_order as od#(lf)left join banking_payments.public_payment_order as bpo on od.correspondent_reference = bpo.code#(lf)left join erro_conc as cpo on od.correspondent_reference = cpo.correspondent_reference#(lf)where date(od.created_at) >= current_date - interval '12' month", null, [EnableFolding=true]),
+				    #"Valor Substituído" = Table.ReplaceValue(Origem,null,"N/A",Replacer.ReplaceValue,{"fonte_entrada"}),
+				    #"Coluna Duplicada" = Table.DuplicateColumn(#"Valor Substituído", "data_criacao", "data_criacao - Copiar"),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Coluna Duplicada",{{"data_criacao - Copiar", type date}, {"id", type text}}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Tipo Alterado",{{"data_criacao - Copiar", "data_criacao_data"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegação
+
